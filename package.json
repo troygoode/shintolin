@@ -7,6 +7,7 @@
   }
   , "dependencies": {
       "async": "latest"
+    , "bcrypt": "latest"
     , "coffee-script": "latest"
     , "connect-mongo": "latest"
     , "express": "latest"
