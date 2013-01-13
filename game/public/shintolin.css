@@ -22,7 +22,7 @@ color:#b8b890;
 img
 {
 border:thick solid #c8c8a0;
-background-image: url('/images/parchmentbg_dark.jpg');
+background-image: url('images/parchmentbg_dark.jpg');
 }
 input
 {
@@ -86,7 +86,7 @@ left:543px;
 .beigebox
 {
 border:thick solid #c8c8a0;
-background-image: url('/images/parchmentbg_dark.jpg');
+background-image: url('images/parchmentbg_dark.jpg');
 padding:4px;
 width:15em;
 }
@@ -129,14 +129,14 @@ top: 2px;
 {
 padding:2px;
 border:thick solid #c8c8a0;
-background-image: url('/images/parchmentbg_dark.jpg');
+background-image: url('images/parchmentbg_dark.jpg');
 text-align: left;
 }
 .gamebox-light
 {
 padding:2px;
 border:thick solid #c8c8a0;
-background-image: url('/images/parchmentbg.jpg');
+background-image: url('images/parchmentbg.jpg');
 text-align: left;
 }
 .buttonsbox
@@ -185,7 +185,7 @@ opacity:.65
 postion: absolute;
 width: 520px;
 border:thick solid #c8c8a0;
-background-image: url('/images/parchmentbg.jpg');
+background-image: url('images/parchmentbg.jpg');
 }
 .mapdata
 {
@@ -212,7 +212,7 @@ border-bottom-width:0px;
 }
 .parchment
 {
-background-image: url('/images/parchmentbg.jpg');
+background-image: url('images/parchmentbg.jpg');
 }
 .small
 {

@@ -6,10 +6,12 @@
       "start": "coffee website/app.coffee"
   }
   , "dependencies": {
-      "coffee-script": "latest"
+      "async": "latest"
+    , "coffee-script": "latest"
     , "connect-mongo": "latest"
     , "express": "latest"
     , "jade": "latest"
+    , "mongolian": "latest"
     , "require-directory": "latest"
   }
 }
