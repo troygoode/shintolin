@@ -7,7 +7,9 @@
   }
   , "dependencies": {
       "coffee-script": "latest"
+    , "connect-mongo": "latest"
     , "express": "latest"
     , "jade": "latest"
+    , "require-directory": "latest"
   }
 }
