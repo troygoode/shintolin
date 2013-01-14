@@ -9,6 +9,7 @@ module.exports =
   ObjectId: Mongolian.ObjectId
 
   characters: db.collection 'characters'
+  chat_messages: db.collection 'chat_messages'
 
   register_index: (collection, index, options) ->
     indexes.push

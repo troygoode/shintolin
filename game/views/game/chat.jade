@@ -1,5 +1,5 @@
 .gamebox.msgbox
-  for msg in chat_messages.filter(function(m){ return m.type !== 'social'; })
+  for msg in action_messages
     if msg.type === 'fed'
       .action
         a.neutral(href='/profile/#{msg.sender_id}')= msg.sender_name
@@ -13,7 +13,7 @@
 .gamebox
   b Chat:
   .chatbox
-    for msg in chat_messages.filter(function(m){ return m.type === 'social'; })
+    for msg in chat_messages
       div
         a.neutral(href='/profile/#{msg.sender_id}')= msg.sender_name
         |  #{msg.text} 

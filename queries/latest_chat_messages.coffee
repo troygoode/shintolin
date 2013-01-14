@@ -1,6 +1,13 @@
 db = require '../db'
 
+db.register_index db.chat_messages,
+  sent: -1
+
 module.exports = (character, cb) ->
+  query = {}
+  db.chat_messages.find(query).sort({ sent: -1 }).toArray cb
+
+  ###
   test_message =
     sender_name: 'IcePie'
     sender_id: 1234
@@ -14,3 +21,4 @@ module.exports = (character, cb) ->
     type: 'social'
     text: 'yes, that\'s exactly what I meant. O hai Berksey! Yes, mebbe I should start playing LR again.'
   cb null, [test_message, test_message2]
+  ###
