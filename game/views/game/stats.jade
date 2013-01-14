@@ -1,0 +1,14 @@
+.gamebox.statsbox
+  center
+    | You are <a href='/profile/#{character._id.toString()}'>#{character.name}</a>.
+    br
+    | HP: <b>#{character.hp}/#{character.hp_max}</b>
+    | AP: <b>#{character.ap}/100</b> <span style='font-size: 80%'>(3 AP/hour)</span>
+    | Hunger: <b>#{character.hunger}/12</b>
+    | Level: <b>#{character.skills.length + 1}</b>
+    br
+    | <b>XP:</b>
+    | Wanderer: <b>#{character.xp_wanderer}</b>
+    | Herbalist: <b>#{character.xp_herbalist}</b>
+    | Crafter: <b>#{character.xp_crafter}</b>
+    | Warrior: <b>#{character.xp_warrior}</b>

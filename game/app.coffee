@@ -1,6 +1,7 @@
 express = require 'express'
 MongoSession = require('connect-mongo')(express)
 config = require '../config'
+middleware = require './middleware'
 routes = require('require-directory')(module, "#{__dirname}/routes")
 
 debug = process.env.NODE_ENV isnt 'production'
@@ -19,9 +20,8 @@ app.use express.session
   secret: config.session_secret
   store: new MongoSession(url: config.mongo_uri)
 
-app.use (req, res, next) ->
-  return next() if req.session.character?.length
-  res.redirect '/?msg=auth'
+app.use middleware.auth
+app.use middleware.load_character
 
 app.use app.router
 app.use express.errorHandler

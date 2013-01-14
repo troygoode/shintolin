@@ -1,0 +1,11 @@
+.gamebox.actionbox(style='opacity: .82')
+  form(method='POST')
+    input(type='submit', value='Use')
+    input(type='hidden', name='action', value='use')
+    select(name='item', style='width: 10em')
+      option(value='13') Cup of herbal tea
+      option(value='4') Piece of willow bark
+      option(value='33') Lump of rotten food
+    | on
+    select(name='target', style='width: 10em')
+      option(value='0:user') Self

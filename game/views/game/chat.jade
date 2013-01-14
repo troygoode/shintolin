@@ -1,0 +1,26 @@
+.gamebox.msgbox
+  for msg in chat_messages.filter(function(m){ return m.type !== 'social'; })
+    if msg.type === 'fed'
+      .action
+        a.neutral(href='/profile/#{msg.sender_id}')= msg.sender_name
+        |  fed <b>you</b> #{msg.food}. 
+        span.time= moment(msg.sent).fromNow()
+    else
+      .action
+        a.neutral(href='/profile/#{msg.sender_id}')= msg.sender_name
+        i  ??? 
+        span.time= moment(msg.sent).fromNow()
+.gamebox
+  b Chat:
+  .chatbox
+    for msg in chat_messages.filter(function(m){ return m.type === 'social'; })
+      div
+        a.neutral(href='/profile/#{msg.sender_id}')= msg.sender_name
+        |  #{msg.text} 
+        span.time= moment(msg.sent).fromNow()
+    center
+      br
+      a.buttonlink(href='/game/chat') Chat page
+  form(method='POST', action='/game/chat')
+    input(type='submit', value='Chat')
+    input.text(type='text', name='text', maxlength='200', style='width: 300px')

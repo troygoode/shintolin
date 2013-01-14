@@ -1,0 +1,22 @@
+!!! 5
+html
+  head
+    title Shintolin - Explore. Settle. Trade. Conquer.
+    link(rel='stylesheet', type='text/css', href='/shintolin.css')
+  body
+    .bigbox
+      include map
+      include stats
+      include nav
+      table.infotable
+        tr
+          td(colspan='2')
+            include actions
+        tr
+          td(colspan='2')
+            include flavor
+        tr
+          td
+            include inventory
+          td
+            include chat
