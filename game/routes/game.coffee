@@ -8,14 +8,12 @@ data =
 center = (tiles, character) ->
   tile = _.find tiles, (t) -> t.x is character.x and t.y is character.y
   if tile?
-    tile: tile
-    terrain: data.terrains[tile.terrain]
+    tile
   else
-    tile:
-      x: character.x
-      y: character.y
-      z: character.z
-    terrain: data.terrains.wilderness
+    x: character.x
+    y: character.y
+    z: character.z
+    terrain: 'wilderness'
 
 grid = (tiles, center) ->
   rows = []
@@ -25,17 +23,38 @@ grid = (tiles, center) ->
     for x in [center.x - 2 .. center.x + 2]
       tile = _.find tiles, (t) -> t.x is x and t.y is y
       if tile?
-        row.push
-          tile: tile
-          terrain: data.terrains[tile.terrain]
+        row.push tile
       else
         row.push
-          tile:
-            x: x
-            y: y
-            z: center.z
-          terrain: data.terrains.wilderness
+          x: x
+          y: y
+          z: center.z
+          terrain: 'wilderness'
   rows
+
+visit_tile = (tile, center, character) ->
+  retval =
+    tile: tile
+    terrain: data.terrains[tile.terrain]
+  if center?
+    if tile.x is center.x - 1 and tile.y is center.y - 1
+      retval.direction = 'nw'
+    else if tile.x is center.x and tile.y is center.y - 1
+      retval.direction = 'n'
+    else if tile.x is center.x + 1 and tile.y is center.y - 1
+      retval.direction = 'ne'
+    else if tile.x is center.x - 1 and tile.y is center.y
+      retval.direction = 'w'
+    else if tile.x is center.x + 1 and tile.y is center.y
+      retval.direction = 'e'
+    else if tile.x is center.x - 1 and tile.y is center.y + 1
+      retval.direction = 'sw'
+    else if tile.x is center.x and tile.y is center.y + 1
+      retval.direction = 's'
+    else if tile.x is center.x + 1 and tile.y is center.y + 1
+      retval.direction = 'se'
+    retval.cost = retval.terrain.cost_to_enter tile, center, character
+  retval
 
 module.exports = (app) ->
   app.get '/', (req, res, next) ->
@@ -59,4 +78,8 @@ module.exports = (app) ->
         chat_messages: chat_messages
         time: req.time
         data: data
+      for row, i in locals.grid
+        for tile, j in row
+          locals.grid[i][j] = visit_tile tile, locals.center, locals.character
+      locals.center = visit_tile locals.center, undefined, locals.character
       res.render 'game/index', locals

@@ -5,30 +5,12 @@
       tr
         for tile in row
           td.map(class='tile-#{tile.terrain.style}')
-            if tile.tile.x === center.tile.x - 1 && tile.tile.y === center.tile.y - 1
-              form(method='post', action='/game/move/nw')
-                input.movebutton(type='submit', value='NW')
-            else if tile.tile.x === center.tile.x && tile.tile.y === center.tile.y - 1
-              form(method='post', action='/game/move/n')
-                input.movebutton(type='submit', value='N')
-            else if tile.tile.x === center.tile.x + 1 && tile.tile.y === center.tile.y - 1
-              form(method='post', action='/game/move/ne')
-                input.movebutton(type='submit', value='NE')
-            else if tile.tile.x === center.tile.x - 1 && tile.tile.y === center.tile.y
-              form(method='post', action='/game/move/w')
-                input.movebutton(type='submit', value='W')
-            else if tile.tile.x === center.tile.x + 1 && tile.tile.y === center.tile.y
-              form(method='post', action='/game/move/e')
-                input.movebutton(type='submit', value='E')
-            else if tile.tile.x === center.tile.x - 1 && tile.tile.y === center.tile.y + 1
-              form(method='post', action='/game/move/sw')
-                input.movebutton(type='submit', value='SW')
-            else if tile.tile.x === center.tile.x && tile.tile.y === center.tile.y + 1
-              form(method='post', action='/game/move/s')
-                input.movebutton(type='submit', value='S')
-            else if tile.tile.x === center.tile.x + 1 && tile.tile.y === center.tile.y + 1
-              form(method='post', action='/game/move/se')
-                input.movebutton(type='submit', value='SE')
+            if tile.direction
+              form(method='post', action='/game/move/' + tile.direction)
+                if tile.cost > 1
+                  input.movebutton(type='submit', value='#{tile.direction.toUpperCase()}: #{tile.cost}')
+                else
+                  input.movebutton(type='submit', value=tile.direction.toUpperCase())
             if tile.tile.feature
               span.mapdata.feature= tile.tile.feature
               br

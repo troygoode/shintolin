@@ -13,3 +13,5 @@ module.exports =
         'You are standing on bare dirt; the muddy ground here has seen the passage of many feet.'
       when 'Winter'
         'You are standing on bare dirt; the frozen ground here has seen the passage of many feet.'
+  cost_to_enter: (tile_to, tile_from, character) ->
+    1

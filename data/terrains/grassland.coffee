@@ -13,3 +13,5 @@ module.exports =
         'You are walking through a grassland. The cold weather is beginning to turn the grass brown.'
       when 'Winter'
         'You are walking through a grassland. Frost has hardened the ground, and there is little sign of life.'
+  cost_to_enter: (tile_to, tile_from, character) ->
+    1
