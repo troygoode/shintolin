@@ -23,3 +23,89 @@ html
         option(value='newtowns') Newest Settlements
         option(value='bigtowns') Most Populous Settlements
       input(type='submit', value='View')
+
+    if locals.frags
+      i Frags measure not just the number of foes killed, but the quality of one's opponents. New players begin with one frag, and when a character is knocked out, the attacker takes half their frags (rounded up).
+      hr
+      table
+        tr
+          td: b Rank
+          td: b Name
+          td: b Frags
+        for c, i in frags
+          tr
+            td= i + 1
+            td= c.name
+            td= c.frags
+    if locals.deaths
+      hr
+      table
+        tr
+          td: b Rank
+          td: b Name
+          td: b Deaths
+        for c, i in deaths
+          tr
+            td= i + 1
+            td= c.name
+            td= c.deaths
+    if locals.kills
+      hr
+      table
+        tr
+          td: b Rank
+          td: b Name
+          td: b Kills
+        for c, i in kills
+          tr
+            td= i + 1
+            td= c.name
+            td= c.kills
+    if locals.revives
+      hr
+      table
+        tr
+          td: b Rank
+          td: b Name
+          td: b Revives
+        for c, i in revives
+          tr
+            td= i + 1
+            td= c.name
+            td= c.revives
+    if locals.younguns
+      hr
+      table
+        tr
+          td: b Rank
+          td: b Name
+          td: b Joined
+        for c, i in younguns
+          tr
+            td= i + 1
+            td= c.name
+            td= moment(c.created).fromNow()
+    if locals.oldies
+      hr
+      table
+        tr
+          td: b Rank
+          td: b Name
+          td: b Joined
+        for c, i in oldies
+          tr
+            td= i + 1
+            td= c.name
+            td= moment(c.created).fromNow()
+    if locals.survival
+      hr
+      table
+        tr
+          td: b Rank
+          td: b Name
+          td: b Last Revived
+        for c, i in survival
+          tr
+            td= i + 1
+            td= c.name
+            td= moment(c.last_revived).fromNow()

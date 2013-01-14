@@ -12,6 +12,7 @@
     , "connect-mongo": "latest"
     , "express": "latest"
     , "jade": "latest"
+    , "moment": "latest"
     , "mongolian": "latest"
     , "require-directory": "latest"
   }
