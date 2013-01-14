@@ -40,6 +40,7 @@ module.exports = (app) ->
             warrior_xp: 0
             herbal_xp: 0
             wanderer_xp: 0
+            skills: []
 
             email: req.body.email
             password: hash

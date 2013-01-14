@@ -35,7 +35,7 @@ html
         for c, i in frags
           tr
             td= i + 1
-            td= c.name
+            td: a(href='/profile/#{c._id.toString()}')= c.name
             td= c.frags
     if locals.deaths
       hr
@@ -47,7 +47,7 @@ html
         for c, i in deaths
           tr
             td= i + 1
-            td= c.name
+            td: a(href='/profile/#{c._id.toString()}')= c.name
             td= c.deaths
     if locals.kills
       hr
@@ -59,7 +59,7 @@ html
         for c, i in kills
           tr
             td= i + 1
-            td= c.name
+            td: a(href='/profile/#{c._id.toString()}')= c.name
             td= c.kills
     if locals.revives
       hr
@@ -71,7 +71,7 @@ html
         for c, i in revives
           tr
             td= i + 1
-            td= c.name
+            td: a(href='/profile/#{c._id.toString()}')= c.name
             td= c.revives
     if locals.younguns
       hr
@@ -83,7 +83,7 @@ html
         for c, i in younguns
           tr
             td= i + 1
-            td= c.name
+            td: a(href='/profile/#{c._id.toString()}')= c.name
             td= moment(c.created).fromNow()
     if locals.oldies
       hr
@@ -95,7 +95,7 @@ html
         for c, i in oldies
           tr
             td= i + 1
-            td= c.name
+            td: a(href='/profile/#{c._id.toString()}')= c.name
             td= moment(c.created).fromNow()
     if locals.survival
       hr
@@ -107,5 +107,5 @@ html
         for c, i in survival
           tr
             td= i + 1
-            td= c.name
+            td: a(href='/profile/#{c._id.toString()}')= c.name
             td= moment(c.last_revived).fromNow()

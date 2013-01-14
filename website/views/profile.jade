@@ -1,0 +1,47 @@
+!!! 5
+html
+  head
+    title Shintolin - {#character.name}
+    link(rel='stylesheet', type='text/css', href='/shintolin.css')
+  body
+    h1.header= character.name
+
+    table
+      if character.bio.length
+        tr
+          td(colspan='2')
+            .beigebox(style='font-style: italic; width: 35em')= character.bio
+      tr
+        td
+          .beigebox
+            table
+              if character.donated
+                tr: td(colspan='2') <b><i>Donated!</i></b>
+              tr
+                td: b Settlement:
+                td: a.neutral(href='/settlement/?', title='???') ???
+              tr
+                td: b Level:
+                td= character.skills.length + 1
+              tr
+                td: b Played since:
+                td= moment(character.created).fromNow()
+              tr
+                td: b Alive since:
+                td= moment(character.last_revived).fromNow()
+              tr
+                td: b Frags:
+                td= character.frags
+              tr
+                td: b Kills:
+                td= character.kills
+              tr
+                td: b Deaths:
+                td= character.deaths
+              tr
+                td: b Revives:
+                td= character.revives
+        if character.image_url.length
+          td: img(style='max-width: 300px; max-height: 300px;', alt='Portrait of #{character.name}', src=character.image_url)
+    hr
+    a.buttonlink(href='/') Home
