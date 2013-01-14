@@ -1,2 +1,4 @@
+db = require '../db'
+
 module.exports = (cb) ->
-  cb null, 0
+  db.tiles.find().count cb

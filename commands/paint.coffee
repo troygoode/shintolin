@@ -1,5 +1,6 @@
 db = require '../db'
 queries = require '../queries'
+create_tile = require './create_tile'
 
 module.exports = (character, terrain, cb) ->
   queries.get_tile_by_coords character, (err, tile) ->
@@ -12,9 +13,4 @@ module.exports = (character, terrain, cb) ->
           terrain: terrain
       db.tiles.update query, update, cb
     else
-      tile =
-        x: character.x
-        y: character.y
-        z: character.z
-        terrain: terrain
-      db.tiles.insert tile, cb
+      create_tile character, terrain, cb

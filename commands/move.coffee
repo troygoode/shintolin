@@ -1,6 +1,19 @@
+async = require 'async'
 db = require '../db'
+queries = require '../queries'
+create_tile = require './create_tile'
+
+db.register_index db.tiles,
+  x: 1
+  y: 1
+  z: 1
 
 module.exports = (character, direction, cb) ->
+  old_coords =
+    x: character.x
+    y: character.y
+    z: character.z
+
   coords = null
   switch direction
     when 'nw'
@@ -46,9 +59,29 @@ module.exports = (character, direction, cb) ->
     else
       return cb 'Invalid direction.'
 
-  query =
+  query_character =
     _id: character._id
-  update =
+  update_character =
     $set: coords
+  update_newtile =
+    $inc:
+      people: 1
+  update_oldtile =
+    $inc:
+      people: -1
 
-  db.characters.update query, update, cb
+  async.parallel [
+    (cb) ->
+      db.characters.update query_character, update_character, cb
+    , (cb) ->
+      queries.get_tile_by_coords coords, (err, tile) ->
+        return cb(err) if err?
+        if tile?
+          db.tiles.update coords, update_newtile, cb
+        else
+          create_tile coords, 'wilderness', (err) ->
+            return cb(err) if err?
+            db.tiles.update coords, update_newtile, cb
+    , (cb) ->
+      db.tiles.update old_coords, update_oldtile, cb
+  ], cb
