@@ -1,7 +1,7 @@
 ms_in_a_day = 1000 * 60 * 60 * 24
 
 calculate_year = (now) ->
-  origin = new Date(2009, 2, 28)
+  origin = new Date(Date.UTC(2009, 2, 28))
   ms = now.getTime() - origin.getTime()
   real_life_days = Math.ceil(ms / ms_in_a_day)
   real_life_days / 12 # 3 days for each of 4 seasons
