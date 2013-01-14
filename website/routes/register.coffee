@@ -36,10 +36,10 @@ module.exports = (app) ->
             hunger: 9
             last_action: now
 
-            craft_xp: 0
-            warrior_xp: 0
-            herbal_xp: 0
-            wanderer_xp: 0
+            xp_craft: 0
+            xp_warrior: 0
+            xp_herbal: 0
+            xp_wanderer: 0
             skills: []
 
             email: req.body.email

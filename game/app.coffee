@@ -1,6 +1,7 @@
 express = require 'express'
 MongoSession = require('connect-mongo')(express)
 config = require '../config'
+routes = require('require-directory')(module, "#{__dirname}/routes")
 
 debug = process.env.NODE_ENV isnt 'production'
 
@@ -27,8 +28,7 @@ app.use express.errorHandler
   dumpExceptions: debug
   showStack: debug
 
-app.get '/', (req, res, next) ->
-  res.render 'game', character: req.session.character
+route app for key, route of routes
 
 unless module.parent?
   app.listen config.port, ->
