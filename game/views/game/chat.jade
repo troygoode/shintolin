@@ -1,15 +1,16 @@
-.gamebox.msgbox
-  for msg in action_messages
-    if msg.type === 'fed'
-      .action
-        a.neutral(href='/profile/#{msg.sender_id}')= msg.sender_name
-        |  fed <b>you</b> #{msg.food}. 
-        span.time= moment(msg.sent).fromNow()
-    else
-      .action
-        a.neutral(href='/profile/#{msg.sender_id}')= msg.sender_name
-        i  ??? 
-        span.time= moment(msg.sent).fromNow()
+if action_messages.length
+  .gamebox.msgbox
+    for msg in action_messages
+      if msg.type === 'fed'
+        .action
+          a.neutral(href='/profile/#{msg.sender_id}')= msg.sender_name
+          |  fed <b>you</b> #{msg.food}. 
+          span.time= moment(msg.sent).fromNow()
+      else
+        .action
+          a.neutral(href='/profile/#{msg.sender_id}')= msg.sender_name
+          i  ??? 
+          span.time= moment(msg.sent).fromNow()
 .gamebox
   b Chat:
   .chatbox

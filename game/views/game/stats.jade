@@ -1,6 +1,6 @@
 .gamebox.statsbox
   center
-    | You are <a href='/profile/#{character._id.toString()}'>#{character.name}</a>.
+    | You are <a href='/profile/#{character._id.toString()}'>#{character.name}</a>. {x: #{character.x}, y: #{character.y}, z: #{character.z}}
     br
     | HP: <b>#{character.hp}/#{character.hp_max}</b>
     | AP: <b>#{character.ap}/100</b> <span style='font-size: 80%'>(3 AP/hour)</span>

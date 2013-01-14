@@ -1,4 +1,5 @@
 .gamebox.actionbox(style='opacity: .82')
+
   form(method='POST')
     input(type='submit', value='Use')
     input(type='hidden', name='action', value='use')
@@ -9,3 +10,10 @@
     | on
     select(name='target', style='width: 10em')
       option(value='0:user') Self
+
+  form(method='POST', action='/game/paint')
+    select(name='terrain', style='width: 10em')
+      for terrain in data.terrains
+        unless terrain.hidden
+          option(value=terrain.id)= terrain.id
+    input(type='submit', value='Paint')

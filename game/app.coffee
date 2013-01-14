@@ -22,6 +22,7 @@ app.use express.session
 
 app.use middleware.auth
 app.use middleware.load_character
+app.use middleware.time
 
 app.use app.router
 app.use express.errorHandler

@@ -1,84 +1,42 @@
 .map
-  .locationbox <br>The Feral Hills - Late Autumn
+  .locationbox <br>The Feral Hills - #{time.month} #{time.season}, #{time.year}
   table
-    tr
-      td.map(style='background-image: url(/game/images/p_hill1_side.jpg)')
-      td.map(style='background-image: url(/game/images/p_grass.jpg)')
-      td.map(style='background-image: url(/game/images/p_grass.jpg)')
-      td.map(style='background-image: url(/game/images/p_grass.jpg)')
-      td.map(style='background-image: url(/game/images/p_hill1_side.jpg)')
-    tr
-      td.map(style='background-image: url(/game/images/p_grass.jpg)')
-      td.map(style='background-image: url(/game/images/p_grass.jpg)')
-        form(method='post')
-          input.movebutton(type='submit', value='NW')
-          input(type='hidden', name='action', value='move')
-          input(type='hidden', name='x', value='-1')
-          input(type='hidden', name='y', value='-1')
-          input(type='hidden', name='z', value='0')
-      td.map(style='background-image: url(/game/images/p_grass.jpg)')
-        form(method='post')
-          input.movebutton(type='submit', value='N')
-          input(type='hidden', name='action', value='move')
-          input(type='hidden', name='x', value='0')
-          input(type='hidden', name='y', value='-1')
-          input(type='hidden', name='z', value='0')
-      td.map(style='background-image: url(/game/images/p_grass.jpg)')
-        form(method='post')
-          input.movebutton(type='submit', value='NE')
-          input(type='hidden', name='action', value='move')
-          input(type='hidden', name='x', value='1')
-          input(type='hidden', name='y', value='-1')
-          input(type='hidden', name='z', value='0')
-      td.map(style='background-image: url(/game/images/p_grass.jpg)')
-    tr
-      td.map(style='background-image: url(/game/images/p_grass.jpg)')
-      td.map(style='background-image: url(/game/images/p_grass.jpg)')
-        form(method='post')
-          input.movebutton(type='submit', value='W')
-          input(type='hidden', name='action', value='move')
-          input(type='hidden', name='x', value='-1')
-          input(type='hidden', name='y', value='0')
-          input(type='hidden', name='z', value='0')
-      td.map(style='background-image: url(/game/images/p_grass.jpg)')
-      td.map(style='background-image: url(/game/images/p_grass.jpg)')
-        form(method='post')
-          input.movebutton(type='submit', value='E')
-          input(type='hidden', name='action', value='move')
-          input(type='hidden', name='x', value='1')
-          input(type='hidden', name='y', value='0')
-          input(type='hidden', name='z', value='0')
-      td.map(style='background-image: url(/game/images/p_grass.jpg)')
-        span.mapdata(style='color: #0000bb') Wolf
-    tr
-      td.map(style='background-image: url(/game/images/p_grass.jpg)')
-        span.mapdata(style='color: #990000') Stockpile
-      td.map(style='background-image: url(/game/images/p_grass.jpg)')
-        form(method='post')
-          input.movebutton(type='submit', value='SW')
-          input(type='hidden', name='action', value='move')
-          input(type='hidden', name='x', value='-1')
-          input(type='hidden', name='y', value='1')
-          input(type='hidden', name='z', value='0')
-        span.mapdata(style='color: #990000') Signpost
-      td.map(style='background-image: url(/game/images/p_grass.jpg)')
-        form(method='post')
-          input.movebutton(type='submit', value='S')
-          input(type='hidden', name='action', value='move')
-          input(type='hidden', name='x', value='0')
-          input(type='hidden', name='y', value='1')
-          input(type='hidden', name='z', value='0')
-      td.map(style='background-image: url(/game/images/p_grass.jpg)')
-        form(method='post')
-          input.movebutton(type='submit', value='SE')
-          input(type='hidden', name='action', value='move')
-          input(type='hidden', name='x', value='1')
-          input(type='hidden', name='y', value='1')
-          input(type='hidden', name='z', value='0')
-      td.map(style='background-image: url(/game/images/p_grass.jpg)')
-    tr
-      td.map(style='background-image: url(/game/images/p_grass.jpg)')
-      td.map(style='background-image: url(/game/images/p_grass.jpg)')
-      td.map(style='background-image: url(/game/images/p_hill1_side.jpg)')
-      td.map(style='background-image: url(/game/images/p_hill1_side.jpg)')
-      td.map(style='background-image: url(/game/images/p_grass.jpg)')
+    for row in grid
+      tr
+        for tile in row
+          td.map(class='tile-#{tile.terrain.style}')
+            if tile.tile.x === center.tile.x - 1 && tile.tile.y === center.tile.y - 1
+              form(method='post', action='/game/move/nw')
+                input.movebutton(type='submit', value='NW')
+            else if tile.tile.x === center.tile.x && tile.tile.y === center.tile.y - 1
+              form(method='post', action='/game/move/n')
+                input.movebutton(type='submit', value='N')
+            else if tile.tile.x === center.tile.x + 1 && tile.tile.y === center.tile.y - 1
+              form(method='post', action='/game/move/ne')
+                input.movebutton(type='submit', value='NE')
+            else if tile.tile.x === center.tile.x - 1 && tile.tile.y === center.tile.y
+              form(method='post', action='/game/move/w')
+                input.movebutton(type='submit', value='W')
+            else if tile.tile.x === center.tile.x + 1 && tile.tile.y === center.tile.y
+              form(method='post', action='/game/move/e')
+                input.movebutton(type='submit', value='E')
+            else if tile.tile.x === center.tile.x - 1 && tile.tile.y === center.tile.y + 1
+              form(method='post', action='/game/move/sw')
+                input.movebutton(type='submit', value='SW')
+            else if tile.tile.x === center.tile.x && tile.tile.y === center.tile.y + 1
+              form(method='post', action='/game/move/s')
+                input.movebutton(type='submit', value='S')
+            else if tile.tile.x === center.tile.x + 1 && tile.tile.y === center.tile.y + 1
+              form(method='post', action='/game/move/se')
+                input.movebutton(type='submit', value='SE')
+            if tile.tile.feature
+              span.mapdata.feature= tile.tile.feature
+              br
+            if tile.tile.creatures
+              for creature in tile.tile.creatures
+                span.mapdata.creature= creature.type
+                br
+            if tile.tile.people && tile.tile.people === 1
+              span.mapdata 1 person
+            else if tile.tile.people && tile.tile.people > 1
+              span.mapdata #{tile.tile.people} people

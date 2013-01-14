@@ -15,5 +15,6 @@
     , "moment": "latest"
     , "mongolian": "latest"
     , "require-directory": "latest"
+    , "underscore": "latest"
   }
 }
