@@ -21,16 +21,14 @@ html
         tr
           td
             .beigebox(style='width: 15em')
-              b Settlements: ???
+              b Settlements: #{settlements}
               br
-              b Map: ??? squares
+              b Map: #{squares} squares
             .beigebox(style='width: 15em; margin-top: 4px')
               b Sign in:
               hr
               if message === 'bad_pw'
                 b Incorrect username or password.
-              else if message === 'account_made'
-                b Player ??? created! You may now log in:
               form(method='POST', action='/login')
                 | Username:
                 br
@@ -101,7 +99,7 @@ html
                 hr
                 input(type='submit', value='Sign Up Now!')
       i Now that enough money was donated to buy a new server, Shintolin is no longer taking donations. A big thank you to everyone who gave money, very much appreciated.
-    font(size='-1', color='e8e8d0') Server Time: ???
+    font(size='-1', color='e8e8d0') Server Time: #{server_time}
     br
     .news
       h3 Updates
