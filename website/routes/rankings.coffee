@@ -2,8 +2,8 @@ moment = require 'moment'
 queries = require '../../queries'
 
 module.exports = (app) ->
+  app.locals.moment = moment
   app.get '/rankings', (req, res, next) ->
-    res.locals.moment = moment
     switch req.param('metric')
       when 'frags'
         queries.rankings.frags (err, characters) ->

@@ -3,6 +3,7 @@ MongoSession = require('connect-mongo')(express)
 config = require '../config'
 game = require '../game/app'
 routes = require('require-directory')(module, "#{__dirname}/routes")
+time = require '../time'
 
 debug = process.env.NODE_ENV isnt 'production'
 
@@ -20,6 +21,11 @@ app.use express.cookieParser()
 app.use express.session
   secret: config.session_secret
   store: new MongoSession(url: config.mongo_uri)
+
+app.use (req, res, next) ->
+  req.time = time(new Date())
+  res.locals.time = req.time
+  next()
 
 app.use app.router
 app.use express.errorHandler
