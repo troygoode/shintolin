@@ -5,5 +5,5 @@ db.register_index db.characters,
 
 module.exports = (email, cb) ->
   query =
-    email: new RegExp("^#{name}$", 'i')
+    email: new RegExp("^#{email}$", 'i')
   db.characters.findOne query, cb

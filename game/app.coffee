@@ -18,13 +18,17 @@ app.use express.session
   secret: config.session_secret
   store: new MongoSession(url: config.mongo_uri)
 
+app.use (req, res, next) ->
+  return next() if req.session.character?.length
+  res.redirect '/?msg=auth'
+
 app.use app.router
 app.use express.errorHandler
   dumpExceptions: debug
   showStack: debug
 
 app.get '/', (req, res, next) ->
-  res.render 'game'
+  res.render 'game', character: req.session.character
 
 unless module.parent?
   app.listen config.port, ->
