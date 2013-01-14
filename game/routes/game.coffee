@@ -15,8 +15,7 @@ center = (tiles, character) ->
       x: character.x
       y: character.y
       z: character.z
-    terrain:
-      style: 'wilderness'
+    terrain: data.terrains.wilderness
 
 grid = (tiles, center) ->
   rows = []
@@ -35,8 +34,7 @@ grid = (tiles, center) ->
             x: x
             y: y
             z: center.z
-          terrain:
-            style: 'wilderness'
+          terrain: data.terrains.wilderness
   rows
 
 module.exports = (app) ->

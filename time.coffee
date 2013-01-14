@@ -21,13 +21,13 @@ calculate_season = (now) ->
   year = calculate_year now
   temp = (year - Math.floor(year)) * 12
   if temp <= 3
-    'Winter'
-  else if temp <= 6
     'Spring'
-  else if temp <= 9
+  else if temp <= 6
     'Summer'
-  else
+  else if temp <= 9
     'Autumn'
+  else
+    'Winter'
 
 calculate_date = (now) ->
   "#{Math.floor(calculate_year now)}, #{calculate_month now} #{calculate_season now}"
