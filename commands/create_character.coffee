@@ -14,8 +14,9 @@ module.exports = (character, cb) ->
         update =
           $push:
             people:
-              id: character._id
+              _id: character._id
               name: character.name
+              hp: character.hp
         db.tiles.update query, update, cb
     ], (err, [character]) ->
       cb err, character

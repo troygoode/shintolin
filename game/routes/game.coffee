@@ -6,7 +6,7 @@ data =
   terrains: require '../../data/terrains'
 
 character_link = (character) ->
-  "<a href='/profile/#{character.id}'>#{character.name}</a>"
+  "<a href='/profile/#{character._id}'>#{character.name}</a>"
 
 describe_list = (arr) ->
   if arr.length is 1
@@ -54,7 +54,7 @@ visit_tile = (tile, center, character) ->
     tile: tile
     terrain: data.terrains[tile.terrain]
     people: tile.people?.filter (p) ->
-      p.id.toString() isnt character._id.toString()
+      p._id.toString() isnt character._id.toString()
   if center?
     if tile.x is center.x - 1 and tile.y is center.y - 1
       retval.direction = 'nw'

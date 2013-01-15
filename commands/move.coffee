@@ -66,13 +66,15 @@ module.exports = (character, direction, cb) ->
   update_newtile =
     $push:
       people:
-        id: character._id
+        _id: character._id
         name: character.name
+        hp: character.hp
   update_oldtile =
     $pull:
       people:
-        id: character._id
+        _id: character._id
         name: character.name
+        hp: character.hp
 
   async.parallel [
     (cb) ->
