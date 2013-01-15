@@ -12,8 +12,10 @@ module.exports = (character, cb) ->
         query =
           _id: tile._id
         update =
-          $inc:
-            people: 1
+          $push:
+            people:
+              id: character._id
+              name: character.name
         db.tiles.update query, update, cb
     ], (err, [character]) ->
       cb err, character

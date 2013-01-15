@@ -18,7 +18,7 @@
               for creature in tile.tile.creatures
                 span.mapdata.creature= creature.type
                 br
-            if tile.tile.people && tile.tile.people === 1
+            if tile.people && tile.people.length === 1
               span.mapdata 1 person
-            else if tile.tile.people && tile.tile.people > 1
-              span.mapdata #{tile.tile.people} people
+            else if tile.people && tile.people.length > 1
+              span.mapdata #{tile.people.length} people

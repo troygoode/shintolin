@@ -1,2 +1,11 @@
 .gamebox.infobox(style='opacity: .82')
-  .beigeoverlay= center.terrain.describe(center.tile)
+  .beigeoverlay
+    = center.terrain.describe(center.tile)
+    if center.people && center.people.length
+      |  Standing here
+      if center.people.length === 1
+        |  is 
+      else
+        |  are 
+      != describe_list(center.people.map(character_link))
+      | .

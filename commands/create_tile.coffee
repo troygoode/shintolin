@@ -6,4 +6,5 @@ module.exports = (coords, terrain, cb) ->
     y: coords.y
     z: coords.z
     terrain: terrain
+    people: []
   db.tiles.insert tile, cb

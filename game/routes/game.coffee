@@ -5,6 +5,23 @@ queries = require '../../queries'
 data =
   terrains: require '../../data/terrains'
 
+character_link = (character) ->
+  "<a href='/profile/#{character.id}'>#{character.name}</a>"
+
+describe_list = (arr) ->
+  if arr.length is 1
+    arr[0]
+  else if arr.length is 2
+    "#{arr[0]} and #{arr[1]}"
+  else
+    retval = ''
+    for o, i in arr
+      if i is arr.length - 1
+        retval += "and #{o}"
+      else
+        retval += "#{o}, "
+    retval
+
 center = (tiles, character) ->
   tile = _.find tiles, (t) -> t.x is character.x and t.y is character.y
   if tile?
@@ -36,6 +53,8 @@ visit_tile = (tile, center, character) ->
   retval =
     tile: tile
     terrain: data.terrains[tile.terrain]
+    people: tile.people?.filter (p) ->
+      p.id.toString() isnt character._id.toString()
   if center?
     if tile.x is center.x - 1 and tile.y is center.y - 1
       retval.direction = 'nw'
@@ -59,9 +78,11 @@ visit_tile = (tile, center, character) ->
 module.exports = (app) ->
   app.get '/', (req, res, next) ->
     res.locals.moment = moment
+    res.locals.describe_list = describe_list
+    res.locals.character_link = character_link
     async.parallel [
       (cb) ->
-        queries.tiles_in_square_around req.character, cb
+        queries.tiles_in_square_around req.character, 3, cb
       , (cb) ->
         queries.latest_chat_messages req.character, cb
     ], (err, [tiles, messages]) ->
