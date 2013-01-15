@@ -3,16 +3,16 @@
   form(method='POST')
     input(type='submit', value='Use')
     input(type='hidden', name='action', value='use')
-    select(name='item', style='width: 10em')
+    select(name='item', style='width: 10em', data-persist='item')
       option(value='13') Cup of herbal tea
       option(value='4') Piece of willow bark
       option(value='33') Lump of rotten food
     | on
-    select(name='target', style='width: 10em')
+    select(name='target', style='width: 10em', data-persist='target')
       option(value='0:user') Self
 
   form(method='POST', action='/game/paint')
-    select(name='terrain', style='width: 10em')
+    select(name='terrain', style='width: 10em', data-persist='paint')
       for terrain in data.terrains
         unless terrain.hidden
           option(value=terrain.id)= terrain.id

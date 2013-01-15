@@ -8,9 +8,9 @@
             if tile.direction
               form(method='post', action='/game/move/' + tile.direction)
                 if tile.cost > 1
-                  input.movebutton(type='submit', value='#{tile.direction.toUpperCase()}: #{tile.cost}')
+                  input.movebutton(type='submit', value='#{tile.direction.toUpperCase()}: #{tile.cost}', data-direction='#{tile.direction}')
                 else
-                  input.movebutton(type='submit', value=tile.direction.toUpperCase())
+                  input.movebutton(type='submit', value=tile.direction.toUpperCase(), data-direction='#{tile.direction}')
             if tile.tile.feature
               span.mapdata.feature= tile.tile.feature
               br
