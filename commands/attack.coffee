@@ -11,6 +11,13 @@ module.exports = (attacker, target, tile, weapon, cb) ->
     async.parallel [
       (cb) ->
         query =
+          _id: attacker._id
+        update =
+          $inc:
+            ap: -1
+        db.characters.update query, update, cb
+      , (cb) ->
+        query =
           _id: target._id
         update =
           $set:
@@ -46,6 +53,13 @@ module.exports = (attacker, target, tile, weapon, cb) ->
   else
     async.parallel [
       (cb) ->
+        query =
+          _id: attacker._id
+        update =
+          $inc:
+            ap: -1
+        db.characters.update query, update, cb
+      , (cb) ->
         send_message attacker,
           type: 'attack'
           weapon: weapon.id

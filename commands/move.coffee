@@ -13,6 +13,7 @@ module.exports = (character, direction, cb) ->
     x: character.x
     y: character.y
     z: character.z
+  ap_cost = 1
 
   coords = null
   switch direction
@@ -63,6 +64,8 @@ module.exports = (character, direction, cb) ->
     _id: character._id
   update_character =
     $set: coords
+    $inc:
+      ap: 0 - ap_cost
   update_newtile =
     $push:
       people:
