@@ -7,5 +7,5 @@
         |  is 
       else
         |  are 
-      != describe_list(center.people.map(character_link))
+      != describe_list(center.people.map(function(p){ return character_link(p) + ' (' + p.hp + '/' + p.hp_max + 'hp)'; }))
       | .

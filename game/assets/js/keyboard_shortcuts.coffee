@@ -20,3 +20,8 @@ $(document.body).bind 'keyup', (event) ->
         $('[data-action-focus=use]').focus()
       else
         $('input[data-action=use]').trigger 'click'
+    when 75
+      if event.shiftKey
+        $('[data-action-focus=attack]').focus()
+      else
+        $('input[data-action=attack]').trigger 'click'

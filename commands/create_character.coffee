@@ -17,6 +17,7 @@ module.exports = (character, cb) ->
               _id: character._id
               name: character.name
               hp: character.hp
+              hp_max: character.hp_max
         db.tiles.update query, update, cb
     ], (err, [character]) ->
       cb err, character

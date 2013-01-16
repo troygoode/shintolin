@@ -2,8 +2,7 @@ _ = require 'underscore'
 async = require 'async'
 moment = require 'moment'
 queries = require '../../queries'
-data =
-  terrains: require '../../data/terrains'
+data = require '../../data'
 
 character_link = (character) ->
   "<a href='/profile/#{character._id}'>#{character.name}</a>"
@@ -22,7 +21,7 @@ describe_list = (arr) ->
         retval += "#{o}, "
     retval
 
-center = (tiles, character) ->
+get_center = (tiles, character) ->
   tile = _.find tiles, (t) -> t.x is character.x and t.y is character.y
   if tile?
     tile
@@ -32,7 +31,7 @@ center = (tiles, character) ->
     z: character.z
     terrain: 'wilderness'
 
-grid = (tiles, center) ->
+build_grid = (tiles, center) ->
   rows = []
   for y in [center.y - 2 .. center.y + 2]
     row = []
@@ -75,6 +74,12 @@ visit_tile = (tile, center, character) ->
     retval.cost = retval.terrain.cost_to_enter tile, center, character
   retval
 
+visit_weapon = (weapon, character, tile) ->
+  id: weapon.id
+  name: weapon.name
+  hit_chance: weapon.accuracy(character, null, tile)
+  damage: weapon.damage(character, null, tile)
+
 module.exports = (app) ->
   app.get '/', (req, res, next) ->
     res.locals.moment = moment
@@ -87,18 +92,26 @@ module.exports = (app) ->
         queries.latest_chat_messages req.character, cb
     ], (err, [tiles, messages]) ->
       return next(err) if err?
+      center = get_center tiles, req.character
       action_messages = messages.filter (msg) ->
         msg.type isnt 'social'
       chat_messages = messages.filter (msg) ->
         msg.type is 'social'
+      items = []
+      items.push item for key, item of data.items
+      weapons = items.filter (i) ->
+        i.tags.indexOf('weapon') isnt -1
+      weapons = weapons.map (i) ->
+        visit_weapon i, req.character, center
       locals =
         character: req.character
-        grid: grid tiles, req.character
-        center: center tiles, req.character
+        grid: build_grid tiles, req.character
+        center: center
         action_messages: action_messages
         chat_messages: chat_messages
         time: req.time
         data: data
+        weapons: weapons
       for row, i in locals.grid
         for tile, j in row
           locals.grid[i][j] = visit_tile tile, locals.center, locals.character

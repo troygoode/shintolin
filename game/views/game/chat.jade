@@ -6,6 +6,26 @@ if action_messages.length
           a.neutral(href='/profile/#{msg.sender_id}')= msg.sender_name
           |  fed <b>you</b> #{msg.food}. 
           span.time= moment(msg.sent).fromNow()
+      else if msg.type === 'attack'
+        if msg.damage
+          .action
+            |  You attacked <a href='/profile/#{msg.target_id}'>#{msg.target_name}</a> with a #{msg.weapon} for #{msg.damage} hp damage. 
+            span.time= moment(msg.sent).fromNow()
+        else
+          .action
+            |  You attacked <a href='/profile/#{msg.target_id}'>#{msg.target_name}</a> with a #{msg.weapon} and missed. 
+            span.time= moment(msg.sent).fromNow()
+      else if msg.type === 'attacked'
+        if msg.damage
+          .action
+            a.neutral(href='/profile/#{msg.sender_id}')= msg.sender_name
+            |  attacked you with a #{msg.weapon} for #{msg.damage} hp damage. 
+            span.time= moment(msg.sent).fromNow()
+        else
+          .action
+            a.neutral(href='/profile/#{msg.sender_id}')= msg.sender_name
+            |  attacked you with a #{msg.weapon} and missed. 
+            span.time= moment(msg.sent).fromNow()
       else
         .action
           a.neutral(href='/profile/#{msg.sender_id}')= msg.sender_name
@@ -17,7 +37,7 @@ if action_messages.length
     for msg in chat_messages
       div
         a.neutral(href='/profile/#{msg.sender_id}')= msg.sender_name
-        |  #{msg.text} 
+        | : #{msg.text} 
         span.time= moment(msg.sent).fromNow()
     center
       br
