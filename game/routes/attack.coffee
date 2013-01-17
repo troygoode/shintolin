@@ -5,6 +5,7 @@ data = require '../../data'
 
 module.exports = (app) ->
   app.post '/attack', (req, res, next) ->
+    return res.redirect '/game' unless req.param('target')?.length
     async.parallel [
       (cb) ->
         queries.get_tile_by_coords req.character, cb
