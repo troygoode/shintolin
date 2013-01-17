@@ -1,0 +1,28 @@
+#!/usr/bin/env coffee
+
+async = require 'async'
+commands = require '../commands'
+
+settlement =
+  _id: null
+  x: 0
+  y: 0
+
+async.series [
+  (cb) ->
+    commands.create_character 'Ecce', 'troygoode@gmail.com', 'password', settlement, (err, c) ->
+      if err?
+        console.log err
+      else
+        console.log "Created character #{c.name}."
+      cb()
+  , (cb) ->
+    commands.create_character 'Deschain', 'troygoode+deschain@gmail.com', 'password', settlement, (err, c) ->
+      if err?
+        console.log err
+      else
+        console.log "Created character #{c.name}."
+      cb()
+], (err) ->
+  console.log 'Bootstrap complete.'
+  process.exit()

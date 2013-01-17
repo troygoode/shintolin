@@ -1,10 +1,12 @@
 _ = require 'underscore'
 db = require '../db'
 
-module.exports = (character, message, cb) ->
+module.exports = (type, sender, recipient, message, cb) ->
   m = _.extend
-    sender_name: character.name
-    sender_id: character._id
+    type: type
+    sender_name: sender.name
+    sender_id: sender._id
     sent: new Date()
   , message
+  m.recipient_id = recipient._id if recipient?
   db.chat_messages.insert m, cb

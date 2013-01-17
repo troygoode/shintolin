@@ -2,9 +2,10 @@ async = require 'async'
 commands = require '../../commands'
 queries = require '../../queries'
 data = require '../../data'
+mw = require '../middleware'
 
 module.exports = (app) ->
-  app.post '/attack', (req, res, next) ->
+  app.post '/attack', mw.not_dazed, mw.ap(1), (req, res, next) ->
     return res.redirect '/game' unless req.param('target')?.length
     async.parallel [
       (cb) ->
@@ -17,6 +18,7 @@ module.exports = (app) ->
       , (cb) ->
         cb null, data.items[req.param('item')]
     ], (err, [tile, target, weapon]) ->
+      return next(err) if err?
       commands.attack req.character, target, tile, weapon, (err) ->
         return next(err) if err?
         res.redirect '/game'

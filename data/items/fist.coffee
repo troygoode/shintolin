@@ -11,4 +11,4 @@ module.exports =
   accuracy: (attacker, target, tile) ->
     .4
   damage: (attacker, target, tile) ->
-    1
+    15

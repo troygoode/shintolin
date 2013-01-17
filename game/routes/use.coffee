@@ -1,5 +1,6 @@
 commands = require '../../commands'
+mw = require '../middleware'
 
 module.exports = (app) ->
-  app.post '/use', (req, res, next) ->
+  app.post '/use', mw.not_dazed, mw.ap(1), (req, res, next) ->
     res.redirect '/game'

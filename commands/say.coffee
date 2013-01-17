@@ -1,10 +1,7 @@
 db = require '../db'
+send_message = require './send_message'
 
 module.exports = (character, text, cb) ->
-  message =
-    sender_name: character.name
-    sender_id: character._id
-    sent: new Date()
+  send_message 'social', character, null,
     text: text
-    type: 'social'
-  db.chat_messages.insert message, cb
+  , cb
