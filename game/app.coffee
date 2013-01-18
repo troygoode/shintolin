@@ -27,6 +27,8 @@ app.use express.session
 
 app.use middleware.auth
 app.use middleware.load_character
+app.use middleware.load_tile
+app.use auto_loader for key, auto_loader of middleware.auto_loaders
 app.use middleware.time
 
 app.use app.router

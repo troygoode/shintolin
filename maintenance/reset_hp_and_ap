@@ -1,0 +1,19 @@
+#!/usr/bin/env coffee
+
+async = require 'async'
+db = require '../db'
+
+async.parallel [
+  (cb) ->
+    db.characters.update {}, {$set: {hp: 50, ap: 100, frags: 1}}, false, true, (err, updated) ->
+      return cb(err) if err?
+      console.log "Updated #{updated} character records."
+      cb()
+  , (cb) ->
+    db.tiles.update {'people.hp': {$lt: 50}}, {$set: {'people.$.hp': 50}}, false, true, (err, updated) ->
+      return cb(err) if err?
+      console.log "Updated #{updated} tile records."
+      cb()
+], (err) ->
+  console.log 'HP/AP reset complete.'
+  process.exit()
