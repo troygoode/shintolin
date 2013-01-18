@@ -2,6 +2,7 @@ express = require 'express'
 assets = require 'connect-assets'
 MongoSession = require('connect-mongo')(express)
 config = require '../config'
+data = require('../data')
 middleware = require './middleware'
 routes = require('require-directory')(module, "#{__dirname}/routes")
 
@@ -30,6 +31,8 @@ app.use middleware.load_character
 app.use middleware.load_tile
 app.use auto_loader for key, auto_loader of middleware.auto_loaders
 app.use middleware.time
+
+app.locals.data = data
 
 app.use app.router
 app.use express.errorHandler

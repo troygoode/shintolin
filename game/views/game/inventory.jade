@@ -2,7 +2,11 @@
   b Weight: Very Heavy
   hr
   i You are carrying:
-  div(title='a fragrant cup of herbal tea, for reviving') 6 x cups of herbal tea
+  for item in character.items
+    if item.count === 1
+      div 1 x #{data.items[item.item].name}
+    else
+      div #{item.count} x #{data.items[item.item].plural}
   hr
   form(method='POST')
     input(type='submit', value='Drop')
@@ -14,4 +18,8 @@
       option(value='4') 4
       option(value='5') 5
     select(name='item', style='width: 10em')
-      option(value='13') Cups of herbal tea
+      for item in character.items
+        if item.count === 1
+          option(value=item.item)= data.items[item.item].name
+        else
+          option(value=item.item)= data.items[item.item].plural

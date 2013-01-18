@@ -26,6 +26,7 @@ module.exports = (name, email, password, settlement, cb) ->
     xp_herbal: 0
     xp_wanderer: 0
     skills: []
+    items: []
 
     #donated: false #don't need to store
     #banned: false #don't need to store

@@ -36,3 +36,6 @@
       option(value='') no-one
       for c in center.people
         option(value=c._id)= c.name
+
+  form(method='POST', action='/game/search')
+    input(type='submit', value='Search', data-action='search')

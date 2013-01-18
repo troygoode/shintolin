@@ -10,18 +10,20 @@ $(document.body).bind 'keyup', (event) ->
     when 83 then $('.movebutton[data-direction=s]').trigger 'click'
     when 88 then $('.movebutton[data-direction=s]').trigger 'click'
     when 67 then $('.movebutton[data-direction=se]').trigger 'click'
-    when 80
+    when 80 #P
       if event.shiftKey
         $('[data-action-focus=paint]').focus()
       else
         $('input[data-action=paint]').trigger 'click'
-    when 85
+    when 85 #U
       if event.shiftKey
         $('[data-action-focus=use]').focus()
       else
         $('input[data-action=use]').trigger 'click'
-    when 75
+    when 75 #K
       if event.shiftKey
         $('[data-action-focus=attack]').focus()
       else
         $('input[data-action=attack]').trigger 'click'
+    when 76 #L
+      $('input[data-action=search]').trigger 'click'
