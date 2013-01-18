@@ -1,19 +1,20 @@
 if action_messages.length
   .gamebox.msgbox
     for msg in action_messages
-      if msg.type === 'fed'
-        include chat/fed
-      else if msg.type === 'attack'
-        include chat/attack
-      else if msg.type === 'attacked'
-        include chat/attacked
-      else if msg.type === 'attack_nearby'
-        include chat/attack_nearby
-      else
-        .action
-          a.neutral(href='/profile/#{msg.sender_id}')= msg.sender_name
-          i  ??? (#{msg.type}) ??? 
-          span.time= moment(msg.sent).fromNow()
+      case msg.type
+        when 'fed'
+          include chat/fed
+        when 'attack'
+          include chat/attack
+        when 'attacked'
+          include chat/attacked
+        when 'attack_nearby'
+          include chat/attack_nearby
+        default
+          .action
+            a.neutral(href='/profile/#{msg.sender_id}')= msg.sender_name
+            i  ??? (#{msg.type}) ??? 
+            span.time= moment(msg.sent).fromNow()
 .gamebox
   b Chat:
   .chatbox
