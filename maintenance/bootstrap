@@ -23,6 +23,13 @@ async.series [
       else
         console.log "Created character #{c.name}."
       cb()
+  , (cb) ->
+    commands.create_character 'TroyMG', 'troygoode+troymg@gmail.com', 'password', settlement, (err, c) ->
+      if err?
+        console.log err
+      else
+        console.log "Created character #{c.name}."
+      cb()
 ], (err) ->
   console.log 'Bootstrap complete.'
   process.exit()

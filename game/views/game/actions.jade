@@ -29,3 +29,10 @@
         unless terrain.hidden
           option(value=terrain.id)= terrain.id
     input(type='submit', value='Paint', data-action='paint')
+
+  form(method='POST', action='/game/possess')
+    input(type='submit', value='Possess', data-action='possess')
+    select(name='target', style='width: 10em', data-persist='target', data-action-focus='possess')
+      option(value='') no-one
+      for c in center.people
+        option(value=c._id)= c.name

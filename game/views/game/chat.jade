@@ -2,34 +2,17 @@ if action_messages.length
   .gamebox.msgbox
     for msg in action_messages
       if msg.type === 'fed'
-        .action
-          a.neutral(href='/profile/#{msg.sender_id}')= msg.sender_name
-          |  fed <b>you</b> #{msg.food}. 
-          span.time= moment(msg.sent).fromNow()
+        include chat/fed
       else if msg.type === 'attack'
-        if msg.damage
-          .action
-            |  You attacked <a href='/profile/#{msg.target_id}'>#{msg.target_name}</a> with a #{msg.weapon} for #{msg.damage} hp damage. 
-            span.time= moment(msg.sent).fromNow()
-        else
-          .action
-            |  You attacked <a href='/profile/#{msg.target_id}'>#{msg.target_name}</a> with a #{msg.weapon} and missed. 
-            span.time= moment(msg.sent).fromNow()
+        include chat/attack
       else if msg.type === 'attacked'
-        if msg.damage
-          .action
-            a.neutral(href='/profile/#{msg.sender_id}')= msg.sender_name
-            |  attacked you with a #{msg.weapon} for #{msg.damage} hp damage. 
-            span.time= moment(msg.sent).fromNow()
-        else
-          .action
-            a.neutral(href='/profile/#{msg.sender_id}')= msg.sender_name
-            |  attacked you with a #{msg.weapon} and missed. 
-            span.time= moment(msg.sent).fromNow()
+        include chat/attacked
+      else if msg.type === 'attack_nearby'
+        include chat/attack_nearby
       else
         .action
           a.neutral(href='/profile/#{msg.sender_id}')= msg.sender_name
-          i  ??? 
+          i  ??? (#{msg.type}) ??? 
           span.time= moment(msg.sent).fromNow()
 .gamebox
   b Chat:

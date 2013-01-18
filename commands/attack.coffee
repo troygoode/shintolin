@@ -1,8 +1,8 @@
 async = require 'async'
 db = require '../db'
 send_message = require './send_message'
+broadcast_message = require './broadcast_message'
 
-#TODO: announce attack to other characters on this tile
 #TODO: handle item breakage
 #TODO: handle attacking animals
 #        - grant xp
@@ -77,7 +77,16 @@ notify_target_hit = (attacker, target, weapon, damage) ->
 
 notify_nearby_hit = (attacker, target, weapon, damage) ->
   (cb) ->
-    cb()
+    kill = damage >= target.hp
+    frags = if kill then calculate_frags(target) else 0
+    broadcast_message 'attack_nearby', attacker, [attacker, target],
+      weapon: weapon.id
+      target_id: target._id
+      target_name: target.name
+      damage: damage
+      kill: kill
+      frags: frags
+    , cb
 
 notify_attacker_miss = (attacker, target, weapon) ->
   (cb) ->
@@ -95,7 +104,11 @@ notify_target_miss = (attacker, target, weapon) ->
 
 notify_nearby_miss = (attacker, target, weapon) ->
   (cb) ->
-    cb()
+    broadcast_message 'attack_nearby', attacker, [attacker, target],
+      weapon: weapon.id
+      target_id: target._id
+      target_name: target.name
+    , cb
 
 module.exports = (attacker, target, tile, weapon, cb) ->
   accuracy = weapon.accuracy attacker, target, tile
