@@ -1,6 +1,10 @@
 if msg.damage
   .action
-    | <a href='/profile/#{msg.sender_id}'>#{msg.sender_name}</a> attacked <a href='/profile/#{msg.target_id}'>#{msg.target_name}</a> with a #{msg.weapon} for #{msg.damage} hp damage. 
+    | <a href='/profile/#{msg.sender_id}'>#{msg.sender_name}</a> attacked <a href='/profile/#{msg.target_id}'>#{msg.target_name}</a> with a #{msg.weapon} for #{msg.damage} hp damage
+    if msg.kill
+      |  and knocked them out! 
+    else
+      | . 
     span.time= moment(msg.sent).fromNow()
 else
   .action

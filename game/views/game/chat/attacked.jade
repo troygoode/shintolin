@@ -1,7 +1,15 @@
 if msg.damage
   .action
     a.neutral(href='/profile/#{msg.sender_id}')= msg.sender_name
-    |  attacked you with a #{msg.weapon} for #{msg.damage} hp damage. 
+    |  attacked you with a #{msg.weapon} for #{msg.damage} hp damage
+    if msg.kill
+      |  and knocked you out! 
+      if msg.frags === 1
+        | They also stole a frag from you. 
+      else if msg.frags
+        | They also stole #{msg.frags} from you. 
+    else
+      | . 
     span.time= moment(msg.sent).fromNow()
 else
   .action
