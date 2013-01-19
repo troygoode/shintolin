@@ -5,6 +5,10 @@
   , "scripts": {
       "start": "coffee website/app.coffee"
   }
+  , "engines": {
+      "node": "0.8.x"
+    , "npm": "1.1.x"
+  }
   , "dependencies": {
       "async": "latest"
     , "bcrypt": "latest"
