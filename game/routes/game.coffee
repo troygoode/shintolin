@@ -80,6 +80,14 @@ visit_weapon = (weapon, character, tile) ->
   hit_chance: weapon.accuracy(character, null, tile)
   damage: weapon.damage(character, null, tile)
 
+visit_recipe = (recipe, character, tile) ->
+  takes = recipe.takes(character)
+  items = []
+  items.push {item: key, count: value} for key, value of recipe.takes(character).items
+  name: recipe.name
+  ap: takes.ap
+  items: items
+
 module.exports = (app) ->
   app.get '/', (req, res, next) ->
     res.locals.moment = moment
@@ -113,6 +121,7 @@ module.exports = (app) ->
         time: req.time
         data: data
         weapons: weapons
+        recipes: visit_recipe recipe, req.character, center for key, recipe of data.recipes
       for row, i in locals.grid
         for tile, j in row
           locals.grid[i][j] = visit_tile tile, locals.center, locals.character
