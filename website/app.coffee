@@ -1,6 +1,6 @@
 config = require '../config'
-if config.NODEFLY?.length
-  require('nodefly').profile config.NODEFLY,
+if config.nodefly?.length
+  require('nodefly').profile config.nodefly,
                              ['Shintolin', 'Heroku']
 
 express = require 'express'
