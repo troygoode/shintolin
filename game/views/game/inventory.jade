@@ -1,25 +1,41 @@
 .gamebox.invbox(style='opacity: .82')
-  b Weight: Very Heavy
+  if character.weight === 0
+    b Weight: None
+  else if character.weight <= 30
+    b Weight: Light
+  else if character.weight <= 50
+    b Weight: Medium
+  else if character.weight <= 60
+    b Weight: Heavy
+  else if character.weight <= 70
+    b Weight: Very Heavy
+  else
+    b Weight: You are over encumbered and cannot move.
   hr
   i You are carrying:
-  for item in character.items
-    if item.count === 1
-      div 1 x #{data.items[item.item].name}
-    else
-      div #{item.count} x #{data.items[item.item].plural}
-  hr
-  form(method='POST')
-    input(type='submit', value='Drop')
-    input(type='hidden', name='action', value='drop')
-    select(name='number')
-      option(value='1') 1
-      option(value='2') 2
-      option(value='3') 3
-      option(value='4') 4
-      option(value='5') 5
-    select(name='item', style='width: 10em')
-      for item in character.items
-        if item.count === 1
-          option(value=item.item)= data.items[item.item].name
-        else
-          option(value=item.item)= data.items[item.item].plural
+  if character.items.length === 0
+    p: i Nothing.
+  else
+    for item in character.items
+      if item.count === 1
+        div 1 x #{data.items[item.item].name}
+      else
+        div #{item.count} x #{data.items[item.item].plural}
+  if character.items.length > 0
+    hr
+    form(method='POST', action='/game/drop')
+      input(type='submit', value='Drop')
+      - var max = _.max(_.pluck(character.items, 'count'));
+      if max === 1
+        input(type='hidden', name='count', value=1)
+      else
+        - var range = _.range(max);
+        select(name='count')
+          for i in range
+            option(value=i + 1)= i + 1
+      select(name='item', style='width: 10em')
+        for item in character.items
+          if item.count === 1
+            option(value=item.item)= data.items[item.item].name
+          else
+            option(value=item.item)= data.items[item.item].plural

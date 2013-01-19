@@ -1,3 +1,4 @@
+_ = require 'underscore'
 express = require 'express'
 assets = require 'connect-assets'
 MongoSession = require('connect-mongo')(express)
@@ -32,6 +33,7 @@ app.use middleware.load_tile
 app.use auto_loader for key, auto_loader of middleware.auto_loaders
 app.use middleware.time
 
+app.locals._ = _
 app.locals.data = data
 
 app.use app.router
