@@ -7,6 +7,7 @@
           td.map(class='tile-#{tile.terrain.style}')
             if tile.direction
               form(method='post', action='/game/move/' + tile.direction)
+                input(type='hidden', name='_csrf', value=csrf)
                 if tile.cost > 1
                   input.movebutton(type='submit', value='#{tile.direction.toUpperCase()}: #{tile.cost}', data-direction='#{tile.direction}')
                 else

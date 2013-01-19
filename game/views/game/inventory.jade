@@ -24,6 +24,7 @@
   if character.items.length > 0
     hr
     form(method='POST', action='/game/drop')
+      input(type='hidden', name='_csrf', value=csrf)
       input(type='submit', value='Drop')
       - var max = _.max(_.pluck(character.items, 'count'));
       if max === 1

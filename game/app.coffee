@@ -29,6 +29,8 @@ app.use express.session
   auto_reconnect: true
 
 app.use middleware.auth
+app.use express.csrf()
+app.use middleware.csrf
 app.use middleware.load_character
 app.use middleware.load_tile
 app.use auto_loader for key, auto_loader of middleware.auto_loaders

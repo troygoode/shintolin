@@ -1,6 +1,7 @@
 .gamebox.actionbox(style='opacity: .82')
 
   form(method='POST', action='/game/attack')
+    input(type='hidden', name='_csrf', value=csrf)
     input(type='submit', value='Attack', data-action='attack')
     select(name='target', style='width: 10em', data-persist='target', data-action-focus='attack')
       option(value='') no-one
@@ -13,6 +14,7 @@
 
   //
     form(method='POST', action='/game/use')
+      input(type='hidden', name='_csrf', value=csrf)
       input(type='submit', value='Use', data-action='use')
       select(name='item', style='width: 10em', data-persist='usable-item', data-action-focus='use')
         option(value='13') Cup of herbal tea
@@ -25,6 +27,7 @@
           option(value=c._id)= c.name
 
   form(method='POST', action='/game/craft')
+    input(type='hidden', name='_csrf', value=csrf)
     input(type='submit', value='Craft', data-action='craft')
     select(name='recipe', style='width: 10em', data-persist='recipe', data-action-focus='craft')
       for recipe in recipes
@@ -35,6 +38,7 @@
           | )
 
   form(method='POST', action='/game/paint')
+    input(type='hidden', name='_csrf', value=csrf)
     select(name='terrain', style='width: 10em', data-persist='paint', data-action-focus='paint')
       for terrain in data.terrains
         unless terrain.hidden
@@ -42,6 +46,7 @@
     input(type='submit', value='Paint', data-action='paint')
 
   form(method='POST', action='/game/possess')
+    input(type='hidden', name='_csrf', value=csrf)
     input(type='submit', value='Possess', data-action='possess')
     select(name='target', style='width: 10em', data-persist='target', data-action-focus='possess')
       option(value='') no-one
@@ -49,4 +54,5 @@
         option(value=c._id)= c.name
 
   form(method='POST', action='/game/search')
+    input(type='hidden', name='_csrf', value=csrf)
     input(type='submit', value='Search', data-action='search')

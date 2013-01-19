@@ -31,5 +31,6 @@ if action_messages.length
       br
       a.buttonlink(href='/game/chat') Chat page
   form(method='POST', action='/game/chat')
+    input(type='hidden', name='_csrf', value=csrf)
     input(type='submit', value='Chat')
     input.text(type='text', name='text', maxlength='200', style='width: 300px')
