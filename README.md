@@ -1,6 +1,8 @@
 # Shintolin
 
-Multiplayer browser game, set in the stone age.
+Persistent multiplayer browser game, set in the stone age.
+
+## Local Development / Testing
 
 ### Initial Setup
 
@@ -18,3 +20,14 @@ Multiplayer browser game, set in the stone age.
 * Create a separate Terminal tab (CMD+T) and run [mongodb](http://www.mongodb.org/): `$ mongod`
 * In the original tab, run Shintolin: `$ npm start`
 * Browse to `http://localhost:3000` in your web browser to play.
+
+## License
+
+Shintolin: a persistent multiplayer browser game, set in the stone age.
+Copyright (C) 2013 Troy Goode
+
+This program is free software: you can redistribute it and/or modify it under the terms of the GNU Affero General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License along with this program.  If not, see [<http://www.gnu.org/licenses/>](http://www.gnu.org/licenses/).
