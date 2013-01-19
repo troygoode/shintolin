@@ -49,7 +49,9 @@ module.exports = (app) ->
           item: item_type
         , (err) ->
           return next(err) if err?
-          return res.redirect '/game'
+          commands.xp req.character, 1, 0, 0, 0, (err) ->
+            return next(err) if err?
+            return res.redirect '/game'
     else
       commands.send_message 'search', req.character, req.character,
         total_odds: total
