@@ -1,1 +1,1 @@
-game: coffee cluster.coffee
+web: coffee cluster.coffee
