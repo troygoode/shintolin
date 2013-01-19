@@ -8,6 +8,7 @@ Multiplayer browser game, set in the stone age.
 * Install [node.js](http://nodejs.org/): `$ brew install node`
 * Install [mongodb](http://www.mongodb.org/): `$ brew install mongo`
 * Download the code via [git](http://git-scm.com/): `$ git clone https://github.com/shintolin/shintolin`
+* Install [coffee-script](http://coffeescript.org/) globally: `$ npm install -g coffee-script`
 
 ### Running the Game
 
