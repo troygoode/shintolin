@@ -37,6 +37,7 @@ module.exports = (app) ->
     search_odds = terrain.search_odds req.tile, req.character
     weighted = weighted_table search_odds
     total = total_odds weighted
+    return next('Total odds over 100%!') if total > 1
     item_type = get_item weighted
 
     if item_type?.length

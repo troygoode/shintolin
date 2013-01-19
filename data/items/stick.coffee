@@ -1,15 +1,13 @@
 module.exports =
-  id: 'fist'
-  name: 'your fists'
-  plural: false
+  id: 'stick'
+  name: 'stick'
+  plural: 'sticks'
   tags: ['weapon']
-  weight: 0
-  nodrop: true
-  intrinsic: true
+  weight: 1
 
   weapon_class: 'blunt'
-  break_odds: 0
+  break_odds: .1
   accuracy: (attacker, target, tile) ->
-    .1
+    .25
   damage: (attacker, target, tile) ->
     1

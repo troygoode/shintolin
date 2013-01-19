@@ -97,12 +97,13 @@ module.exports = (app) ->
         msg.type isnt 'social'
       chat_messages = messages.filter (msg) ->
         msg.type is 'social'
-      items = []
-      items.push item for key, item of data.items
-      weapons = items.filter (i) ->
-        i.tags.indexOf('weapon') isnt -1
+      weapons = []
+      weapons = req.character.items.filter (i) ->
+        type = data.items[i.item]
+        i.count > 0 and type.tags? and type.tags.indexOf('weapon') isnt -1
       weapons = weapons.map (i) ->
-        visit_weapon i, req.character, center
+        visit_weapon data.items[i.item], req.character, center
+      weapons.unshift visit_weapon data.items.fist, req.character, center
       locals =
         character: req.character
         grid: build_grid tiles, req.character
