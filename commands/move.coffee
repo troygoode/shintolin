@@ -72,7 +72,10 @@ module.exports = (character, direction, cb) ->
       new_terrain = data.terrains[new_tile.terrain]
     else
       new_terrain = data.terrains.wilderness
-    ap_cost = new_terrain.cost_to_enter new_tile, old_tile, character
+    if new_terrain.cost_to_enter?
+      ap_cost = new_terrain.cost_to_enter new_tile, old_tile, character
+    else
+      ap_cost = 1
     async.parallel [
       (cb) ->
         query_character =

@@ -10,6 +10,8 @@ if action_messages.length
           include chat/attacked
         when 'attack_nearby'
           include chat/attack_nearby
+        when 'search'
+          include chat/search
         default
           .action
             a.neutral(href='/profile/#{msg.sender_id}')= msg.sender_name

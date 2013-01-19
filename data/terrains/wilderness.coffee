@@ -14,5 +14,7 @@ module.exports =
         'You are wandering through a seemingly endless wilderness.'
       when 'Winter'
         'You are wandering through a seemingly endless wilderness. A cold wind whistles through the desolate landscape.'
+
+  #example
   cost_to_enter: (tile_to, tile_from, character) ->
     1

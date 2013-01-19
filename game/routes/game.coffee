@@ -71,7 +71,7 @@ visit_tile = (tile, center, character) ->
       retval.direction = 's'
     else if tile.x is center.x + 1 and tile.y is center.y + 1
       retval.direction = 'se'
-    retval.cost = retval.terrain.cost_to_enter tile, center, character
+    retval.cost = if retval.terrain.cost_to_enter? then retval.terrain.cost_to_enter tile, center, character else 1
   retval
 
 visit_weapon = (weapon, character, tile) ->

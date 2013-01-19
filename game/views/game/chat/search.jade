@@ -1,0 +1,21 @@
+.action
+  if msg.unsearchable
+    | There appears to be nothing to find here. 
+  else
+    | You search the area and find 
+    if msg.item
+      | a <strong>#{data.items[msg.item].name}</strong>
+    else
+      | nothing of use
+    | . 
+    if msg.total_odds === 0
+      | This area appears to have been picked clean. 
+    else if msg.total_odds <= .1
+      | This area appears to have very limited resources. 
+    else if msg.total_odds <= .2
+      | This area appears to have limited resources. 
+    else if msg.total_odds <= .3
+      | This area appears to have moderate resources. 
+    else
+      | This area appears to have abundant resources. 
+  span.time= moment(msg.sent).fromNow()
