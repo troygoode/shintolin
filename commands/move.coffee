@@ -104,13 +104,14 @@ module.exports = (character, direction, cb) ->
             return cb(err) if err?
             db.tiles.update coords, update_newtile, cb
       , (cb) ->
-        #BUG: race condition due to HP
-        update_oldtile =
+        query =
+          old_coords
+        update =
           $pull:
             people:
               _id: character._id
-              name: character.name
-              hp: character.hp
-              hp_max: character.hp_max
-        db.tiles.update old_coords, update_oldtile, cb
+              name: {$exists: true}
+              hp: {$exists: true}
+              hp_max: {$exists: true}
+        db.tiles.update query, update, false, true, cb
     ], cb

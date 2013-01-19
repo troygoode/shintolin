@@ -11,17 +11,18 @@
       for weapon in weapons
         option(value=weapon.id) #{weapon.name} (#{weapon.hit_chance * 100}%, #{weapon.damage} dmg)
 
-  form(method='POST', action='/game/use')
-    input(type='submit', value='Use', data-action='use')
-    select(name='item', style='width: 10em', data-persist='usable-item', data-action-focus='use')
-      option(value='13') Cup of herbal tea
-      option(value='4') Piece of willow bark
-      option(value='33') Lump of rotten food
-    |  on 
-    select(name='target', style='width: 10em', data-persist='target')
-      option(value='0:user') Self
-      for c in center.people
-        option(value=c._id)= c.name
+  //
+    form(method='POST', action='/game/use')
+      input(type='submit', value='Use', data-action='use')
+      select(name='item', style='width: 10em', data-persist='usable-item', data-action-focus='use')
+        option(value='13') Cup of herbal tea
+        option(value='4') Piece of willow bark
+        option(value='33') Lump of rotten food
+      |  on 
+      select(name='target', style='width: 10em', data-persist='target')
+        option(value='0:user') Self
+        for c in center.people
+          option(value=c._id)= c.name
 
   form(method='POST', action='/game/craft')
     input(type='submit', value='Craft', data-action='craft')
