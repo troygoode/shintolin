@@ -5,15 +5,32 @@ db = require '../db'
 
 async.parallel [
   (cb) ->
-    db.characters.update {}, {$set: {hp: 50, ap: 100, frags: 1}}, false, true, (err, updated) ->
+    query =
+      $or: [
+        {hp: {$ne: 50}}
+        {ap: {$ne: 100}}
+        {frags: {$ne: 1}}
+      ]
+    update =
+      $set:
+        hp: 50
+        ap: 100
+        frags: 1
+    db.characters.update query, update, false, true, (err, updated) ->
       return cb(err) if err?
       console.log "Updated #{updated} character records."
       cb()
   , (cb) ->
-    db.tiles.update {'people.hp': {$lt: 50}}, {$set: {'people.$.hp': 50}}, false, true, (err, updated) ->
+    query =
+      'people.hp': {$lt: 50}
+    update =
+      $set:
+        'people.$.hp': 50
+    db.tiles.update query, update, false, true, (err, updated) ->
       return cb(err) if err?
       console.log "Updated #{updated} tile records."
       cb()
 ], (err) ->
+  console.log err if err?
   console.log 'HP/AP reset complete.'
   process.exit()

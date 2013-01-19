@@ -3,6 +3,7 @@ time = require '../../time'
 module.exports =
   id: 'forest'
   style: 'forest'
+
   describe: (tile) ->
     switch time(new Date()).season
       when 'Spring'
@@ -13,6 +14,7 @@ module.exports =
         'You are in a forest, walking through a thick carpet of orange and brown leaves.'
       when 'Winter'
         'You are in a forest. The bare branches of the trees are stark against the winter sky.'
+
   search_odds: (tile, character) ->
     stick: .25
     staff: .08

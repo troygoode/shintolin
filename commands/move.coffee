@@ -17,6 +17,16 @@ module.exports = (character, direction, cb) ->
 
   coords = null
   switch direction
+    when 'enter'
+      coords =
+        x: character.x
+        y: character.y
+        z: 1
+    when 'exit'
+      coords =
+        x: character.x
+        y: character.y
+        z: 0
     when 'nw'
       coords =
         x: character.x - 1

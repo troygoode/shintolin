@@ -31,9 +31,20 @@
     input(type='submit', value='Craft', data-action='craft')
     select(name='recipe', style='width: 10em', data-persist='recipe', data-action-focus='craft')
       for recipe in recipes
-        option(value=recipe.name)= recipe.name
+        option(value=recipe.id)= recipe.name
           |  (#{recipe.ap}ap
           for item in recipe.items
+            | , #{item.count} x #{data.items[item.item].name}
+          | )
+
+  form(method='POST', action='/game/build')
+    input(type='hidden', name='_csrf', value=csrf)
+    input(type='submit', value='Build', data-action='build')
+    select(name='building', style='width: 10em', data-persist='building', data-action-focus='build')
+      for building in buildings
+        option(value=building.id)= building.name
+          |  (#{building.ap}ap
+          for item in building.items
             | , #{item.count} x #{data.items[item.item].name}
           | )
 

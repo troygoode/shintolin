@@ -5,15 +5,26 @@
       tr
         for tile in row
           td.map(class='tile-#{tile.terrain.style}')
-            if tile.direction
+            if tile.direction && !tile.terrain.blocked
               form(method='post', action='/game/move/' + tile.direction)
                 input(type='hidden', name='_csrf', value=csrf)
                 if tile.cost > 1
                   input.movebutton(type='submit', value='#{tile.direction.toUpperCase()}: #{tile.cost}', data-direction='#{tile.direction}')
                 else
                   input.movebutton(type='submit', value=tile.direction.toUpperCase(), data-direction='#{tile.direction}')
-            if tile.tile.feature
-              span.mapdata.feature= tile.tile.feature
+            if tile.tile._id && tile.tile._id.toString() === center.tile._id.toString()
+              if tile.tile.z === 1
+                form(method='post', action='/game/move/exit')
+                  input(type='hidden', name='_csrf', value=csrf)
+                  input.movebutton(type='submit', value='Exit', data-direction='enterexit')
+            if tile.tile.building
+              - var building = data.buildings[tile.tile.building]
+              if tile.tile._id.toString() === center.tile._id.toString()
+                if building.interior
+                  form(method='post', action='/game/move/enter')
+                    input(type='hidden', name='_csrf', value=csrf)
+                    input.movebutton(type='submit', value='Enter', data-direction='enterexit')
+              span.mapdata.feature= building.name
               br
             if tile.tile.creatures
               for creature in tile.tile.creatures

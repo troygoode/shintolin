@@ -41,11 +41,18 @@ build_grid = (tiles, center) ->
       if tile?
         row.push tile
       else
-        row.push
-          x: x
-          y: y
-          z: center.z
-          terrain: 'wilderness'
+        if center.z is 0
+          row.push
+            x: x
+            y: y
+            z: center.z
+            terrain: 'wilderness'
+        else if center.z is 1
+          row.push
+            x: x
+            y: y
+            z: center.z
+            terrain: 'nothing'
   rows
 
 visit_tile = (tile, center, character) ->
@@ -81,10 +88,20 @@ visit_weapon = (weapon, character, tile) ->
   damage: weapon.damage(character, null, tile)
 
 visit_recipe = (recipe, character, tile) ->
-  takes = recipe.takes(character)
+  takes = recipe.takes(character, tile)
   items = []
-  items.push {item: key, count: value} for key, value of recipe.takes(character).items
+  items.push {item: key, count: value} for key, value of takes.items
+  id: recipe.id
   name: recipe.name
+  ap: takes.ap
+  items: items
+
+visit_building = (building, character, tile) ->
+  takes = building.takes(character, tile)
+  items = []
+  items.push {item: key, count: value} for key, value of takes.items
+  id: building.id
+  name: building.name
   ap: takes.ap
   items: items
 
@@ -122,6 +139,7 @@ module.exports = (app) ->
         data: data
         weapons: weapons
         recipes: visit_recipe recipe, req.character, center for key, recipe of data.recipes
+        buildings: visit_building building, req.character, center for key, building of data.buildings
       for row, i in locals.grid
         for tile, j in row
           locals.grid[i][j] = visit_tile tile, locals.center, locals.character

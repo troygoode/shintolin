@@ -1,4 +1,5 @@
 module.exports =
+  id: 'poultice'
   name: 'poultice'
   takes: (character, tile) ->
     ap: 10

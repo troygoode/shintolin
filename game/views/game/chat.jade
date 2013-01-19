@@ -2,16 +2,18 @@ if action_messages.length
   .gamebox.msgbox
     for msg in action_messages
       case msg.type
-        when 'fed'
-          include chat/fed
         when 'attack'
           include chat/attack
         when 'attacked'
           include chat/attacked
         when 'attack_nearby'
           include chat/attack_nearby
+        when 'built'
+          include chat/built
         when 'craft'
           include chat/craft
+        when 'fed'
+          include chat/fed
         when 'search'
           include chat/search
         default
