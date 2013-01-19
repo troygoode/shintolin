@@ -5,6 +5,7 @@ module.exports =
   tags: ['weapon']
   weight: 0
   nodrop: true
+  intrinsic: true
 
   weapon_class: 'blunt'
   break_odds: 0
