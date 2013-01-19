@@ -1,0 +1,10 @@
+#!/usr/bin/env coffee
+
+db = require '../db'
+
+db.characters.update {ap: {$lt: 100}}, {$inc: {ap: 1}}, false, true, (err, updated) ->
+  if err?
+    console.log err
+  else
+    console.log "Updated #{updated} character records."
+  process.exit()
