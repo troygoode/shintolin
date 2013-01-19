@@ -10,4 +10,6 @@ module.exports = (character, ap, cb) ->
     update =
       $inc:
         ap: 0 - ap
+      $set:
+        last_action: new Date()
     db.characters.update query, update, cb
