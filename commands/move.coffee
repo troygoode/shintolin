@@ -78,7 +78,11 @@ module.exports = (character, direction, cb) ->
         query_character =
           _id: character._id
         update_character =
-          $set: coords
+          $set:
+            x: coords.x
+            y: coords.y
+            z: coords.z
+            last_action: new Date()
           $inc:
             ap: 0 - ap_cost
         db.characters.update query_character, update_character, cb
