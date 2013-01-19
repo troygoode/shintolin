@@ -8,3 +8,6 @@ module.exports =
   gives: (character, tile) ->
     items:
       poultice: 1
+    xp:
+      herbalist: 5
+      crafter: 1

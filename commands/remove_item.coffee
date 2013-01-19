@@ -2,8 +2,7 @@ _ = require 'underscore'
 db = require '../db'
 
 module.exports = (character, item, count, cb) ->
-  current_count = _.max(character.items, (i) ->
-    i.count).count
+  current_count = _.max character.items.filter((i) -> i.item is item.id).map((i) -> i.count)
   count = parseInt count
   if count > current_count
     cb "Not carrying that many #{item.name}."

@@ -40,6 +40,9 @@ module.exports = (app) ->
           commands.add_item req.character, data.items[item.item], item.count, cb
         async.forEach items_to_give, give_item, cb
       , (cb) ->
+        # grant xp
+        commands.xp req.character, gives.xp.wanderer ? 0, gives.xp.herbalist ? 0, gives.xp.crafter ? 0, gives.xp.warrior ? 0, cb
+      , (cb) ->
         # notify user of success
         commands.send_message 'craft', req.character, req.character,
           recipe: recipe.name

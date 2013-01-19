@@ -21,9 +21,9 @@ module.exports = (name, email, password, settlement, cb) ->
     hunger: 9
     last_action: now
 
-    xp_craft: 0
+    xp_crafter: 0
     xp_warrior: 0
-    xp_herbal: 0
+    xp_herbalist: 0
     xp_wanderer: 0
     skills: []
 
