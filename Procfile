@@ -1,1 +1,1 @@
-web: coffee cluster.coffee
+web: coffee website/app.coffee
