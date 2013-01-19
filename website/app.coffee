@@ -25,6 +25,7 @@ app.use express.cookieParser()
 app.use express.session
   secret: config.session_secret
   store: new MongoSession(url: config.mongo_uri)
+  auto_reconnect: true
 
 app.use (req, res, next) ->
   req.time = time(new Date())

@@ -26,6 +26,7 @@ app.use express.cookieParser()
 app.use express.session
   secret: config.session_secret
   store: new MongoSession(url: config.mongo_uri)
+  auto_reconnect: true
 
 app.use middleware.auth
 app.use middleware.load_character
