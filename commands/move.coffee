@@ -104,6 +104,7 @@ module.exports = (character, direction, cb) ->
             return cb(err) if err?
             db.tiles.update coords, update_newtile, cb
       , (cb) ->
+        #BUG: race condition due to HP
         update_oldtile =
           $pull:
             people:
