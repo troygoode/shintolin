@@ -19,6 +19,7 @@
     , "jade": "latest"
     , "moment": "latest"
     , "mongolian": "latest"
+    , "nodefly": "stable"
     , "require-directory": "latest"
     , "stylus": "latest"
     , "underscore": "latest"

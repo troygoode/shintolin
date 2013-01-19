@@ -1,6 +1,10 @@
+config = require '../config'
+if config.NODEFLY?.length
+  require('nodefly').profile config.NODEFLY,
+                             ['Shintolin', 'Heroku']
+
 express = require 'express'
 MongoSession = require('connect-mongo')(express)
-config = require '../config'
 game = require '../game/app'
 routes = require('require-directory')(module, "#{__dirname}/routes")
 time = require '../time'
