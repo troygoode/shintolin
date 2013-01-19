@@ -17,4 +17,4 @@ Multiplayer browser game, set in the stone age.
 * Install dependencies via [npm](http://npmjs.org/): `$ npm install`
 * Create a separate Terminal tab (CMD+T) and run [mongodb](http://www.mongodb.org/): `$ mongod`
 * In the original tab, run Shintolin: `$ npm start`
-* Browse to http://localhost:3000 in your web browser to play.
+* Browse to `http://localhost:3000` in your web browser to play.
