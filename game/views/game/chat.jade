@@ -18,6 +18,10 @@ if action_messages.length
           include chat/fed
         when 'search'
           include chat/search
+        when 'settled'
+          include chat/settled
+        when 'settled_nearby'
+          include chat/settled_nearby
         default
           .action
             a.neutral(href='/profile/#{msg.sender_id}')= msg.sender_name

@@ -1,5 +1,8 @@
+_ = require 'underscore'
 async = require 'async'
 data = require '../../data'
+db = require '../../db'
+commands = require '../../commands'
 queries = require '../../queries'
 settlement_radius = 20
 minimum_huts = 3
@@ -31,13 +34,12 @@ module.exports = (app) ->
         queries.buildings_in_radius req.tile, hut_radius, data.buildings.hut, cb
     ], (err, [totems, huts]) ->
       return next(err) if err?
+      return next('You must leave your current settlement before starting a new one.') if req.character.settlement_id?
       return next('There are settlements too close.') if totems > 0
       return next('There are not enough huts nearby.') if huts < minimum_huts
       return next('There is already a building here.') if req.tile.building?
       return next('Invalid settlement name.') unless settlement_name_format.test req.body.name
       return next('Settlement name not long enough.') unless req.body.name.length >= 2
-
-      #TODO: what if character already belongs to another settlement?
 
       building = data.buildings.totem
 
@@ -93,12 +95,15 @@ module.exports = (app) ->
           commands.send_message 'settled', req.character, req.character,
             settlement_id: settlement._id
             name: settlement.name
+            slug: settlement.slug
           , cb
         , (cb) ->
           # notify others of success
+          #TODO: make this a game-wide broadcast
           commands.broadcast_message 'settled_nearby', req.character, [req.character],
             settlement_id: settlement._id
             name: settlement.name
+            slug: settlement.slug
           , cb
       ], (err) ->
         return next(err) if err?

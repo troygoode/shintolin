@@ -5,6 +5,7 @@ queries = require '../queries'
 radius = 5
 
 module.exports = (character, center, name, cb) ->
+  now = new Date()
   tiles = null
   settlement = null
 
@@ -24,6 +25,8 @@ module.exports = (character, center, name, cb) ->
         x: center.x
         y: center.y
         radius: radius
+        founded: now
+        leader_title: 'Leader'
       #TODO: voters, citizens, etc
       db.settlements.insert s, (err, s) ->
         return cb(err) if err?
@@ -31,6 +34,7 @@ module.exports = (character, center, name, cb) ->
         cb()
     , (cb) ->
       # update all tiles
+      #TODO: create tiles that don't otherwise exist
       query =
         _id: {$in: tiles}
       update =
@@ -48,6 +52,7 @@ module.exports = (character, center, name, cb) ->
           settlement_id: settlement._id
           settlement_name: settlement.name
           settlement_slug: settlement.slug
+          settlement_joined: now
       db.characters.update query, update, cb
   ], (err) ->
     return cb(err) if err?

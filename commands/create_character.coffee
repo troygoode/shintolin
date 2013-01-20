@@ -35,8 +35,10 @@ module.exports = (name, email, password, settlement, cb) ->
     #donated: false #don't need to store
     #banned: false #don't need to store
 
-    settlement: settlement._id
-    settlement_joined: now
+    settlement_id: settlement?._id
+    settlement_name: settlement?.name
+    settlement_slug: settlement?.slug
+    settlement_joined: if settlement? then now else undefined
 
     kills: 0
     frags: 1

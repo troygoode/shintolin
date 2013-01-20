@@ -40,7 +40,7 @@
             | , #{item.count} x #{data.items[item.item].name}
           | )
 
-  if center.z === 0
+  if center.tile.z === 0
     form(method='POST', action='/game/build')
       input(type='hidden', name='_csrf', value=csrf)
       input(type='submit', value='Build', data-action='build')

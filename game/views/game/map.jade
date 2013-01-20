@@ -1,5 +1,9 @@
 .map
-  .locationbox <br>The Feral Hills - #{time.month} #{time.season}, #{time.year}
+  .locationbox
+    if center.tile.settlement_id
+      a.neutral(href='/game/settlements/#{center.tile.settlement_slug}')= center.tile.settlement_name
+    br
+    | The Feral Hills - #{time.month} #{time.season}, #{time.year}
   table
     for row in grid
       tr

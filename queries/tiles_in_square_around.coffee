@@ -8,10 +8,10 @@ db.register_index db.tiles,
 module.exports = (coords, radius, cb) ->
   query =
     x:
-      $gt: coords.x - radius
-      $lt: coords.x + radius
+      $gte: coords.x - radius
+      $lte: coords.x + radius
     y:
-      $gt: coords.y - radius
-      $lt: coords.y + radius
+      $gte: coords.y - radius
+      $lte: coords.y + radius
     z: coords.z
   db.tiles.find(query).toArray cb
