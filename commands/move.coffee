@@ -105,6 +105,7 @@ module.exports = (character, direction, cb) ->
             people:
               _id: character._id
               name: character.name
+              slug: character.slug
               hp: character.hp
               hp_max: character.hp_max
         if new_tile?
@@ -121,6 +122,7 @@ module.exports = (character, direction, cb) ->
             people:
               _id: character._id
               name: {$exists: true}
+              slug: {$exists: true}
               hp: {$exists: true}
               hp_max: {$exists: true}
         db.tiles.update query, update, false, true, cb

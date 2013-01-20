@@ -1,4 +1,4 @@
 .action
   | <a href='/profile/#{msg.sender_id}'>#{msg.sender_name}</a>
-  |  established the settlement of <a href='/game/settlements/#{msg.slug}'>#{msg.name}</a>. May it grow and prosper. 
+  |  established the settlement of <a href='/settlements/#{msg.slug}'>#{msg.name}</a>. 
   span.time= moment(msg.sent).fromNow()

@@ -27,7 +27,22 @@ module.exports = (character, center, name, cb) ->
         radius: radius
         founded: now
         leader_title: 'Leader'
-      #TODO: voters, citizens, etc
+        leader:
+          _id: character._id
+          name: characer.name
+          slug: character.slug
+        member_count: 1
+        members: [
+          {
+            _id: character._id
+            name: characer.name
+            slug: character.slug
+            voting_for:
+              _id: character._id
+              name: characer.name
+              slug: character.slug
+          }
+        ]
       db.settlements.insert s, (err, s) ->
         return cb(err) if err?
         settlement = s

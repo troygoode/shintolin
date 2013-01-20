@@ -60,6 +60,7 @@ module.exports = (name, email, password, settlement, cb) ->
           $push:
             people:
               _id: character._id
+              slug: character.slug
               name: character.name
               hp: character.hp
               hp_max: character.hp_max

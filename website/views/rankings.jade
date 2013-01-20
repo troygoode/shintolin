@@ -109,3 +109,45 @@ html
             td= i + 1
             td: a(href='/profile/#{c._id.toString()}')= c.name
             td= moment(c.last_revived).fromNow()
+    if locals.oldtowns
+      hr
+      table
+        tr
+          td: b Rank
+          td: b Name
+          td: b Region
+          td: b Founded
+        for s, i in oldtowns
+          tr
+            td= i + 1
+            td: a(href='/settlements/#{s.slug}')= s.name
+            td TODO
+            td= moment(s.founded).fromNow()
+    if locals.newtowns
+      hr
+      table
+        tr
+          td: b Rank
+          td: b Name
+          td: b Region
+          td: b Founded
+        for s, i in newtowns
+          tr
+            td= i + 1
+            td: a(href='/settlements/#{s.slug}')= s.name
+            td TODO
+            td= moment(s.founded).fromNow()
+    if locals.bigtowns
+      hr
+      table
+        tr
+          td: b Rank
+          td: b Name
+          td: b Region
+          td: b Population
+        for s, i in newtowns
+          tr
+            td= i + 1
+            td: a(href='/settlements/#{s.slug}')= s.name
+            td TODO
+            td= s.member_count

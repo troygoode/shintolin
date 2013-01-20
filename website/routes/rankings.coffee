@@ -30,10 +30,13 @@ module.exports = (app) ->
           queries.rankings.survival (err, characters) ->
             res.render 'rankings', survival: characters
         when 'oldtowns'
-          next() #TODO
+          queries.rankings.oldtowns (err, settlements) ->
+            res.render 'rankings', oldtowns: settlements
         when 'newtowns'
-          next() #TODO
+          queries.rankings.newtowns (err, settlements) ->
+            res.render 'rankings', newtowns: settlements
         when 'bigtowns'
-          next() #TODO
+          queries.rankings.bigtowns (err, settlements) ->
+            res.render 'rankings', bigtowns: settlements
         else
           res.render 'rankings'
