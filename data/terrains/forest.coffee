@@ -4,6 +4,8 @@ module.exports =
   id: 'forest'
   style: 'forest'
 
+  chop: true
+
   describe: (tile) ->
     switch time(new Date()).season
       when 'Spring'
