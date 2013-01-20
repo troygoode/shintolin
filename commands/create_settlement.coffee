@@ -1,4 +1,5 @@
 _ = require 'underscore'
+_str = require 'underscore.string'
 async = require 'async'
 db = require '../db'
 queries = require '../queries'
@@ -20,8 +21,12 @@ module.exports = (character, center, name, cb) ->
     , (cb) ->
       # insert settlement
       s =
-        slug: _.str.slugify name
+        slug: _str.slugify name
         name: name
+        motto: ''
+        description: ''
+        website: ''
+        img: ''
         x: center.x
         y: center.y
         radius: radius
@@ -31,7 +36,7 @@ module.exports = (character, center, name, cb) ->
           _id: character._id
           name: character.name
           slug: character.slug
-        member_count: 1
+        population: 1
         members: [
           {
             _id: character._id

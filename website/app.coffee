@@ -32,6 +32,10 @@ app.use (req, res, next) ->
   res.locals.time = req.time
   next()
 
+app.use (req, res, next) ->
+  res.locals.logged_in = req.session.character?
+  next()
+
 app.use app.router
 app.use express.errorHandler
   dumpExceptions: debug

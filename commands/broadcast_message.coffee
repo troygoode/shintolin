@@ -17,6 +17,7 @@ module.exports = (type, sender, blacklist = [], message, cb) ->
           type: type
           sender_name: sender.name
           sender_id: sender._id
+          sender_slug: sender.slug
           sent: now
           recipient_id: actor._id
         , message

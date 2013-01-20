@@ -59,6 +59,7 @@ notify_attacker_hit = (attacker, target, weapon, damage) ->
       weapon: weapon.id
       target_id: target._id
       target_name: target.name
+      target_slug: target.slug
       damage: damage
       kill: kill
       frags: frags
@@ -83,6 +84,7 @@ notify_nearby_hit = (attacker, target, weapon, damage) ->
       weapon: weapon.id
       target_id: target._id
       target_name: target.name
+      target_slug: target.slug
       damage: damage
       kill: kill
       frags: frags
@@ -94,6 +96,7 @@ notify_attacker_miss = (attacker, target, weapon) ->
       weapon: weapon.id
       target_id: target._id
       target_name: target.name
+      target_slug: target.slug
     , cb
 
 notify_target_miss = (attacker, target, weapon) ->
@@ -108,6 +111,7 @@ notify_nearby_miss = (attacker, target, weapon) ->
       weapon: weapon.id
       target_id: target._id
       target_name: target.name
+      target_slug: target.slug
     , cb
 
 module.exports = (attacker, target, tile, weapon, cb) ->

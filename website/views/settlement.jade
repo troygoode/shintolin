@@ -1,0 +1,52 @@
+!!! 5
+html
+  head
+    title Shintolin - #{settlement.name}
+    link(rel='stylesheet', type='text/css', href='/shintolin.css')
+  body
+    h1.header= settlement.name
+    if settlement.motto.length
+      h3.header: i= settlement.motto
+
+    table
+      tr
+        td(colspan='2')
+          .beigebox(style='font-style: italic; width: 35em')
+            if settlement.website.length
+              <b>Website:</b> <a href='#{settlement.website}'>#{settlement.website}</a>
+              br
+            <b>Signup link:</b> <a href='http://www.shintolin.com/?settlement=#{settlement.slug}'>http://www.shintolin.com/?settlement=#{settlement.slug}</a>
+            if settlement.description.length
+              hr
+              #{settlement.description}
+      tr
+        td
+          .beigebox
+            table
+              tr
+                td: b Region:
+                td ???
+              tr
+                td: b #{settlement.leader_title}:
+                td: a(href='/profile/#{settlement.leader.slug}')= settlement.leader.name
+              tr
+                td: b Population:
+                td= settlement.population
+              tr
+                td: b Founded:
+                td= moment(settlement.founded).format('MMMM Do YYYY')
+              tr
+                td(colspan='2')
+                  hr
+                  b Inhabitants:
+                  ul
+                    for member in settlement.members
+                      li: a.neutral(href='/profile/#{member.slug}')= member.name
+        td
+          if settlement.img.length
+            img(style='max-width: 300px; max-height: 300px', src=settlement.img)
+    hr
+    if logged_in
+      a.buttonlink(href='/game') Return
+    else
+      a.buttonlink(href='/') Home

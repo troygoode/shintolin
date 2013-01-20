@@ -1,6 +1,6 @@
 if msg.damage
   .action
-    a.neutral(href='/profile/#{msg.sender_id}')= msg.sender_name
+    a.neutral(href='/profile/#{msg.sender_slug}')= msg.sender_name
     |  attacked you with a #{msg.weapon} for #{msg.damage} hp damage
     if msg.kill
       |  and knocked you out! 
@@ -13,6 +13,6 @@ if msg.damage
     span.time= moment(msg.sent).fromNow()
 else
   .action
-    a.neutral(href='/profile/#{msg.sender_id}')= msg.sender_name
+    a.neutral(href='/profile/#{msg.sender_slug}')= msg.sender_name
     |  attacked you with a #{msg.weapon} and missed. 
     span.time= moment(msg.sent).fromNow()

@@ -6,7 +6,10 @@ html
   body
     | It is Year #{time.year}, #{time.month} #{time.season} ----- Active Users: #{active}
     hr
-    a.buttonlink(href='/game') Return
+    if logged_in
+      a.buttonlink(href='/game') Return
+    else
+      a.buttonlink(href='/') Home
     hr
     form(method='GET')
       b Rank by:
@@ -151,3 +154,8 @@ html
             td: a(href='/settlements/#{s.slug}')= s.name
             td TODO
             td= s.member_count
+    hr
+    if logged_in
+      a.buttonlink(href='/game') Return
+    else
+      a.buttonlink(href='/') Home

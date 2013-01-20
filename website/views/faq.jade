@@ -6,7 +6,10 @@ html
   body
     <h1>Frequently Asked Questions</h1>
     <hr>
-    <a class='buttonlink' href='/'>Home</a>
+    if logged_in
+      a.buttonlink(href='/game') Return
+    else
+      a.buttonlink(href='/') Home
     <hr>
     <h2>Gameplay</h2>
 
@@ -71,4 +74,7 @@ html
     <a href='http://www.nexusclash.com'>Nexus Clash</a> - based off of Nexus War.
 
     <hr>
-    <a class='buttonlink' href='/'>Home</a>
+    if logged_in
+      a.buttonlink(href='/game') Return
+    else
+      a.buttonlink(href='/') Home
