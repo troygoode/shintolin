@@ -1,11 +1,16 @@
 _ = require 'underscore'
 db = require '../db'
 
+db.register_index db.characters,
+  _id: 1
+  'items.item': 1
+
 module.exports = (character, item, count, cb) ->
   has_some = _.some character.items, (i) ->
     i.item is item.id
   if has_some
     query =
+      _id: character._id
       'items.item': item.id
     update =
       $inc:
