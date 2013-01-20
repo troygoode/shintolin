@@ -17,9 +17,10 @@ html
             table
               if character.donated
                 tr: td(colspan='2') <b><i>Donated!</i></b>
-              tr
-                td: b Settlement:
-                td: a.neutral(href='/settlement/?', title='???') ???
+              if character.settlement_id
+                tr
+                  td: b Settlement:
+                  td: a.neutral(href='/settlements/#{character.settlement_slug}')= character.settlement_name
               tr
                 td: b Level:
                 td= character.skills.length + 1
