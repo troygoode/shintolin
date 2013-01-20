@@ -1,3 +1,4 @@
+_ = require 'underscore'
 async = require 'async'
 bcrypt = require 'bcrypt'
 db = require '../db'
@@ -8,6 +9,7 @@ module.exports = (name, email, password, settlement, cb) ->
   now = new Date()
   hash = bcrypt.hashSync password, 12
   character =
+    slug: _.str.slugify name
     name: name
     email: email
     password: hash

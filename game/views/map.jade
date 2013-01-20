@@ -1,0 +1,20 @@
+!!! 5
+html
+  head
+    title Shintolin - Explore. Settle. Trade. Conquer.
+    link(rel='stylesheet', type='text/css', href='/shintolin.css')
+    !=css('game')
+  body
+    h1.header Map
+    a.buttonlink(href='/game') Return
+    hr
+    table
+      for row in grid
+        tr
+          for tile in row
+            td.map(class='tile-#{tile.terrain.style}')
+              if tile.tile.building
+                span.mapdata.feature= data.buildings[tile.tile.building].name
+                br
+    hr
+    a.buttonlink(href='/game') Return

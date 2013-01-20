@@ -23,5 +23,6 @@
     , "require-directory": "latest"
     , "stylus": "latest"
     , "underscore": "latest"
+    , "underscore.string": "latest"
   }
 }

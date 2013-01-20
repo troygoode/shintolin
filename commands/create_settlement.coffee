@@ -1,4 +1,54 @@
+_ = require 'underscore'
+async = require 'async'
 db = require '../db'
+queries = require '../queries'
+radius = 5
 
 module.exports = (character, center, name, cb) ->
-  cb()
+  tiles = null
+  settlement = null
+
+  async.series [
+    (cb) ->
+      # get all tiles
+      queries.tiles_in_circle_around center, radius, (err, t) ->
+        return cb(err) if err?
+        tiles = t.map (tile) ->
+          tile._id
+        cb()
+    , (cb) ->
+      # insert settlement
+      s =
+        slug: _.str.slugify name
+        name: name
+        x: center.x
+        y: center.y
+        radius: radius
+      #TODO: voters, citizens, etc
+      db.settlements.insert s, (err, s) ->
+        return cb(err) if err?
+        settlement = s
+        cb()
+    , (cb) ->
+      # update all tiles
+      query =
+        _id: {$in: tiles}
+      update =
+        $set:
+          settlement_id: settlement._id
+          settlement_name: settlement.name
+          settlement_slug: settlement.slug
+      db.tiles.update query, update, false, true, cb
+    , (cb) ->
+      # update character
+      query =
+        _id: character._id
+      update =
+        $set:
+          settlement_id: settlement._id
+          settlement_name: settlement.name
+          settlement_slug: settlement.slug
+      db.characters.update query, update, cb
+  ], (err) ->
+    return cb(err) if err?
+    cb null, settlement

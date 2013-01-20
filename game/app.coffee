@@ -1,4 +1,5 @@
 _ = require 'underscore'
+_.str = require 'underscore.string'
 express = require 'express'
 assets = require 'connect-assets'
 MongoSession = require('connect-mongo')(express)

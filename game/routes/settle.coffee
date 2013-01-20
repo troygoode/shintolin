@@ -37,6 +37,8 @@ module.exports = (app) ->
       return next('Invalid settlement name.') unless settlement_name_format.test req.body.name
       return next('Settlement name not long enough.') unless req.body.name.length >= 2
 
+      #TODO: what if character already belongs to another settlement?
+
       building = data.buildings.totem
 
       takes = building.takes req.character, req.tile
