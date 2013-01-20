@@ -29,17 +29,17 @@ module.exports = (character, center, name, cb) ->
         leader_title: 'Leader'
         leader:
           _id: character._id
-          name: characer.name
+          name: character.name
           slug: character.slug
         member_count: 1
         members: [
           {
             _id: character._id
-            name: characer.name
+            name: character.name
             slug: character.slug
             voting_for:
               _id: character._id
-              name: characer.name
+              name: character.name
               slug: character.slug
           }
         ]
