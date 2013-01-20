@@ -40,16 +40,17 @@
             | , #{item.count} x #{data.items[item.item].name}
           | )
 
-  form(method='POST', action='/game/build')
-    input(type='hidden', name='_csrf', value=csrf)
-    input(type='submit', value='Build', data-action='build')
-    select(name='building', style='width: 10em', data-persist='building', data-action-focus='build')
-      for building in buildings
-        option(value=building.id)= building.name
-          |  (#{building.ap}ap
-          for item in building.items
-            | , #{item.count} x #{data.items[item.item].name}
-          | )
+  if center.z === 0
+    form(method='POST', action='/game/build')
+      input(type='hidden', name='_csrf', value=csrf)
+      input(type='submit', value='Build', data-action='build')
+      select(name='building', style='width: 10em', data-persist='building', data-action-focus='build')
+        for building in buildings
+          option(value=building.id)= building.name
+            |  (#{building.ap}ap
+            for item in building.items
+              | , #{item.count} x #{data.items[item.item].name}
+            | )
 
   form(method='POST', action='/game/paint')
     input(type='hidden', name='_csrf', value=csrf)

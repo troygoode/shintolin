@@ -63,8 +63,12 @@ module.exports = (app) ->
         commands.xp req.character, gives.xp.wanderer ? 0, gives.xp.herbalist ? 0, gives.xp.crafter ? 0, gives.xp.warrior ? 0, cb
       , (cb) ->
         # notify user of success
-        # TODO: notify others?
         commands.send_message 'built', req.character, req.character,
+          building: building.id
+        , cb
+      , (cb) ->
+        # notify others of success
+        commands.broadcast_message 'built_nearby', req.character, [req.character],
           building: building.id
         , cb
     ], (err) ->

@@ -4,6 +4,7 @@ queries = require '../../queries'
 settlement_radius = 20
 minimum_huts = 3
 hut_radius = 2
+settlement_name_format = /^\w+(\s\w+)*$/
 
 module.exports = (app) ->
 
@@ -33,14 +34,12 @@ module.exports = (app) ->
       return next('There are settlements too close.') if totems > 0
       return next('There are not enough huts nearby.') if huts < minimum_huts
       return next('There is already a building here.') if req.tile.building?
-
-      #TODO: validate settlement name length and format
-      #TODO: validate settlement name uniqueness
+      return next('Invalid settlement name.') unless settlement_name_format.test req.body.name
+      return next('Settlement name not long enough.') unless req.body.name.length >= 2
 
       building = data.buildings.totem
 
       takes = building.takes req.character, req.tile
-      gives = building.gives req.character, req.tile
       return next('Insufficient AP') unless req.character.ap >= takes.ap
 
       if takes.tools?
@@ -55,8 +54,16 @@ module.exports = (app) ->
       items_to_take = []
       items_to_take.push item: key, count: value for key, value of takes.items
 
+      settlement = null
       async.series [
         (cb) ->
+          # validate settlement name uniqueness
+          queries.all_settlements (err, settlements) ->
+            return cb(err) if err?
+            return cb('Settlement name already in use.') if _.some(settlements, (s) ->
+              s.name.toLowerCase() is req.body.toLowerCase())
+            cb()
+        , (cb) ->
           # take items from inventory
           take_item = (item, cb) ->
             commands.remove_item req.character, data.items[item.item], item.count, cb
@@ -74,16 +81,22 @@ module.exports = (app) ->
               hp: building.hp
           db.tiles.update query, update, cb
         , (cb) ->
-          #TODO: create settlement
-          cb()
-        , (cb) ->
-          # grant xp
-          commands.xp req.character, gives.xp.wanderer ? 0, gives.xp.herbalist ? 0, gives.xp.crafter ? 0, gives.xp.warrior ? 0, cb
+          # create settlement
+          commands.create_settlement req.character, req.tile, req.body.name, (err, s) ->
+            return cb(err) if err?
+            settlement = s
+            cb()
         , (cb) ->
           # notify user of success
-          # TODO: notify others
-          commands.send_message 'built', req.character, req.character,
-            building: building.id
+          commands.send_message 'settled', req.character, req.character,
+            settlement_id: settlement._id
+            name: settlement.name
+          , cb
+        , (cb) ->
+          # notify others of success
+          commands.broadcast_message 'settled_nearby', req.character, [req.character],
+            settlement_id: settlement._id
+            name: settlement.name
           , cb
       ], (err) ->
         return next(err) if err?

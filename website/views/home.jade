@@ -21,9 +21,9 @@ html
         tr
           td
             .beigebox(style='width: 15em')
-              b Settlements: #{settlements}
+              b Settlements: #{settlement_count}
               br
-              b Map: #{squares} squares
+              b Map: #{square_count} squares
             .beigebox(style='width: 15em; margin-top: 4px')
               b Sign in:
               hr
@@ -92,12 +92,14 @@ html
                 | Re-enter password:
                 br
                 input.text(type='password', name='password_2', length='20')
-                br
-                | Settlement (optional, and can be changed later):
-                br
-                select(name='settlement', style='width: 10em')
-                  option(value='0') None
-                  option(value='1') ???
+                if settlement_count > 0
+                  br
+                  | Settlement (optional, and can be changed later):
+                  br
+                  select(name='settlement', style='width: 10em')
+                    option(value='') None
+                    for settlement in settlements
+                      option(value=settlement._id)= settlement.name
                 hr
                 input(type='submit', value='Sign Up Now!')
       i Now that enough money was donated to buy a new server, Shintolin is no longer taking donations. A big thank you to everyone who gave money, very much appreciated.

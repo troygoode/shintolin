@@ -1,6 +1,7 @@
+db = require '../db'
+
 module.exports = (id, cb) ->
-  #TODO: implement
-  cb null,
-    _id: id
-    x: 0
-    y: 0
+  _id = new db.ObjectId(id)
+  query =
+    _id: _id
+  db.settlements.findOne query, cb
