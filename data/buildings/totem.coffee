@@ -8,3 +8,6 @@ module.exports =
     ap: 30
     items:
       log: 1
+
+  build: (req, res, next) ->
+    res.redirect '/game/settle'

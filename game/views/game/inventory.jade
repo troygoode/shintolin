@@ -16,7 +16,7 @@
   if character.items.length === 0
     p: i Nothing.
   else
-    - var sorted_items = _.sortBy(character.items, function(i){ return data.items[i.item].weight * i.count; }).reverse();
+    - var sorted_items = _.sortBy(character.items, function(i){ return data.items[i.item].name});
     for item in sorted_items
       if item.count === 1
         div 1 x #{data.items[item.item].name}

@@ -11,6 +11,7 @@ module.exports =
   characters: db.collection 'characters'
   chat_messages: db.collection 'chat_messages'
   tiles: db.collection 'tiles'
+  settlements: db.collection 'settlements'
 
   register_index: (collection, index, options) ->
     indexes.push

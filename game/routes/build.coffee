@@ -11,6 +11,8 @@ module.exports = (app) ->
     building = data.buildings[req.param('building')]
     return next('Invalid Building') unless building?
 
+    return building.build(req, res, next) if building.build?
+
     return next('There is already a building here.') if req.tile.building?
 
     takes = building.takes req.character, req.tile
