@@ -11,8 +11,12 @@ module.exports = (app) ->
 
     takes = recipe.takes req.character
     gives = recipe.gives req.character
-
     return next('Insufficient AP') unless req.character.ap >= takes.ap
+
+    if takes.tools?
+      for tool in takes.tools
+        unless _.some(req.character.items, (i) -> i.item is tool)
+          return next("You must have a #{tool} to craft that.")
 
     items_to_take = []
     items_to_take.push item: key, count: value for key, value of takes.items

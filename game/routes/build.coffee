@@ -6,6 +6,8 @@ mw = require '../middleware'
 
 module.exports = (app) ->
   app.post '/build', mw.not_dazed, (req, res, next) ->
+    return next('Xyzzy shenanigans') if req.tile.z isnt 0 # no building huts inside of huts :-)
+
     building = data.buildings[req.param('building')]
     return next('Invalid Building') unless building?
 
@@ -14,6 +16,11 @@ module.exports = (app) ->
     takes = building.takes req.character, req.tile
     gives = building.gives req.character, req.tile
     return next('Insufficient AP') unless req.character.ap >= takes.ap
+
+    if takes.tools?
+      for tool in takes.tools
+        unless _.some(req.character.items, (i) -> i.item is tool)
+          return next("You must have a #{tool} to build that.")
 
     terrain = data.terrains[req.tile.terrain]
     return next('Nothing can be built here.') unless terrain.buildable?

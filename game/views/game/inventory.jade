@@ -16,12 +16,12 @@
   if character.items.length === 0
     p: i Nothing.
   else
-    for item in character.items
+    - var sorted_items = _.sortBy(character.items, function(i){ return data.items[i.item].weight * i.count; }).reverse();
+    for item in sorted_items
       if item.count === 1
         div 1 x #{data.items[item.item].name}
       else
         div #{item.count} x #{data.items[item.item].plural}
-  if character.items.length > 0
     hr
     form(method='POST', action='/game/drop')
       input(type='hidden', name='_csrf', value=csrf)
@@ -35,7 +35,7 @@
           for i in range
             option(value=i + 1)= i + 1
       select(name='item', style='width: 10em')
-        for item in character.items
+        for item in sorted_items
           if item.count === 1
             option(value=item.item)= data.items[item.item].name
           else

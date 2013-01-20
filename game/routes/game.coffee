@@ -95,6 +95,7 @@ visit_recipe = (recipe, character, tile) ->
   name: recipe.name
   ap: takes.ap
   items: items
+  tools: takes.tools
 
 visit_building = (building, character, tile) ->
   takes = building.takes(character, tile)
@@ -104,6 +105,7 @@ visit_building = (building, character, tile) ->
   name: building.name
   ap: takes.ap
   items: items
+  tools: takes.tools
 
 module.exports = (app) ->
   app.get '/', (req, res, next) ->

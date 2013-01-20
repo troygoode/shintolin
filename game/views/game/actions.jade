@@ -33,6 +33,9 @@
       for recipe in recipes
         option(value=recipe.id)= recipe.name
           |  (#{recipe.ap}ap
+          if recipe.tools
+            for item in recipe.tools
+              | , #{data.items[item].name}
           for item in recipe.items
             | , #{item.count} x #{data.items[item.item].name}
           | )
