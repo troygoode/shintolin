@@ -34,12 +34,14 @@ module.exports = (app) ->
         queries.buildings_in_radius req.tile, hut_radius, data.buildings.hut, cb
     ], (err, [totems, huts]) ->
       return next(err) if err?
+      return next('You must provide a name for your new settlement.') unless req.body.name?.length
+      return next('Settlement name not long enough.') unless req.body.name.length >= 2
+      return next('Settlement name too long.') unless req.body.name.length <= 24
       return next('You must leave your current settlement before starting a new one.') if req.character.settlement_id?
       return next('There are settlements too close.') if totems > 0
       return next('There are not enough huts nearby.') if huts < minimum_huts
       return next('There is already a building here.') if req.tile.building?
       return next('Invalid settlement name.') unless settlement_name_format.test req.body.name
-      return next('Settlement name not long enough.') unless req.body.name.length >= 2
 
       building = data.buildings.totem
 
@@ -65,7 +67,7 @@ module.exports = (app) ->
           queries.all_settlements (err, settlements) ->
             return cb(err) if err?
             return cb('Settlement name already in use.') if _.some(settlements, (s) ->
-              s.name.toLowerCase() is req.body.toLowerCase())
+              s.name.toLowerCase() is req.body.name.toLowerCase())
             cb()
         , (cb) ->
           # take items from inventory
