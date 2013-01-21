@@ -1,5 +1,4 @@
 async = require 'async'
-db = require '../../db'
 commands = require '../../commands'
 data = require '../../data'
 mw = require '../middleware'
@@ -42,13 +41,7 @@ module.exports = (app) ->
         commands.charge_ap req.character, takes.ap, cb
       , (cb) ->
         # update current tile
-        query =
-          _id: req.tile._id
-        update =
-          $set:
-            building: building.id
-            hp: building.hp
-        db.tiles.update query, update, cb
+        commands.add_building_to_tile req.tile, building, cb
       , (cb) ->
         # create interior tile
         # TODO: should the interior tile know what kind of building it is?
@@ -68,7 +61,7 @@ module.exports = (app) ->
         , cb
       , (cb) ->
         # notify others of success
-        commands.broadcast_message 'built_nearby', req.character, [req.character],
+        commands.send_message_nearby 'built_nearby', req.character, [req.character],
           building: building.id
         , cb
     ], (err) ->

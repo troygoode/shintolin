@@ -5,9 +5,9 @@ queries = require '../queries'
 
 module.exports = (type, sender, blacklist = [], message = {}, cb) ->
   now = new Date()
-  queries.all_characters (err, characters) ->
+  queries.get_tile_by_coords sender, (err, tile) ->
     return cb(err) if err?
-    async.forEach characters, (actor, cb) ->
+    async.forEach tile.people, (actor, cb) ->
       blacklisted = _.some blacklist, (a) ->
         a._id.toString() is actor._id.toString()
       if blacklisted

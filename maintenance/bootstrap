@@ -1,35 +1,84 @@
 #!/usr/bin/env coffee
 
 async = require 'async'
+Mongolian = require 'mongolian'
+config = require '../config'
 commands = require '../commands'
-
+queries = require '../queries'
+data = require '../data'
 settlement =
   _id: null
   x: 0
   y: 0
+characters = ['Ecce', 'Deschain', 'TroyMG']
+tiles = [
+  {x: -1, y: -1, terrain: 'grassland'}
+  {x: 0, y: -1, terrain: 'grassland'}
+  {x: 1, y: -1, terrain: 'grassland'}
+  {x: -1, y: 0, terrain: 'grassland'}
+  {x: 0, y: 0, terrain: 'grassland'}
+  {x: 1, y: 0, terrain: 'grassland'}
+  {x: -1, y: 1, terrain: 'forest'}
+  {x: 0, y: 1, terrain: 'grassland'}
+  {x: 1, y: 1, terrain: 'low_hillside'}
+]
+buildings = [
+  {x: -1, y: 0, building: data.buildings.hut}
+  {x: 0, y: -1, building: data.buildings.hut}
+  {x: 1, y: 0, building: data.buildings.hut}
+]
+items = [
+  {to: 'Ecce', item: data.items.handaxe}
+  {to: 'Ecce', item: data.items.log}
+]
 
 async.series [
   (cb) ->
-    commands.create_character 'Ecce', 'troygoode@gmail.com', 'password', settlement, (err, c) ->
-      if err?
-        console.log err
-      else
-        console.log "Created character #{c.name}."
+    # DROP DATABASE!!!
+    _db = new Mongolian config.mongo_uri
+    _db.dropDatabase (err) ->
+      return cb(err) if err?
+      console.log "Database dropped."
       cb()
   , (cb) ->
-    commands.create_character 'Deschain', 'troygoode+deschain@gmail.com', 'password', settlement, (err, c) ->
-      if err?
-        console.log err
-      else
-        console.log "Created character #{c.name}."
-      cb()
+    async.forEachSeries tiles, (t, cb) ->
+      commands.create_tile {x: t.x, y: t.y, z: 0}, t.terrain, (err, t) ->
+        return cb(err) if err?
+        console.log "Created #{t.terrain} tile at #{t.x},#{t.y},#{t.z}."
+        cb()
+    , cb
   , (cb) ->
-    commands.create_character 'TroyMG', 'troygoode+troymg@gmail.com', 'password', settlement, (err, c) ->
-      if err?
-        console.log err
-      else
+    async.forEachSeries characters, (c, cb) ->
+      commands.create_character c, "#{c.toLowerCase()}@example.com", 'password', settlement, (err, c) ->
+        return cb(err) if err?
         console.log "Created character #{c.name}."
-      cb()
+        cb()
+    , cb
+  , (cb) ->
+    async.forEachSeries buildings, (b, cb) ->
+      queries.get_tile_by_coords {x: b.x, y: b.y, z: 0}, (err, tile) ->
+        return cb(err) if err?
+        commands.add_building_to_tile tile, b.building, (err) ->
+          return cb(err) if err?
+          console.log "Built a #{b.building.name} at #{tile.x},#{tile.y},#{tile.z}."
+          cb()
+    , cb
+  , (cb) ->
+    async.forEachSeries items, (i, cb) ->
+      queries.get_character_by_name i.to, (err, character) ->
+        return cb(err) if err?
+        count = i.count ? 1
+        commands.add_item character, i.item, count, (err) ->
+          return cb(err) if err?
+          if count is 1
+            console.log "Gave a #{i.item.name} to #{character.name}."
+          else
+            console.log "Gave #{count}x #{i.item.plural} to #{character.name}."
+          cb()
+    , cb
 ], (err) ->
-  console.log 'Bootstrap complete.'
+  if err?
+    console.log err
+  else
+    console.log 'Bootstrap complete.'
   process.exit()

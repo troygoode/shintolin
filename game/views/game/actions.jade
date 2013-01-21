@@ -68,6 +68,11 @@
       for c in center.people
         option(value=c._id)= c.name
 
+  if center.tile.settlement_id && center.building && center.building.id === 'totem' && (!character.settlement_id || center.tile.settlement_id.toString() !== character.settlement_id.toString())
+    form(method='POST', action='/game/join')
+      input(type='hidden', name='_csrf', value=csrf)
+      input(type='submit', value='Join Settlement (25ap)', data-action='join')
+
   if center.terrain.chop
     form(method='POST', action='/game/chop')
       input(type='hidden', name='_csrf', value=csrf)

@@ -101,7 +101,6 @@ module.exports = (app) ->
           , cb
         , (cb) ->
           # notify others of success
-          #TODO: make this a game-wide broadcast
           commands.broadcast_message 'settled_nearby', req.character, [req.character],
             settlement_id: settlement._id
             name: settlement.name

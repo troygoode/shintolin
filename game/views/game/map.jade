@@ -8,7 +8,8 @@
     for row in grid
       tr
         for tile in row
-          td.map(class='tile-#{tile.terrain.style}')
+          - var is_center = tile.tile._id && tile.tile._id.toString() === center.tile._id.toString();
+          td.map(class='tile-#{tile.terrain.style} #{is_center ? "current" : null}')
             if tile.direction && !tile.terrain.blocked && center.tile.z === 0
               form(method='post', action='/game/move/' + tile.direction)
                 input(type='hidden', name='_csrf', value=csrf)
@@ -16,7 +17,7 @@
                   input.movebutton(type='submit', value='#{tile.direction.toUpperCase()}: #{tile.cost}', data-direction='#{tile.direction}')
                 else
                   input.movebutton(type='submit', value=tile.direction.toUpperCase(), data-direction='#{tile.direction}')
-            if tile.tile._id && tile.tile._id.toString() === center.tile._id.toString()
+            if is_center
               if tile.tile.z === 1
                 form(method='post', action='/game/move/exit')
                   input(type='hidden', name='_csrf', value=csrf)

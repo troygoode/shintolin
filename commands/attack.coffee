@@ -1,7 +1,7 @@
 async = require 'async'
 db = require '../db'
 send_message = require './send_message'
-broadcast_message = require './broadcast_message'
+send_message_nearby = require './send_message_nearby'
 
 #TODO: handle item breakage
 #TODO: handle attacking animals
@@ -80,7 +80,7 @@ notify_nearby_hit = (attacker, target, weapon, damage) ->
   (cb) ->
     kill = damage >= target.hp
     frags = if kill then calculate_frags(target) else 0
-    broadcast_message 'attack_nearby', attacker, [attacker, target],
+    send_message_nearby 'attack_nearby', attacker, [attacker, target],
       weapon: weapon.id
       target_id: target._id
       target_name: target.name
@@ -107,7 +107,7 @@ notify_target_miss = (attacker, target, weapon) ->
 
 notify_nearby_miss = (attacker, target, weapon) ->
   (cb) ->
-    broadcast_message 'attack_nearby', attacker, [attacker, target],
+    send_message_nearby 'attack_nearby', attacker, [attacker, target],
       weapon: weapon.id
       target_id: target._id
       target_name: target.name

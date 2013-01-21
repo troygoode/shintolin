@@ -1,7 +1,7 @@
 _ = require 'underscore'
 db = require '../db'
 
-module.exports = (type, sender, recipient, message, cb) ->
+module.exports = (type, sender, recipient, message = {}, cb) ->
   m = _.extend
     type: type
     sender_name: sender.name

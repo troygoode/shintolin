@@ -59,6 +59,7 @@ visit_tile = (tile, center, character) ->
   retval =
     tile: tile
     terrain: data.terrains[tile.terrain]
+    building: data.buildings[tile.building] if tile.building?
     people: tile.people?.filter (p) ->
       p._id.toString() isnt character._id.toString()
   if center?
