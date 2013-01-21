@@ -148,7 +148,7 @@ html
           td: b Name
           td: b Region
           td: b Population
-        for s, i in newtowns
+        for s, i in bigtowns
           tr
             td= i + 1
             td: a(href='/settlements/#{s.slug}')= s.name
