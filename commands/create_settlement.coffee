@@ -42,6 +42,7 @@ module.exports = (character, center, name, cb) ->
             _id: character._id
             name: character.name
             slug: character.slug
+            joined: now
             voting_for:
               _id: character._id
               name: character.name

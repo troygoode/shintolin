@@ -3,7 +3,9 @@ db = require '../db'
 send_message = require './send_message'
 send_message_settlement = require './send_message_settlement'
 
-update_settlement = (character, settlement, cb) ->
+#TODO: if you're the now the only member, make yourself leader automatically
+
+update_settlement = (character, settlement, now, cb) ->
   query =
     _id = settlement._id
   update =
@@ -14,6 +16,7 @@ update_settlement = (character, settlement, cb) ->
         _id: character._id
         name: character.name
         slug: character.slug
+        joined: now
   db.settlements.update query, update, cb
 
 update_character = (character, settlement, now, cb) ->
@@ -49,7 +52,7 @@ module.exports = (character, settlement, cb) ->
     (cb) ->
       update_character character, settlement, now, cb
     , (cb) ->
-      update_settlement character, settlement, cb
+      update_settlement character, settlement, now, cb
     , (cb) ->
       notify_joiner character, settlement, cb
     , (cb) ->
