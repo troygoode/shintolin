@@ -1,0 +1,4 @@
+.action
+  | <a href='/profile/#{msg.sender_slug}'>#{msg.sender_name}</a>
+  |  has joined the settlement of <a href='/settlements/#{msg.settlement_slug}'>#{msg.settlement_name}</a>. 
+  span.time= moment(msg.sent).fromNow()

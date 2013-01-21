@@ -1,5 +1,6 @@
 async = require 'async'
 db = require '../db'
+send_message = require './send_message'
 send_message_settlement = require './send_message_settlement'
 
 update_settlement = (character, settlement, cb) ->
@@ -26,8 +27,19 @@ update_character = (character, settlement, now, cb) ->
       settlement_joined: now
   db.characters.update query, update, cb
 
+notify_joiner = (character, settlement, cb) ->
+  send_message 'join', character, character,
+    settlement_id: settlement._id
+    settlement_name: settlement.name
+    settlement_slug: settlement.slug
+  , cb
+
 notify_members = (character, settlement, cb) ->
-  send_message_settlement 'join', character, settlement, [character], {}, cb
+  send_message_settlement 'join_nearby', character, settlement, [character],
+    settlement_id: settlement._id
+    settlement_name: settlement.name
+    settlement_slug: settlement.slug
+  , cb
 
 module.exports = (character, settlement, cb) ->
   return cb('No character passed.') unless character?
@@ -38,6 +50,8 @@ module.exports = (character, settlement, cb) ->
       update_character character, settlement, now, cb
     , (cb) ->
       update_settlement character, settlement, cb
+    , (cb) ->
+      notify_joiner character, settlement, cb
     , (cb) ->
       notify_members character, settlement, cb
   ], cb
