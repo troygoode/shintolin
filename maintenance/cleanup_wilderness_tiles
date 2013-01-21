@@ -1,0 +1,14 @@
+#!/usr/bin/env coffee
+
+db = require '../db'
+
+query =
+  terrain: 'wilderness'
+  people: {$size: 0}
+
+db.tiles.remove query, (err, tiles) ->
+  if err?
+    console.log err
+  else
+    console.log "Remove #{tiles} unused tiles."
+  process.exit()
