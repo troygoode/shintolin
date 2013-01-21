@@ -13,6 +13,23 @@ html
             .beigebox(style='font-style: italic; width: 35em')= character.bio
           else
             .beigebox(style='font-style: italic; width: 35em') A rather non-descript individual.
+        if editable
+          td(rowspan='2')
+            .beigebox(style='width: 25em')
+              form(method='POST')
+                | Edit description:
+                br
+                textarea(rows='7', cols='36', name='bio')= character.bio
+                br
+                br
+                hr
+                | Update image <i>(Enter image URL):</i>
+                br
+                input.text(type='text', name='image_url', maxlength='100', style='width: 300px', value=character.image_url)
+                br
+                i Images must be hosted on external sites. Offensive content will be removed.
+                hr
+                input(type='submit', value='Submit')
       tr
         td
           .beigebox

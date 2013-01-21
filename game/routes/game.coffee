@@ -5,7 +5,7 @@ queries = require '../../queries'
 data = require '../../data'
 
 character_link = (character) ->
-  "<a href='/profile/#{character._id}'>#{character.name}</a>"
+  "<a href='/profile/#{character.slug}'>#{character.name}</a>"
 
 describe_list = (arr) ->
   if arr.length is 1
