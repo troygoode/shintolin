@@ -7,10 +7,12 @@ html
     h1.header= character.name
 
     table
-      if character.bio.length
-        tr
-          td(colspan='2')
+      tr
+        td(colspan='2')
+          if character.bio.length
             .beigebox(style='font-style: italic; width: 35em')= character.bio
+          else
+            .beigebox(style='font-style: italic; width: 35em') A rather non-descript individual.
       tr
         td
           .beigebox
@@ -42,8 +44,11 @@ html
               tr
                 td: b Revives:
                 td= character.revives
-        if character.image_url.length
-          td: img(style='max-width: 300px; max-height: 300px;', alt='Portrait of #{character.name}', src=character.image_url)
+        td
+          if character.image_url.length
+            img(style='max-width: 300px; max-height: 300px;', alt='portrait of #{character.name}', src=character.image_url)
+          else
+            img(style='max-width: 300px; max-height: 300px;', alt='portrait of #{character.name}', src='/images/cave_art.jpg')
     hr
     if logged_in
       a.buttonlink(href='/game') Return
