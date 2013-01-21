@@ -3,42 +3,46 @@ db = require '../db'
 send_message = require './send_message'
 send_message_settlement = require './send_message_settlement'
 
-#TODO: if you're the now the only member, make yourself leader automatically
-
-update_settlement = (character, settlement, now, cb) ->
+update_settlement = (character, settlement, cb) ->
   query =
     _id: settlement._id
   update =
     $inc:
-      population: 1
-    $push:
+      population: -1
+    $pull:
       members:
         _id: character._id
-        name: character.name
-        slug: character.slug
-        joined: now
   db.settlements.update query, update, cb
 
-update_character = (character, settlement, now, cb) ->
+remove_invalid_votes = (character, settlement, cb) ->
+  query =
+    _id: settlement._id
+    'members.voting_for._id': character._id
+  update =
+    $unset:
+      'members.$.voting_for': 1
+  db.settlements.update query, update, cb
+
+update_character = (character, settlement, cb) ->
   query =
     _id: character._id
   update =
-    $set:
-      settlement_id: settlement._id
-      settlement_name: settlement.name
-      settlement_slug: settlement.slug
-      settlement_joined: now
+    $unset:
+      settlement_id: 1
+      settlement_name: 1
+      settlement_slug: 1
+      settlement_joined: 1
   db.characters.update query, update, cb
 
-notify_joiner = (character, settlement, cb) ->
-  send_message 'join', character, character,
+notify_leaver = (character, settlement, cb) ->
+  send_message 'left', character, character,
     settlement_id: settlement._id
     settlement_name: settlement.name
     settlement_slug: settlement.slug
   , cb
 
 notify_members = (character, settlement, cb) ->
-  send_message_settlement 'join_nearby', character, settlement, [character],
+  send_message_settlement 'left_nearby', character, settlement, [character],
     settlement_id: settlement._id
     settlement_name: settlement.name
     settlement_slug: settlement.slug
@@ -47,14 +51,15 @@ notify_members = (character, settlement, cb) ->
 module.exports = (character, settlement, cb) ->
   return cb('No character passed.') unless character?
   return cb('No settlement passed.') unless settlement?
-  now = new Date()
   async.series [
     (cb) ->
-      update_character character, settlement, now, cb
+      update_character character, settlement, cb
     , (cb) ->
-      update_settlement character, settlement, now, cb
+      remove_invalid_votes character, settlement, cb
     , (cb) ->
-      notify_joiner character, settlement, cb
+      update_settlement character, settlement, cb
+    , (cb) ->
+      notify_leaver character, settlement, cb
     , (cb) ->
       notify_members character, settlement, cb
   ], cb
