@@ -1,0 +1,17 @@
+#!/usr/bin/env coffee
+
+db = require '../db'
+days = 365
+
+cutoff = new Date()
+cutoff.setDate(cutoff.getDate() - days)
+
+query =
+  sent: {$lt: cutoff}
+
+db.chat_messages.remove query, (err, messages) ->
+  if err?
+    console.log err
+  else
+    console.log "Removed #{messages} old messages."
+  process.exit()

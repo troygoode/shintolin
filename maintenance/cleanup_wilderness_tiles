@@ -10,5 +10,5 @@ db.tiles.remove query, (err, tiles) ->
   if err?
     console.log err
   else
-    console.log "Remove #{tiles} unused tiles."
+    console.log "Removed #{tiles} unused tiles."
   process.exit()
