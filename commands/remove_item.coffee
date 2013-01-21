@@ -18,7 +18,6 @@ module.exports = (character, item, count, cb) ->
       $pull:
         items:
           item: item.id
-          count: current_count
       $inc:
         weight: 0 - (item.weight * count)
     db.characters.update query, update, false, true, cb
