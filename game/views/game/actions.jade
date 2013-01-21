@@ -68,6 +68,21 @@
       for c in center.people
         option(value=c._id)= c.name
 
+  if settlement && character.settlement_id && settlement._id.toString() === character.settlement_id.toString()
+    - var my_member_record = _.find(settlement.members, function(m){ return m._id.toString() === character._id.toString(); });
+    form(method='POST', action='/game/vote')
+      input(type='hidden', name='_csrf', value=csrf)
+      input(type='submit', value='Vote For', data-action='vote')
+      select(name='character', style='width: 10em', data-persist='member', data-action-focus='vote')
+        option(value='') no-one
+        for c in settlement.members
+          if my_member_record.voting_for && my_member_record.voting_for._id.toString() === c._id.toString()
+            option(value=c._id, selected='selected')= c.name
+          else
+            option(value=c._id)= c.name
+    if my_member_record.voting_for
+      | Current Vote: <a href='/profile/#{my_member_record.voting_for.slug}'>#{my_member_record.voting_for.name}</a>
+
   if center.tile.settlement_id && center.building && center.building.id === 'totem' && (!character.settlement_id || center.tile.settlement_id.toString() !== character.settlement_id.toString())
     form(method='POST', action='/game/join')
       input(type='hidden', name='_csrf', value=csrf)

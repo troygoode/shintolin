@@ -118,7 +118,12 @@ module.exports = (app) ->
         queries.tiles_in_square_around req.character, 3, cb
       , (cb) ->
         queries.latest_chat_messages req.character, 0, 12, cb
-    ], (err, [tiles, messages]) ->
+      , (cb) ->
+        if req.tile.building is 'totem'
+          queries.get_settlement req.tile.settlement_id.toString(), cb
+        else
+          cb null, null
+    ], (err, [tiles, messages, settlement]) ->
       return next(err) if err?
       center = get_center tiles, req.character
       weapons = []
@@ -136,6 +141,7 @@ module.exports = (app) ->
         time: req.time
         data: data
         weapons: weapons
+        settlement: settlement
         recipes: visit_recipe recipe, req.character, center for key, recipe of data.recipes
         buildings: visit_building building, req.character, center for key, building of data.buildings
       for row, i in locals.grid

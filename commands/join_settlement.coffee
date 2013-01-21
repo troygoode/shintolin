@@ -7,7 +7,7 @@ send_message_settlement = require './send_message_settlement'
 
 update_settlement = (character, settlement, now, cb) ->
   query =
-    _id = settlement._id
+    _id: settlement._id
   update =
     $inc:
       population: 1
@@ -45,6 +45,8 @@ notify_members = (character, settlement, cb) ->
   , cb
 
 module.exports = (character, settlement, cb) ->
+  console.log character
+  console.log settlement
   return cb('No character passed.') unless character?
   return cb('No settlement passed.') unless settlement?
   now = new Date()
