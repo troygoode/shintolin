@@ -1,0 +1,31 @@
+!!! 5
+html
+  head
+    title Shintolin - Chat Log
+    link(rel='stylesheet', type='text/css', href='/shintolin.css')
+    !=css('game')
+  body
+    h1.header Chat Log
+    a.buttonlink(href='/game') Return
+    hr
+    if page > 0
+      a.buttonlink(href='/game/chat?page=#{page - 1}') &larr; Newer
+    else
+      a.disabled.buttonlink(disabled='disabled') &larr; Newer
+    if messages.length === page_size
+      a.buttonlink(href='/game/chat?page=#{page + 1}') Older &rarr;
+    else
+      a.disabled.buttonlink(disabled='disabled') Older &rarr;
+    hr
+    include game/chat
+    hr
+    if page > 0
+      a.buttonlink(href='/game/chat?page=#{page - 1}') &larr; Newer
+    else
+      a.disabled.buttonlink(disabled='disabled') &larr; Newer
+    if messages.length === page_size
+      a.buttonlink(href='/game/chat?page=#{page + 1}') Older &rarr;
+    else
+      a.disabled.buttonlink(disabled='disabled') Older &rarr;
+    hr
+    a.buttonlink(href='/game') Return

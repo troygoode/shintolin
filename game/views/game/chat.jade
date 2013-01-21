@@ -1,6 +1,6 @@
-if action_messages.length
-  .gamebox.msgbox
-    for msg in action_messages
+.gamebox.msgbox
+  if messages.length
+    for msg in messages
       case msg.type
         when 'attack'
           include chat/attack
@@ -22,6 +22,11 @@ if action_messages.length
           include chat/search
         when 'settled'
           include chat/settled
+        when 'social'
+          div
+            a.neutral(href='/profile/#{msg.sender_id}')= msg.sender_name
+            | : #{msg.text} 
+            span.time= moment(msg.sent).fromNow()
         when 'settled_nearby'
           include chat/settled_nearby
         default
@@ -29,18 +34,5 @@ if action_messages.length
             a.neutral(href='/profile/#{msg.sender_id}')= msg.sender_name
             i  ??? (#{msg.type}) ??? 
             span.time= moment(msg.sent).fromNow()
-.gamebox
-  b Chat:
-  .chatbox
-    for msg in chat_messages
-      div
-        a.neutral(href='/profile/#{msg.sender_id}')= msg.sender_name
-        | : #{msg.text} 
-        span.time= moment(msg.sent).fromNow()
-    center
-      br
-      a.buttonlink(href='/game/chat') Chat page
-  form(method='POST', action='/game/chat')
-    input(type='hidden', name='_csrf', value=csrf)
-    input(type='submit', value='Chat')
-    input.text(type='text', name='text', maxlength='200', style='width: 300px')
+    unless locals.suppress_more_link
+      a.buttonlink(href='/game/chat') More...

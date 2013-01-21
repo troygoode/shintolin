@@ -116,14 +116,10 @@ module.exports = (app) ->
       (cb) ->
         queries.tiles_in_square_around req.character, 3, cb
       , (cb) ->
-        queries.latest_chat_messages req.character, cb
+        queries.latest_chat_messages req.character, 0, 12, cb
     ], (err, [tiles, messages]) ->
       return next(err) if err?
       center = get_center tiles, req.character
-      action_messages = messages.filter (msg) ->
-        msg.type isnt 'social'
-      chat_messages = messages.filter (msg) ->
-        msg.type is 'social'
       weapons = []
       weapons = req.character.items.filter (i) ->
         type = data.items[i.item]
@@ -135,8 +131,7 @@ module.exports = (app) ->
         character: req.character
         grid: build_grid tiles, req.character
         center: center
-        action_messages: action_messages
-        chat_messages: chat_messages
+        messages: messages
         time: req.time
         data: data
         weapons: weapons

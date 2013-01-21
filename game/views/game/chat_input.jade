@@ -1,0 +1,5 @@
+.gamebox
+  form(method='POST', action='/game/chat')
+    input(type='hidden', name='_csrf', value=csrf)
+    input(type='submit', value='Chat')
+    input.text(type='text', name='text', maxlength='200', style='width: 300px')
