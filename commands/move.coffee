@@ -122,9 +122,5 @@ module.exports = (character, direction, cb) ->
           $pull:
             people:
               _id: character._id
-              name: {$exists: true}
-              slug: {$exists: true}
-              hp: {$exists: true}
-              hp_max: {$exists: true}
         db.tiles.update query, update, false, true, cb
     ], cb
