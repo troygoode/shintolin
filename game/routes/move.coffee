@@ -16,6 +16,7 @@ module.exports = (app) ->
       res.redirect '/game'
 
   app.post '/move/:direction', (req, res, next) ->
+    return next('Invalid Direction') unless req.tile.z is 0
     commands.move req.character, req.param('direction'), (err) ->
       return next(err) if err?
       res.redirect '/game'

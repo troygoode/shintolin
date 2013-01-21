@@ -9,7 +9,7 @@
       tr
         for tile in row
           td.map(class='tile-#{tile.terrain.style}')
-            if tile.direction && !tile.terrain.blocked
+            if tile.direction && !tile.terrain.blocked && center.tile.z === 0
               form(method='post', action='/game/move/' + tile.direction)
                 input(type='hidden', name='_csrf', value=csrf)
                 if tile.cost > 1
