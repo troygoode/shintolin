@@ -24,53 +24,45 @@ html
         if editable
           td(rowspan='3')
             .beigebox(style='width: 28em')
-              b Welcome, my #{settlement.leader_title}.
-              hr
               form(method='POST')
+                b Welcome, my #{settlement.leader_title}.
+                hr
                 | Edit description:
                 br
                 textarea(rows='5', cols='40', name='description')= settlement.description
-                br
-                br
-                input(type='submit', value='Submit')
-              hr
-              form(method='POST')
-                | Edit name:
-                br
-                input.text(type='text', name='name', maxlength='32', style='width: 300px', value=settlement.name)
-                input(type='submit', value='Submit')
-              form(method='POST')
-                | Update image <i>(Enter image URL):</i>
-                br
-                input.text(type='text', name='image_url', maxlength='100', style='width: 300px', value=settlement.image_url)
-                input(type='submit', value='Submit')
-                br
-                i Images must be hosted on external sites. Offensive content will be removed.
-              form(method='POST')
-                | Edit motto:
-                br
-                input.text(type='text', name='motto', maxlength='100', style='width: 300px', value=settlement.motto)
-                input(type='submit', value='Submit')
-              form(method='POST')
-                | Edit Leader Title:
-                br
-                input.text(type='text', name='leader_title', maxlength='20', style='width: 300px', value=settlement.leader_title)
-                input(type='submit', value='Submit')
-              form(method='POST')
-                | Update website <i>(Enter website URL):</i>
-                br
-                input.text(type='text', name='website_url', maxlength='100', style='width: 300px', value=settlement.website_url)
-                input(type='submit', value='Submit')
-              if settlement.open
-                | #{settlement.name} is open to new characters. Keep #{settlement.name} open?
-              else
-                | New characters are unable to join #{settlement.name}. Open #{settlement.name} to new players?
-              form(method='POST')
-                | Yes:
-                input(type='radio', name='open', value='true', checked=(settlement.open ? 'checked' : null))
-                | No:
-                input(type='radio', name='open', value='true', checked=(settlement.open ? null : 'checked'))
-                | &nbsp;&nbsp;
+                hr
+                div
+                  | Edit name:
+                  br
+                  input.text(type='text', name='name', maxlength='32', style='width: 300px', value=settlement.name)
+                div
+                  | Update image <i>(Enter image URL):</i>
+                  br
+                  input.text(type='text', name='image_url', maxlength='100', style='width: 300px', value=settlement.image_url)
+                  br
+                  i Images must be hosted on external sites. Offensive content will be removed.
+                div
+                  | Edit motto:
+                  br
+                  input.text(type='text', name='motto', maxlength='100', style='width: 300px', value=settlement.motto)
+                div
+                  | Edit Leader Title:
+                  br
+                  input.text(type='text', name='leader_title', maxlength='20', style='width: 300px', value=settlement.leader_title)
+                div
+                  | Update website <i>(Enter website URL):</i>
+                  br
+                  input.text(type='text', name='website_url', maxlength='100', style='width: 300px', value=settlement.website_url)
+                div
+                  if settlement.open
+                    | #{settlement.name} is open to new characters. Keep #{settlement.name} open?
+                  else
+                    | New characters are unable to join #{settlement.name}. Open #{settlement.name} to new players?
+                  | Yes:
+                  input(type='radio', name='open', value='true', checked=(settlement.open ? 'checked' : null))
+                  | No:
+                  input(type='radio', name='open', value='true', checked=(settlement.open ? null : 'checked'))
+                hr
                 input(type='submit', value='Submit')
       tr
         td

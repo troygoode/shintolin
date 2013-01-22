@@ -36,7 +36,7 @@ module.exports = (app) ->
       return next(err) if err?
       return next('You must provide a name for your new settlement.') unless req.body.name?.length
       return next('Settlement name not long enough.') unless req.body.name.length >= 2
-      return next('Settlement name too long.') unless req.body.name.length <= 24
+      return next('Settlement name too long.') unless req.body.name.length <= 32
       return next('You must leave your current settlement before starting a new one.') if req.character.settlement_id?
       return next('There are settlements too close.') if totems > 0
       return next('There are not enough huts nearby.') if huts < minimum_huts
