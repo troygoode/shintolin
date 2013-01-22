@@ -1,0 +1,79 @@
+#!/usr/bin/env coffee
+
+_ = require 'underscore'
+async = require 'async'
+db = require '../db'
+commands = require '../commands'
+
+sort_func = (m1, m2) ->
+  if m1.votes > m2.votes
+    return -1
+  else if m1.votes < m2.votes
+    return 1
+  else if m1.joined < m2.joined
+    return -1
+  else if m1.joined > m2.joined
+    return 1
+  else
+    return 0
+
+count_votes = (settlement, member) ->
+  voters = settlement.members.filter (m) ->
+    m.voting_for?._id.toString() is member._id.toString()
+  voters.length
+
+build_candidate_list = (settlement) ->
+  candidates = []
+  for member in settlement.members
+    candidates.push
+      _id: member._id
+      name: member.name
+      slug: member.slug
+      joined: member.joined
+      votes: count_votes settlement, member
+  candidates
+
+process_settlement = (settlement, cb) ->
+  candidates = build_candidate_list settlement
+  candidates.sort sort_func
+  winner = candidates[0]
+  return cb() if winner._id.toString() is settlement.leader?._id.toString()
+  console.log "#{winner.name} has defeated #{settlement.leader.name} as #{settlement.leader_title} of #{settlement.name}."
+  async.series [
+    (cb) ->
+      # update settlement
+      query =
+        _id: settlement._id
+      update =
+        $set:
+          leader:
+            _id: winner._id
+            name: winner.name
+            slug: winner.slug
+      db.settlements.update query, update, cb
+    , (cb) ->
+      # notify members
+      commands.send_message_settlement 'election', winner, settlement, [],
+        loser_id: settlement.leader?._id
+        loser_name: settlement.leader?.name
+        loser_slug: settlement.leader?.slug
+        winner_id: winner._id
+        winner_name: winner.name
+        winner_slug: winner.slug
+        settlement_id: settlement._id
+        settlement_name: settlement.name
+        settlement_slug: settlement.slug
+        leader_title: settlement.leader_title
+      , cb
+  ], cb
+
+db.settlements.find({}).toArray (err, settlements) ->
+  if err?
+    console.log err
+  else
+    async.forEach settlements, process_settlement, (err) ->
+      if err?
+        console.log err
+      else
+        console.log 'Elections complete.'
+      process.exit()

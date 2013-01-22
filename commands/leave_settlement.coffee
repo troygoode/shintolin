@@ -3,6 +3,8 @@ db = require '../db'
 send_message = require './send_message'
 send_message_settlement = require './send_message_settlement'
 
+#TODO: what if you are the leader?
+
 update_settlement = (character, settlement, cb) ->
   query =
     _id: settlement._id
