@@ -1,5 +1,7 @@
 #!/usr/bin/env coffee
 
+#TODO: only count votes for & by non-provisional members for voting purposes
+
 _ = require 'underscore'
 async = require 'async'
 db = require '../db'
