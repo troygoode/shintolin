@@ -1,11 +1,13 @@
 #!/usr/bin/env coffee
 
-#TODO: only count votes for & by non-provisional members for voting purposes
-
 _ = require 'underscore'
 async = require 'async'
 db = require '../db'
 commands = require '../commands'
+
+days_until_full_status = 1
+yesterday = new Date()
+yesterday.setDate(yesterday.getDate() - days_until_full_status)
 
 sort_func = (m1, m2) ->
   if m1.votes > m2.votes
@@ -19,9 +21,14 @@ sort_func = (m1, m2) ->
   else
     return 0
 
+is_provisional = (settlement, member) ->
+  is_leader = settlement.leader? and settlement.leader._id.toString() is member._id.toString()
+  member.joined > yesterday and not is_leader
+
 count_votes = (settlement, member) ->
+  return 0 if is_provisional settlement, member
   voters = settlement.members.filter (m) ->
-    m.voting_for?._id.toString() is member._id.toString()
+    m.voting_for?._id.toString() is member._id.toString() and not is_provisional settlement, m
   voters.length
 
 build_candidate_list = (settlement) ->
