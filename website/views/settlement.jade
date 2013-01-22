@@ -12,13 +12,66 @@ html
       tr
         td(colspan='2')
           .beigebox(style='font-style: italic; width: 35em')
-            if settlement.website.length
-              <b>Website:</b> <a href='#{settlement.website}'>#{settlement.website}</a>
+            if settlement.website_url.length
+              <b>Website:</b> <a href='#{settlement.website_url}'>#{settlement.website_url}</a>
               br
             <b>Signup link:</b> <a href='http://www.shintolin.com/?settlement=#{settlement.slug}'>http://www.shintolin.com/?settlement=#{settlement.slug}</a>
+            hr
             if settlement.description.length
+              | #{settlement.description}
+            else
+              | A village located in ???.
+        if editable
+          td(rowspan='3')
+            .beigebox(style='width: 28em')
+              b Welcome, my #{settlement.leader_title}.
               hr
-              #{settlement.description}
+              form(method='POST')
+                | Edit description:
+                br
+                textarea(rows='5', cols='40', name='description')= settlement.description
+                br
+                br
+                input(type='submit', value='Submit')
+              hr
+              form(method='POST')
+                | Edit name:
+                br
+                input.text(type='text', name='name', maxlength='32', style='width: 300px', value=settlement.name)
+                input(type='submit', value='Submit')
+              form(method='POST')
+                | Update image <i>(Enter image URL):</i>
+                br
+                input.text(type='text', name='image_url', maxlength='100', style='width: 300px', value=settlement.image_url)
+                input(type='submit', value='Submit')
+                br
+                i Images must be hosted on external sites. Offensive content will be removed.
+              form(method='POST')
+                | Edit motto:
+                br
+                input.text(type='text', name='motto', maxlength='100', style='width: 300px', value=settlement.motto)
+                input(type='submit', value='Submit')
+              form(method='POST')
+                | Edit Leader Title:
+                br
+                input.text(type='text', name='leader_title', maxlength='20', style='width: 300px', value=settlement.leader_title)
+                input(type='submit', value='Submit')
+              form(method='POST')
+                | Update website <i>(Enter website URL):</i>
+                br
+                input.text(type='text', name='website_url', maxlength='100', style='width: 300px', value=settlement.website_url)
+                input(type='submit', value='Submit')
+              if settlement.open
+                | #{settlement.name} is open to new characters. Keep #{settlement.name} open?
+              else
+                | New characters are unable to join #{settlement.name}. Open #{settlement.name} to new players?
+              form(method='POST')
+                | Yes:
+                input(type='radio', name='open', value='true', checked=(settlement.open ? 'checked' : null))
+                | No:
+                input(type='radio', name='open', value='true', checked=(settlement.open ? null : 'checked'))
+                | &nbsp;&nbsp;
+                input(type='submit', value='Submit')
       tr
         td
           .beigebox
@@ -50,8 +103,10 @@ html
                         else
                           |  (#{member.votes} votes)
         td
-          if settlement.img.length
-            img(style='max-width: 300px; max-height: 300px', src=settlement.img)
+          if settlement.image_url.length
+            img(style='max-width: 300px; max-height: 300px', src=settlement.image_url)
+          else
+            img(style='max-width: 300px; max-height: 300px', src='/images/p_huts_small.jpg')
     hr
     if logged_in
       a.buttonlink(href='/game') Return

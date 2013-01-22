@@ -25,8 +25,8 @@ module.exports = (character, center, name, cb) ->
         name: name
         motto: ''
         description: ''
-        website: ''
-        img: ''
+        website_url: ''
+        image_url: ''
         x: center.x
         y: center.y
         radius: radius

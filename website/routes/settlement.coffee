@@ -11,7 +11,7 @@ visit_member = (settlement, member) ->
   yesterday = new Date()
   yesterday.setDate(yesterday.getDate() - days_until_full_status)
 
-  leader = settlement.leader._id.toString() is member._id.toString()
+  leader = settlement.leader? and settlement.leader._id.toString() is member._id.toString()
 
   _id: member._id
   name: member.name
@@ -30,3 +30,4 @@ module.exports = (app) ->
       res.render 'settlement',
         settlement: settlement
         members: settlement.members.map (m) -> visit_member settlement, m
+        editable: req.session.character? and settlement.leader? and req.session.character is settlement.leader._id.toString()
