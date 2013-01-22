@@ -73,7 +73,10 @@ html
                 td ???
               tr
                 td: b #{settlement.leader_title}:
-                td: a(href='/profile/#{settlement.leader.slug}')= settlement.leader.name
+                if settlement.leader
+                  td: a(href='/profile/#{settlement.leader.slug}')= settlement.leader.name
+                else
+                  td: i None
               tr
                 td: b Population:
                 td= settlement.population
@@ -84,16 +87,20 @@ html
                 td(colspan='2')
                   hr
                   b Inhabitants:
-                  ul
-                    for member in members
-                      li
-                        a.neutral(href='/profile/#{member.slug}')= member.name
-                        if member.leader
-                          |  (#{settlement.leader_title})
-                        if member.provisional
-                          |  (Provisional)
-                        else
-                          |  (#{member.votes} votes)
+                  if members.length
+                    ul
+                      for member in members
+                        li
+                          a.neutral(href='/profile/#{member.slug}')= member.name
+                          if member.leader
+                            |  (#{settlement.leader_title})
+                          if member.provisional
+                            |  (Provisional)
+                          else
+                            |  (#{member.votes} votes)
+                  else
+                    br
+                    i None
         td
           if settlement.image_url.length
             img(style='max-width: 300px; max-height: 300px', src=settlement.image_url)

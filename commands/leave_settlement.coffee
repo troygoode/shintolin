@@ -3,8 +3,6 @@ db = require '../db'
 send_message = require './send_message'
 send_message_settlement = require './send_message_settlement'
 
-#TODO: what if you are the leader?
-
 update_settlement = (character, settlement, cb) ->
   query =
     _id: settlement._id
@@ -14,6 +12,15 @@ update_settlement = (character, settlement, cb) ->
     $pull:
       members:
         _id: character._id
+  db.settlements.update query, update, cb
+
+remove_invalid_leader = (character, settlement, cb) ->
+  return cb() if settlement.leader?._id.toString() isnt character._id.toString()
+  query =
+    _id: settlement._id
+  update =
+    $unset:
+      leader: 1
   db.settlements.update query, update, cb
 
 remove_invalid_votes = (character, settlement, cb) ->
@@ -56,6 +63,8 @@ module.exports = (character, settlement, cb) ->
   async.series [
     (cb) ->
       update_character character, settlement, cb
+    , (cb) ->
+      remove_invalid_leader character, settlement, cb
     , (cb) ->
       remove_invalid_votes character, settlement, cb
     , (cb) ->

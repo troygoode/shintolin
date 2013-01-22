@@ -34,6 +34,7 @@ build_candidate_list = (settlement) ->
   candidates
 
 process_settlement = (settlement, cb) ->
+  return cb() unless settlement.population > 0
   candidates = build_candidate_list settlement
   candidates.sort sort_func
   winner = candidates[0]
