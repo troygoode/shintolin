@@ -8,6 +8,7 @@ send_message_nearby = require './send_message_nearby'
 #        - grant xp
 #        - loot on kill
 #        - attack back
+#TODO: kick target from settlement if dazed by member of settlement and target is currently provisional
 
 calculate_frags = (target) ->
   Math.ceil(target.frags / 2)
