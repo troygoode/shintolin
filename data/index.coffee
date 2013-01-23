@@ -1,1 +1,1 @@
-module.exports = require('require-directory')(module)
+module.exports = require('require-directory')(module, null, /\.txt$/)

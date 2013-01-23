@@ -1,0 +1,42 @@
+wanderer
+  lumberjack
+  foraging
+    tracking
+    butchering
+  settling
+  forest_walk
+    mountaineering
+    swimming
+herbalist
+  tea_making
+  herb_lore
+    triage
+    medicine
+      hospitaller
+  baking
+  agriculture
+crafter
+  milling
+  hafting
+    carpentry
+      artisanship
+        divine_inspiration
+  construction
+    trailblazing
+  quarrying
+    stone_working
+      masonry
+      pottery
+warrior
+  spear_1
+    spear_2
+      spear_3
+        spear_4
+  unarmed_1
+    unarmed_2
+      unarmed_3
+        unarmed_4
+  axe_1
+    axe_2
+      axe_3
+        axe_4
