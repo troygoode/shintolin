@@ -1,4 +1,4 @@
-wanderer
+{"id": "wanderer", "name": "Wanderer"}
   lumberjack
   foraging
     tracking
@@ -7,7 +7,7 @@ wanderer
   forest_walk
     mountaineering
     swimming
-herbalist
+{"id": "herbalist", "name": "Herbalist"}
   tea_making
   herb_lore
     triage
@@ -15,7 +15,7 @@ herbalist
       hospitaller
   baking
   agriculture
-crafter
+{"id": "crafter", "name": "Crafter"}
   milling
   hafting
     carpentry
@@ -27,7 +27,7 @@ crafter
     stone_working
       masonry
       pottery
-warrior
+{"id": "warrior", "name": "Warrior"}
   spear_1
     spear_2
       spear_3

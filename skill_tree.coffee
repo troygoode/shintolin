@@ -34,15 +34,22 @@ build_tree = ->
     delete l.indent
 
   # return only root nodes
-  lines.filter (l) ->
+  root = lines.filter (l) ->
     l.parent is undefined
 
-console.log build_tree().map (l) ->
-  text: l.text
-  skill: l.skill
-  parent: l.parent?.skill
-  children: l.children.length
+  # delete parent references
+  delete l.parent for l in lines
 
-tree = build_tree()
-module.exports =
-  tree: tree
+  retval = {}
+  for node in root
+    json = JSON.parse node.text
+    retval[json.id] =
+      id: json.id
+      name: json.name
+      skills: node.children
+
+  delete l.text for l in lines
+
+  retval
+
+module.exports = build_tree()

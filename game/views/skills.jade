@@ -1,0 +1,50 @@
+mixin render_skill(skill, buy_cost)
+  - var bought = false;
+  li 
+    if bought
+      b.bought= skill.skill.name
+    else
+      b.unbought= skill.skill.name
+    |  - 
+    i= skill.skill.description
+    |  
+    if bought
+      form(method='POST', action='/game/skills/sell/#{skill.skill.id}', style='display: inline')
+        input(type='submit', value='Sell')
+    else if can_buy
+      form(method='POST', action='/game/skills/buy/#{skill.skill.id}', style='display: inline')
+        input(type='submit', value='Buy: #{buy_cost}xp')
+    if skill.children
+      ul
+        for child in skill.children
+          mixin render_skill(child, buy_cost)
+mixin branch(branch)
+  - var level = character['level_' + branch.id];
+  - var xp = character['xp_' + branch.id];
+  h2 Level #{level} #{branch.name}
+  if xp === 1
+    | You have #{xp} #{branch.name} experience point.
+  else
+    | You have #{xp} #{branch.name} experience points.
+  br
+  ul
+    for skill in branch.skills
+      mixin render_skill(skill, (level + 2) * 30)
+!!! 5
+html
+  head
+    title Shintolin - Skills
+    link(rel='stylesheet', type='text/css', href='/shintolin.css')
+    !=css('game')
+  body
+    h1.header Skills
+    p You have learned #{character.skills.length} out of a maximum #{maximum_skills} skills.
+    hr
+    a.buttonlink(href='/game') Return
+    hr
+    mixin branch(tree.wanderer)
+    mixin branch(tree.herbalist)
+    mixin branch(tree.crafter)
+    mixin branch(tree.warrior)
+    hr
+    a.buttonlink(href='/game') Return

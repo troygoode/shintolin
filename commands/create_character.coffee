@@ -24,6 +24,11 @@ module.exports = (name, email, password, settlement, cb) ->
     hunger: 9
     last_action: now
 
+    level: 1
+    level_crafter: 0
+    level_warrior: 0
+    level_herbalist: 0
+    level_wanderer: 0
     xp_crafter: 0
     xp_warrior: 0
     xp_herbalist: 0
