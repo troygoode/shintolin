@@ -1,7 +1,10 @@
+data = require '../../data'
 skill_tree = require '../../skill_tree'
 
 module.exports = (app) ->
   app.post '/skills/buy/:skill_id', (req, res, next) ->
+    skill = data.skills[req.param('skill_id')]
+    return next('Invalid Skill') unless skill?
     res.redirect '/game/skills'
 
   app.post '/skills/sell/:skill_id', (req, res, next) ->
