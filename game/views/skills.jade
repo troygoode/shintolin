@@ -1,5 +1,5 @@
-mixin render_skill(skill, buy_cost)
-  - var bought = false;
+mixin render_skill(skill, buy_cost, buyable)
+  - var bought = character.skills.indexOf(skill.id) !== -1;
   li 
     if bought
       b.bought= skill.skill.name
@@ -10,14 +10,16 @@ mixin render_skill(skill, buy_cost)
     |  
     if bought
       form(method='POST', action='/game/skills/sell/#{skill.skill.id}', style='display: inline')
+        input(type='hidden', name='_csrf', value=csrf)
         input(type='submit', value='Sell')
-    else if can_buy
+    else if can_buy && buyable
       form(method='POST', action='/game/skills/buy/#{skill.skill.id}', style='display: inline')
+        input(type='hidden', name='_csrf', value=csrf)
         input(type='submit', value='Buy: #{buy_cost}xp')
     if skill.children
       ul
         for child in skill.children
-          mixin render_skill(child, buy_cost)
+          mixin render_skill(child, buy_cost, bought)
 mixin branch(branch)
   - var level = character['level_' + branch.id];
   - var xp = character['xp_' + branch.id];
@@ -29,7 +31,7 @@ mixin branch(branch)
   br
   ul
     for skill in branch.skills
-      mixin render_skill(skill, (level + 2) * 30)
+      mixin render_skill(skill, (level + 2) * 30, true)
 !!! 5
 html
   head

@@ -38,10 +38,12 @@ build_tree = ->
     l.parent is undefined
 
   # delete parent references
-  delete l.parent for l in lines
+  # delete l.parent for l in lines
 
   retval = {}
   for node in root
+    node.children.forEach (s) ->
+      delete s.parent
     json = JSON.parse node.text
     retval[json.id] =
       id: json.id
