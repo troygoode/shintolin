@@ -4,3 +4,5 @@ module.exports =
   mongo_uri: process.env.MONGOLAB_URI or 'mongodb://localhost/shintolin'
 
   nodefly: process.env.NODEFLY
+
+  maximum_level: 18

@@ -4,6 +4,21 @@ data = require './data'
 line_format = /(\s*)(.*)/
 tree_txt = fs.readFileSync "#{__dirname}/data/skills/_tree.txt", 'utf-8'
 
+find_all = (nodes) ->
+  retval = []
+  for node in nodes
+    retval.push node
+    retval.push child for child in find_all(node.children) if node.children?
+  retval
+
+find_ancestors = (node) ->
+  ancestors = []
+  pointer = node
+  while pointer.parent?
+    ancestors.push pointer.parent
+    pointer = pointer.parent
+  ancestors
+
 build_tree = ->
 
   lines = tree_txt.split '\n'
@@ -37,9 +52,6 @@ build_tree = ->
   root = lines.filter (l) ->
     l.parent is undefined
 
-  # delete parent references
-  # delete l.parent for l in lines
-
   retval = {}
   for node in root
     node.children.forEach (s) ->
@@ -49,8 +61,12 @@ build_tree = ->
       id: json.id
       name: json.name
       skills: node.children
+      all: find_all node.children
 
-  delete l.text for l in lines
+  for l in lines
+    delete l.text
+    l.ancestors = find_ancestors l
+    l.id = l.skill?.id
 
   retval
 
