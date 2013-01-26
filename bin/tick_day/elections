@@ -2,8 +2,8 @@
 
 _ = require 'underscore'
 async = require 'async'
-db = require '../db'
-commands = require '../commands'
+db = require '../../db'
+commands = require '../../commands'
 
 days_until_full_status = 1
 yesterday = new Date()

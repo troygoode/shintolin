@@ -1,0 +1,5 @@
+#!/bin/bash
+
+echo "### TICK: HUNGER (START) ###"
+cd ./bin/tick_hunger
+echo "### TICK: HUNGER (END) ###"

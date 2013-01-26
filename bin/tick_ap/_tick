@@ -1,0 +1,6 @@
+#!/bin/bash
+
+echo "### TICK: AP (START) ###"
+cd ./bin/tick_ap
+./ap
+echo "### TICK: AP (END) ###"

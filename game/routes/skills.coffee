@@ -9,8 +9,6 @@ module.exports = (app) ->
     return next('Invalid Skill') unless skill?
     return next('You have reached the current maximum level; you must unlearn some skills before you can learn any more.') if req.character.level >= config.maximum_level
     return next('You are not able to buy that skill; either you already have it, or lack the required prerequisites.') unless req.character.skills.indexOf(skill.id) is -1
-    #TODO: prereqs
-    #TODO: error if there isn't enough xp? -- You do not have sufficient |wanderer| xp to buy that skill.
     commands.buy_skill req.character, skill, (err) ->
       return next(err) if err?
       res.redirect '/game/skills'

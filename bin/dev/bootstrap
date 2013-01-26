@@ -2,10 +2,10 @@
 
 async = require 'async'
 Mongolian = require 'mongolian'
-config = require '../config'
-commands = require '../commands'
-queries = require '../queries'
-data = require '../data'
+config = require '../../config'
+commands = require '../../commands'
+queries = require '../../queries'
+data = require '../../data'
 settlement =
   _id: null
   x: 0

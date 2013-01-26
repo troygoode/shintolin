@@ -1,0 +1,6 @@
+#!/bin/bash
+
+echo "### TICK: DAY (START) ###"
+cd ./bin/tick_day
+./elections
+echo "### TICK: DAY (END) ###"
