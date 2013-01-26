@@ -31,7 +31,7 @@ Persistent multiplayer browser game, set in the stone age.
 * Open the Heroku Scheduler configuration screen: `$ heroku addons:open scheduler`
   * Add an hourly task that runs at `:00`, pointing to: `$ ./bin/tick_ap/_tick`
   * Add a daily task that runs at `00:00`, pointing to: `$ ./bin/tick_day/_tick`
-  * Add three daily tasks that runs at `00:00`, '08:00', and '16:00' - each pointing to: `$ ./bin/tick_hunger/_tick`
+  * Add three more daily tasks that run at `00:00`, `08:00`, and `16:00` - each pointing to: `$ ./bin/tick_hunger/_tick`
 * Turn on production mode: `heroku config:add NODE_ENV=production`
 * Use a safe session secret: `heroku config:add SESSION_SECRET=<YOUR SECRET HERE>`
 * Push your code to Heroku: `git push heroku master`
