@@ -17,7 +17,7 @@
     , "bcrypt": "latest"
     , "coffee-script": "latest"
     , "connect-assets": "latest"
-    , "connect-mongo": "0.2.x"
+    , "connect-mongo": "latest"
     , "express": "latest"
     , "jade": "latest"
     , "moment": "latest"
