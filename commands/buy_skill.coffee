@@ -18,11 +18,12 @@ module.exports = (character, _skill, cb) ->
   xp_type = get_xp_type _skill
   skill = _.find xp_type.all, (s) ->
     s.id is _skill.id
-  related_skills = _.intersection _.pluck(root.all, 'id'), character.skills
+  related_skills = _.intersection _.pluck(xp_type.all, 'id'), character.skills
   cost = (2 + related_skills.length) * 30
 
-  return cb('You are not able to buy that skill; either you already have it, or lack the required prerequisites.') if _.find(character.skills, skill.id)
-  return cb('You are not able to buy that skill; either you already have it, or lack the required prerequisites.') unless _.difference(skill.ancestors, character.skills).length is 0
+  return cb('You are not able to buy that skill; either you already have it, or lack the required prerequisites.') if _.find(character.skills, (s) ->
+    s is skill.id)
+  return cb('You are not able to buy that skill; either you already have it, or lack the required prerequisites.') unless _.difference(_.pluck(skill.ancestors, 'id'), character.skills).length is 0
   return cb("You do not have sufficient #{xp_type.name} xp to buy that skill.") unless character["xp_#{xp_type.id}"] >= cost
 
   async.series [

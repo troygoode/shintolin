@@ -1,5 +1,6 @@
 mixin render_skill(skill, buy_cost, buyable, available_xp)
   - var bought = character.skills.indexOf(skill.skill.id) !== -1;
+  - var sellable = _.intersection(character.skills, _.pluck(skill.children, 'id')).length === 0;
   li 
     if bought
       b.bought= skill.skill.name
@@ -9,9 +10,10 @@ mixin render_skill(skill, buy_cost, buyable, available_xp)
     i= skill.skill.description
     |  
     if bought
-      form(method='POST', action='/game/skills/sell/#{skill.skill.id}', style='display: inline')
-        input(type='hidden', name='_csrf', value=csrf)
-        input(type='submit', value='Sell')
+      if sellable
+        form(method='POST', action='/game/skills/sell/#{skill.skill.id}', style='display: inline')
+          input(type='hidden', name='_csrf', value=csrf)
+          input(type='submit', value='Sell')
     else if can_buy && buyable
       if buy_cost <= available_xp
         form(method='POST', action='/game/skills/buy/#{skill.skill.id}', style='display: inline')
@@ -43,7 +45,7 @@ html
     !=css('game')
   body
     h1.header Skills
-    p You have learned #{character.skills.length} out of a maximum #{maximum_skills} skills.
+    p You are level #{character.level}. You have learned #{character.skills.length} out of a maximum #{maximum_skills} skills.
     hr
     a.buttonlink(href='/game') Return
     hr

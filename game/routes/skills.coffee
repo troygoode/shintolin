@@ -18,7 +18,7 @@ module.exports = (app) ->
   app.post '/skills/sell/:skill_id', (req, res, next) ->
     skill = data.skills[req.param('skill_id')]
     return next('Invalid Skill') unless skill?
-    return next('You don\'t have that skill.') if character.skills.indexOf(skill.id) is -1
+    return next('You don\'t have that skill.') if req.character.skills.indexOf(skill.id) is -1
     commands.sell_skill req.character, skill, (err) ->
       return next(err) if err?
       res.redirect '/game/skills'

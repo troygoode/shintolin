@@ -32,6 +32,7 @@ items = [
   {to: 'Ecce', item: data.items.handaxe}
   {to: 'Ecce', item: data.items.log}
 ]
+xp = 1000
 
 async.series [
   (cb) ->
@@ -82,7 +83,7 @@ async.series [
     arr = []
     arr.push c for key, c of characters
     async.forEachSeries arr, (c, cb) ->
-      commands.xp c, 60, 60, 60, 60, (err) ->
+      commands.xp c, xp, xp, xp, xp, (err) ->
         return cb(err) if err?
         console.log "Granted 60xp to each xp type for #{c.name}."
         cb()

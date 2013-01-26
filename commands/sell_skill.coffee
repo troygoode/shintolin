@@ -19,10 +19,9 @@ module.exports = (character, _skill, cb) ->
   skill = _.find xp_type.all, (s) ->
     s.id is _skill.id
 
-  return cb('You cannot sell a skill you do not have.') unless _.find(character.skills, skill.id)
-  # return cb("You cannot sell #{skill.name} until you have sold all the skills that come after it.") unless children
-
-  #TODO: you don't own the skill yet
+  return cb('You cannot sell a skill you do not have.') unless _.find(character.skills, (s) ->
+    s is skill.id)
+  return cb("You cannot sell #{skill.skill.name} until you have sold all the skills that come after it.") if _.intersection(character.skills, _.pluck(skill.children, 'id')).length > 0
 
   async.series [
     (cb) ->
