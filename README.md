@@ -4,7 +4,7 @@ Persistent multiplayer browser game, set in the stone age.
 
 ## Local Development / Testing
 
-### Initial Setup
+### Initial Setup (Mac OSX)
 
 * Install [homebrew](http://mxcl.github.com/homebrew/): `$ ruby -e "$(curl -fsSkL raw.github.com/mxcl/homebrew/go)"`
 * Install [node.js](http://nodejs.org/): `$ brew install node`
