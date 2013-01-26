@@ -26,8 +26,8 @@ Persistent multiplayer browser game, set in the stone age.
 * Create an account on [Heroku.com](http://heroku.com/)
 * Install the [Heroku Toolbelt](https://toolbelt.heroku.com/)
 * From the Shintolin directory, create a new Heroku app: `$ heroku create`
-* Add the MongoLab add-on: `$ heroku addons:add mongolab`
-* Add the Heroku Scheduler add-on: `$ heroku addons:add scheduler:standard`
+* Add the [MongoLab add-on](https://addons.heroku.com/mongolab): `$ heroku addons:add mongolab`
+* Add the [Heroku Scheduler add-on](https://addons.heroku.com/scheduler): `$ heroku addons:add scheduler:standard`
 * Open the Heroku Scheduler configuration screen: `$ heroku addons:open scheduler`
   * Add an hourly task that runs at `:00`, pointing to: `$ ./bin/tick_ap/_tick`
   * Add a daily task that runs at `00:00`, pointing to: `$ ./bin/tick_day/_tick`
