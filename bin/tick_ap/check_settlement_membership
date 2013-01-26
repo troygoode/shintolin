@@ -1,0 +1,60 @@
+#!/usr/bin/env coffee
+
+async = require 'async'
+db = require '../../db'
+commands = require '../../commands'
+queries = require '../../queries'
+
+days_until_full_status = 1
+
+past = new Date()
+past.setDate past.getDate() - days_until_full_status
+
+matched = []
+
+async.series [
+  (cb) ->
+    # find character records
+    query =
+      settlement_joined: {$lte: past}
+      settlement_provisional: {$exists: true}
+    db.characters.find(query).toArray (err, characters) ->
+      return cb(err) if err?
+      matched = characters
+      cb()
+  , (cb) ->
+    # update character records
+    query =
+      settlement_joined: {$lte: past}
+      settlement_provisional: {$exists: true}
+    update =
+      $unset:
+        settlement_provisional: true
+    db.characters.update query, update, false, true, cb
+  , (cb) ->
+    # update settlement records
+    query =
+      'members.joined': {$lte: past}
+      'members.provisional': {$exists: true}
+    update =
+      $unset:
+        'members.$.provisional': true
+    db.settlements.update query, update, false, true, cb
+  , (cb) ->
+    # notify
+    async.forEach matched, (character, cb) ->
+      queries.get_settlement character.settlement_id.toString(), (err, settlement) ->
+        console.log settlement.slug
+        return cb(err) if err?
+        message =
+          settlement_id: settlement._id
+          settlement_name: settlement.name
+          settlement_slug: settlement.slug
+        commands.send_message_settlement 'nonprovisional', character, settlement, [], message, cb
+    , cb
+], (err) ->
+  if err?
+    console.log err
+  else
+    console.log "Moved #{matched.length} characters out of provisional resident status."
+  process.exit()
