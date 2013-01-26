@@ -17,6 +17,7 @@
 * dig
 * eat (regain hunger & max HP)
 * fill pots
+* cheaper movement for members on top of gates
 * sow
 * water
 * harvest
