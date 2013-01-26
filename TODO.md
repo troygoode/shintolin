@@ -6,25 +6,53 @@
 * search chances diminish over time, are refreshed during ticks
 * seasonal bonuses for searching
 * encumberance
-* usable items: healing
-* usable items: food
-* usable items: revive
-* usable items: ocarina
-* usable items: noobcake
+* healing
+* track IP hits
+  * block after max
+    * reset daily
 * reviving
+* quarry
 * recipes that require a building
 * give items
 * dig
+* eat (regain hunger & max HP)
+* fill pots
+* sow
+* water
+* harvest
+* stockpiles
 * write on buildings
+* add fuel to campfire
 * terrain transitions/regrowth (farming)
 * blocked tiles (based on skill)
 * variable AP recovery by tile
 * variable combat messages by weapon class
 * regions & region painting
 * item breakage
-* attacking buildings
+* attacking/destroying buildings
+  * restrictions on attacking totems
+    * handle settlement destruction
+* repair building
+* building restrictions
+* message on item drop
+* whisper
+* shout
+* diminishing returns for chop
+  * tile transition from chop
 * season tick
 * hunger tick
-* auto-eat
 * rename 'characters' to 'actors'
 * animals
+
+###
+
+* admin_mapview ???
+* animal_infospawn ???
+* contacts ???
+* edit_map ???
+* edit_region ???
+* regionprint ???
+* terrainprint ???
+* terrain ???
+* world ???
+* ocarina ???
