@@ -2,4 +2,7 @@
 
 echo "### TICK: HUNGER (START) ###"
 cd ./bin/tick_hunger
+
+# hunger
+
 echo "### TICK: HUNGER (END) ###"

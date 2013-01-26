@@ -2,5 +2,10 @@
 
 echo "### TICK: AP (START) ###"
 cd ./bin/tick_ap
-./ap
+
+./recover_ap
+# check_settlement_membership
+# diminish_campfires
+# move_animals
+
 echo "### TICK: AP (END) ###"

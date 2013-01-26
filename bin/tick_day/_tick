@@ -2,5 +2,16 @@
 
 echo "### TICK: DAY (START) ###"
 cd ./bin/tick_day
-./elections
+
+./hold_elections
+# grow_fields
+# mark_inactive
+# restore_search_odds
+# restore_ip_hits
+# spawn_animals
+# transition_tiles
+# delete_rotten_food
+# rot_food
+# damage_buildings
+
 echo "### TICK: DAY (END) ###"
