@@ -4,9 +4,6 @@ moment = require 'moment'
 queries = require '../../queries'
 data = require '../../data'
 
-character_link = (character) ->
-  "<a href='/profile/#{character.slug}'>#{character.name}</a>"
-
 describe_list = (arr) ->
   if arr.length is 1
     arr[0]
@@ -112,7 +109,6 @@ module.exports = (app) ->
   app.get '/', (req, res, next) ->
     res.locals.moment = moment
     res.locals.describe_list = describe_list
-    res.locals.character_link = character_link
     async.parallel [
       (cb) ->
         queries.tiles_in_square_around req.character, 3, cb

@@ -109,6 +109,8 @@ module.exports = (character, direction, cb) ->
               slug: character.slug
               hp: character.hp
               hp_max: character.hp_max
+        if character.settlement_id?
+          update_newtile.$push.people.settlement_id = character.settlement_id
         if new_tile?
           db.tiles.update coords, update_newtile, cb
         else

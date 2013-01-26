@@ -75,6 +75,8 @@ module.exports = (name, email, password, settlement, cb) ->
               name: character.name
               hp: character.hp
               hp_max: character.hp_max
+        if settlement?
+          update.$push.people.settlement_id = settlement._id
         db.tiles.update query, update, cb
     ], (err, [character]) ->
       cb err, character

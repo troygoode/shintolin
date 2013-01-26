@@ -7,5 +7,18 @@
         |  is 
       else
         |  are 
-      != describe_list(center.people.map(function(p){ return character_link(p) + ' (' + p.hp + '/' + p.hp_max + 'hp)'; }))
+      - var character_link = function(c){
+      -   if(c.settlement_id && character.settlement_id && c.settlement_id.toString() === character.settlement_id.toString()){
+      -     return "<a class='ally' href='/profile/" + c.slug + "'>" + c.name + "</a>";
+      -   }else{
+      -     return "<a class='neutral' href='/profile/" + c.slug + "'>" + c.name + "</a>";
+      -   }
+      - };
+      - var health = function(c){
+      -   if(c.hp >= c.hp_max) return '';
+      -   else if(c.hp <= 0) return ' [dazed]';
+      -   else if(character.skills.indexOf('triage') != -1) return ' (' + c.hp + '/' + c.hp_max + ')';
+      -   else return '';
+      - };
+      != describe_list(center.people.map(function(p){ return character_link(p) + health(p); })); 
       | .

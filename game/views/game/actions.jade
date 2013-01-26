@@ -1,56 +1,89 @@
-.gamebox.actionbox(style='opacity: .82')
+if character.hp > 0
+  .gamebox.actionbox(style='opacity: .82')
 
-  form(method='POST', action='/game/attack')
-    input(type='hidden', name='_csrf', value=csrf)
-    input(type='submit', value='Attack', data-action='attack')
-    select(name='target', style='width: 10em', data-persist='target', data-action-focus='attack')
-      option(value='') no-one
-      for c in center.people
-        option(value=c._id)= c.name
-    |  with 
-    select(name='item', style='width: 10em', data-persist='weapon')
-      for weapon in weapons
-        option(value=weapon.id) #{weapon.name} (#{weapon.hit_chance * 100}%, #{weapon.damage} dmg)
-
-  //
-    form(method='POST', action='/game/use')
+    form(method='POST', action='/game/attack')
       input(type='hidden', name='_csrf', value=csrf)
-      input(type='submit', value='Use', data-action='use')
-      select(name='item', style='width: 10em', data-persist='usable-item', data-action-focus='use')
-        option(value='13') Cup of herbal tea
-        option(value='4') Piece of willow bark
-        option(value='33') Lump of rotten food
-      |  on 
-      select(name='target', style='width: 10em', data-persist='target')
-        option(value='0:user') Self
+      input(type='submit', value='Attack', data-action='attack')
+      select(name='target', style='width: 10em', data-persist='target', data-action-focus='attack')
+        option(value='') no-one
         for c in center.people
           option(value=c._id)= c.name
+      |  with 
+      select(name='item', style='width: 10em', data-persist='weapon')
+        for weapon in weapons
+          option(value=weapon.id) #{weapon.name} (#{weapon.hit_chance * 100}%, #{weapon.damage} dmg)
 
-  form(method='POST', action='/game/craft')
-    input(type='hidden', name='_csrf', value=csrf)
-    input(type='submit', value='Craft', data-action='craft')
-    select(name='recipe', style='width: 10em', data-persist='recipe', data-action-focus='craft')
-      for recipe in recipes
-        option(value=recipe.id)= recipe.name
-          |  (#{recipe.ap}ap
-          if recipe.tools
-            for item in recipe.tools
-              | , #{data.items[item].name}
-          for item in recipe.items
-            | , #{item.count} x #{data.items[item.item].name}
-          | )
+    //
+      form(method='POST', action='/game/use')
+        input(type='hidden', name='_csrf', value=csrf)
+        input(type='submit', value='Use', data-action='use')
+        select(name='item', style='width: 10em', data-persist='usable-item', data-action-focus='use')
+          option(value='13') Cup of herbal tea
+          option(value='4') Piece of willow bark
+          option(value='33') Lump of rotten food
+        |  on 
+        select(name='target', style='width: 10em', data-persist='target')
+          option(value='0:user') Self
+          for c in center.people
+            option(value=c._id)= c.name
 
-  if center.tile.z === 0
-    form(method='POST', action='/game/build')
+    form(method='POST', action='/game/craft')
       input(type='hidden', name='_csrf', value=csrf)
-      input(type='submit', value='Build', data-action='build')
-      select(name='building', style='width: 10em', data-persist='building', data-action-focus='build')
-        for building in buildings
-          option(value=building.id)= building.name
-            |  (#{building.ap}ap
-            for item in building.items
+      input(type='submit', value='Craft', data-action='craft')
+      select(name='recipe', style='width: 10em', data-persist='recipe', data-action-focus='craft')
+        for recipe in recipes
+          option(value=recipe.id)= recipe.name
+            |  (#{recipe.ap}ap
+            if recipe.tools
+              for item in recipe.tools
+                | , #{data.items[item].name}
+            for item in recipe.items
               | , #{item.count} x #{data.items[item.item].name}
             | )
+
+    if center.tile.z === 0
+      form(method='POST', action='/game/build')
+        input(type='hidden', name='_csrf', value=csrf)
+        input(type='submit', value='Build', data-action='build')
+        select(name='building', style='width: 10em', data-persist='building', data-action-focus='build')
+          for building in buildings
+            option(value=building.id)= building.name
+              |  (#{building.ap}ap
+              for item in building.items
+                | , #{item.count} x #{data.items[item.item].name}
+              | )
+
+    if settlement && character.settlement_id && settlement._id.toString() === character.settlement_id.toString()
+      - var my_member_record = _.find(settlement.members, function(m){ return m._id.toString() === character._id.toString(); });
+      - var candidates = settlement.members.filter(function(m){ return !m.provisional; });
+      form(method='POST', action='/game/vote')
+        input(type='hidden', name='_csrf', value=csrf)
+        input(type='submit', value='Vote For', data-action='vote')
+        select(name='character', style='width: 10em', data-persist='member', data-action-focus='vote')
+          option(value='') no-one
+          for c in candidates
+            if my_member_record.voting_for && my_member_record.voting_for._id.toString() === c._id.toString()
+              option(value=c._id, selected='selected')= c.name
+            else
+              option(value=c._id)= c.name
+      if my_member_record.voting_for
+        | Current Vote: <a href='/profile/#{my_member_record.voting_for.slug}'>#{my_member_record.voting_for.name}</a>
+
+    if center.tile.settlement_id && center.building && center.building.id === 'totem' && (!character.settlement_id || center.tile.settlement_id.toString() !== character.settlement_id.toString())
+      form(method='POST', action='/game/join')
+        input(type='hidden', name='_csrf', value=csrf)
+        input(type='submit', value='Join Settlement (25ap)', data-action='join')
+
+    if center.terrain.chop
+      form(method='POST', action='/game/chop')
+        input(type='hidden', name='_csrf', value=csrf)
+        input(type='submit', value='Chop Tree', data-action='chop')
+
+    form(method='POST', action='/game/search')
+      input(type='hidden', name='_csrf', value=csrf)
+      input(type='submit', value='Search', data-action='search')
+
+.gamebox.actionbox(style='opacity: .82')
 
   form(method='POST', action='/game/paint')
     input(type='hidden', name='_csrf', value=csrf)
@@ -67,33 +100,3 @@
       option(value='') no-one
       for c in center.people
         option(value=c._id)= c.name
-
-  if settlement && character.settlement_id && settlement._id.toString() === character.settlement_id.toString()
-    - var my_member_record = _.find(settlement.members, function(m){ return m._id.toString() === character._id.toString(); });
-    - var candidates = settlement.members.filter(function(m){ return !m.provisional; });
-    form(method='POST', action='/game/vote')
-      input(type='hidden', name='_csrf', value=csrf)
-      input(type='submit', value='Vote For', data-action='vote')
-      select(name='character', style='width: 10em', data-persist='member', data-action-focus='vote')
-        option(value='') no-one
-        for c in candidates
-          if my_member_record.voting_for && my_member_record.voting_for._id.toString() === c._id.toString()
-            option(value=c._id, selected='selected')= c.name
-          else
-            option(value=c._id)= c.name
-    if my_member_record.voting_for
-      | Current Vote: <a href='/profile/#{my_member_record.voting_for.slug}'>#{my_member_record.voting_for.name}</a>
-
-  if center.tile.settlement_id && center.building && center.building.id === 'totem' && (!character.settlement_id || center.tile.settlement_id.toString() !== character.settlement_id.toString())
-    form(method='POST', action='/game/join')
-      input(type='hidden', name='_csrf', value=csrf)
-      input(type='submit', value='Join Settlement (25ap)', data-action='join')
-
-  if center.terrain.chop
-    form(method='POST', action='/game/chop')
-      input(type='hidden', name='_csrf', value=csrf)
-      input(type='submit', value='Chop Tree', data-action='chop')
-
-  form(method='POST', action='/game/search')
-    input(type='hidden', name='_csrf', value=csrf)
-    input(type='submit', value='Search', data-action='search')

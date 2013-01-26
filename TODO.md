@@ -2,7 +2,6 @@
 
 ## Fundamentals (combat, item usage)
 
-* show DAZED message. hide actions as appropriate
 * variable combat messages by weapon class
 * item breakage
 * attacking/destroying buildings

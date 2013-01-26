@@ -2,6 +2,7 @@ _ = require 'underscore'
 async = require 'async'
 data = require '../../data'
 db = require '../../db'
+mw = require '../middleware'
 commands = require '../../commands'
 queries = require '../../queries'
 settlement_radius = 20
@@ -11,7 +12,7 @@ settlement_name_format = /^\w+(\s\w+)*$/
 
 module.exports = (app) ->
 
-  app.get '/settle', (req, res, next) ->
+  app.get '/settle', mw.not_dazed, (req, res, next) ->
     async.parallel [
       (cb) ->
         queries.buildings_in_radius req.tile, settlement_radius, data.buildings.totem, cb
@@ -26,7 +27,7 @@ module.exports = (app) ->
         hut_radius: hut_radius
         minimum_huts: minimum_huts
 
-  app.post '/settle', (req, res, next) ->
+  app.post '/settle', mw.not_dazed, (req, res, next) ->
     async.parallel [
       (cb) ->
         queries.buildings_in_radius req.tile, settlement_radius, data.buildings.totem, cb
