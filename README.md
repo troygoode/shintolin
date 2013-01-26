@@ -21,6 +21,23 @@ Persistent multiplayer browser game, set in the stone age.
 * In the original tab, run Shintolin: `$ npm start`
 * Browse to `http://localhost:3000` in your web browser to play.
 
+## Deploying to Heroku
+
+* Create an account on [Heroku.com](http://heroku.com/)
+* Install the [Heroku Toolbelt](https://toolbelt.heroku.com/)
+* From the Shintolin directory, create a new Heroku app: `$ heroku create`
+* Add the MongoLab add-on: `$ heroku addons:add mongolab`
+* Add the Heroku Scheduler add-on: `$ heroku addons:add scheduler:standard`
+* Open the Heroku Scheduler configuration screen: `$ heroku addons:open scheduler`
+  * Add an hourly task that runs at `:00`, pointing to: `$ ./bin/tick_ap/_tick`
+  * Add a daily task that runs at `00:00`, pointing to: `$ ./bin/tick_day/_tick`
+  * Add three daily tasks that runs at `00:00`, '08:00', and '16:00' - each pointing to: `$ ./bin/tick_hunger/_tick`
+* Turn on production mode: `heroku config:add NODE_ENV=production`
+* Use a safe session secret: `heroku config:add SESSION_SECRET=<YOUR SECRET HERE>`
+* Push your code to Heroku: `git push heroku master`
+* Start your free instance: `heroku ps:scale web=1`
+* Log in to your game: `heroku open`
+
 ## License
 
 Shintolin: a persistent multiplayer browser game, set in the stone age.
