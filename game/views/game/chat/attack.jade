@@ -1,16 +1,18 @@
 if msg.damage
   .action
-    |  You attacked <a href='/profile/#{msg.target_slug}'>#{msg.target_name}</a> with a #{msg.weapon} for #{msg.damage} hp damage
+    |  You attacked <a href='/profile/#{msg.target_slug}'>#{msg.target_name}</a> with a #{data.items[msg.weapon].name} for #{msg.damage} hp damage
     if msg.kill
       | , knocking them out! 
       if msg.frags === 1
         | You also stole a frag from them. 
       else if msg.frags
         | You also stole #{msg.frags} frags from them. 
+      if msg.kicked_from_settlement
+        | They are now no longer a provisional resident of <a href='/settlements/#{msg.settlement_slug}'>#{msg.settlement_name}</a>! 
     else
       | . 
     span.time= moment(msg.sent).fromNow()
 else
   .action
-    |  You attacked <a href='/profile/#{msg.target_slug}'>#{msg.target_name}</a> with a #{msg.weapon} and missed. 
+    |  You attacked <a href='/profile/#{msg.target_slug}'>#{msg.target_name}</a> with a #{data.items[msg.weapon].name} and missed. 
     span.time= moment(msg.sent).fromNow()

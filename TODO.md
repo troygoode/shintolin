@@ -2,7 +2,7 @@
 
 ## Fundamentals (combat, item usage)
 
-* kick people from settlement after daze during first 24 hours
+* show DAZED message. hide actions as appropriate
 * variable combat messages by weapon class
 * item breakage
 * attacking/destroying buildings

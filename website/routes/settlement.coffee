@@ -18,9 +18,9 @@ visit_member = (settlement, member) ->
   name: member.name
   slug: member.slug
   joined: member.joined
+  provisional: member.provisional
   voting_for: member.voting_for
   leader: leader
-  provisional: member.joined > yesterday and not leader
   votes: count_votes settlement, member
 
 module.exports = (app) ->

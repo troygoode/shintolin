@@ -1,12 +1,14 @@
 if msg.damage
   .action
-    | <a href='/profile/#{msg.sender_slug}'>#{msg.sender_name}</a> attacked <a href='/profile/#{msg.target_slug}'>#{msg.target_name}</a> with a #{msg.weapon} for #{msg.damage} hp damage
+    | <a href='/profile/#{msg.sender_slug}'>#{msg.sender_name}</a> attacked <a href='/profile/#{msg.target_slug}'>#{msg.target_name}</a> with a #{data.items[msg.weapon].name} for #{msg.damage} hp damage
     if msg.kill
       |  and knocked them out! 
+      if msg.kicked_from_settlement
+        | They are now no longer a provisional resident of <a href='/settlements/#{msg.settlement_slug}'>#{msg.settlement_name}</a>! 
     else
       | . 
     span.time= moment(msg.sent).fromNow()
 else
   .action
-    | <a href='/profile/#{msg.sender_slug}'>#{msg.sender_name}</a> attacked <a href='/profile/#{msg.target_slug}'>#{msg.target_name}</a> with a #{msg.weapon} and missed. 
+    | <a href='/profile/#{msg.sender_slug}'>#{msg.sender_name}</a> attacked <a href='/profile/#{msg.target_slug}'>#{msg.target_name}</a> with a #{data.items[msg.weapon].name} and missed. 
     span.time= moment(msg.sent).fromNow()

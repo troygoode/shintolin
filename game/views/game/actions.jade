@@ -70,12 +70,13 @@
 
   if settlement && character.settlement_id && settlement._id.toString() === character.settlement_id.toString()
     - var my_member_record = _.find(settlement.members, function(m){ return m._id.toString() === character._id.toString(); });
+    - var candidates = settlement.members.filter(function(m){ return !m.provisional; });
     form(method='POST', action='/game/vote')
       input(type='hidden', name='_csrf', value=csrf)
       input(type='submit', value='Vote For', data-action='vote')
       select(name='character', style='width: 10em', data-persist='member', data-action-focus='vote')
         option(value='') no-one
-        for c in settlement.members
+        for c in candidates
           if my_member_record.voting_for && my_member_record.voting_for._id.toString() === c._id.toString()
             option(value=c._id, selected='selected')= c.name
           else

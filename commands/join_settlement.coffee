@@ -15,6 +15,7 @@ update_settlement = (character, settlement, now, cb) ->
         name: character.name
         slug: character.slug
         joined: now
+        provisional: settlement.population isnt 0
   db.settlements.update query, update, cb
 
 update_character = (character, settlement, now, cb) ->
@@ -26,6 +27,7 @@ update_character = (character, settlement, now, cb) ->
       settlement_name: settlement.name
       settlement_slug: settlement.slug
       settlement_joined: now
+      settlement_provisional: settlement.population isnt 0
   db.characters.update query, update, cb
 
 defacto_leader = (character, settlement, cb) ->
@@ -45,6 +47,7 @@ notify_joiner = (character, settlement, cb) ->
     settlement_id: settlement._id
     settlement_name: settlement.name
     settlement_slug: settlement.slug
+    leader: settlement.population is 0
   , cb
 
 notify_members = (character, settlement, cb) ->

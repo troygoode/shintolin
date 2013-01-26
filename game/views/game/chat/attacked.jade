@@ -1,18 +1,20 @@
 if msg.damage
   .action
     a.neutral(href='/profile/#{msg.sender_slug}')= msg.sender_name
-    |  attacked you with a #{msg.weapon} for #{msg.damage} hp damage
+    |  attacked you with a #{data.items[msg.weapon].name} for #{msg.damage} hp damage
     if msg.kill
       |  and knocked you out! 
       if msg.frags === 1
         | They also stole a frag from you. 
       else if msg.frags
         | They also stole #{msg.frags} from you. 
+      if msg.kicked_from_settlement
+        | You are now no longer a resident of <a href='/settlements/#{msg.settlement_slug}'>#{msg.settlement_name}</a>! 
     else
       | . 
     span.time= moment(msg.sent).fromNow()
 else
   .action
     a.neutral(href='/profile/#{msg.sender_slug}')= msg.sender_name
-    |  attacked you with a #{msg.weapon} and missed. 
+    |  attacked you with a #{data.items[msg.weapon].name} and missed. 
     span.time= moment(msg.sent).fromNow()

@@ -5,6 +5,9 @@ bcrypt = require 'bcrypt'
 db = require '../db'
 queries = require '../queries'
 create_tile = require './create_tile'
+default_coords =
+  x: 0
+  y: 0
 
 module.exports = (name, email, password, settlement, cb) ->
   now = new Date()
@@ -15,8 +18,8 @@ module.exports = (name, email, password, settlement, cb) ->
     email: email
     password: hash
 
-    x: settlement.x
-    y: settlement.y
+    x: if settlement? then settlement.x else default_coords.x
+    y: if settlement? then settlement.y else default_coords.y
     z: 0
     hp: 50
     hp_max: 50
@@ -41,10 +44,6 @@ module.exports = (name, email, password, settlement, cb) ->
     #donated: false #don't need to store
     #banned: false #don't need to store
 
-    settlement_id: settlement?._id
-    settlement_name: settlement?.name
-    settlement_slug: settlement?.slug
-    settlement_joined: if settlement? then now else undefined
 
     kills: 0
     frags: 1
@@ -55,6 +54,12 @@ module.exports = (name, email, password, settlement, cb) ->
 
     bio: ''
     image_url: ''
+  if settlement?
+    character.settlement_id  = settlement._id
+    character.settlement_name = settlement.name
+    character.settlement_slug = settlement.slug
+    character.settlement_joined = now
+    character.settlement_provisional = settlement.population is 0
   finish = (tile) ->
     async.parallel [
       (cb) ->

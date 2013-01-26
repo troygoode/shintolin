@@ -15,12 +15,6 @@ module.exports = (app) ->
         queries.get_settlement req.body.settlement, (err, settlement) ->
           return next(err) if err?
 
-          # if no settlement was found, don't join one
-          settlement ?=
-            _id: null
-            x: 0
-            y: 0
-
           name = req.body.username
           email = req.body.email
 

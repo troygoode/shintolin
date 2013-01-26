@@ -41,6 +41,7 @@ update_character = (character, settlement, cb) ->
       settlement_name: 1
       settlement_slug: 1
       settlement_joined: 1
+      settlement_provisional: 1
   db.characters.update query, update, cb
 
 notify_leaver = (character, settlement, cb) ->
@@ -55,6 +56,7 @@ notify_members = (character, settlement, cb) ->
     settlement_id: settlement._id
     settlement_name: settlement.name
     settlement_slug: settlement.slug
+    leader: settlement.leader?._id.toString is character._id.toString()
   , cb
 
 module.exports = (character, settlement, cb) ->
