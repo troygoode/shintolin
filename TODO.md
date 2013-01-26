@@ -1,22 +1,22 @@
 # TODO list
 
-## Short List
+## Fundamentals (combat, item usage)
 
+* kick people from settlement after daze during first 24 hours
+* variable combat messages by weapon class
+* item breakage
 * attacking/destroying buildings
   * restrictions on attacking totems
     * handle settlement destruction
-* item breakage
-* kick people from settlement after daze during first 24 hours
-* variable combat messages by weapon class
 * create tiles around settlements (if otherwise wilderness)
-* search chances diminish over time, are refreshed during ticks
 * healing
 * reviving
 * recipes that require a building
+
+## Passage of Time (AP recovery, hunger, seasons)
+
 * variable AP recovery by tile
-
-## Some More
-
+* search chances diminish over time, are refreshed during ticks
 * hunger tick
 * eat/feed (regain hunger & max HP)
 * repair building
@@ -27,10 +27,13 @@
 * water
 * harvest
 * terrain transitions/regrowth (farming)
+* food rotting
+* storms that damage buildings
+
+## Shintolin v2 Parity
+
 * blocked tiles (based on skill)
-
-## The Rest
-
+* regions & region painting
 * add admin-check for admin abilities (paint, possess)
 * seasonal bonuses for searching
 * encumberance
@@ -42,18 +45,16 @@
 * dig
 * stockpiles
 * write on buildings
-* regions & region painting
 * building restrictions
 * message on item drop
 * whisper
 * shout
 * diminishing returns for chop
   * tile transition from chop
-* season tick
 * rename 'characters' to 'actors'
 * animals
 
-## WTF
+## WTF (Shintolin v2 has these, but what are they?)
 
 * admin_mapview ???
 * animal_infospawn ???
