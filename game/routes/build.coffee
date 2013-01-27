@@ -3,6 +3,8 @@ commands = require '../../commands'
 data = require '../../data'
 mw = require '../middleware'
 
+#TODO: implement item breakage
+
 module.exports = (app) ->
   app.post '/build', mw.not_dazed, (req, res, next) ->
     return next('Xyzzy shenanigans') if req.tile.z isnt 0 # no building huts inside of huts :-)

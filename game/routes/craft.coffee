@@ -4,6 +4,8 @@ mw = require '../middleware'
 data = require '../../data'
 commands = require '../../commands'
 
+#TODO: implement item breakage
+
 module.exports = (app) ->
   app.post '/craft', mw.not_dazed, (req, res, next) ->
     recipe = data.recipes[req.param('recipe')]

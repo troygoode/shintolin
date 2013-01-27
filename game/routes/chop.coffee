@@ -3,6 +3,8 @@ mw = require '../middleware'
 data = require '../../data'
 commands = require '../../commands'
 
+#TODO: implement item breakage
+
 module.exports = (app) ->
   app.post '/chop', mw.not_dazed, (req, res, next) ->
     return next('There are no trees to chop here.') unless data.terrains[req.tile.terrain].chop

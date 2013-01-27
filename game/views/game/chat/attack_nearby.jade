@@ -17,6 +17,8 @@ if msg.damage
         | They are now no longer a provisional resident of <a href='/settlements/#{msg.settlement_slug}'>#{msg.settlement_name}</a>! 
     else
       | . 
+    if msg.broken
+      | Their #{data.items[msg.weapon].name} breaks! They throw away the useless pieces in disgust. 
     span.time= moment(msg.sent).fromNow()
 else
   .action

@@ -3,10 +3,9 @@ db = require '../db'
 send_message = require './send_message'
 send_message_nearby = require './send_message_nearby'
 send_message_settlement = require './send_message_settlement'
+remove_item = require './remove_item'
 queries = require '../queries'
 days_until_full_status = 1
-
-#TODO: handle item breakage
 
 kicked_from_settlement = (attacker, target, kill) ->
   kill and attacker.settlement_id.toString() is target.settlement_id.toString() and target.settlement_provisional
@@ -14,7 +13,7 @@ kicked_from_settlement = (attacker, target, kill) ->
 calculate_frags = (target) ->
   Math.ceil(target.frags / 2)
 
-update_attacker = (attacker, target, damage) ->
+update_attacker = (attacker, target, weapon, damage, broken) ->
   (cb) ->
     kill = damage >= target.hp
     frags = if kill then calculate_frags(target) else 0
@@ -28,7 +27,12 @@ update_attacker = (attacker, target, damage) ->
         frags: frags
     db.characters.update query, update, cb
 
-update_target = (attacker, target, damage) ->
+break_weapon = (attacker, target, weapon, damage, broken) ->
+  (cb) ->
+    return cb() unless broken
+    remove_item attacker, weapon, 1, cb
+
+update_target = (attacker, target, weapon, damage, broken) ->
   (cb) ->
     kill = damage >= target.hp
     frags = if kill then calculate_frags(target) else 0
@@ -48,7 +52,7 @@ update_target = (attacker, target, damage) ->
         settlement_provisional: 1
     db.characters.update query, update, cb
 
-update_settlement = (attacker, target, damage) ->
+update_settlement = (attacker, target, weapon, damage, broken) ->
   (cb) ->
     kill = damage >= target.hp
     return cb() unless kicked_from_settlement attacker, target, kill
@@ -64,7 +68,7 @@ update_settlement = (attacker, target, damage) ->
             _id: target._id
       db.settlements.update query, update, false, true, cb
 
-update_target_tile_hp = (attacker, target, damage) ->
+update_target_tile_hp = (attacker, target, weapon, damage, broken) ->
   (cb) ->
     query =
       x: target.x
@@ -76,7 +80,7 @@ update_target_tile_hp = (attacker, target, damage) ->
         'people.$.hp': target.hp - damage
     db.tiles.update query, update, cb
 
-notify_attacker_hit = (attacker, target, weapon, damage) ->
+notify_attacker_hit = (attacker, target, weapon, damage, broken) ->
   (cb) ->
     kill = damage >= target.hp
     frags = if kill then calculate_frags(target) else 0
@@ -93,9 +97,10 @@ notify_attacker_hit = (attacker, target, weapon, damage) ->
       settlement_id: if kicked then target.settlement_id else undefined
       settlement_name: if kicked then target.settlement_name else undefined
       settlement_slug: if kicked then target.settlement_slug else undefined
+      broken: if broken then broken else undefined
     , cb
 
-notify_target_hit = (attacker, target, weapon, damage) ->
+notify_target_hit = (attacker, target, weapon, damage, broken) ->
   (cb) ->
     kill = damage >= target.hp
     frags = if kill then calculate_frags(target) else 0
@@ -109,9 +114,10 @@ notify_target_hit = (attacker, target, weapon, damage) ->
       settlement_id: if kicked then target.settlement_id else undefined
       settlement_name: if kicked then target.settlement_name else undefined
       settlement_slug: if kicked then target.settlement_slug else undefined
+      broken: if broken then broken else undefined
     , cb
 
-notify_member_kicked = (attacker, target, weapon, damage) ->
+notify_member_kicked = (attacker, target, weapon, damage, broken) ->
   (cb) ->
     kill = damage >= target.hp
     return cb() unless kicked_from_settlement attacker, target, kill
@@ -126,7 +132,7 @@ notify_member_kicked = (attacker, target, weapon, damage) ->
         target_slug: target.slug
       , cb
 
-notify_nearby_hit = (attacker, target, weapon, damage) ->
+notify_nearby_hit = (attacker, target, weapon, damage, broken) ->
   (cb) ->
     kill = damage >= target.hp
     frags = if kill then calculate_frags(target) else 0
@@ -143,30 +149,34 @@ notify_nearby_hit = (attacker, target, weapon, damage) ->
       settlement_id: if kicked then target.settlement_id else undefined
       settlement_name: if kicked then target.settlement_name else undefined
       settlement_slug: if kicked then target.settlement_slug else undefined
+      broken: if broken then broken else undefined
     , cb
 
-notify_attacker_miss = (attacker, target, weapon) ->
+notify_attacker_miss = (attacker, target, weapon, broken) ->
   (cb) ->
     send_message 'attack', attacker, attacker,
       weapon: weapon.id
       target_id: target._id
       target_name: target.name
       target_slug: target.slug
+      broken: if broken then broken else undefined
     , cb
 
-notify_target_miss = (attacker, target, weapon) ->
+notify_target_miss = (attacker, target, weapon, broken) ->
   (cb) ->
     send_message 'attacked', attacker, target,
       weapon: weapon.id
+      broken: if broken then broken else undefined
     , cb
 
-notify_nearby_miss = (attacker, target, weapon) ->
+notify_nearby_miss = (attacker, target, weapon, broken) ->
   (cb) ->
     send_message_nearby 'attack_nearby', attacker, [attacker, target],
       weapon: weapon.id
       target_id: target._id
       target_name: target.name
       target_slug: target.slug
+      broken: if broken then broken else undefined
     , cb
 
 module.exports = (attacker, target, tile, weapon, cb) ->
@@ -174,20 +184,23 @@ module.exports = (attacker, target, tile, weapon, cb) ->
   damage = weapon.damage attacker, target, tile
   damage = target.hp if damage > target.hp
   hit = Math.random() <= accuracy
+  broken = if hit and weapon.break_odds then Math.random() <= weapon.break_odds else false
   actions = []
 
   if hit
-    actions.push update_attacker(attacker, target, damage)
-    actions.push update_target(attacker, target, damage)
-    actions.push update_settlement(attacker, target, damage)
-    actions.push update_target_tile_hp(attacker, target, damage)
-    actions.push notify_attacker_hit(attacker, target, weapon, damage)
-    actions.push notify_target_hit(attacker, target, weapon, damage)
-    actions.push notify_nearby_hit(attacker, target, weapon, damage)
-    actions.push notify_member_kicked(attacker, target, weapon, damage)
+    actions.push update_attacker(attacker, target, weapon, damage, broken)
+    actions.push break_weapon(attacker, target, weapon, damage, broken)
+    actions.push update_target(attacker, target, weapon, damage, broken)
+    actions.push update_settlement(attacker, target, weapon, damage, broken)
+    actions.push update_target_tile_hp(attacker, target, weapon, damage, broken)
+    actions.push notify_attacker_hit(attacker, target, weapon, damage, broken)
+    actions.push notify_target_hit(attacker, target, weapon, damage, broken)
+    actions.push notify_nearby_hit(attacker, target, weapon, damage, broken)
+    actions.push notify_member_kicked(attacker, target, weapon, damage, broken)
   else
-    actions.push notify_attacker_miss(attacker, target, weapon)
-    actions.push notify_target_miss(attacker, target, weapon)
-    actions.push notify_nearby_miss(attacker, target, weapon)
+    actions.push break_weapon(attacker, target, weapon, null, broken)
+    actions.push notify_attacker_miss(attacker, target, weapon, broken)
+    actions.push notify_target_miss(attacker, target, weapon, broken)
+    actions.push notify_nearby_miss(attacker, target, weapon, broken)
 
   async.parallel actions, cb
