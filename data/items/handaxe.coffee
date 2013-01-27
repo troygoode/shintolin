@@ -5,6 +5,8 @@ module.exports =
   tags: ['weapon']
   weight: 2
 
+  chop: true
+
   weapon_class: 'slash'
   break_odds: .02
   accuracy: (attacker, target, tile) ->

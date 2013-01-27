@@ -1,3 +1,5 @@
 .action
-  | You chop down a tree, taking the heavy log. 
+  | You chop down a tree with your #{data.items[msg.tool].name}, taking the heavy log.  
+  if msg.broken
+    | Your cherished #{data.items[msg.tool].name} breaks! You throw away the useless pieces in disgust.
   span.time= moment(msg.sent).fromNow()
