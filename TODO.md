@@ -2,7 +2,6 @@
 
 ## Fundamentals (combat, item usage)
 
-* variable combat messages by weapon class
 * item breakage
 * attacking/destroying buildings
   * restrictions on attacking totems

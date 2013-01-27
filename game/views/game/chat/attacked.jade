@@ -1,7 +1,17 @@
 if msg.damage
   .action
     a.neutral(href='/profile/#{msg.sender_slug}')= msg.sender_name
-    |  attacked you with a #{data.items[msg.weapon].name} for #{msg.damage} hp damage
+    |  
+    case data.items[msg.weapon].weapon_class
+      when 'blunt'
+        | cudgeled
+      when 'slash'
+        | slashed
+      when 'stab'
+        | stabbed
+      default
+        | attacked
+    |  you with a #{data.items[msg.weapon].name} for #{msg.damage} hp damage
     if msg.kill
       |  and knocked you out! 
       if msg.frags === 1
@@ -16,5 +26,15 @@ if msg.damage
 else
   .action
     a.neutral(href='/profile/#{msg.sender_slug}')= msg.sender_name
-    |  attacked you with a #{data.items[msg.weapon].name} and missed. 
+    |  
+    case data.items[msg.weapon].weapon_class
+      when 'blunt'
+        | cudgeled
+      when 'slash'
+        | slashed
+      when 'stab'
+        | stabbed
+      default
+        | attacked
+    |  you with a #{data.items[msg.weapon].name} and missed. 
     span.time= moment(msg.sent).fromNow()

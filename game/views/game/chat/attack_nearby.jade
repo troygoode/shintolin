@@ -1,6 +1,16 @@
 if msg.damage
   .action
-    | <a href='/profile/#{msg.sender_slug}'>#{msg.sender_name}</a> attacked <a href='/profile/#{msg.target_slug}'>#{msg.target_name}</a> with a #{data.items[msg.weapon].name} for #{msg.damage} hp damage
+    | <a href='/profile/#{msg.sender_slug}'>#{msg.sender_name}</a> 
+    case data.items[msg.weapon].weapon_class
+      when 'blunt'
+        | cudgeled
+      when 'slash'
+        | slashed
+      when 'stab'
+        | stabbed
+      default
+        | attacked
+    |  <a href='/profile/#{msg.target_slug}'>#{msg.target_name}</a> with a #{data.items[msg.weapon].name} for #{msg.damage} hp damage
     if msg.kill
       |  and knocked them out! 
       if msg.kicked_from_settlement
@@ -10,5 +20,15 @@ if msg.damage
     span.time= moment(msg.sent).fromNow()
 else
   .action
-    | <a href='/profile/#{msg.sender_slug}'>#{msg.sender_name}</a> attacked <a href='/profile/#{msg.target_slug}'>#{msg.target_name}</a> with a #{data.items[msg.weapon].name} and missed. 
+    | <a href='/profile/#{msg.sender_slug}'>#{msg.sender_name}</a> 
+    case data.items[msg.weapon].weapon_class
+      when 'blunt'
+        | swung at
+      when 'slash'
+        | swiped at
+      when 'stab'
+        | lunged at
+      default
+        | attacked
+    |  <a href='/profile/#{msg.target_slug}'>#{msg.target_name}</a> with a #{data.items[msg.weapon].name} and missed. 
     span.time= moment(msg.sent).fromNow()
