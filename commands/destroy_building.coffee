@@ -11,22 +11,66 @@ get_settlement = (ctx) ->
 
 remove_building = (ctx) ->
   (cb) ->
-    cb()
+    query =
+      _id: ctx.tile._id
+    update =
+      $unset:
+        building: true
+        hp: true
+    db.tiles.update query, update, cb
 
 remove_interior = (ctx) ->
   (cb) ->
     return cb() unless ctx.building.interior?
-    cb()
-
-notify_interior = (ctx) ->
-  (cb) ->
-    return cb() unless ctx.building.interior?
-    cb()
+    async.parallel [
+      (cb) ->
+        query =
+          x: ctx.tile.x
+          y: ctx.tile.y
+          z: 1
+        db.tiles.remove query, cb
+      , (cb) ->
+        query =
+          x: ctx.tile.x
+          y: ctx.tile.y
+          z: 1
+        update =
+          $set:
+            x: ctx.tile.x
+            y: ctx.tile.y
+            z: 0
+        db.characters.update query, update, false, true, cb
+    ], cb
 
 remove_settlement = (ctx) ->
   (cb) ->
     return cb() unless ctx.settlement? and ctx.building.id is 'totem'
-    cb()
+    async.parallel [
+      (cb) ->
+        query =
+          _id: settlement._id
+        db.settlements.remove query, cb
+      , (cb) ->
+        query =
+          settlement_id: settlement._id
+        update =
+          $unset:
+            settlement_id: true
+            settlement_name: true
+            settlement_slug: true
+            settlement_joined: true
+            settlement_provisional: true
+        db.characters.update query, update, false, true, cb
+    ], cb
+
+notify_interior = (ctx) ->
+  (cb) ->
+    return cb() unless ctx.building.interior?
+    coords =
+      x: ctx.tile.x
+      y: ctx.tile.y
+      z: 1
+    send_message_tile 'demolish_inside', null, coords, [], format_message ctx, cb
 
 notify_settlement = (ctx) ->
   (cb) ->

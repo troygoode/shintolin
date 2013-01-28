@@ -2,6 +2,10 @@ async = require 'async'
 db = require '../db'
 queries = require '../queries'
 destroy_building = require './destroy_building'
+send_message = require './send_message'
+send_message_nearby = require './send_message_nearby'
+send_message_settlement = require './send_message_settlement'
+send_message_tile = require './send_message_tile'
 
 format_msg = (ctx) ->
   if ctx.hit
@@ -62,11 +66,11 @@ notify_nearby = (ctx) ->
 notify_inside = (ctx) ->
   (cb) ->
     return cb() unless ctx.building.interior?
-    queries.get_tile_by_coords ctx.tile.x, ctx.tile.y, 1, (err, inside) ->
-      return cb(err) if err?
-      async.forEach inside.people, (p, cb) ->
-        send_message 'demolish_inside', ctx.attacker, p, format_msg ctx, cb
-      , cb
+    coords =
+      x: ctx.tile.x
+      y: ctx.tile.y
+      z: 1
+    send_message_tile 'demolish_inside', ctx.attacker, coords, [], format_message ctx, cb
 
 notify_settlement = (ctx) ->
   (cb) ->
