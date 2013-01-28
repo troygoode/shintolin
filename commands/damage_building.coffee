@@ -51,7 +51,7 @@ update_tile = (ctx) ->
   (cb) ->
     return cb() unless ctx.hit
     if ctx.destroyed
-      destroy_building ctx.tile, cb
+      destroy_building ctx.attacker, ctx.tile, cb
     else
       query =
         _id: ctx.tile._id
@@ -111,6 +111,6 @@ module.exports = (attacker, tile, weapon, cb) ->
   actions.push update_attacker
   actions.push break_weapon
   actions.push update_tile
-  async.series actions.map (a) ->
+  async.series actions.map((a) ->
     a context
-  , cb
+  ), cb

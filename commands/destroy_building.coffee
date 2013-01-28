@@ -1,6 +1,9 @@
 async = require 'async'
 db = require '../db'
+data = require '../data'
 queries = require '../queries'
+send_message_coords = require './send_message_coords'
+send_message_settlement = require './send_message_settlement'
 
 get_settlement = (ctx) ->
   (cb) ->
@@ -82,18 +85,25 @@ notify_interior = (ctx) ->
       z: 1
     msg =
       building: ctx.building.id
-    send_message_tile 'destroyed_inside', null, coords, [], msg, cb
+      destroyer_id: ctx.destroyer?._id
+      destroyer_name: ctx.destroyer?.name
+      destroyer_slug: ctx.destroyer?.slug
+    send_message_coords 'destroyed_inside', null, coords, [ctx.destroyer], msg, cb
 
 notify_settlement = (ctx) ->
   (cb) ->
     return cb() unless ctx.settlement? and ctx.building.id is 'totem'
     msg =
       settlement_name: ctx.settlement.name
-    send_message_settlement 'settlement_destroyed', null, ctx.settlement, [], msg, cb
+      destroyer_id: ctx.destroyer?._id
+      destroyer_name: ctx.destroyer?.name
+      destroyer_slug: ctx.destroyer?.slug
+    send_message_settlement 'settlement_destroyed', null, ctx.settlement, [ctx.destroyer], msg, cb
 
-module.exports = (tile, cb) ->
+module.exports = (destroyer, tile, cb) ->
   return cb() unless tile.building?
   context =
+    destroyer: destroyer
     tile: tile
     building: data.buildings[tile.building]
 
@@ -104,6 +114,6 @@ module.exports = (tile, cb) ->
   actions.push remove_building
   actions.push remove_interior
   actions.push remove_settlement
-  async.series actions.map (a) ->
+  async.series actions.map((a) ->
     a context
-  , cb
+  ), cb

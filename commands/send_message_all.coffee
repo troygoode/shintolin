@@ -6,7 +6,7 @@ module.exports = (type, sender, recipients, blacklist = [], message = {}, cb) ->
   now = new Date()
   async.forEach recipients, (recipient, cb) ->
     blacklisted = _.some blacklist, (a) ->
-      a._id.toString() is recipient._id.toString()
+      a?._id.toString() is recipient?._id.toString()
     if blacklisted
       cb()
     else
