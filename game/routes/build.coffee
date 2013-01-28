@@ -3,8 +3,6 @@ commands = require '../../commands'
 data = require '../../data'
 mw = require '../middleware'
 
-#TODO: implement item breakage
-
 module.exports = (app) ->
   app.post '/build', mw.not_dazed, (req, res, next) ->
     return next('Xyzzy shenanigans') if req.tile.z isnt 0 # no building huts inside of huts :-)
@@ -20,10 +18,15 @@ module.exports = (app) ->
     gives = building.gives req.character, req.tile
     return next('Insufficient AP') unless req.character.ap >= takes.ap
 
+    broken = []
+
     if takes.tools?
       for tool in takes.tools
         unless _.some(req.character.items, (i) -> i.item is tool)
           return next("You must have a #{tool} to build that.")
+        else
+          tool_type = data.items[tool]
+          broken.push tool if tool_type.break_odds? and Math.random() <= tool_type.break_odds
 
     terrain = data.terrains[req.tile.terrain]
     return next('Nothing can be built here.') unless terrain.buildable?
@@ -54,17 +57,25 @@ module.exports = (app) ->
           z: 1
         commands.create_tile coords, building.interior, cb
       , (cb) ->
+        # remove broken tools from inventory
+        return cb() unless broken.length
+        break_item = (item, cb) ->
+          commands.remove_item req.character, data.items[break_item], 1, cb
+        async.forEach broken, break_item, cb
+      , (cb) ->
         # grant xp
         commands.xp req.character, gives.xp.wanderer ? 0, gives.xp.herbalist ? 0, gives.xp.crafter ? 0, gives.xp.warrior ? 0, cb
       , (cb) ->
         # notify user of success
         commands.send_message 'built', req.character, req.character,
           building: building.id
+          broken: broken
         , cb
       , (cb) ->
         # notify others of success
         commands.send_message_nearby 'built_nearby', req.character, [req.character],
           building: building.id
+          broken: broken
         , cb
     ], (err) ->
       return next(err) if err?
