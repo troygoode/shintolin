@@ -10,19 +10,22 @@ send_message_coords = require './send_message_coords'
 
 format_msg = (ctx) ->
   if ctx.hit
+    hit: true
     building: ctx.building.id
     weapon: ctx.weapon.id
-    damage: ctx.damage
-    destroyed: ctx.destroyed
     broken: ctx.broken
     settlement_id: ctx.settlement?._id
     settlement_name: ctx.settlement?.name
     settlement_slug: ctx.settlement?.slug
+    damage: ctx.damage
+    destroyed: ctx.destroyed
   else
     building: ctx.building.id
     weapon: ctx.weapon.id
-    damage: ctx.damage
     broken: ctx.broken
+    settlement_id: ctx.settlement?._id
+    settlement_name: ctx.settlement?.name
+    settlement_slug: ctx.settlement?.slug
 
 get_settlement = (ctx) ->
   (cb) ->
