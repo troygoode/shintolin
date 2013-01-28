@@ -1,4 +1,5 @@
 async = require 'async'
+data = require '../data'
 db = require '../db'
 queries = require '../queries'
 destroy_building = require './destroy_building'
@@ -80,7 +81,7 @@ notify_settlement = (ctx) ->
     return cb() unless ctx.settlement?
     send_message_settlement 'damage_building_settlement', ctx.attacker, ctx.settlement, [], format_msg ctx, cb
 
-module.exports = (character, tile, weapon, cb) ->
+module.exports = (attacker, tile, weapon, cb) ->
   building = data.buildings[tile.building]
   accuracy = weapon.accuracy attacker, building, tile
   hit = Math.random() <= accuracy
@@ -90,7 +91,7 @@ module.exports = (character, tile, weapon, cb) ->
   destroyed = damage >= tile.hp
 
   context =
-    character: character
+    attacker: attacker
     tile: tile
     building: building
     weapon: weapon
