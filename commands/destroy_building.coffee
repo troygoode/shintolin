@@ -4,6 +4,7 @@ data = require '../data'
 queries = require '../queries'
 send_message_coords = require './send_message_coords'
 send_message_settlement = require './send_message_settlement'
+teleport = require './teleport'
 
 get_settlement = (ctx) ->
   (cb) ->
@@ -34,16 +35,19 @@ remove_interior = (ctx) ->
           z: 1
         db.tiles.remove query, cb
       , (cb) ->
-        query =
+        old_coords =
           x: ctx.tile.x
           y: ctx.tile.y
           z: 1
-        update =
-          $set:
-            x: ctx.tile.x
-            y: ctx.tile.y
-            z: 0
-        db.characters.update query, update, false, true, cb
+        new_coords =
+          x: ctx.tile.x
+          y: ctx.tile.y
+          z: 1
+        db.characters.find(old_coords).toArray (err, characters) ->
+          return cb(err) if err?
+          async.forEach characters, (character, cb) ->
+            teleport character, old_coords, new_coords, cb
+          , cb
     ], cb
 
 remove_settlement = (ctx) ->

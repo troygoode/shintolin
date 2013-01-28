@@ -4,6 +4,7 @@ queries = require '../queries'
 create_tile = require './create_tile'
 data = require '../data'
 teleport = require './teleport'
+charge_ap = require './charge_ap'
 
 db.register_index db.tiles,
   x: 1
@@ -88,4 +89,6 @@ module.exports = (character, direction, cb) ->
     else
       ap_cost = 1
     return cb('Insufficient AP') unless character.ap >= ap_cost
-    teleport character, old_coords, new_tile ? coords, cb
+    charge_ap character, ap_cost, (err) ->
+      return cb(err) if err?
+      teleport character, old_tile ? old_coords, new_tile ? coords, cb

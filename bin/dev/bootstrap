@@ -31,6 +31,10 @@ items = [
   {to: 'Ecce', item: data.items.test_weapon}
 ]
 xp = 1000
+move =
+  Ecce: {x: 1, y: 0, z: 0}
+  TroyMG: {x: 1, y: 0, z: 0}
+  Deschain: {x: 1, y: 0, z: 1}
 
 async.series [
   (cb) ->
@@ -84,6 +88,15 @@ async.series [
       commands.xp c, xp, xp, xp, xp, (err) ->
         return cb(err) if err?
         console.log "Granted 60xp to each xp type for #{c.name}."
+        cb()
+    , cb
+  , (cb) ->
+    arr = []
+    arr.push character: character, coords: coords for character, coords of move
+    async.forEach arr, (a, cb) ->
+      commands.teleport characters[a.character], null, a.coords, (err) ->
+        return cb(err) if err?
+        console.log "Moved #{a.character} to #{a.coords.x},#{a.coords.y},#{a.coords.z}."
         cb()
     , cb
 ], (err) ->
