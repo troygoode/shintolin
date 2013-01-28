@@ -60,7 +60,7 @@ module.exports = (app) ->
         # remove broken tools from inventory
         return cb() unless broken.length
         break_item = (item, cb) ->
-          commands.remove_item req.character, data.items[break_item], 1, cb
+          commands.remove_item req.character, data.items[item], 1, cb
         async.forEach broken, break_item, cb
       , (cb) ->
         # grant xp

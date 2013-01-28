@@ -2,7 +2,6 @@
 
 ## Fundamentals (combat, item usage)
 
-* item breakage
 * attacking/destroying buildings
   * restrictions on attacking totems
     * handle settlement destruction
