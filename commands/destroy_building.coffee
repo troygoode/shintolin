@@ -27,14 +27,8 @@ remove_building = (ctx) ->
 remove_interior = (ctx) ->
   (cb) ->
     return cb() unless ctx.building.interior?
-    async.parallel [
+    async.series [
       (cb) ->
-        query =
-          x: ctx.tile.x
-          y: ctx.tile.y
-          z: 1
-        db.tiles.remove query, cb
-      , (cb) ->
         old_coords =
           x: ctx.tile.x
           y: ctx.tile.y
@@ -42,12 +36,18 @@ remove_interior = (ctx) ->
         new_coords =
           x: ctx.tile.x
           y: ctx.tile.y
-          z: 1
+          z: 0
         db.characters.find(old_coords).toArray (err, characters) ->
           return cb(err) if err?
           async.forEach characters, (character, cb) ->
             teleport character, old_coords, new_coords, cb
           , cb
+      , (cb) ->
+        query =
+          x: ctx.tile.x
+          y: ctx.tile.y
+          z: 1
+        db.tiles.remove query, cb
     ], cb
 
 remove_settlement = (ctx) ->
@@ -80,6 +80,19 @@ remove_settlement = (ctx) ->
         db.tiles.update query, update, false, true, cb
     ], cb
 
+notify_nearby = (ctx) ->
+  (cb) ->
+    coords =
+      x: ctx.tile.x
+      y: ctx.tile.y
+      z: 0
+    msg =
+      building: ctx.building.id
+      destroyer_id: ctx.destroyer?._id
+      destroyer_name: ctx.destroyer?.name
+      destroyer_slug: ctx.destroyer?.slug
+    send_message_coords 'destroyed_nearby', null, coords, [], msg, cb
+
 notify_interior = (ctx) ->
   (cb) ->
     return cb() unless ctx.building.interior?
@@ -92,7 +105,7 @@ notify_interior = (ctx) ->
       destroyer_id: ctx.destroyer?._id
       destroyer_name: ctx.destroyer?.name
       destroyer_slug: ctx.destroyer?.slug
-    send_message_coords 'destroyed_inside', null, coords, [ctx.destroyer], msg, cb
+    send_message_coords 'destroyed_inside', null, coords, [], msg, cb
 
 notify_settlement = (ctx) ->
   (cb) ->
@@ -102,7 +115,7 @@ notify_settlement = (ctx) ->
       destroyer_id: ctx.destroyer?._id
       destroyer_name: ctx.destroyer?.name
       destroyer_slug: ctx.destroyer?.slug
-    send_message_settlement 'settlement_destroyed', null, ctx.settlement, [ctx.destroyer], msg, cb
+    send_message_settlement 'settlement_destroyed', null, ctx.settlement, [], msg, cb
 
 module.exports = (destroyer, tile, cb) ->
   return cb() unless tile.building?
@@ -113,6 +126,7 @@ module.exports = (destroyer, tile, cb) ->
 
   actions = []
   actions.push get_settlement
+  actions.push notify_nearby
   actions.push notify_interior
   actions.push notify_settlement
   actions.push remove_building
