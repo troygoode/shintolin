@@ -30,6 +30,7 @@ notify_voter = (settlement, voter, voting_for, cb) ->
     send_message 'changed_vote', voter, voter, {}, cb
 
 module.exports = (settlement, voter, voting_for, cb) ->
+  return cb('That settlement has been destroyed.') if settlement.destroyed
   return cb('You aren\'t a member of a settlement.') unless voter.settlement_id?
   return cb('Provisional members cannot vote.') if voter.settlement_provisional
   return cb('You cannot vote for a candidate that isn\'t a member of your settlement.') unless voter.settlement_id.toString() is voting_for.settlement_id?.toString()

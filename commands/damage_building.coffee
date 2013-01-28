@@ -30,7 +30,7 @@ format_msg = (ctx) ->
 get_settlement = (ctx) ->
   (cb) ->
     return cb() unless ctx.tile.settlement_id?
-    queries.get_settlement ctx.tile.settlement_id, (err, settlement) ->
+    queries.get_settlement ctx.tile.settlement_id?.toString(), (err, settlement) ->
       return cb(err) if err?
       ctx.settlement = settlement
       cb()

@@ -5,10 +5,11 @@ queries = require '../queries'
 send_message_coords = require './send_message_coords'
 send_message_settlement = require './send_message_settlement'
 teleport = require './teleport'
+broadcast_message = require './broadcast_message'
 
 get_settlement = (ctx) ->
   (cb) ->
-    queries.get_settlement ctx.tile.settlement_id, (err, settlement) ->
+    queries.get_settlement ctx.tile.settlement_id?.toString(), (err, settlement) ->
       return cb(err) if err?
       ctx.settlement = settlement
       cb()
@@ -52,15 +53,26 @@ remove_interior = (ctx) ->
 
 remove_settlement = (ctx) ->
   (cb) ->
-    return cb() unless ctx.settlement? and ctx.building.id is 'totem'
+    return cb() unless ctx.settlement? and ctx.tile.hq
     async.parallel [
       (cb) ->
         query =
-          _id: settlement._id
-        db.settlements.remove query, cb
+          _id: ctx.settlement._id
+        update =
+          $set:
+            population: 0
+            members: []
+            destroyed: ctx.now
+            destroyer:
+              _id: ctx.destroyer?._id
+              name: ctx.destroyer?.name
+              slug: ctx.destroyer?.slug
+          $unset:
+            leader: true
+        db.settlements.update query, update, cb
       , (cb) ->
         query =
-          settlement_id: settlement._id
+          settlement_id: ctx.settlement._id
         update =
           $unset:
             settlement_id: true
@@ -71,7 +83,7 @@ remove_settlement = (ctx) ->
         db.characters.update query, update, false, true, cb
       , (cb) ->
         query =
-          settlement_id: settlement._id
+          settlement_id: ctx.settlement._id
         update =
           $unset:
             settlement_id: true
@@ -109,17 +121,32 @@ notify_interior = (ctx) ->
 
 notify_settlement = (ctx) ->
   (cb) ->
-    return cb() unless ctx.settlement? and ctx.building.id is 'totem'
+    return cb() unless ctx.settlement? and not ctx.tile.hq
     msg =
+      settlement_id: ctx.settlement._id
       settlement_name: ctx.settlement.name
+      settlement_slug: ctx.settlement.slug
       destroyer_id: ctx.destroyer?._id
       destroyer_name: ctx.destroyer?.name
       destroyer_slug: ctx.destroyer?.slug
-    send_message_settlement 'settlement_destroyed', null, ctx.settlement, [], msg, cb
+    send_message_settlement 'destroyed_settlement_building', null, ctx.settlement, [], msg, cb
+
+broadcast_settlement_destroyed = (ctx) ->
+  (cb) ->
+    return cb() unless ctx.settlement? and ctx.tile.hq
+    broadcast_message 'settlement_removed', ctx.destroyer, [],
+      settlement_id: ctx.settlement._id
+      settlement_name: ctx.settlement.name
+      settlement_slug: ctx.settlement.slug
+      destroyer_id: ctx.destroyer?._id
+      destroyer_name: ctx.destroyer?.name
+      destroyer_slug: ctx.destroyer?.slug
+    , cb
 
 module.exports = (destroyer, tile, cb) ->
   return cb() unless tile.building?
   context =
+    now: new Date()
     destroyer: destroyer
     tile: tile
     building: data.buildings[tile.building]
@@ -129,6 +156,7 @@ module.exports = (destroyer, tile, cb) ->
   actions.push notify_nearby
   actions.push notify_interior
   actions.push notify_settlement
+  actions.push broadcast_settlement_destroyed
   actions.push remove_building
   actions.push remove_interior
   actions.push remove_settlement

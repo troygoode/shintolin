@@ -22,6 +22,8 @@
           include chat/damage_building
         when 'damage_building_nearby'
           include chat/damage_building_nearby
+        when 'damage_building_settlement'
+          include chat/damage_building_settlement
         when 'damage_building_inside'
           include chat/damage_building_inside
         when 'destroyed_nearby'
@@ -50,6 +52,8 @@
           include chat/search
         when 'settled'
           include chat/settled
+        when 'settlement_removed'
+          include chat/settlement_removed
         when 'social'
           div
             a.neutral(href='/profile/#{msg.sender_id}')= msg.sender_name

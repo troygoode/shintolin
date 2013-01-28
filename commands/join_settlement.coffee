@@ -58,6 +58,7 @@ notify_members = (character, settlement, cb) ->
   , cb
 
 module.exports = (character, settlement, cb) ->
+  return cb('That settlement has been destroyed.') if settlement.destroyed
   return cb('No character passed.') unless character?
   return cb('No settlement passed.') unless settlement?
   now = new Date()

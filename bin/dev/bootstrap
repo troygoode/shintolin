@@ -35,6 +35,9 @@ move =
   Ecce: {x: 1, y: 0, z: 0}
   TroyMG: {x: 1, y: 0, z: 0}
   Deschain: {x: 1, y: 0, z: 1}
+founder = 'TroyMG'
+hq = x: 0, y: 0, z: 0
+settlement_name = 'Test Settlement'
 
 async.series [
   (cb) ->
@@ -99,6 +102,11 @@ async.series [
         console.log "Moved #{a.character} to #{a.coords.x},#{a.coords.y},#{a.coords.z}."
         cb()
     , cb
+  , (cb) ->
+    commands.create_settlement characters[founder], hq, settlement_name, (err) ->
+      return cb(err) if err?
+      console.log "#{founder} founded the settlement of #{settlement_name}."
+      cb()
 ], (err) ->
   if err?
     console.log err

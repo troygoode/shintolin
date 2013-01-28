@@ -8,15 +8,19 @@ html
     if settlement.motto.length
       h3.header: i= settlement.motto
 
+    if settlement.destroyed
+      p.destroyed This settlement was destroyed by <a href='/profiles/#{settlement.destroyer.slug}'>#{settlement.destroyer.name}</a> on #{moment(settlement.destroyed).format('MMMM Do YYYY')}.
+
     table
       tr
         td(colspan='2')
           .beigebox(style='font-style: italic; width: 35em')
             if settlement.website_url.length
               <b>Website:</b> <a href='#{settlement.website_url}'>#{settlement.website_url}</a>
-              br
-            <b>Signup link:</b> <a href='http://www.shintolin.com/?settlement=#{settlement.slug}'>http://www.shintolin.com/?settlement=#{settlement.slug}</a>
-            hr
+              hr
+            unless settlement.destroyed
+              <b>Signup link:</b> <a href='http://www.shintolin.com/?settlement=#{settlement.slug}'>http://www.shintolin.com/?settlement=#{settlement.slug}</a>
+              hr
             if settlement.description.length
               | #{settlement.description}
             else
@@ -82,7 +86,10 @@ html
                 td= settlement.population
               tr
                 td: b Founded:
-                td= moment(settlement.founded).format('MMMM Do YYYY')
+                td
+                  | #{moment(settlement.founded).format('MMMM Do YYYY')}
+                  |  by 
+                  a(href='/profile/#{settlement.founder.slug}')= settlement.founder.name
               tr
                 td(colspan='2')
                   hr

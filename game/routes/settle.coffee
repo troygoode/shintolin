@@ -1,7 +1,6 @@
 _ = require 'underscore'
 async = require 'async'
 data = require '../../data'
-db = require '../../db'
 mw = require '../middleware'
 commands = require '../../commands'
 queries = require '../../queries'
@@ -78,15 +77,6 @@ module.exports = (app) ->
         , (cb) ->
           # charge ap
           commands.charge_ap req.character, takes.ap, cb
-        , (cb) ->
-          # update current tile
-          query =
-            _id: req.tile._id
-          update =
-            $set:
-              building: building.id
-              hp: building.hp
-          db.tiles.update query, update, cb
         , (cb) ->
           # create settlement
           commands.create_settlement req.character, req.tile, req.body.name, (err, s) ->

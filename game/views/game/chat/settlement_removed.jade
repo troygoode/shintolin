@@ -1,0 +1,5 @@
+.action
+  | The settlement of <a href='/settlements/#{msg.settlement_slug}'>#{msg.settlement_name}</a> has been wiped off the map by 
+  a(href='/profile/#{msg.destroyer_slug}')= msg.destroyer_name
+  | ! 
+  span.time= moment(msg.sent).fromNow()
