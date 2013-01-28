@@ -6,7 +6,7 @@ destroy_building = require './destroy_building'
 send_message = require './send_message'
 send_message_nearby = require './send_message_nearby'
 send_message_settlement = require './send_message_settlement'
-send_message_tile = require './send_message_tile'
+send_message_coords = require './send_message_coords'
 
 format_msg = (ctx) ->
   if ctx.hit
@@ -26,6 +26,7 @@ format_msg = (ctx) ->
 
 get_settlement = (ctx) ->
   (cb) ->
+    return cb() unless ctx.tile.settlement_id?
     queries.get_settlement ctx.tile.settlement_id, (err, settlement) ->
       return cb(err) if err?
       ctx.settlement = settlement
@@ -61,11 +62,11 @@ update_tile = (ctx) ->
 
 notify_attacker = (ctx) ->
   (cb) ->
-    send_message 'damage_building', ctx.attacker, ctx.attacker, format_msg ctx, cb
+    send_message 'damage_building', ctx.attacker, ctx.attacker, format_msg(ctx), cb
 
 notify_nearby = (ctx) ->
   (cb) ->
-    send_message_nearby 'damage_building_nearby', ctx.attacker, [ctx.attacker], format_msg ctx, cb
+    send_message_nearby 'damage_building_nearby', ctx.attacker, [ctx.attacker], format_msg(ctx), cb
 
 notify_inside = (ctx) ->
   (cb) ->
@@ -74,12 +75,12 @@ notify_inside = (ctx) ->
       x: ctx.tile.x
       y: ctx.tile.y
       z: 1
-    send_message_tile 'damage_building_inside', ctx.attacker, coords, [], format_message ctx, cb
+    send_message_coords 'damage_building_inside', ctx.attacker, coords, [], format_msg(ctx), cb
 
 notify_settlement = (ctx) ->
   (cb) ->
     return cb() unless ctx.settlement?
-    send_message_settlement 'damage_building_settlement', ctx.attacker, ctx.settlement, [], format_msg ctx, cb
+    send_message_settlement 'damage_building_settlement', ctx.attacker, ctx.settlement, [], format_msg(ctx), cb
 
 module.exports = (attacker, tile, weapon, cb) ->
   building = data.buildings[tile.building]
@@ -104,11 +105,11 @@ module.exports = (attacker, tile, weapon, cb) ->
   actions = []
   actions.push get_settlement
   actions.push notify_attacker
-  actions.push break_weapon
   actions.push notify_nearby
   actions.push notify_inside
   actions.push notify_settlement
   actions.push update_attacker
+  actions.push break_weapon
   actions.push update_tile
   async.series actions.map (a) ->
     a context

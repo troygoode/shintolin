@@ -60,7 +60,7 @@ async.series [
     async.forEachSeries buildings, (b, cb) ->
       queries.get_tile_by_coords {x: b.x, y: b.y, z: 0}, (err, tile) ->
         return cb(err) if err?
-        commands.add_building_to_tile tile, b.building, (err) ->
+        commands.create_building tile, b.building, (err) ->
           return cb(err) if err?
           console.log "Built a #{b.building.name} at #{tile.x},#{tile.y},#{tile.z}."
           cb()
