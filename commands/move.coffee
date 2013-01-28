@@ -3,6 +3,7 @@ db = require '../db'
 queries = require '../queries'
 create_tile = require './create_tile'
 data = require '../data'
+teleport = require './teleport'
 
 db.register_index db.tiles,
   x: 1
@@ -87,42 +88,4 @@ module.exports = (character, direction, cb) ->
     else
       ap_cost = 1
     return cb('Insufficient AP') unless character.ap >= ap_cost
-    async.parallel [
-      (cb) ->
-        query_character =
-          _id: character._id
-        update_character =
-          $set:
-            x: coords.x
-            y: coords.y
-            z: coords.z
-            last_action: new Date()
-          $inc:
-            ap: 0 - ap_cost
-        db.characters.update query_character, update_character, cb
-      , (cb) ->
-        update_newtile =
-          $push:
-            people:
-              _id: character._id
-              name: character.name
-              slug: character.slug
-              hp: character.hp
-              hp_max: character.hp_max
-        if character.settlement_id?
-          update_newtile.$push.people.settlement_id = character.settlement_id
-        if new_tile?
-          db.tiles.update coords, update_newtile, cb
-        else
-          create_tile coords, 'wilderness', (err) ->
-            return cb(err) if err?
-            db.tiles.update coords, update_newtile, cb
-      , (cb) ->
-        query =
-          old_coords
-        update =
-          $pull:
-            people:
-              _id: character._id
-        db.tiles.update query, update, false, true, cb
-    ], cb
+    teleport character, old_coords, new_tile ? coords, cb
