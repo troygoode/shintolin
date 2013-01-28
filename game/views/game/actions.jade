@@ -8,6 +8,8 @@ if character.hp > 0
         option(value='') no-one
         for c in center.people
           option(value=c._id)= c.name
+        if center.building
+          option(value='building')= center.building.name
       |  with 
       select(name='item', style='width: 10em', data-persist='weapon')
         for weapon in weapons

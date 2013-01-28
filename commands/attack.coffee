@@ -180,12 +180,16 @@ notify_nearby_miss = (attacker, target, weapon, broken) ->
     , cb
 
 module.exports = (attacker, target, tile, weapon, cb) ->
+  #TODO: validate that weapon is a weapon
+  #TODO: validate that weapon can be used to attack buildings (must be slash???)
+
+  actions = []
   accuracy = weapon.accuracy attacker, target, tile
   damage = weapon.damage attacker, target, tile
   damage = target.hp if damage > target.hp
   hit = Math.random() <= accuracy
   broken = if hit and weapon.break_odds then Math.random() <= weapon.break_odds else false
-  actions = []
+
 
   if hit
     actions.push update_attacker(attacker, target, weapon, damage, broken)
