@@ -3,7 +3,6 @@
 ## Fundamentals (combat, item usage)
 
 * restrictions on attacking totems
-  * handle settlement destruction
 * create tiles around settlements (if otherwise wilderness)
 * healing
 * reviving
