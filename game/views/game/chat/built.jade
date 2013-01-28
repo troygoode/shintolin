@@ -1,6 +1,6 @@
 .action
   | You built a #{msg.building}.  
-  if msg.broken and msg.broken.length
+  if msg.broken && msg.broken.length
     for broken_item in msg.broken
       | Your cherished #{data.items[broken_item].name} breaks!  
     | You throw away the useless pieces in disgust.  
