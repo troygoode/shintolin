@@ -17,6 +17,7 @@ remove_building = (ctx) ->
       $unset:
         building: true
         hp: true
+        hq: true
     db.tiles.update query, update, cb
 
 remove_interior = (ctx) ->
@@ -61,6 +62,15 @@ remove_settlement = (ctx) ->
             settlement_joined: true
             settlement_provisional: true
         db.characters.update query, update, false, true, cb
+      , (cb) ->
+        query =
+          settlement_id: settlement._id
+        update =
+          $unset:
+            settlement_id: true
+            settlement_name: true
+            settlement_slug: true
+        db.tiles.update query, update, false, true, cb
     ], cb
 
 notify_interior = (ctx) ->
@@ -70,12 +80,16 @@ notify_interior = (ctx) ->
       x: ctx.tile.x
       y: ctx.tile.y
       z: 1
-    send_message_tile 'demolish_inside', null, coords, [], format_message ctx, cb
+    msg =
+      building: ctx.building.id
+    send_message_tile 'destroyed_inside', null, coords, [], msg, cb
 
 notify_settlement = (ctx) ->
   (cb) ->
     return cb() unless ctx.settlement? and ctx.building.id is 'totem'
-    cb()
+    msg =
+      settlement_name: ctx.settlement.name
+    send_message_settlement 'settlement_destroyed', null, ctx.settlement, [], msg, cb
 
 module.exports = (tile, cb) ->
   return cb() unless tile.building?

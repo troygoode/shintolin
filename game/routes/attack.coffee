@@ -12,7 +12,7 @@ module.exports = (app) ->
       return next('There is no building to attack.') unless req.tile.building?
       return next('You cannot attack a building from within it.') unless req.character.z is 0
       #TODO: validate that no other buildings are around IF THIS IS A TOTEM
-      commands.demolish req.character, req.tile, req.item, (err) ->
+      commands.damage_building req.character, req.tile, req.item, (err) ->
         return next(err) if err?
         res.redirect '/game'
     else
