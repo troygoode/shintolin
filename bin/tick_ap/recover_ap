@@ -1,10 +1,30 @@
 #!/usr/bin/env coffee
 
+async = require 'async'
 db = require '../../db'
+max_ap = 100
+base_ap_increase = 3
 
-db.characters.update {ap: {$lt: 100}}, {$inc: {ap: 1}}, false, true, (err, updated) ->
+fin = (err, count) ->
   if err?
     console.log err
   else
-    console.log "Updated #{updated} character records."
+    console.log "Updated #{count} character records."
   process.exit()
+
+query =
+  ap: {$lt: max_ap}
+db.characters.find(query).toArray (err, characters) ->
+  return fin(err) if err?
+  async.forEach characters, (character, cb) ->
+    ap = base_ap_increase
+    if ap + character.ap > max_ap
+      ap = max_ap - character.ap
+    query =
+      _id: character._id
+    update =
+      $inc:
+        ap: ap
+    db.characters.update query, update, cb
+  , (err) ->
+    fin err, characters.length
