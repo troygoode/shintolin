@@ -8,7 +8,9 @@ module.exports = (app) ->
         queries.squares cb
       , (cb) ->
         queries.all_settlements cb
-    ], (err, [square_count, settlements]) ->
+      , (cb) ->
+        queries.rankings.younguns cb
+    ], (err, [square_count, settlements, younguns]) ->
       return next(err) if err?
       active_settlements = settlements.filter (s) ->
         not s.destroyed?
@@ -17,4 +19,5 @@ module.exports = (app) ->
         square_count: square_count
         settlement_count: active_settlements.length
         settlements: active_settlements
+        younguns: younguns
         server_time: new Date()

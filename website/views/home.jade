@@ -24,6 +24,9 @@ html
               b Settlements: #{settlement_count}
               br
               b Map: #{square_count} squares
+              if younguns && younguns.length > 0
+                br
+                b Newest Player: <a href='/profile/#{younguns[0].slug}'>#{younguns[0].name}</a>
             .beigebox(style='width: 15em; margin-top: 4px')
               b Sign in:
               hr
