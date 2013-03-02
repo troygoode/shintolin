@@ -1,5 +1,6 @@
 $(document.body).bind 'keyup', (event) ->
   return unless event.srcElement.localName is 'body'
+  return if event.altKey or event.ctrlKey or event.metaKey or event.shiftKey
   switch event.keyCode
     when 81 then $('.movebutton[data-direction=nw]').trigger 'click'
     when 87 then $('.movebutton[data-direction=n]').trigger 'click'
