@@ -11,12 +11,13 @@ app = module.exports = express()
 app.set 'views', "#{__dirname}/views"
 app.set 'view engine', 'jade'
 
-app.use express.favicon("#{__dirname}/public/favicon.ico")
+app.use express.favicon "#{__dirname}/public/favicon.ico"
 app.use express.static "#{__dirname}/public"
-app.use assets
+app.use(assets(
   src: "#{__dirname}/assets"
   helperContext: app.locals
   servePath: '/game'
+))
 
 app.use express.bodyParser()
 app.use express.methodOverride()

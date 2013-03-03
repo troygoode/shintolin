@@ -30,9 +30,10 @@ app.use (req, res, next) ->
   next()
 
 app.use app.router
-app.use express.errorHandler
+app.use(express.errorHandler(
   dumpExceptions: config.production
   showStack: config.production
+))
 
 route app for key, route of routes
 
