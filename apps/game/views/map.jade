@@ -3,8 +3,8 @@ html
   head
     title Shintolin - Explore. Settle. Trade. Conquer.
     link(rel='stylesheet', type='text/css', href='/shintolin.css')
-    !=css('game')
-    !=css('tiles')
+    link(rel='stylesheet', type='text/css', href='/game#{assets.url('/css/game.css')}')
+    link(rel='stylesheet', type='text/css', href='/game#{assets.url('/css/tiles.css')}')
   body
     h1.header Map
     a.buttonlink(href='/game') Return

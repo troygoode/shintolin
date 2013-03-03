@@ -1,11 +1,26 @@
 _ = require 'underscore'
 express = require 'express'
-assets = require 'connect-assets'
+rack = require 'asset-rack'
 config = require '../../config'
 data = require '../../data'
 shared_session = require '../shared_session'
 middleware = require './middleware'
 routes = require('require-directory')(module, "#{__dirname}/routes")
+
+assets = new rack.Rack [
+  new rack.StylusAsset
+    url: '/css/game.css'
+    filename: "#{__dirname}/assets/css/game.styl"
+    compress: config.production
+  new rack.StylusAsset
+    url: '/css/tiles.css'
+    filename: "#{__dirname}/assets/css/tiles.styl"
+    compress: config.production
+  new rack.SnocketsAsset
+    url: '/js/game.js'
+    filename: "#{__dirname}/assets/js/game.coffee"
+    compress: config.production
+]
 
 app = module.exports = express()
 app.set 'views', "#{__dirname}/views"
@@ -13,11 +28,7 @@ app.set 'view engine', 'jade'
 
 app.use express.favicon "#{__dirname}/public/favicon.ico"
 app.use express.static "#{__dirname}/public"
-app.use(assets(
-  src: "#{__dirname}/assets"
-  helperContext: app.locals
-  servePath: '/game'
-))
+app.use assets
 
 app.use express.bodyParser()
 app.use express.methodOverride()
