@@ -1,1 +1,1 @@
-web: coffee website/app.coffee
+web: coffee apps/website/app.coffee
