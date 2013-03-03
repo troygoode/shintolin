@@ -6,3 +6,5 @@ module.exports =
   nodefly: process.env.NODEFLY
 
   maximum_level: 18
+
+  production: process.env.NODE_ENV is 'production'
