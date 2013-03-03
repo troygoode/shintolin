@@ -1,9 +1,9 @@
 _ = require 'underscore'
 express = require 'express'
 assets = require 'connect-assets'
-MongoSession = require('connect-mongo')(express)
 config = require '../../config'
 data = require '../../data'
+shared_session = require '../shared_session'
 middleware = require './middleware'
 routes = require('require-directory')(module, "#{__dirname}/routes")
 
@@ -21,10 +21,7 @@ app.use assets
 app.use express.bodyParser()
 app.use express.methodOverride()
 app.use express.cookieParser()
-app.use express.session
-  secret: config.session_secret
-  store: new MongoSession(url: config.mongo_uri)
-  auto_reconnect: true
+app.use shared_session
 
 app.use middleware.auth
 app.use express.csrf()

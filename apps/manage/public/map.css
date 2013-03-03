@@ -1,0 +1,9 @@
+#map table tr td{
+  width: 16px;
+  height: 16px;
+  background-image: none;
+}
+
+#map table tr td.highlight{
+  background-color: red !important;
+}

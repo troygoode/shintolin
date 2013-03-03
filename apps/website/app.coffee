@@ -2,11 +2,11 @@ config = require '../../config'
 require('nodefly').profile(config.nodefly, ['Shintolin', 'Heroku']) if config.nodefly?.length
 
 express = require 'express'
-MongoSession = require('connect-mongo')(express)
+time = require '../../time'
+shared_session = require '../shared_session'
 game_app = require '../game/app'
 management_app = require '../manage/app'
 routes = require('require-directory')(module, "#{__dirname}/routes")
-time = require '../../time'
 
 app = module.exports = express()
 app.set 'views', "#{__dirname}/views"
@@ -20,10 +20,7 @@ app.use express.static "#{__dirname}/public"
 app.use express.bodyParser()
 app.use express.methodOverride()
 app.use express.cookieParser()
-app.use express.session
-  secret: config.session_secret
-  store: new MongoSession(url: config.mongo_uri)
-  auto_reconnect: true
+app.use shared_session
 
 app.use (req, res, next) ->
   req.time = time(new Date())
