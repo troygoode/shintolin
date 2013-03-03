@@ -1,7 +1,5 @@
-config = require '../../config'
-require('nodefly').profile(config.nodefly, ['Shintolin', 'Heroku']) if config.nodefly?.length
-
 express = require 'express'
+config = require '../../config'
 time = require '../../time'
 shared_session = require '../shared_session'
 game_app = require '../game/app'

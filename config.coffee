@@ -3,8 +3,6 @@ module.exports =
   session_secret: process.env.SESSION_SECRET or 'secret'
   mongo_uri: process.env.MONGOLAB_URI or 'mongodb://localhost/shintolin'
 
-  nodefly: process.env.NODEFLY
-
   maximum_level: 18
 
   production: process.env.NODE_ENV is 'production'
