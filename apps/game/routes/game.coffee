@@ -129,6 +129,10 @@ module.exports = (app) ->
       weapons = weapons.map (i) ->
         visit_weapon data.items[i.item], req.character, center
       weapons.unshift visit_weapon data.items.fist, req.character, center
+      build_recipes = ->
+        visit_recipe(recipe, req.character, center) for key, recipe of data.recipes
+      build_buildings = ->
+        visit_building(building, req.character, center) for key, building of data.buildings
       locals =
         character: req.character
         grid: build_grid tiles, req.character
@@ -138,8 +142,8 @@ module.exports = (app) ->
         data: data
         weapons: weapons
         settlement: settlement
-        recipes: visit_recipe recipe, req.character, center for key, recipe of data.recipes
-        buildings: visit_building building, req.character, center for key, building of data.buildings
+        recipes: build_recipes()
+        buildings: build_buildings()
       for row, i in locals.grid
         for tile, j in row
           locals.grid[i][j] = visit_tile tile, locals.center, locals.character
