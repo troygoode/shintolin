@@ -1,5 +1,26 @@
 _ = require 'underscore'
 coords_in_circle_around = require '../queries/coords_in_circle_around'
+RADIUS_1 = """
+           _X_
+           XXX
+           _X_
+           """
+RADIUS_2 = """
+           __X__
+           _XXX_
+           XXXXX
+           _XXX_
+           __X__
+           """
+RADIUS_3 = """
+           ___X___
+           _XXXXX_
+           _XXXXX_
+           XXXXXXX
+           _XXXXX_
+           _XXXXX_
+           ___X___
+           """
 
 visualize = (center, radius) ->
   ret = ''
@@ -15,50 +36,18 @@ visualize = (center, radius) ->
   ret.substring(0, ret.length - 1)
 
 describe 'coords_in_circle_around', ->
-  it 'works with a radius of 1', (done) ->
-    #arrange/act
+  it 'works with a radius of 1', ->
     viz = visualize x:0, y:0, 1
+    viz.should.eql RADIUS_1
 
-    #assert
-    expected = """
-               _X_
-               XXX
-               _X_
-               """
-    viz.should.eql expected
-    done()
+  it 'works with a radius of 1 (offset)', ->
+    viz = visualize x:5000, y:-2000, 1
+    viz.should.eql RADIUS_1
 
-  it 'works with a radius of 2', (done) ->
-    #arrange/act
+  it 'works with a radius of 2', ->
     viz = visualize x:0, y:0, 2
+    viz.should.eql RADIUS_2
 
-    #assert
-    expected = """
-               __X__
-               _XXX_
-               XXXXX
-               _XXX_
-               __X__
-               """
-    viz.should.eql expected
-    done()
-
-  it 'works with a radius of 3', (done) ->
-    #arrange/act
+  it 'works with a radius of 3', ->
     viz = visualize x:0, y:0, 3
-    console.log viz
-
-    #assert
-    expected = """
-               ___X___
-               __XXX__
-               _XXXXX_
-               XXXXXXX
-               _XXXXX_
-               __XXX__
-               ___X___
-               """
-    console.log "\n#{viz}\n"
-    console.log "\n#{expected}\n"
-    viz.should.eql expected
-    done()
+    viz.should.eql RADIUS_3
