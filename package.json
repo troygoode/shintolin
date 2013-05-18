@@ -4,6 +4,7 @@
   , "private": true
   , "scripts": {
       "start": "coffee apps/website/app.coffee"
+    , "test": "./node_modules/mocha/bin/mocha"
     , "tick_ap": "bin/tick_ap/_tick"
     , "tick_day": "bin/tick_day/_tick"
     , "tick_hunger": "bin/tick_hunger/_tick"
@@ -26,5 +27,9 @@
     , "stylus": "*"
     , "underscore": "*"
     , "underscore.string": "*"
+  }
+  , "devDependencies": {
+      "mocha": "*"
+    , "should": "*"
   }
 }
