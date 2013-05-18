@@ -21,6 +21,19 @@ RADIUS_3 = """
            _XXXXX_
            ___X___
            """
+RADIUS_5 = """
+           _____X_____
+           __XXXXXXX__
+           _XXXXXXXXX_
+           _XXXXXXXXX_
+           _XXXXXXXXX_
+           XXXXXXXXXXX
+           _XXXXXXXXX_
+           _XXXXXXXXX_
+           _XXXXXXXXX_
+           __XXXXXXX__
+           _____X_____
+           """
 
 visualize = (center, radius) ->
   ret = ''
@@ -51,3 +64,10 @@ describe 'coords_in_circle_around', ->
   it 'works with a radius of 3', ->
     viz = visualize x:0, y:0, 3
     viz.should.eql RADIUS_3
+
+  it 'works with a radius of 5', ->
+    viz = visualize x:0, y:0, 5
+    viz.should.eql RADIUS_5
+  it 'works with a radius of 5 (offset)', ->
+    viz = visualize x:-1733, y:15541, 5
+    viz.should.eql RADIUS_5
