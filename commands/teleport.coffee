@@ -1,10 +1,8 @@
 async = require 'async'
 db = require '../db'
+config = require '../config'
 queries = require '../queries'
 create_tile = require './create_tile'
-default_terrain = 'wilderness'
-
-#TODO: remove old tile if wilderness, has no people, not in settlement
 
 get_tile = (coords, cb) ->
   return cb null, coords if coords._id?
@@ -60,10 +58,11 @@ module.exports = (character, from, to, cb) ->
             x: to.x
             y: to.y
             z: to.z
-          create_tile query, default_terrain, (err) ->
+          create_tile query, config.default_terrain, (err) ->
             return cb(err) if err?
             db.tiles.update query, update, cb
       , (cb) ->
+        #TODO: remove old tile if wilderness, has no people, not in settlement
         query =
           x: from_tile.x
           y: from_tile.y

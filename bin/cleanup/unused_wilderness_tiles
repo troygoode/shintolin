@@ -5,6 +5,7 @@ db = require '../../db'
 query =
   terrain: 'wilderness'
   people: {$size: 0}
+  settlement_id: {$exists: true}
 
 db.tiles.remove query, (err, tiles) ->
   if err?
