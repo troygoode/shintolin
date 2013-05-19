@@ -8,6 +8,8 @@
           include chat/attacked
         when 'attack_nearby'
           include chat/attack_nearby
+        when 'autoeat'
+          include chat/autoeat
         when 'built'
           include chat/built
         when 'built_nearby'
@@ -40,6 +42,8 @@
           include chat/healed
         when 'heal_nearby'
           include chat/heal_nearby
+        when 'hungry'
+          include chat/hungry
         when 'join'
           include chat/join
         when 'join_nearby'

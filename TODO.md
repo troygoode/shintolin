@@ -2,10 +2,9 @@
 
 ## Passage of Time (AP recovery, hunger, seasons)
 
+* eat/feed (regain hunger & max HP)
 * variable AP recovery by tile
 * search chances diminish over time, are refreshed during ticks
-* hunger tick
-* eat/feed (regain hunger & max HP)
 * repair building
 * add fuel to campfire
 * fill pots
@@ -38,7 +37,6 @@
 * shout
 * diminishing returns for chop
   * tile transition from chop
-* rename 'characters' to 'actors'
 * animals
 
 ## WTF (Shintolin v2 has these, but what are they?)
