@@ -2,7 +2,6 @@
 
 ## Fundamentals (combat, item usage)
 
-* create tiles around settlements (if otherwise wilderness)
 * healing
 * reviving
 * recipes that require a building

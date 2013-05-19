@@ -4,12 +4,13 @@ async = require 'async'
 db = require '../db'
 queries = require '../queries'
 data = require '../data'
+create_tile = require './create_tile'
 radius = 5
 hq_building = data.buildings.totem
 
 module.exports = (founder, hq, name, cb) ->
   now = new Date()
-  tiles = null
+  coords = null
   settlement = null
 
   async.series [
@@ -26,12 +27,9 @@ module.exports = (founder, hq, name, cb) ->
           hq: true
       db.tiles.update query, update, cb
     , (cb) ->
-      # get all tiles
-      queries.tiles_in_circle_around hq, radius, (err, t) ->
-        return cb(err) if err?
-        tiles = t.map (tile) ->
-          tile._id
-        cb()
+      # get all coords
+      coords = queries.coords_in_circle_around hq, radius
+      cb()
     , (cb) ->
       # insert settlement
       s =
@@ -73,15 +71,23 @@ module.exports = (founder, hq, name, cb) ->
         cb()
     , (cb) ->
       # update all tiles
-      #TODO: create tiles that don't otherwise exist
-      query =
-        _id: {$in: tiles}
-      update =
-        $set:
-          settlement_id: settlement._id
-          settlement_name: settlement.name
-          settlement_slug: settlement.slug
-      db.tiles.update query, update, false, true, cb
+      update_tile = (tile, cb) ->
+        query =
+          _id: tile._id
+        update =
+          $set:
+            settlement_id: settlement._id
+            settlement_name: settlement.name
+            settlement_slug: settlement.slug
+        db.tiles.update query, update, cb
+      async.each coords, (coord, cb) ->
+        queries.get_tile_by_coords coord, (err, tile) ->
+          return cb(err) if err?
+          return update_tile(tile, cb) if tile?
+          create_tile coord, undefined, (err, tile) ->
+            return cb(err) if err?
+            update_tile tile, cb
+      , cb
     , (cb) ->
       # update founder
       query =

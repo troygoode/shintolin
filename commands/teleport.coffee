@@ -1,6 +1,5 @@
 async = require 'async'
 db = require '../db'
-config = require '../config'
 queries = require '../queries'
 create_tile = require './create_tile'
 
@@ -58,7 +57,7 @@ module.exports = (character, from, to, cb) ->
             x: to.x
             y: to.y
             z: to.z
-          create_tile query, config.default_terrain, (err) ->
+          create_tile query, undefined, (err) ->
             return cb(err) if err?
             db.tiles.update query, update, cb
       , (cb) ->

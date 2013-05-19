@@ -9,5 +9,5 @@ module.exports = (coords, cb) ->
   query =
     x: coords.x
     y: coords.y
-    z: coords.z
+    z: coords.z ? 0
   db.tiles.findOne query, cb
