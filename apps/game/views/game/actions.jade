@@ -83,21 +83,3 @@ if character.hp > 0
     form(method='POST', action='/game/search')
       input(type='hidden', name='_csrf', value=csrf)
       input(type='submit', value='Search', data-action='search')
-
-.gamebox.actionbox(style='opacity: .82')
-
-  form(method='POST', action='/game/paint')
-    input(type='hidden', name='_csrf', value=csrf)
-    select(name='terrain', style='width: 10em', data-persist='paint', data-action-focus='paint')
-      for terrain in data.terrains
-        unless terrain.hidden
-          option(value=terrain.id)= terrain.id
-    input(type='submit', value='Paint', data-action='paint')
-
-  if center.people.length
-    form(method='POST', action='/game/possess')
-      input(type='hidden', name='_csrf', value=csrf)
-      input(type='submit', value='Possess', data-action='possess')
-      select(name='target', style='width: 10em', data-persist='target', data-action-focus='possess')
-        for c in center.people
-          option(value=c._id)= c.name
