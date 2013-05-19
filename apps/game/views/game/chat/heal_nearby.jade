@@ -1,0 +1,13 @@
+.action
+  a.neutral(href='/profile/#{msg.sender_slug}')= msg.sender_name
+  |  uses #{data.items[msg.item].name} on 
+  if msg.sender_slug === msg.target_slug
+    | themself
+  else
+    a.neutral(href='/profile/#{msg.target_slug}')= msg.target_name
+  |  healing #{msg.amount} HP. 
+  if msg.remaining > 0
+    | #{msg.remaining} HP remains unhealed. 
+  else
+    | No HP remains unhealed. 
+  span.time= moment(msg.sent).fromNow()

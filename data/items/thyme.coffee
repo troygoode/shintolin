@@ -2,5 +2,5 @@ module.exports =
   id: 'thyme'
   name: 'thyme sprig'
   plural: 'thyme sprigs'
-  tags: ['food']
+  tags: ['usable', 'heal']
   weight: 0

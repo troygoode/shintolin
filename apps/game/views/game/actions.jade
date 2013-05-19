@@ -15,17 +15,16 @@ if character.hp > 0
         for weapon in weapons
           option(value=weapon.id) #{weapon.name} (#{weapon.hit_chance * 100}%, #{weapon.damage} dmg)
 
-    //
+    if usables.length
       form(method='POST', action='/game/use')
         input(type='hidden', name='_csrf', value=csrf)
         input(type='submit', value='Use', data-action='use')
         select(name='item', style='width: 10em', data-persist='usable-item', data-action-focus='use')
-          option(value='13') Cup of herbal tea
-          option(value='4') Piece of willow bark
-          option(value='33') Lump of rotten food
+          for usable in usables
+            option(value=usable.id)= usable.name
         |  on 
         select(name='target', style='width: 10em', data-persist='target')
-          option(value='0:user') Self
+          option(value='self') yourself
           for c in center.people
             option(value=c._id)= c.name
 
@@ -95,10 +94,10 @@ if character.hp > 0
           option(value=terrain.id)= terrain.id
     input(type='submit', value='Paint', data-action='paint')
 
-  form(method='POST', action='/game/possess')
-    input(type='hidden', name='_csrf', value=csrf)
-    input(type='submit', value='Possess', data-action='possess')
-    select(name='target', style='width: 10em', data-persist='target', data-action-focus='possess')
-      option(value='') no-one
-      for c in center.people
-        option(value=c._id)= c.name
+  if center.people.length
+    form(method='POST', action='/game/possess')
+      input(type='hidden', name='_csrf', value=csrf)
+      input(type='submit', value='Possess', data-action='possess')
+      select(name='target', style='width: 10em', data-persist='target', data-action-focus='possess')
+        for c in center.people
+          option(value=c._id)= c.name

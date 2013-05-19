@@ -85,6 +85,10 @@ visit_weapon = (weapon, character, tile) ->
   hit_chance: weapon.accuracy(character, null, tile)
   damage: weapon.damage(character, null, tile)
 
+visit_usable = (item, character, tile) ->
+  id: item.id
+  name: item.name
+
 visit_recipe = (recipe, character, tile) ->
   takes = recipe.takes(character, tile)
   items = []
@@ -129,6 +133,11 @@ module.exports = (app) ->
       weapons = weapons.map (i) ->
         visit_weapon data.items[i.item], req.character, center
       weapons.unshift visit_weapon data.items.fist, req.character, center
+      usables = req.character.items.filter (i) ->
+        type = data.items[i.item]
+        i.count > 0 and type.tags? and type.tags.indexOf('usable') isnt -1
+      usables = usables.map (i) ->
+        visit_usable data.items[i.item], req.character, center
       build_recipes = ->
         visit_recipe(recipe, req.character, center) for key, recipe of data.recipes
       build_buildings = ->
@@ -141,6 +150,7 @@ module.exports = (app) ->
         time: req.time
         data: data
         weapons: weapons
+        usables: usables
         settlement: settlement
         recipes: build_recipes()
         buildings: build_buildings()

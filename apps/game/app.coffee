@@ -42,9 +42,16 @@ app.use middleware.load_character
 app.use middleware.load_tile
 app.use auto_loader for key, auto_loader of middleware.auto_loaders
 app.use middleware.time
+app.use middleware.expose_querystring
 
 app.locals._ = _
 app.locals.data = data
 
 app.use app.router
 route app for key, route of routes
+
+app.use (err, req, res, next) ->
+  if typeof err is 'string'
+    res.redirect '/game?error=' + err
+  else
+    next err

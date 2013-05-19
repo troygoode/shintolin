@@ -1,11 +1,13 @@
 _ = require 'underscore'
 db = require '../db'
+data = require '../data'
 
 db.register_index db.characters,
   _id: 1
   'items.item': 1
 
 module.exports = (character, item, count, cb) ->
+  return cb('Invalid Item') unless item?.id?.length
   has_some = _.some character.items, (i) ->
     i.item is item.id
   if has_some

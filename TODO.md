@@ -2,7 +2,6 @@
 
 ## Fundamentals (combat, item usage)
 
-* healing
 * reviving
 * recipes that require a building
 

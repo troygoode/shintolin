@@ -23,3 +23,5 @@
       - };
       != describe_list(center.people.map(function(p){ return character_link(p) + health(p); }))
       | .
+    if query.error
+      .error=query.error

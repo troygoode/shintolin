@@ -2,5 +2,5 @@ module.exports =
   id: 'onion'
   name: 'wild onion'
   plural: 'wild onions'
-  tags: ['food']
+  tags: ['usable', 'food']
   weight: 1
