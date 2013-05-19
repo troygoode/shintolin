@@ -2,7 +2,6 @@
 
 ## Passage of Time (AP recovery, hunger, seasons)
 
-* eat/feed (regain hunger & max HP)
 * variable AP recovery by tile
 * search chances diminish over time, are refreshed during ticks
 * repair building

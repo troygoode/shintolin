@@ -73,7 +73,10 @@ module.exports = (healer, target, item, tile, cb) ->
       (cb) ->
         notify_user healer, target, item, amount_to_heal, max_amount_to_heal - amount_to_heal, cb
       (cb) ->
-        notify_target healer, target, item, amount_to_heal, max_amount_to_heal - amount_to_heal, cb
+        if healer._id.toString() is target._id.toString()
+          cb()
+        else
+          notify_target healer, target, item, amount_to_heal, max_amount_to_heal - amount_to_heal, cb
       (cb) ->
         notify_nearby healer, target, item, amount_to_heal, max_amount_to_heal - amount_to_heal, cb
     ], cb

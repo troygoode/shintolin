@@ -41,7 +41,7 @@ charge_hunger = (character, cb) ->
         _id: character._id
       update =
         $inc:
-          hunger: hunger_lost
+          hunger: 0 - hunger_lost
           hp: 0 - hp_lost
           hp_max: 0 - maxhp_lost
       db.characters.update query, update, cb

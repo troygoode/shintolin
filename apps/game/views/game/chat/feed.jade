@@ -1,0 +1,8 @@
+.action
+  |  You feed the #{data.items[msg.item].name} to 
+  if msg.sender_slug === msg.target_slug
+    | yourself
+  else
+    | <a href='/profile/#{msg.target_slug}'>#{msg.target_name}</a>
+  | . 
+  span.time= moment(msg.sent).fromNow()

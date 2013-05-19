@@ -1,4 +1,4 @@
 .action
   a.neutral(href='/profile/#{msg.sender_slug}')= msg.sender_name
-  |  fed <b>you</b> #{msg.food}. 
+  |  fed <b>you</b> #{data.items[msg.item].name}. 
   span.time= moment(msg.sent).fromNow()
