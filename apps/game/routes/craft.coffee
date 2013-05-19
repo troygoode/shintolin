@@ -13,6 +13,9 @@ module.exports = (app) ->
     gives = recipe.gives req.character
     return next('Insufficient AP') unless req.character.ap >= takes.ap
 
+    if takes.building? and takes.building isnt req.tile.building
+      return next("You must be in the presence of a #{takes.building} to craft that.")
+
     broken = []
 
     if takes.tools?

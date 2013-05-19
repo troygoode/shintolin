@@ -1,4 +1,5 @@
 async = require 'async'
+data = require '../data'
 remove_item = require './remove_item'
 charge_ap = require './charge_ap'
 create_building = require './create_building'

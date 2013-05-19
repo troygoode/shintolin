@@ -1,14 +1,15 @@
 module.exports =
-  id: 'poultice'
-  name: 'herbal poultice'
+  id: 'tea'
+  name: 'cup of herbal tea'
   takes: (character, tile) ->
     ap: 10
+    building: 'campfire'
     items:
-      thyme: 5
+      thyme: 2
       bark: 2
   gives: (character, tile) ->
     items:
-      poultice: 1
+      tea: 1
     xp:
       herbalist: 5
       crafter: 1

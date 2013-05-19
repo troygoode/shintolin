@@ -8,6 +8,7 @@ queries = require '../queries'
 days_until_full_status = 1
 
 kicked_from_settlement = (attacker, target, kill) ->
+  return false unless kill and attacker.settlement_id?.length and target.settlement_id?.length
   kill and attacker.settlement_id.toString() is target.settlement_id.toString() and target.settlement_provisional
 
 calculate_frags = (target) ->

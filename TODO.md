@@ -1,10 +1,5 @@
 # TODO list
 
-## Fundamentals (combat, item usage)
-
-* reviving
-* recipes that require a building
-
 ## Passage of Time (AP recovery, hunger, seasons)
 
 * variable AP recovery by tile

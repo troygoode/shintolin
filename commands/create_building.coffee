@@ -18,11 +18,16 @@ module.exports = (tile, building, cb) ->
       db.tiles.update query, update, cb
     , (cb) ->
       # create interior tile
-      # TODO: should the interior tile know what kind of building it is?
       return cb() unless building.interior?
       coords =
         x: tile.x
         y: tile.y
         z: 1
-      create_tile coords, building.interior, cb
+      create_tile coords, building.interior, (err, tile) ->
+        return cb(err) if err?
+        query =
+          _id: tile._id
+        update =
+          building: building.id
+        db.tiles.update query, update, cb
   ], cb

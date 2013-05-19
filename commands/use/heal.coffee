@@ -66,7 +66,7 @@ module.exports = (healer, target, item, tile, cb) ->
         alter_target_hp target, amount_to_heal, cb
       (cb) ->
         wanderer = 0
-        herbalist = 10
+        herbalist = Math.round(amount_to_heal / 2) + 1
         crafter = 0
         warrior = 0
         xp healer, wanderer, herbalist, crafter, warrior, cb
