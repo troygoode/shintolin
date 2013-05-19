@@ -24,6 +24,7 @@ module.exports = (name, email, password, settlement, cb) ->
     hp: 50
     hp_max: 50
     ap: 100.0
+    recovery: 3.0
     hunger: 9
     last_action: now
 

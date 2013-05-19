@@ -2,7 +2,6 @@
 
 ## Passage of Time (AP recovery, hunger, seasons)
 
-* variable AP recovery by tile
 * search chances diminish over time, are refreshed during ticks
 * repair building
 * add fuel to campfire

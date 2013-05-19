@@ -9,7 +9,7 @@
       | You are <a href='/profile/#{character.slug}'>#{character.name}</a>.
     br
     | HP: <b>#{character.hp}/#{character.hp_max}</b>
-    | AP: <b>#{character.ap}/100</b> <span style='font-size: 80%'>(6 AP/hour)</span>
+    | AP: <b>#{character.ap}/100</b> <span style='font-size:80%'>(#{character.recovery} AP/hour)</span>
     | Hunger: <b>#{character.hunger}/12</b>
     | Frags: <b>#{character.frags}</b>
     | Level: <b>#{character.skills.length + 1}</b>

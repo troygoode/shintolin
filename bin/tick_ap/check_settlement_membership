@@ -55,6 +55,7 @@ async.series [
 ], (err) ->
   if err?
     console.log err
+    process.exit 1
   else
     console.log "Moved #{matched.length} characters out of provisional resident status."
-  process.exit()
+    process.exit 0

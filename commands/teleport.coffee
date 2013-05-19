@@ -1,7 +1,9 @@
 async = require 'async'
 db = require '../db'
+data = require '../data'
 queries = require '../queries'
 create_tile = require './create_tile'
+BASE_RECOVERY = 3.0
 
 get_tile = (coords, cb) ->
   return cb null, coords if coords._id?
@@ -28,6 +30,16 @@ module.exports = (character, from, to, cb) ->
       get_tile to, cb
   ], (err, [from_tile, to_tile]) ->
     return cb(err) if err?
+
+    recovery = BASE_RECOVERY
+    terrain = data.terrains[to_tile.terrain]
+    if terrain.recovery?
+      recovery += terrain.recovery(character, to_tile)
+    if to_tile.building?
+      building = data.buildings[to_tile.building]
+      if building.recovery?
+        recovery += building.recovery(character, to_tile)
+
     async.parallel [
       (cb) ->
         query =
@@ -37,6 +49,7 @@ module.exports = (character, from, to, cb) ->
             x: to.x
             y: to.y
             z: to.z
+            recovery: recovery
         db.characters.update query, update, cb
       , (cb) ->
         update =

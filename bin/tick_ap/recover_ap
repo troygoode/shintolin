@@ -2,29 +2,29 @@
 
 async = require 'async'
 db = require '../../db'
-max_ap = 100
-base_ap_increase = 3
+MAX_AP = 100
 
 fin = (err, count) ->
   if err?
     console.log err
+    process.exit 1
   else
     console.log "Updated #{count} character records."
-  process.exit()
+    process.exit 0
 
 query =
-  ap: {$lt: max_ap}
+  ap: {$lt: MAX_AP}
 db.characters.find(query).toArray (err, characters) ->
   return fin(err) if err?
-  async.forEach characters, (character, cb) ->
-    ap = base_ap_increase
-    if ap + character.ap > max_ap
-      ap = max_ap - character.ap
+  async.each characters, (character, cb) ->
+    recover = character.recovery
+    if character.ap + recover > MAX_AP
+      recover = MAX_AP - character.ap
     query =
       _id: character._id
     update =
       $inc:
-        ap: ap
+        ap: recover
     db.characters.update query, update, cb
   , (err) ->
     fin err, characters.length
