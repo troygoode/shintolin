@@ -1,4 +1,5 @@
 async = require 'async'
+config = require '../config'
 db = require '../db'
 data = require '../data'
 queries = require '../queries'
@@ -32,10 +33,15 @@ module.exports = (character, from, to, cb) ->
     return cb(err) if err?
 
     recovery = BASE_RECOVERY
-    terrain = data.terrains[to_tile.terrain]
-    if terrain.recovery?
-      recovery += terrain.recovery(character, to_tile)
-    if to_tile.building?
+    if to_tile?
+      terrain = data.terrains[to_tile.terrain]
+      if terrain.recovery?
+        recovery += terrain.recovery(character, to_tile)
+    else
+      terrain = data.terrains[config.default_terrain]
+      if terrain.recovery?
+        recovery += terrain.recovery(character, to_tile)
+    if to_tile?.building?
       building = data.buildings[to_tile.building]
       if building.recovery?
         recovery += building.recovery(character, to_tile)
