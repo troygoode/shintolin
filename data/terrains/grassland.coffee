@@ -18,6 +18,18 @@ module.exports =
         'You are walking through a grassland. Frost has hardened the ground, and there is little sign of life.'
 
   search_odds: (tile, character) ->
-    onion: .03
-    wheat: .06
-    thyme: .18
+    modify_odds = (odds, mod) ->
+      odds[key] = val * mod for key, val of odds
+      odds
+    odds =
+      onion: .03
+      wheat: .06
+      thyme: .18
+    if tile.searches < 6
+      odds
+    else if tile.searches < 12
+      modify_odds odds, .75
+    else if tile.searches < 18
+      modify_odds odds, .5
+    else
+      null

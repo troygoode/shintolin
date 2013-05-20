@@ -158,4 +158,6 @@ module.exports = (app) ->
         for tile, j in row
           locals.grid[i][j] = visit_tile tile, locals.center, locals.character
       locals.center = visit_tile locals.center, undefined, locals.character
+      locals.dbg =
+        center: center
       res.render 'game/index', locals

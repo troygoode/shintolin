@@ -1,0 +1,16 @@
+#!/usr/bin/env coffee
+
+db = require '../../db'
+
+query = {}
+update =
+  $set:
+    searches: 0
+
+db.tiles.update query, update, false, true, (err) ->
+  if err?
+    console.log err
+    process.exit 1
+  else
+    console.log 'Search Odds Reset'
+    process.exit 0

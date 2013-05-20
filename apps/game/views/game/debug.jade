@@ -29,3 +29,5 @@
     select(name='item', style='width: 10em', data-persist='item', data-action-focus='materialize')
       for i in data.items
         option(value=i.id)= i.name
+
+  p Searches: #{dbg.center.searches}
