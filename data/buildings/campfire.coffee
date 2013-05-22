@@ -6,7 +6,7 @@ module.exports =
 
   recovery: (character, tile) ->
     .3
-  
+
   takes: (character, tile) ->
     ap: 10
     items:
