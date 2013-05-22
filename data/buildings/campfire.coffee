@@ -7,11 +7,11 @@ module.exports =
   recovery: (character, tile) ->
     .3
 
-  takes: (character, tile) ->
-    ap: 10
-    items:
-      stick: 10
-
-  gives: (character, tile) ->
-    xp:
-      wanderer: 5
+  build: (character, tile) ->
+    takes:
+      ap: 10
+      items:
+        stick: 10
+    gives:
+      xp:
+        wanderer: 5

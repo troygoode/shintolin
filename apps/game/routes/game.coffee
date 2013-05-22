@@ -90,7 +90,8 @@ visit_usable = (item, character, tile) ->
   name: item.name
 
 visit_recipe = (recipe, character, tile) ->
-  takes = recipe.takes(character, tile)
+  io = recipe.craft character, tile
+  takes = io.takes
   items = []
   items.push {item: key, count: value} for key, value of takes.items
   id: recipe.id
@@ -100,7 +101,8 @@ visit_recipe = (recipe, character, tile) ->
   tools: takes.tools
 
 visit_building = (building, character, tile) ->
-  takes = building.takes(character, tile)
+  io = building.build character, tile
+  takes = io.takes
   items = []
   items.push {item: key, count: value} for key, value of takes.items
   id: building.id

@@ -17,5 +17,4 @@ module.exports = (character, tile, gives, cb) ->
     (cb) ->
       # grant xp
       xp character, gives.xp.wanderer ? 0, gives.xp.herbalist ? 0, gives.xp.crafter ? 0, gives.xp.warrior ? 0, cb
-  ], (err) ->
-    cb err, items_to_give
+  ], cb

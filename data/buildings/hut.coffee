@@ -5,19 +5,21 @@ module.exports =
   hp: 30
   interior: 'hut_interior'
 
-  takes: (character, tile) ->
-    ap: 40
-    items:
-      stick: 20
-      staff: 5
-
-  gives: (character, tile) ->
-    xp:
-      crafter: 25
+  build: (character, tile) ->
+    takes:
+      ap: 40
+      items:
+        stick: 20
+        staff: 5
+    gives:
+      xp:
+        crafter: 25
 
   repair: (character, tile) ->
     return null unless tile.hp < @hp
-    tile_hp: 3
-    ap: 10
-    items:
-      stick: 10
+    gives:
+      tile_hp: 3
+    takes:
+      ap: 10
+      items:
+        stick: 10

@@ -46,4 +46,4 @@ module.exports = (character, tile, takes, cb) ->
       async.each broken, break_item, cb
   ], (err) ->
     return cb(err) if err?
-    cb null, items_to_take, broken
+    cb null, broken
