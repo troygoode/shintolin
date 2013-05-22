@@ -150,11 +150,15 @@ module.exports = (app) ->
         visit_recipe(recipe, req.character, center) for key, recipe of data.recipes
       build_buildings = ->
         visit_building(building, req.character, center) for key, building of data.buildings
+      building = if req.tile.building? then data.buildings[req.tile.building] else null
+      terrain = if req.tile.terrain? then data.terrains[req.tile.terrain] else null
       locals =
         character: req.character
         grid: build_grid tiles, req.character
         center: center
-        building: if center.building? then data.buildings[center.building] else null
+        actions: terrain.actions ? []
+        building: building
+        terrain: terrain
         messages: messages
         time: req.time
         data: data

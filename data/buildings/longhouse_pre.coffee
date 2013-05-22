@@ -1,0 +1,28 @@
+module.exports =
+  id: 'longhouse_pre'
+  name: 'Longhouse Foundation'
+  size: 'large'
+  hp: 30
+
+  build: (character, tile) ->
+    takes:
+      ap: 50
+      skill: 'construction'
+      tools: ['stone_carpentry']
+      items:
+        timber: 12
+    gives:
+      xp:
+        crafter: 35
+
+  repair: (character, tile) ->
+    max = @hp_max ? @hp
+    return null unless tile.hp < max
+    takes:
+      ap: 10
+      items:
+        timber: 4
+    gives:
+      tile_hp: 5
+      xp:
+        crafter: 5

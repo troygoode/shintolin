@@ -1,8 +1,10 @@
 # TODO list
 
+* upgradeable buildings
+* skill-check in crafting
+
 ## Passage of Time (AP recovery, hunger, seasons)
 
-* fill pots
 * cheaper movement for members on top of gates
 * sow
 * water

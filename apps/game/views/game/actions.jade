@@ -84,6 +84,11 @@ if character.hp > 0
       input(type='hidden', name='_csrf', value=csrf)
       input(type='submit', value='Search', data-action='search')
 
+    if _.contains(actions, 'fill')
+      form(method='POST', action='/game/fill-pot')
+        input(type='hidden', name='_csrf', value=csrf)
+        input(type='submit', value='Fill', data-action='fill')
+
     if repair
       form(method='POST', action='/game/repair')
         input(type='hidden', name='_csrf', value=csrf)

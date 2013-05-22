@@ -12,8 +12,8 @@ module.exports = (app) ->
     return next('There is already a building here.') if req.tile.building?
 
     terrain = data.terrains[req.tile.terrain]
-    return cb('Nothing can be built here.') unless terrain.buildable?
-    return cb('You cannot build that here.') unless terrain.buildable.indexOf(building.size) isnt -1
+    return next('Nothing can be built here.') unless terrain.buildable?
+    return next('You cannot build that here.') unless terrain.buildable.indexOf(building.size) isnt -1
 
     return building.build_handler(req, res, next) if building.build_handler?
 
