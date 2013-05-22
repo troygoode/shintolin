@@ -111,13 +111,11 @@ visit_building = (building, character, tile) ->
   items: items
   tools: takes.tools
 
-can_repair = (character, tile) ->
-  return false unless tile.building?
+repair = (character, tile) ->
+  return null unless tile.building?
   building = data.buildings[tile.building]
-  return false unless building.repair?
-  result = building.repair character, tile
-  return false unless result?
-  true
+  return null unless building.repair?
+  building.repair character, tile
 
 module.exports = (app) ->
   app.get '/', (req, res, next) ->
@@ -156,6 +154,7 @@ module.exports = (app) ->
         character: req.character
         grid: build_grid tiles, req.character
         center: center
+        building: if center.building? then data.buildings[center.building] else null
         messages: messages
         time: req.time
         data: data
@@ -164,7 +163,7 @@ module.exports = (app) ->
         settlement: settlement
         recipes: build_recipes()
         buildings: build_buildings()
-        can_repair: can_repair req.character, req.tile
+        repair: repair req.character, req.tile
       for row, i in locals.grid
         for tile, j in row
           locals.grid[i][j] = visit_tile tile, locals.center, locals.character

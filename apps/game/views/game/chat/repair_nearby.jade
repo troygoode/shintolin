@@ -1,3 +1,8 @@
 .action
-  | <a href='/profile/#{msg.sender_slug}'>#{msg.sender_name}</a> repaired the #{msg.building}. 
+  - var building = data.buildings[msg.building];
+  | <a href='/profile/#{msg.sender_slug}'>#{msg.sender_name}</a>
+  if building.repair_text && building.repair_text.success_nearby
+    |  #{building.repair_text.success_nearby}. 
+  else
+    |  repaired the #{building.name}. 
   span.time= moment(msg.sent).fromNow()

@@ -15,3 +15,20 @@ module.exports =
     gives:
       xp:
         wanderer: 5
+
+  repair: (character, tile) ->
+    max = @hp_max ? @hp
+    return null unless tile.hp < max
+    takes:
+      ap: 1
+      items:
+        stick: 1
+    gives:
+      tile_hp: 1
+      xp:
+        wanderer: 1
+
+  repair_text:
+    button: 'Add Fuel'
+    success_you: 'throw a stick on the fire'
+    success_nearby: 'threw a stick on the fire'
