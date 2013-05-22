@@ -4,10 +4,10 @@ module.exports =
   size: 'small'
   hp: 30
 
+  build_handler: (req, res, next) ->
+    res.redirect '/game/settle'
   build: (character, tile) ->
     takes:
       ap: 30
       items:
         log: 1
-    on: (req, res, next) ->
-      res.redirect '/game/settle'
