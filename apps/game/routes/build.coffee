@@ -17,7 +17,7 @@ module.exports = (app) ->
 
     return building.build_handler(req, res, next) if building.build_handler?
 
-    commands.craft req.character, req.tile, building.build, (err, io, broken_items) ->
+    commands.craft req.character, req.tile, building, 'build', (err, io, broken_items) ->
       return next(err) if err?
       async.series [
         (cb) ->

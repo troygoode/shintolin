@@ -11,3 +11,15 @@ module.exports =
       ap: 30
       items:
         log: 1
+
+  repair: (character, tile) ->
+    max = @hp_max ? @hp
+    return null unless tile.hp < max
+    takes:
+      ap: 10
+      items:
+        log: 1
+    gives:
+      tile_hp: 5
+      xp:
+        crafter: 5

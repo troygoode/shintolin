@@ -2,7 +2,6 @@
 
 ## Passage of Time (AP recovery, hunger, seasons)
 
-* repair building
 * add fuel to campfire
 * fill pots
 * cheaper movement for members on top of gates

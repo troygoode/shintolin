@@ -3,8 +3,8 @@ data = require '../data'
 give = require './give'
 take = require './take'
 
-module.exports = (character, tile, craft_function, cb) ->
-  result = craft_function character, tile
+module.exports = (character, tile, craft_obj, craft_function, cb) ->
+  result = craft_obj[craft_function](character, tile)
   return cb() unless result?
 
   async.waterfall [

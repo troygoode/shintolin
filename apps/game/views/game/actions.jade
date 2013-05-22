@@ -84,7 +84,7 @@ if character.hp > 0
       input(type='hidden', name='_csrf', value=csrf)
       input(type='submit', value='Search', data-action='search')
 
-    if center.building
+    if can_repair
       form(method='POST', action='/game/repair')
         input(type='hidden', name='_csrf', value=csrf)
         input(type='submit', value='Repair', data-action='repair')

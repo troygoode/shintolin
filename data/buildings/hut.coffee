@@ -16,10 +16,13 @@ module.exports =
         crafter: 25
 
   repair: (character, tile) ->
-    return null unless tile.hp < @hp
+    max = @hp_max ? @hp
+    return null unless tile.hp < max
+    takes:
+      ap: 4
+      items:
+        stick: 2
     gives:
       tile_hp: 3
-    takes:
-      ap: 10
-      items:
-        stick: 10
+      xp:
+        crafter: 3

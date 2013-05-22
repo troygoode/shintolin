@@ -6,19 +6,28 @@ commands = require '../../../commands'
 
 module.exports = (app) ->
   app.post '/repair', mw.not_dazed, (req, res, next) ->
-    commands.repair req.character, req.tile, (err) ->
-      return cb('You cannot repair a tile without a building.') unless tile.building?
-      building = data.buildings[tile.building]
-      return cb('You cannot repair this kind of building.') unless building?.repair?
+    return next('You cannot repair a tile without a building.') unless req.tile.building?
+    building = data.buildings[req.tile.building]
+    return next('You cannot repair this kind of building.') unless building?.repair?
 
-      commands.craft req.character, req.tile, building.repair, (err, io, broken_items) ->
+    commands.craft req.character, req.tile, building, 'repair', (err, io, broken_items) ->
+      return next(err) if err?
+      return next('You cannot repair this building right now.') unless io?
+      async.parallel [
+        (cb) ->
+          commands.send_message 'repair', req.character, req.character,
+            building: building.id
+            gives: io.gives
+            takes: io.takes
+            broken: broken_items
+          , cb
+        (cb) ->
+          commands.send_message 'repair_nearby', req.character, [req.character],
+            building: building.id
+            gives: io.gives
+            takes: io.takes
+            broken: broken_items
+          , cb
+      ], (err) ->
         return next(err) if err?
-        return next('You cannot repair this building right now.') unless io?
-        commands.send_message 'repair', req.character, req.character,
-          building: req.tile.building
-          gives: io.gives
-          takes: io.takes
-          broken: broken_items
-        , (err) ->
-          return next(err) if err?
-          res.redirect '/game'
+        res.redirect '/game'
