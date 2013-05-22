@@ -1,0 +1,7 @@
+.action
+  | Guards report that the #{data.buildings[msg.building].name} 
+  | in <a href='/settlements/#{msg.settlement_slug}'>#{msg.settlement_name}</a> 
+  | was destroyed by 
+  a(href='/profile/#{msg.destroyer_slug}')= msg.destroyer_name
+  | . 
+  span.time= moment(msg.sent).fromNow()

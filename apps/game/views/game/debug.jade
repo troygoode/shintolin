@@ -1,9 +1,9 @@
 .gamebox.buttonsbox
   ul
-    if center.tile.building
+    if building
       li
         dt Building Health:
-        dd #{center.tile.hp}/#{data.buildings[center.tile.building].hp}
+        dd #{center.tile.hp}/#{building.hp_max ? building.hp_max : building.hp}
     li: a.buttonlink(href='/game/debug/replenish-ap') Replenish AP
     li: a.buttonlink(href='/game/debug/replenish-hp') Replenish HP
 
@@ -29,5 +29,8 @@
     select(name='item', style='width: 10em', data-persist='item', data-action-focus='materialize')
       for i in data.items
         option(value=i.id)= i.name
+    select(name='quantity', data-persist='materialize-quantity', data-action-focus='materialize')
+      for i in _.range(100)
+        option(value=i + 1)= i + 1
 
   p Searches: #{dbg.center.searches}

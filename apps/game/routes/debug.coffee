@@ -41,6 +41,6 @@ module.exports = (app) ->
 
   app.post '/debug/materialize', (req, res, next) ->
     return next('Invalid item.') unless req.body.item?.length
-    commands.add_item req.character, data.items[req.body.item], 1, (err) ->
+    commands.add_item req.character, data.items[req.body.item], parseInt(req.body.quantity ? 1), (err) ->
       return next(err) if err?
       res.redirect '/game'

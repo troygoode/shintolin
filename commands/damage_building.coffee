@@ -83,7 +83,7 @@ notify_inside = (ctx) ->
 notify_settlement = (ctx) ->
   (cb) ->
     return cb() unless ctx.settlement?
-    send_message_settlement 'damage_building_settlement', ctx.attacker, ctx.settlement, [], format_msg(ctx), cb
+    send_message_settlement 'damage_settlement_building', ctx.attacker, ctx.settlement, [], format_msg(ctx), cb
 
 module.exports = (attacker, tile, weapon, cb) ->
   building = data.buildings[tile.building]

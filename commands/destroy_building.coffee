@@ -123,6 +123,7 @@ notify_settlement = (ctx) ->
   (cb) ->
     return cb() unless ctx.settlement? and not ctx.tile.hq
     msg =
+      building: ctx.building.id
       settlement_id: ctx.settlement._id
       settlement_name: ctx.settlement.name
       settlement_slug: ctx.settlement.slug

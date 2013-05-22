@@ -2,7 +2,8 @@ module.exports =
   id: 'campfire'
   name: 'Campfire'
   size: 'small'
-  hp: 30
+  hp: 10
+  hp_max: 30
 
   recovery: (character, tile) ->
     .3

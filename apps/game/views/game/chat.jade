@@ -14,6 +14,10 @@
           include chat/built
         when 'built_nearby'
           include chat/built_nearby
+        when 'campfire_low'
+          include chat/campfire_low
+        when 'campfire_destroyed'
+          include chat/campfire_destroyed
         when 'changed_vote'
           include chat/changed_vote
         when 'chop'
@@ -24,14 +28,16 @@
           include chat/damage_building
         when 'damage_building_nearby'
           include chat/damage_building_nearby
-        when 'damage_building_settlement'
-          include chat/damage_building_settlement
+        when 'damage_settlement_building'
+          include chat/damage_settlement_building
         when 'damage_building_inside'
           include chat/damage_building_inside
         when 'destroyed_nearby'
           include chat/destroyed_nearby
         when 'destroyed_inside'
           include chat/destroyed_inside
+        when 'destroyed_settlement_building'
+          include chat/destroyed_settlement_building
         when 'election'
           include chat/election
         when 'fed'
