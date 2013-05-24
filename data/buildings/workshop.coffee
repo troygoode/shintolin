@@ -4,6 +4,7 @@ module.exports =
   size: 'large'
   hp: 50
   interior: 'workshop_interior'
+  upgrade: true
 
   build: (character, tile) ->
     takes:

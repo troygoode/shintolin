@@ -9,7 +9,7 @@ module.exports = (app) ->
 
     building = data.buildings[req.param('building')]
     return next('Invalid Building') unless building?
-    return next('There is already a building here.') if req.tile.building?
+    return next('There is already a building here.') if req.tile.building? and not building.upgrade
 
     terrain = data.terrains[req.tile.terrain]
     return next('Nothing can be built here.') unless terrain.buildable?

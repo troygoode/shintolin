@@ -4,6 +4,7 @@ module.exports =
   size: 'large'
   hp: 50
   interior: 'longhouse_interior'
+  upgrade: true
 
   recovery: (character, tile) ->
     1

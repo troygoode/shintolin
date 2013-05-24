@@ -23,7 +23,7 @@
                 form(method='post', action='/game/move/exit')
                   input(type='hidden', name='_csrf', value=csrf)
                   input.movebutton(type='submit', value='Exit', data-direction='enterexit')
-            if tile.tile.building
+            else if tile.tile.building
               - var building = data.buildings[tile.tile.building]
               if tile.tile._id.toString() === center.tile._id.toString()
                 if building.interior
