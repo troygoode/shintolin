@@ -80,7 +80,6 @@ module.exports = (character, from, to, cb) ->
             return cb(err) if err?
             db.tiles.update query, update, cb
       , (cb) ->
-        #TODO: remove old tile if wilderness, has no people, not in settlement
         query =
           x: from_tile.x
           y: from_tile.y
