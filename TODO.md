@@ -1,7 +1,5 @@
 # TODO list
 
-* skill-check in crafting
-
 ## Passage of Time (AP recovery, hunger, seasons)
 
 * cheaper movement for members on top of gates
