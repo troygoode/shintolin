@@ -1,5 +1,6 @@
 async = require 'async'
 db = require '../db'
+queries = require '../queries'
 create_tile = require './create_tile'
 
 module.exports = (tile, building, cb) ->
@@ -23,12 +24,19 @@ module.exports = (tile, building, cb) ->
         x: tile.x
         y: tile.y
         z: 1
-      create_tile coords, building.interior, (err, tile) ->
+      queries.get_tile_by_coords coords, (err, tile) ->
         return cb(err) if err?
-        query =
-          _id: tile._id
-        update =
-          $set:
-            building: building.id
-        db.tiles.update query, update, cb
+        update_tile = (err, tile) ->
+          return cb(err) if err?
+          query =
+            _id: tile._id
+          update =
+            $set:
+              building: building.id
+              terrain: building.interior
+          db.tiles.update query, update, cb
+        if tile?
+          update_tile null, tile
+        else
+          create_tile coords, building.interior, update_tile
   ], cb
