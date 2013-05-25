@@ -1,6 +1,5 @@
 # TODO list
 
-* support "exterior" property on buildings
 * ensure some buildings are only built within a settlement's boundaries
 * ensure buildings within a settlement are only built by permanent members
 * reduced AP regen while standing on gates/walls

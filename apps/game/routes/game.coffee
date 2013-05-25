@@ -53,10 +53,12 @@ build_grid = (tiles, center) ->
   rows
 
 visit_tile = (tile, center, character) ->
+  building = data.buildings[tile.building] if tile.building?
+  terrain = if tile.z is 0 and building?.exterior? then building.exterior else tile.terrain
   retval =
     tile: tile
-    terrain: data.terrains[tile.terrain]
-    building: data.buildings[tile.building] if tile.building?
+    terrain: data.terrains[terrain]
+    building: building
     people: tile.people?.filter (p) ->
       p._id.toString() isnt character._id.toString()
   if center?
