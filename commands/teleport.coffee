@@ -45,6 +45,7 @@ module.exports = (character, from, to, cb) ->
       building = data.buildings[to_tile.building]
       if building.recovery?
         recovery += building.recovery(character, to_tile)
+    recovery = 1 if recovery < 1
 
     async.parallel [
       (cb) ->

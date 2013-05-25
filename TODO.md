@@ -1,10 +1,7 @@
 # TODO list
 
-* reduced AP regen while standing on gates/walls
-
 ## Passage of Time (AP recovery, hunger, seasons)
 
-* cheaper movement for members on top of gates
 * sow
 * water
 * harvest

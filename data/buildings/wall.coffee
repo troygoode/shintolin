@@ -8,6 +8,9 @@ module.exports =
   hp: 80
   exterior: 'wall'
 
+  recovery: (character, tile) ->
+    -100000000
+
   build: (character, tile) ->
     takes:
       ap: 50
