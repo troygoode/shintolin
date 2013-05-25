@@ -12,6 +12,7 @@ module.exports =
   build: (character, tile) ->
     takes:
       ap: 50
+      settlement: true
       building: 'gate_pre'
       skill: 'construction'
       tools: ['stone_carpentry']

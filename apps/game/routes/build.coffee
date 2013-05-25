@@ -17,6 +17,9 @@ module.exports = (app) ->
 
     return building.build_handler(req, res, next) if building.build_handler?
 
+    if req.tile.settlement_id? and (not req.character.settlement_id? or req.character.settlement_id.toString() isnt req.tile.settlement_id.toString() or req.character.settlement_provisional)
+      return next('You must be a non-provisional member of this settlement to build here.')
+
     commands.craft req.character, req.tile, building, 'build', (err, io, broken_items) ->
       return next(err) if err?
       async.series [

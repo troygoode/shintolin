@@ -9,6 +9,7 @@ module.exports =
   build: (character, tile) ->
     takes:
       ap: 25
+      settlement: true
       building: 'longhouse'
       skill: 'artisanship'
       items:

@@ -8,13 +8,18 @@ module.exports = (character, tile, takes, cb) ->
   if takes.ap?
     return cb('Insufficient AP') unless character.ap >= takes.ap
 
+  if takes.settlement and not tile.settlement_id?
+    return cb('You must do this within a settlement.')
+
   if takes.building? and takes.building isnt tile.building
     return cb("You must be in the presence of a #{takes.building} to do that.")
 
-  skills = if _.isArray(takes.skill) then takes.skill else [takes.skill]
-  unmet_skills = _.difference(skills, character.skills ? [])
-  if unmet_skills.length
-    return cb("You must have the skill #{unmet_skills.join(',')} to do that.")
+  if takes.skill?
+    skills = if _.isArray(takes.skill) then takes.skill else [takes.skill]
+    unmet_skills = _.difference(skills, character.skills ? [])
+    console.log unmet_skills
+    if unmet_skills.length
+      return cb("You must have the skill #{unmet_skills.join(',')} to do that.")
 
   broken = []
 
