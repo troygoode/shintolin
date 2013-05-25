@@ -8,7 +8,10 @@ module.exports =
   interior: 'guardstand_interior'
 
   recovery: (character, tile) ->
-    .5
+    if tile.z is 1
+      .5
+    else
+      0
 
   build: (character, tile) ->
     takes:

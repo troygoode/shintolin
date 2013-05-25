@@ -7,7 +7,10 @@ module.exports =
   upgrade: true
 
   recovery: (character, tile) ->
-    1
+    if tile.z is 1
+      1
+    else
+      0
 
   build: (character, tile) ->
     takes:
