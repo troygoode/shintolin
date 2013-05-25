@@ -1,4 +1,5 @@
 async = require 'async'
+config = require '../config'
 db = require '../db'
 queries = require '../queries'
 create_tile = require './create_tile'
@@ -79,15 +80,24 @@ module.exports = (character, direction, cb) ->
       queries.get_tile_by_coords old_coords, cb
   ], (err, [new_tile, old_tile]) ->
     return cb(err) if err?
+
     old_terrain = data.terrains[old_tile.terrain]
     if new_tile?
       new_terrain = data.terrains[new_tile.terrain]
     else
-      new_terrain = data.terrains.wilderness
-    if new_terrain.cost_to_enter?
-      ap_cost = new_terrain.cost_to_enter new_tile, old_tile, character
-    else
-      ap_cost = 1
+      new_terrain = data.terrains[config.default_terrain]
+
+    if old_tile?.building?
+      old_building = data.buildings[old_tile.building]
+    if new_tile?.building?
+      new_building = data.buildings[new_tile.building]
+
+    ap_cost = 1
+    ap_cost += old_building.cost_to_exit(character, old_tile, new_tile) if old_building?.cost_to_exit?
+    ap_cost += old_terrain.cost_to_exit(character, old_tile, new_tile) if old_terrain.cost_to_exit?
+    ap_cost += new_terrain.cost_to_enter(character, old_tile, new_tile) if new_terrain.cost_to_enter?
+    ap_cost += new_building.cost_to_enter(character, old_tile, new_tile) if new_building?.cost_to_enter?
+
     return cb('Insufficient AP') unless character.ap >= ap_cost
     charge_ap character, ap_cost, (err) ->
       return cb(err) if err?
