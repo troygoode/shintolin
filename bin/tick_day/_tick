@@ -11,7 +11,7 @@ cd ./bin/tick_day
 # spawn_animals
 # transition_tiles
 # delete_rotten_food
-# rot_food
+./rot_food
 # damage_buildings
 
 echo "### TICK: DAY (END) ###"
