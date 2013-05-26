@@ -1,0 +1,5 @@
+.action
+  | A storm blew across the land doing #{msg.damage} damage to the #{data.buildings[msg.building].name}. 
+  if msg.destroyed
+    | The #{data.buildings[msg.building].name} was destroyed! 
+  span.time= moment(msg.sent).fromNow()

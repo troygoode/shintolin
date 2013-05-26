@@ -1,0 +1,85 @@
+#!/usr/bin/env coffee
+
+_ = require 'underscore'
+async = require 'async'
+db = require '../../db'
+data = require '../../data'
+commands = require '../../commands'
+CHANCE_OF_STORMS = .1
+
+update_building = (tile, damage, cb) ->
+  query =
+    _id: tile._id
+  update =
+    $inc:
+      hp: 0 - damage
+  db.tiles.update query, update, cb
+
+notify_exterior = (tile, damage, cb) ->
+  coords =
+    x: tile.x
+    y: tile.y
+    z: 0
+  msg =
+    building: tile.building
+    damage: damage
+    destroyed: damage >= tile.hp
+  commands.send_message_coords 'storm_damage_building_exterior', null, coords, [], msg, cb
+notify_interior = (tile, damage, cb) ->
+  coords =
+    x: tile.x
+    y: tile.y
+    z: 1
+  msg =
+    building: tile.building
+    damage: damage
+    destroyed: damage >= tile.hp
+  commands.send_message_coords 'storm_damage_building_interior', null, coords, [], msg, cb
+
+hit_building_with_storm = (tile, cb) ->
+  return cb() if tile.hq # we ain't killing no settlements with this
+
+  building = data.buildings[tile.building]
+  return cb() if _.contains building.tags, 'no_storm_damage'
+
+  damage = parseInt(Math.random() * 15) - 5
+  damage -= 3 if _.contains building.tags, 'reduced_storm_damage'
+  return cb() unless damage > 0
+
+  console.log "Storms damage a #{building.name} for #{damage} HP."
+  async.series [
+    (cb) ->
+      update_building tile, damage, cb
+    (cb) ->
+      notify_exterior tile, damage, cb
+    (cb) ->
+      notify_interior tile, damage, cb
+    (cb) ->
+      return cb() unless damage >= tile.hp
+      commands.remove_building tile, cb
+  ], cb
+
+async.series [
+  (cb) ->
+    query =
+      building:
+        $exists: true
+      z: 0
+    db.tiles.find(query).toArray (err, tiles) ->
+      return cb(err) if err?
+      is_region_affected = {}
+      async.each tiles, (tile, cb) ->
+        if is_region_affected[tile.region]?
+          hit_by_storm = is_region_affected[tile.region]
+        else
+          hit_by_storm = is_region_affected[tile.region] = Math.random() < CHANCE_OF_STORMS
+        return cb() unless hit_by_storm
+        hit_building_with_storm tile, cb
+      , cb
+], (err) ->
+  if err?
+    console.log err
+    process.exit 1
+  else
+    console.log 'The Storms Have Passed'
+    process.exit 0

@@ -3,6 +3,7 @@ module.exports =
   name: 'Totem Pole'
   size: 'small'
   hp: 30
+  tags: ['no_storm_damage']
 
   build_handler: (req, res, next) ->
     res.redirect '/game/settle'

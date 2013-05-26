@@ -8,6 +8,7 @@ module.exports =
   hp: 70
   upgrade: true
   actions: ['write']
+  tags: ['reduced_storm_damage']
 
   exterior: (character, tile) ->
     '_exterior_gate_closed'

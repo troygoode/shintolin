@@ -49,32 +49,27 @@
   * cliff_bottom
   * low_cliff_face
 
-## Passage of Time (AP recovery, hunger, seasons)
-
-* food rotting
-* storms that damage buildings
-
 ## Shintolin v2 Parity
 
-* blocked tiles (based on skill)
-* regions & region painting
-* add admin-check for admin abilities (paint, possess)
-* seasonal bonuses for searching
-* encumberance
-* track IP hits
-  * block after max
-    * reset daily
 * quarry
 * give items
 * dig
 * stockpiles
 * write on buildings
-* message on item drop
-* whisper
-* shout
 * diminishing returns for chop
   * tile transition from chop
+* blocked tiles (based on skill)
+* regions & region painting
+* seasonal bonuses for searching
+* encumberance
 * animals
+* whisper
+* message on item drop
+* shout
+* add admin-check for admin abilities (paint, possess)
+* track IP hits
+  * block after max
+    * reset daily
 
 ## WTF (Shintolin v2 has these, but what are they?)
 

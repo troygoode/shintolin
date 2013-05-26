@@ -5,6 +5,7 @@ module.exports =
   exterior: '_exterior_ruins'
   interior: '_interior_ruins'
   invulnerable: true
+  tags: ['no_storm_damage']
 
   recovery: (character, tile) ->
     if tile.z is 1

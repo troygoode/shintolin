@@ -95,6 +95,10 @@
             span.time= moment(msg.sent).fromNow()
         when 'sow'
           include chat/sow
+        when 'storm_damage_building_exterior'
+          include chat/storm_damage_building_exterior
+        when 'storm_damage_building_interior'
+          include chat/storm_damage_building_interior
         when 'water'
           include chat/water
         default

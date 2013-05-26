@@ -8,6 +8,7 @@ module.exports =
   hp: 80
   exterior: '_exterior_wall'
   actions: ['write']
+  tags: ['reduced_storm_damage']
 
   recovery: (character, tile) ->
     -100000000

@@ -7,6 +7,7 @@ module.exports =
   exterior: '_exterior_wall_low'
   interior: '_interior_guardstand'
   actions: ['write']
+  tags: ['reduced_storm_damage']
 
   recovery: (character, tile) ->
     if tile.z is 1
