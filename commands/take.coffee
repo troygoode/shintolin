@@ -17,7 +17,6 @@ module.exports = (character, tile, takes, cb) ->
   if takes.skill?
     skills = if _.isArray(takes.skill) then takes.skill else [takes.skill]
     unmet_skills = _.difference(skills, character.skills ? [])
-    console.log unmet_skills
     if unmet_skills.length
       return cb("You must have the skill #{unmet_skills.join(',')} to do that.")
 

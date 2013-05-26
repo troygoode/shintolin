@@ -52,9 +52,16 @@ build_grid = (tiles, center) ->
             terrain: 'nothing'
   rows
 
-visit_tile = (tile, center, character) ->
+resolve_terrain = (character, tile) ->
   building = data.buildings[tile.building] if tile.building?
   terrain = if tile.z is 0 and building?.exterior? then building.exterior else tile.terrain
+  if _.isFunction terrain
+    terrain = terrain character, tile
+  terrain
+
+visit_tile = (tile, center, character) ->
+  building = data.buildings[tile.building] if tile.building?
+  terrain = resolve_terrain character, tile
   retval =
     tile: tile
     terrain: data.terrains[terrain]
@@ -153,12 +160,21 @@ module.exports = (app) ->
       build_buildings = ->
         visit_building(building, req.character, center) for key, building of data.buildings
       building = if req.tile.building? then data.buildings[req.tile.building] else null
-      terrain = if req.tile.terrain? then data.terrains[req.tile.terrain] else null
+      terrain = resolve_terrain req.character, req.tile
+      actions = []
+      if terrain.actions? and _.isFunction terrain.actions
+        actions = _.union actions, terrain.actions(req.character, req.tile)
+      else if terrain.actions?
+        actions = _.union actions, terrain.actions
+      if building?.actions? and _.isFunction building.actions
+        actions = _.union actions, building.actions(req.character, req.tile)
+      else if building?.actions?
+        actions = _.union actions, building.actions
       locals =
         character: req.character
         grid: build_grid tiles, req.character
         center: center
-        actions: terrain.actions ? []
+        actions: actions
         building: building
         terrain: terrain
         messages: messages

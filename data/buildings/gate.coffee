@@ -7,7 +7,9 @@ module.exports =
   size: 'large'
   hp: 70
   upgrade: true
-  exterior: 'gate'
+
+  exterior: (character, tile) ->
+    'gate'
 
   recovery: (character, tile) ->
     -100000000

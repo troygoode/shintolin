@@ -89,6 +89,15 @@ if character.hp > 0
         input(type='hidden', name='_csrf', value=csrf)
         input(type='submit', value='Fill', data-action='fill')
 
+    if _.contains(actions, 'sow')
+      form(method='POST', action='/game/sow')
+        input(type='hidden', name='_csrf', value=csrf)
+        input(type='submit', value='Sow', data-action='sow')
+        select(name='item', style='width: 10em', data-persist='plantable', data-action-focus='sow')
+          for item in data.items
+            if _.contains(item.tags || [], 'plantable')
+              option(value=item.id)= item.name
+
     if repair
       form(method='POST', action='/game/repair')
         input(type='hidden', name='_csrf', value=csrf)

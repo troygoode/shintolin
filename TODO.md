@@ -5,6 +5,7 @@
 * sow
 * water
 * harvest
+* fields cannot be planted in same tile too many seasons in a row
 * terrain transitions/regrowth (farming)
 * food rotting
 * storms that damage buildings

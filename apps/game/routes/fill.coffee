@@ -9,7 +9,17 @@ module.exports = (app) ->
     async.series [
       (cb) ->
         terrain = data.terrains[req.tile.terrain]
-        if _.contains terrain.actions, 'fill'
+        building = data.buildings[req.tile.building] if req.tile.building?
+        actions = []
+        if terrain.actions? and _.isFunction terrain.actions
+          actions = _.union actions, terrain.actions(req.character, req.tile)
+        else if terrain.actions?
+          actions = _.union actions, terrain.actions
+        if building?.actions? and _.isFunction building.actions
+          actions = _.union actions, building.actions(req.character, req.tile)
+        else if building?.actions?
+          actions = _.union actions, building.actions
+        if _.contains actions, 'fill'
           cb()
         else
           cb('You cannot fill a pot here.')

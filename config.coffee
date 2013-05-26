@@ -7,3 +7,16 @@ module.exports =
   default_terrain: 'wilderness'
 
   production: process.env.NODE_ENV is 'production'
+
+  now: ->
+    switch process.env.FORCE_SEASON
+      when 'SPRING'
+        new Date(2013, 0, 6)
+      when 'SUMMER'
+        new Date(2013, 0, 9)
+      when 'SUMMER'
+        new Date(2013, 0, 12)
+      when 'WINTER'
+        new Date(2013, 0, 15)
+      else
+        new Date()

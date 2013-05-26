@@ -1,3 +1,4 @@
+config = require './config'
 ms_in_a_day = 1000 * 60 * 60 * 24
 
 calculate_year = (now) ->
@@ -33,6 +34,7 @@ calculate_date = (now) ->
   "#{Math.floor(calculate_year now)}, #{calculate_month now} #{calculate_season now}"
 
 module.exports = (now) ->
+  now ?= config.now()
   now: now
   month: calculate_month now
   season: calculate_season now
