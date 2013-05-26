@@ -6,6 +6,14 @@ send_message_nearby = require '../send_message_nearby'
 xp = require '../xp'
 default_heal_amount = 10
 
+alter_healer_revives = (character, cb) ->
+  query =
+    _id: character._id
+  update =
+    $inc:
+      revives: 1
+  db.characters.update query, update, cb
+
 alter_target_hp = (character, amount, cb) ->
   query =
     _id: character._id
@@ -59,6 +67,8 @@ module.exports = (healer, target, item, tile, cb) ->
     async.series [
       (cb) ->
         remove_item healer, item, 1, cb
+      (cb) ->
+        alter_healer_revives healer, cb
       (cb) ->
         alter_target_hp target, amount_to_heal, cb
       (cb) ->

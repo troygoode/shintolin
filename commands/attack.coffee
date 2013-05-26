@@ -26,6 +26,7 @@ update_attacker = (attacker, target, weapon, damage, broken) ->
       $inc:
         xp_warrior: xp
         frags: frags
+        kills: if kill then 1 else 0
     db.characters.update query, update, cb
 
 break_weapon = (attacker, target, weapon, damage, broken) ->
@@ -44,6 +45,7 @@ update_target = (attacker, target, weapon, damage, broken) ->
       $inc:
         hp: 0 - damage
         frags: 0 - frags
+        deaths: if kill then 1 else 0
     if kicked_from_settlement attacker, target, kill
       update.$unset =
         settlement_id: 1
