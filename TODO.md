@@ -2,7 +2,6 @@
 
 ## Passage of Time (AP recovery, hunger, seasons)
 
-* fields cannot be planted in same tile too many seasons in a row
 * food rotting
 * storms that damage buildings
 

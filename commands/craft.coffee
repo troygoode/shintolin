@@ -11,9 +11,12 @@ module.exports = (character, tile, craft_obj, craft_function, cb) ->
     result = craft_obj(character, tile)
   else
     result = craft_obj
-  return cb() unless result?
+  return cb('No crafting requirements or results specified.') unless result?
 
   async.waterfall [
+    (cb) ->
+      return cb() unless result.validate?
+      result.validate cb
     (cb) ->
       return cb() unless result.takes?
       take character, tile, result.takes, cb

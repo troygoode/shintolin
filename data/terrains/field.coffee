@@ -2,10 +2,17 @@ time = require '../../time'
 
 module.exports =
   id: 'field'
-  style: 'field_s'
+  style: ->
+    switch time().season
+      when 'Summer'
+        'field_s'
+      when 'Autumn'
+        'field_a'
+      else
+        'field_e'
 
   describe: (tile) ->
-    switch time(new Date()).season
+    switch time().season
       when 'Spring'
         'You are standing in a ploughed field. It looks like something was recently planted here, though nothing has grown yet.'
       when 'Summer'

@@ -24,6 +24,13 @@ module.exports =
       'field'
 
   build: (character, tile) ->
+    validate: (cb) ->
+      if time().season isnt 'Spring'
+        cb('Fields can only be prepared in the spring.')
+      else if tile.overuse > 24
+        cb('This land has been overfarmed; no crops can be grown here until the land recovers.')
+      else
+        cb()
     takes:
       ap: 30
       tools: ['digging_stick']

@@ -1,3 +1,4 @@
+_ = require 'underscore'
 async = require 'async'
 queries = require '../../../queries'
 data = require '../../../data'
@@ -10,7 +11,7 @@ map_tile = (tile) ->
 
 map_terrain = (terrain) ->
   id: terrain.id
-  style: terrain.style
+  style: if _.isFunction(terrain.style) then terrain.style() else terrain.style
 
 map_settlement = (settlement) ->
   _id: settlement.settlement._id.toString()

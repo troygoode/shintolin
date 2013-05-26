@@ -1,6 +1,7 @@
 _ = require 'underscore'
 queries = require '../../../queries'
 data = require '../../../data'
+config = require '../../../config'
 
 build_grid = (tiles, center) ->
   rows = []
@@ -27,9 +28,18 @@ build_grid = (tiles, center) ->
   rows
 
 visit_tile = (tile, center, character) ->
+  terrain = data.terrains[tile.terrain]
+  if tile.building?
+    building = data.buildings[tile.building]
+    if building.exterior? and _.isFunction(building.exterior)
+      terrain = data.terrains[building.exterior(character, tile)]
+    else if building.exterior
+      terrain = data.terrains[building.exterior]
   retval =
     tile: tile
-    terrain: data.terrains[tile.terrain]
+    building: building
+    terrain: terrain
+    style: if _.isFunction(terrain.style) then terrain.style() else terrain.style
   retval
 
 module.exports = (app) ->

@@ -6,9 +6,9 @@ add_item = require './add_item'
 xp = require './xp'
 
 bound_increase = (increase, current, max) ->
-  if current >= max
-    current
-  else if current + increase > max
+  if current > max
+    max - current
+  else if current + increase >= max
     max - current
   else
     increase
@@ -36,5 +36,6 @@ module.exports = (character, tile, gives, cb) ->
       update =
         $inc:
           hp: bound_increase gives.tile_hp, tile.hp, (building.hp_max ? building.hp)
+      console.log update
       db.tiles.update query, update, cb
   ], cb

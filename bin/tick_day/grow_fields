@@ -10,20 +10,29 @@ async.series [
     query =
       building: 'field'
       hp:
+        $gte: 5
         $lt: 200
-    update =
-      $inc:
-        hp: 20 #TODO
-    db.tiles.update query, update, false, true, cb
+    db.tiles.find(query).toArray (err, tiles) ->
+      return cb(err) if err?
+      async.each tiles, (tile, cb) ->
+        growth = tile.hp - 5
+        growth = (growth * 3.5) + 3
+        growth = (growth * 2) if tile.watered
+        growth = 200 - tile.hp if tile.hp + growth > 200
+        query =
+          _id: tile._id
+        update =
+          $inc:
+            hp: growth
+        db.tiles.update query, update, cb
+      , cb
   (cb) ->
     query =
-      building: 'field'
-      hp:
-        $lt: 200
-      watered: true
+      overuse:
+        $gt: 0
     update =
       $inc:
-        hp: 20 #TODO
+        overuse: -.5
     db.tiles.update query, update, false, true, cb
   (cb) ->
     update =

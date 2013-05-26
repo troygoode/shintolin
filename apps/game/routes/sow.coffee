@@ -41,10 +41,12 @@ module.exports = (app) ->
           takes:
             ap: 15
           gives:
-            tile_hp: 10
+            tile_hp: 1
             xp:
               herbalist: 5
         commands.craft req.character, req.tile, io, null, cb
+      (cb) ->
+        commands.increase_overuse req.tile, 12, cb
       (cb) ->
         commands.send_message 'sow', req.character, req.character, null, cb
     ], (err) ->

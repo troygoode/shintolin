@@ -13,7 +13,7 @@ html
       for row in grid
         tr
           for tile in row
-            td.map(class='tile-#{tile.terrain.style}')
+            td.map(class='tile-#{tile.style}')
               if tile.tile.building
                 span.mapdata.feature= data.buildings[tile.tile.building].name
                 br

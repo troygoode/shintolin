@@ -33,12 +33,15 @@ module.exports = (app) ->
         else
           cb('You cannot water anything here.')
       (cb) ->
+        growth = parseInt(((req.tile.hp + 1) / 3) + 4)
+        if req.tile.hp + growth > 200
+          growth = 200 - req.tile.hp
         io =
           takes:
             ap: 1
             items: {}
           gives:
-            tile_hp: 5
+            tile_hp: growth
             xp:
               herbalist: 3
         io.takes.items[req.item.id] = 1

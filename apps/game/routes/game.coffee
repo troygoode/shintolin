@@ -65,6 +65,7 @@ visit_tile = (tile, center, character) ->
   retval =
     tile: tile
     terrain: terrain
+    style: if _.isFunction(terrain.style) then terrain.style() else terrain.style
     building: building
     people: tile.people?.filter (p) ->
       p._id.toString() isnt character._id.toString()

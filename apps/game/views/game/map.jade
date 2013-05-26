@@ -9,7 +9,7 @@
       tr
         for tile in row
           - var is_center = tile.tile._id && tile.tile._id.toString() === center.tile._id.toString();
-          td.map(class='tile-#{tile.terrain.style} #{is_center ? "current" : null}')
+          td.map(class='tile-#{tile.style} #{is_center ? "current" : null}')
             if tile.direction && center.tile.z === 0
               form(method='post', action='/game/move/' + tile.direction)
                 input(type='hidden', name='_csrf', value=csrf)

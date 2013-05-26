@@ -6,6 +6,7 @@
         dd #{center.tile.hp}/#{building.hp_max ? building.hp_max : building.hp}
     li: a.buttonlink(href='/game/debug/replenish-ap') Replenish AP
     li: a.buttonlink(href='/game/debug/replenish-hp') Replenish HP
+    li: a.buttonlink(href='/manage/map') Admin
 
   form(method='POST', action='/game/debug/paint')
     input(type='hidden', name='_csrf', value=csrf)
