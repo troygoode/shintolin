@@ -37,13 +37,14 @@ module.exports = (app) ->
         return cb('You cannot plant that.') unless _.contains(item.tags, 'plantable')
         commands.remove_item req.character, item, 10, cb
       (cb) ->
-        commands.charge_ap req.character, 15, cb
-      (cb) ->
-        gives =
-          tile_hp: 10
-        commands.give req.character, req.tile, gives, cb
-      (cb) ->
-        commands.xp req.character, 0, 5, 0, 0, cb
+        io =
+          takes:
+            ap: 15
+          gives:
+            tile_hp: 10
+            xp:
+              herbalist: 5
+        commands.craft req.character, req.tile, io, null, cb
       (cb) ->
         commands.send_message 'sow', req.character, req.character, null, cb
     ], (err) ->

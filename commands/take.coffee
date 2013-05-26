@@ -1,8 +1,15 @@
 _ = require 'underscore'
 async = require 'async'
 data = require '../data'
+db = require '../db'
 remove_item = require './remove_item'
 charge_ap = require './charge_ap'
+
+bound_decrease = (decrease, current, min) ->
+  if current - decrease >= min
+    decrease
+  else
+    current - min
 
 module.exports = (character, tile, takes, cb) ->
   if takes.ap?
@@ -47,6 +54,16 @@ module.exports = (character, tile, takes, cb) ->
     (cb) ->
       # charge ap
       charge_ap character, takes.ap, cb
+    (cb) ->
+      # remove building HP
+      return cb() unless tile.building? and takes.tile_hp?
+      building = data.buildings[tile.building]
+      query =
+        _id: tile._id
+      update =
+        $inc:
+          hp: 0 - bound_decrease(takes.tile_hp, tile.hp, 0)
+      db.tiles.update query, update, cb
     (cb) ->
       # remove broken tools from inventory
       return cb() unless broken.length

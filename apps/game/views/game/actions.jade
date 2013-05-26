@@ -92,7 +92,7 @@ if character.hp > 0
     if _.contains(actions, 'sow')
       form(method='POST', action='/game/sow')
         input(type='hidden', name='_csrf', value=csrf)
-        input(type='submit', value='Sow', data-action='sow')
+        input(type='submit', value='Sow Field', data-action='sow')
         select(name='item', style='width: 10em', data-persist='plantable', data-action-focus='sow')
           for item in data.items
             if _.contains(item.tags || [], 'plantable')
@@ -106,6 +106,16 @@ if character.hp > 0
           for citem in character.items
             - var item = data.items[citem.item];
             if _.contains(item.tags || [], 'water')
+              option(value=item.id)= item.name
+
+    if _.contains(actions, 'harvest')
+      form(method='POST', action='/game/harvest')
+        input(type='hidden', name='_csrf', value=csrf)
+        input(type='submit', value='Harvest Field', data-action='harvest')
+        select(name='item', style='width: 10em', data-persist='harvest', data-action-focus='harvest')
+          for citem in character.items
+            - var item = data.items[citem.item];
+            if _.contains(item.tags || [], 'harvest')
               option(value=item.id)= item.name
 
     if repair

@@ -1,0 +1,7 @@
+.action
+  | You harvest #{msg.amount} wheat from the field. 
+  if msg.remaining <= 0
+    | The field has been completely harvested. 
+  else if msg.remaining <= 10
+    | The field is almost completely harvested. 
+  span.time= moment(msg.sent).fromNow()

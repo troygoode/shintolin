@@ -1,10 +1,16 @@
+_ = require 'underscore'
 async = require 'async'
 data = require '../data'
 give = require './give'
 take = require './take'
 
 module.exports = (character, tile, craft_obj, craft_function, cb) ->
-  result = craft_obj[craft_function](character, tile)
+  if craft_function?
+    result = craft_obj[craft_function](character, tile)
+  else if _.isFunction craft_obj
+    result = craft_obj(character, tile)
+  else
+    result = craft_obj
   return cb() unless result?
 
   async.waterfall [

@@ -6,6 +6,7 @@ send_message_coords = require './send_message_coords'
 send_message_settlement = require './send_message_settlement'
 teleport = require './teleport'
 broadcast_message = require './broadcast_message'
+_remove_building = require './remove_building'
 
 get_settlement = (ctx) ->
   (cb) ->
@@ -16,40 +17,7 @@ get_settlement = (ctx) ->
 
 remove_building = (ctx) ->
   (cb) ->
-    query =
-      _id: ctx.tile._id
-    update =
-      $unset:
-        building: true
-        hp: true
-        hq: true
-    db.tiles.update query, update, cb
-
-remove_interior = (ctx) ->
-  (cb) ->
-    return cb() unless ctx.building.interior?
-    async.series [
-      (cb) ->
-        old_coords =
-          x: ctx.tile.x
-          y: ctx.tile.y
-          z: 1
-        new_coords =
-          x: ctx.tile.x
-          y: ctx.tile.y
-          z: 0
-        db.characters.find(old_coords).toArray (err, characters) ->
-          return cb(err) if err?
-          async.forEach characters, (character, cb) ->
-            teleport character, old_coords, new_coords, cb
-          , cb
-      , (cb) ->
-        query =
-          x: ctx.tile.x
-          y: ctx.tile.y
-          z: 1
-        db.tiles.remove query, cb
-    ], cb
+    _remove_building ctx.tile, cb
 
 remove_settlement = (ctx) ->
   (cb) ->
@@ -159,7 +127,6 @@ module.exports = (destroyer, tile, cb) ->
   actions.push notify_settlement
   actions.push broadcast_settlement_destroyed
   actions.push remove_building
-  actions.push remove_interior
   actions.push remove_settlement
   async.series actions.map((a) ->
     a context

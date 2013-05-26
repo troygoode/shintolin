@@ -46,6 +46,8 @@
           include chat/feed
         when 'fill'
           include chat/fill
+        when 'harvest'
+          include chat/harvest
         when 'heal'
           include chat/heal
         when 'healed'
@@ -80,6 +82,8 @@
           include chat/search
         when 'settled'
           include chat/settled
+        when 'settled_nearby'
+          include chat/settled_nearby
         when 'settlement_removed'
           include chat/settlement_removed
         when 'social'
@@ -87,8 +91,10 @@
             a.neutral(href='/profile/#{msg.sender_id}')= msg.sender_name
             | : #{msg.text} 
             span.time= moment(msg.sent).fromNow()
-        when 'settled_nearby'
-          include chat/settled_nearby
+        when 'sow'
+          include chat/sow
+        when 'water'
+          include chat/water
         default
           .action
             a.neutral(href='/profile/#{msg.sender_id}')= msg.sender_name

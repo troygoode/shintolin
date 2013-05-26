@@ -1,3 +1,5 @@
+time = require '../../time'
+
 module.exports =
   id: 'field'
   name: 'Field'
@@ -6,12 +8,14 @@ module.exports =
   hp_max: 200
 
   actions: (character, tile) ->
-    if tile.hp <= 4
-      ['sow']
-    else if not tile.watered
-      ['water']
-    else
-      null
+    switch time().season
+      when 'Spring', 'Summer'
+        if tile.hp <= 4
+          ['sow']
+        else if not tile.watered
+          ['water']
+      when 'Autumn'
+        ['harvest']
 
   exterior: (character, tile) ->
     if tile.hp <= 4
