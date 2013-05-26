@@ -10,7 +10,7 @@ module.exports =
   actions: ['write']
 
   exterior: (character, tile) ->
-    'gate'
+    '_exterior_gate_closed'
 
   recovery: (character, tile) ->
     -100000000

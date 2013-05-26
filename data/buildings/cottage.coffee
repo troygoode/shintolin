@@ -3,7 +3,7 @@ module.exports =
   name: 'Cottage'
   size: 'large'
   hp: 70
-  interior: 'cottage_interior'
+  interior: '_interior_cottage'
   upgrade: true
   actions: ['write']
 

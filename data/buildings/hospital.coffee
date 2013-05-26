@@ -3,7 +3,7 @@ module.exports =
   name: 'Hospital'
   size: 'large'
   hp: 50
-  interior: 'hospital_interior'
+  interior: '_interior_hospital'
   upgrade: true
   actions: ['write']
 

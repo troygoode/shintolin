@@ -6,7 +6,7 @@ module.exports =
   name: 'Wall'
   size: 'tiny'
   hp: 80
-  exterior: 'wall'
+  exterior: '_exterior_wall'
   actions: ['write']
 
   recovery: (character, tile) ->

@@ -1,5 +1,5 @@
 module.exports =
-  id: 'shrine_hunter_interior'
+  id: '_interior_shrine_hunter'
   style: 'dirt'
 
   describe: (tile) ->

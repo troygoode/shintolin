@@ -3,7 +3,7 @@ module.exports =
   name: 'Gate Foundation'
   size: 'large'
   hp: 40
-  exterior: 'gate_open'
+  exterior: '_exterior_gate_open'
 
   build: (character, tile) ->
     takes:

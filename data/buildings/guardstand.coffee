@@ -4,8 +4,8 @@ module.exports =
   size: 'large'
   hp: 70
   upgrade: true
-  exterior: 'wall_low'
-  interior: 'guardstand_interior'
+  exterior: '_exterior_wall_low'
+  interior: '_interior_guardstand'
   actions: ['write']
 
   recovery: (character, tile) ->

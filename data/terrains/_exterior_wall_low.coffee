@@ -1,5 +1,5 @@
 module.exports =
-  id: 'wall_low'
+  id: '_exterior_wall_low'
   style: 'wall'
 
   describe: (tile) ->

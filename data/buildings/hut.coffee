@@ -3,7 +3,7 @@ module.exports =
   name: 'Hut'
   size: 'small'
   hp: 30
-  interior: 'hut_interior'
+  interior: '_interior_hut'
   actions: ['write']
 
   build: (character, tile) ->

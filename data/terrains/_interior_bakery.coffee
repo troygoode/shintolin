@@ -1,5 +1,5 @@
 module.exports =
-  id: 'bakery_interior'
+  id: '_interior_bakery'
   style: 'dirt'
 
   describe: (tile) ->

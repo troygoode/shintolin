@@ -1,5 +1,5 @@
 module.exports =
-  id: 'gate'
+  id: '_exterior_gate_closed'
   style: 'gate'
 
   describe: (tile) ->

@@ -3,7 +3,7 @@ module.exports =
   name: 'Stonemasonry'
   size: 'large'
   hp: 50
-  interior: 'stonemasonry_interior'
+  interior: '_interior_stonemasonry'
   upgrade: true
   actions: ['write']
 

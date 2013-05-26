@@ -3,7 +3,7 @@ module.exports =
   name: 'Bakery'
   size: 'large'
   hp: 50
-  interior: 'bakery_interior'
+  interior: '_interior_bakery'
   upgrade: true
   actions: ['write']
 

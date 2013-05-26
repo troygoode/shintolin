@@ -1,5 +1,5 @@
 module.exports =
-  id: 'workshop_interior'
+  id: '_interior_workshop'
   style: 'dirt'
 
   describe: (tile) ->

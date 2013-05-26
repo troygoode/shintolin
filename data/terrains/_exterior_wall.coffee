@@ -1,7 +1,7 @@
 time = require '../../time'
 
 module.exports =
-  id: 'wall'
+  id: '_exterior_wall'
   style: 'wall'
 
   describe: (tile) ->

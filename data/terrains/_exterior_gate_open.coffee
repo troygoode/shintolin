@@ -1,5 +1,5 @@
 module.exports =
-  id: 'gate_open'
+  id: '_exterior_gate_open'
   style: 'dirt'
 
   describe: (tile) ->

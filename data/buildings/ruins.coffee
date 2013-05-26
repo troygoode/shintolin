@@ -2,7 +2,8 @@ module.exports =
   id: 'ruins'
   name: 'Ruins'
   size: 'large'
-  interior: 'ruins_interior'
+  exterior: '_exterior_ruins'
+  interior: '_interior_ruins'
   invulnerable: true
 
   recovery: (character, tile) ->

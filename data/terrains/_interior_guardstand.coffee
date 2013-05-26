@@ -1,5 +1,5 @@
 module.exports =
-  id: 'guardstand_interior'
+  id: '_interior_guardstand'
   style: 'dirt'
 
   describe: (tile) ->

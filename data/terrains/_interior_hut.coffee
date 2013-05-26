@@ -1,5 +1,5 @@
 module.exports =
-  id: 'hut_interior'
+  id: '_interior_hut'
   style: 'dirt'
 
   describe: (tile) ->

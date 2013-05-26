@@ -3,7 +3,7 @@ module.exports =
   name: 'Fertiltiy Shrine'
   size: 'small'
   hp: 50
-  interior: 'shrine_fertility_interior'
+  interior: '_interior_shrine_fertility'
   upgrade: true
   actions: ['write']
 

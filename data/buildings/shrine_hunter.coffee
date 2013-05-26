@@ -3,7 +3,7 @@ module.exports =
   name: 'Hunter\'s Shrine'
   size: 'small'
   hp: 50
-  interior: 'shrine_hunter_interior'
+  interior: '_interior_shrine_hunter'
   upgrade: true
   actions: ['write']
 

@@ -1,5 +1,5 @@
 module.exports =
-  id: 'shrine_fertility_interior'
+  id: '_interior_shrine_fertility'
   style: 'dirt'
 
   describe: (tile) ->

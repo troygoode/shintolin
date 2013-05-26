@@ -3,7 +3,6 @@ module.exports =
   name: 'Guardstand Foundation'
   size: 'large'
   hp: 40
-  exterior: 'wall_low'
 
   build: (character, tile) ->
     takes:

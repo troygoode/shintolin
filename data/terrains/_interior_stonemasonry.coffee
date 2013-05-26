@@ -1,5 +1,5 @@
 module.exports =
-  id: 'stonemasonry_interior'
+  id: '_interior_stonemasonry'
   style: 'dirt'
 
   describe: (tile) ->

@@ -1,5 +1,5 @@
 module.exports =
-  id: 'hospital_interior'
+  id: '_interior_hospital'
   style: 'dirt'
 
   describe: (tile) ->
