@@ -57,14 +57,14 @@ resolve_terrain = (character, tile) ->
   terrain = if tile.z is 0 and building?.exterior? then building.exterior else tile.terrain
   if _.isFunction terrain
     terrain = terrain character, tile
-  terrain
+  data.terrains[terrain]
 
 visit_tile = (tile, center, character) ->
   building = data.buildings[tile.building] if tile.building?
   terrain = resolve_terrain character, tile
   retval =
     tile: tile
-    terrain: data.terrains[terrain]
+    terrain: terrain
     building: building
     people: tile.people?.filter (p) ->
       p._id.toString() isnt character._id.toString()

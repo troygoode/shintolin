@@ -98,6 +98,16 @@ if character.hp > 0
             if _.contains(item.tags || [], 'plantable')
               option(value=item.id)= item.name
 
+    if _.contains(actions, 'water')
+      form(method='POST', action='/game/water')
+        input(type='hidden', name='_csrf', value=csrf)
+        input(type='submit', value='Water Field', data-action='water')
+        select(name='item', style='width: 10em', data-persist='water', data-action-focus='water')
+          for citem in character.items
+            - var item = data.items[citem.item];
+            if _.contains(item.tags || [], 'water')
+              option(value=item.id)= item.name
+
     if repair
       form(method='POST', action='/game/repair')
         input(type='hidden', name='_csrf', value=csrf)

@@ -8,6 +8,8 @@ module.exports =
   actions: (character, tile) ->
     if tile.hp <= 4
       ['sow']
+    else if not tile.watered
+      ['water']
     else
       null
 

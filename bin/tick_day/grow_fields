@@ -1,0 +1,39 @@
+#!/usr/bin/env coffee
+
+_ = require 'underscore'
+async = require 'async'
+db = require '../../db'
+commands = require '../../commands'
+
+async.series [
+  (cb) ->
+    query =
+      building: 'field'
+      hp:
+        $lt: 200
+    update =
+      $inc:
+        hp: 20 #TODO
+    db.tiles.update query, update, false, true, cb
+  (cb) ->
+    query =
+      building: 'field'
+      hp:
+        $lt: 200
+      watered: true
+    update =
+      $inc:
+        hp: 20 #TODO
+    db.tiles.update query, update, false, true, cb
+  (cb) ->
+    update =
+      $unset:
+        watered: true
+    db.tiles.update {}, update, false, true, cb
+], (err) ->
+  if err?
+    console.log err
+    process.exit 1
+  else
+    console.log 'Fields Grown'
+    process.exit 0
