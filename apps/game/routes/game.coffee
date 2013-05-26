@@ -157,7 +157,11 @@ module.exports = (app) ->
       usables = usables.map (i) ->
         visit_usable data.items[i.item], req.character, center
       build_recipes = ->
-        visit_recipe(recipe, req.character, center) for key, recipe of data.recipes
+        recipes = []
+        for key, recipe of data.items
+          if recipe.craft?
+            recipes.push visit_recipe(recipe, req.character, center)
+        recipes
       build_buildings = ->
         visit_building(building, req.character, center) for key, building of data.buildings
       building = if req.tile.building? then data.buildings[req.tile.building] else null

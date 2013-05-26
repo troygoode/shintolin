@@ -19,3 +19,15 @@ module.exports =
     dmg += 1 if attacker.skills.indexOf('axe_1') isnt -1
     dmg += 1 if attacker.skills.indexOf('axe_3') isnt -1
     dmg
+
+  craft: (character, tile) ->
+    takes:
+      ap: 10
+      tools: ['stone']
+      items:
+        flint: 1
+    gives:
+      items:
+        handaxe: 1
+      xp:
+        crafter: 10

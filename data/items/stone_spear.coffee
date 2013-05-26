@@ -17,3 +17,16 @@ module.exports =
     dmg += 1 if attacker.skills.indexOf('spear_1') isnt -1
     dmg += 1 if attacker.skills.indexOf('spear_3') isnt -1
     dmg
+
+  craft: (character, tile) ->
+    takes:
+      ap: 10
+      skill: 'hafting'
+      items:
+        handaxe: 1
+        staff: 1
+    gives:
+      items:
+        stone_spear: 1
+      xp:
+        crafter: 10

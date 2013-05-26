@@ -3,6 +3,7 @@ time = require '../../time'
 module.exports =
   id: '_exterior_wall'
   style: 'wall'
+  hidden: true
 
   describe: (tile) ->
     switch time(new Date()).season

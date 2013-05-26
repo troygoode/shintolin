@@ -1,7 +1,7 @@
 time = require '../../time'
 
 module.exports =
-  id: 'low_hillside'
+  id: 'hill_low_side'
   style: 'hill1_side'
 
   describe: (tile) ->
