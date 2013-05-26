@@ -38,3 +38,6 @@ module.exports =
     gives:
       xp:
         herbalist: 10
+
+  text:
+    built: 'It\'s tiring work, but you manage to turn over the soil in the area, leaving several furrows in which to plant crops. The newly ploughed soil is rich and fertile.'

@@ -6,6 +6,7 @@ module.exports =
 
   build_handler: (req, res, next) ->
     res.redirect '/game/settle'
+
   build: (character, tile) ->
     takes:
       ap: 30

@@ -1,9 +1,9 @@
 module.exports =
-  id: 'workshop'
-  name: 'Workshop'
+  id: 'hospital'
+  name: 'Hospital'
   size: 'large'
   hp: 50
-  interior: 'workshop_interior'
+  interior: 'hospital_interior'
   upgrade: true
   actions: ['write']
 
@@ -12,10 +12,11 @@ module.exports =
       ap: 25
       settlement: true
       building: 'longhouse'
-      skill: 'artisanship'
+      skill: 'hospitaller'
       items:
-        timber: 6
-        stone_carpentry: 4
+        thyme: 7
+        bark: 7
+        poultice: 7
     gives:
       xp:
         crafter: 25
@@ -26,11 +27,13 @@ module.exports =
     takes:
       ap: 10
       items:
-        timber: 2
+        thyme: 2
+        bark: 2
+        poultice: 2
     gives:
       tile_hp: 5
       xp:
         crafter: 5
 
   text:
-    built: 'You assemble work benches and organise your tools, setting up a workshop in this building.'
+    built: 'You organise your medicinal supplies and establish a hospital in this building.'

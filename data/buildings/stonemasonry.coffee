@@ -5,6 +5,7 @@ module.exports =
   hp: 50
   interior: 'stonemasonry_interior'
   upgrade: true
+  actions: ['write']
 
   build: (character, tile) ->
     takes:
@@ -31,3 +32,6 @@ module.exports =
       tile_hp: 5
       xp:
         crafter: 5
+
+  text:
+    built: 'You assemble work benches and organise your tools, setting up a stonemasonry in this building.'

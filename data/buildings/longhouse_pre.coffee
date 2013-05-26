@@ -27,3 +27,6 @@ module.exports =
       tile_hp: 5
       xp:
         crafter: 5
+
+  text:
+    built: 'You dig trenches for a foundation, then set to work building the walls of the longhouse. It isn\'t finished yet: you still need to build the roof.'

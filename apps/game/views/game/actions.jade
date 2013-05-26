@@ -121,4 +121,4 @@ if character.hp > 0
     if repair
       form(method='POST', action='/game/repair')
         input(type='hidden', name='_csrf', value=csrf)
-        input(type='submit', value=building.repair_text && building.repair_text.button ? building.repair_text.button : 'Repair', data-action='repair')
+        input(type='submit', value=building.text && building.text.repair && building.text.repair.button ? building.text.repair.button : 'Repair', data-action='repair')

@@ -1,27 +1,20 @@
 module.exports =
-  id: 'longhouse'
-  name: 'Longhouse'
+  id: 'bakery'
+  name: 'Bakery'
   size: 'large'
   hp: 50
-  interior: 'longhouse_interior'
+  interior: 'bakery_interior'
   upgrade: true
   actions: ['write']
-
-  recovery: (character, tile) ->
-    if tile.z is 1
-      1
-    else
-      0
 
   build: (character, tile) ->
     takes:
       ap: 50
       settlement: true
-      building: 'longhouse_pre'
-      skill: 'construction'
-      tools: ['stone_carpentry']
+      building: 'longhouse'
+      skill: 'masonry'
       items:
-        timber: 12
+        stone_block: 7
     gives:
       xp:
         crafter: 35
@@ -32,11 +25,11 @@ module.exports =
     takes:
       ap: 10
       items:
-        timber: 4
+        stone_block: 2
     gives:
-      tile_hp: 5
+      tile_hp: 10
       xp:
         crafter: 5
 
   text:
-    built: 'You build the roof, and the longhouse is complete.'
+    built: 'You build a stone oven in the building, converting it into a bakery.'

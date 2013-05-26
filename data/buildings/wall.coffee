@@ -7,6 +7,7 @@ module.exports =
   size: 'tiny'
   hp: 80
   exterior: 'wall'
+  actions: ['write']
 
   recovery: (character, tile) ->
     -100000000

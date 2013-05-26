@@ -1,7 +1,7 @@
 .action
   - var building = data.buildings[msg.building];
-  if building.repair_text && building.repair_text.success_you
-    | You #{building.repair_text.success_you}. 
+  if building.text && building.text.repair && building.text.repair.success_you
+    | You #{building.text.repair.success_you}. 
   else
     | You repaired the #{building.name}. 
   if msg.broken && msg.broken.length

@@ -1,16 +1,16 @@
 module.exports =
-  id: 'kiln'
-  name: 'Kiln'
+  id: 'cottage_pre'
+  name: 'Cottage Foundation'
   size: 'small'
-  hp: 50
+  hp: 30
 
   build: (character, tile) ->
     takes:
       ap: 50
-      settlement: true
+      skill: 'masonry'
       tools: ['masonry_tools']
       items:
-        stone_block: 7
+        stone_block: 6
     gives:
       xp:
         crafter: 35
@@ -19,14 +19,13 @@ module.exports =
     max = @hp_max ? @hp
     return null unless tile.hp < max
     takes:
-      ap: 15
-      tools: ['masonry_tools']
+      ap: 10
       items:
-        stone_block: 1
+        stone_block: 2
     gives:
       tile_hp: 10
       xp:
         crafter: 5
 
   text:
-    built: 'Digging a small firepit in the ground, you build a stone covering around and over it, creating a kiln.'
+    built: 'You dig trenches for a foundation, then set to work building the walls of the cottage. It isn\'t finished yet: you still need to build the roof.'

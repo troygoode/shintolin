@@ -7,6 +7,7 @@ module.exports =
   size: 'large'
   hp: 70
   upgrade: true
+  actions: ['write']
 
   exterior: (character, tile) ->
     'gate'

@@ -6,6 +6,7 @@ module.exports =
   upgrade: true
   exterior: 'wall_low'
   interior: 'guardstand_interior'
+  actions: ['write']
 
   recovery: (character, tile) ->
     if tile.z is 1

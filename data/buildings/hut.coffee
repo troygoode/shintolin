@@ -4,6 +4,7 @@ module.exports =
   size: 'small'
   hp: 30
   interior: 'hut_interior'
+  actions: ['write']
 
   build: (character, tile) ->
     takes:
@@ -26,3 +27,6 @@ module.exports =
       tile_hp: 3
       xp:
         crafter: 3
+
+  text:
+    built: 'Planting the tall staves in the ground, you weave in the sticks to build a crude wooden hut.'

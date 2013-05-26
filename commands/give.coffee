@@ -36,6 +36,5 @@ module.exports = (character, tile, gives, cb) ->
       update =
         $inc:
           hp: bound_increase gives.tile_hp, tile.hp, (building.hp_max ? building.hp)
-      console.log update
       db.tiles.update query, update, cb
   ], cb
