@@ -7,7 +7,7 @@ module.exports =
   chop: true
 
   describe: (tile) ->
-    switch time(new Date()).season
+    switch time().season
       when 'Spring'
         'You are in a forest. Shafts of sunlight shine through the trees.'
       when 'Summer'

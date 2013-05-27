@@ -5,7 +5,7 @@ module.exports =
   style: 'wilderness'
   hidden: true
   describe: (tile) ->
-    switch time(new Date()).season
+    switch time().season
       when 'Spring'
         'You are wandering through a seemingly endless wilderness.'
       when 'Summer'

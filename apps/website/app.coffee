@@ -21,7 +21,7 @@ app.use express.cookieParser()
 app.use shared_session
 
 app.use (req, res, next) ->
-  req.time = time(new Date())
+  req.time = time()
   res.locals.time = req.time
   next()
 

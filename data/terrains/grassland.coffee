@@ -7,7 +7,7 @@ module.exports =
   buildable: ['tiny', 'small', 'large']
 
   describe: (tile) ->
-    switch time(new Date()).season
+    switch time().season
       when 'Spring'
         'You are walking through a verdant grassland. Some small flowers are starting to grow here.'
       when 'Summer'

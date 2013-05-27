@@ -6,7 +6,7 @@ module.exports =
   hidden: true
 
   describe: (tile) ->
-    switch time(new Date()).season
+    switch time().season
       when 'Spring'
         'You are standing high atop a stone wall. The wind roars, requiring all your strength to maintain your balance.'
       when 'Summer'

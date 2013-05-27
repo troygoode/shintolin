@@ -4,7 +4,7 @@ module.exports =
   id: 'dirt'
   style: 'dirt'
   describe: (tile) ->
-    switch time(new Date()).season
+    switch time().season
       when 'Spring'
         'You are standing on bare dirt; the muddy ground here has seen the passage of many feet.'
       when 'Summer'

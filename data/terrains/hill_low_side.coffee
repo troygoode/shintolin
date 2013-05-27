@@ -5,7 +5,7 @@ module.exports =
   style: 'hill1_side'
 
   describe: (tile) ->
-    switch time(new Date()).season
+    switch time().season
       when 'Spring'
         'You are on the side of a hill, at low elevation. A light breeze is blowing.'
       when 'Summer'

@@ -7,7 +7,7 @@ module.exports =
   actions: ['fill']
 
   describe: (tile) ->
-    switch time(new Date()).season
+    switch time().season
       when 'Spring'
         'You are wading through a small stream, cool water running over your feet.'
       when 'Summer'
