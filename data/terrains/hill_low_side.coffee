@@ -16,5 +16,5 @@ module.exports =
         'You are on the side of a hill, at low elevation. A cold wind is blowing.'
 
   search_odds: (tile, character) ->
-    flint: .1
-    stone: .1
+    flint: .10
+    stone: .10

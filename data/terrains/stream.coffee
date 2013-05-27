@@ -16,3 +16,9 @@ module.exports =
         'You are wading through a small stream, cool water running over your feet.'
       when 'Winter'
         'You are wading through a small stream. The water is ice cold and rapid.'
+
+  cost_to_enter: (character, tile_from, tile_to) ->
+    if _.contains character.skills, 'swimming'
+      2
+    else
+      4

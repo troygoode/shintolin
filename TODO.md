@@ -1,11 +1,6 @@
 # TODO list
 
 * implement missing terrains
-  * low_hilltop
-  * mid_hillside
-  * mid_hilltop
-  * high_hillside
-  * high_hilltop
   * lake_shore
   * shallow_lake
   * deep_lake
