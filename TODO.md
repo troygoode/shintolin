@@ -2,12 +2,12 @@
 
 ## Shintolin v2 Parity
 
+* blocked tiles (based on skill)
+* dig
 * quarry
 * give items
-* dig
 * stockpiles
 * write on buildings
-* blocked tiles (based on skill)
 * regions & region painting
 * seasonal bonuses for searching
 * encumberance
