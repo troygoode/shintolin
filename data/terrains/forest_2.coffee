@@ -1,7 +1,7 @@
 time = require '../../time'
 
 module.exports =
-  id: 'forest'
+  id: 'forest_2'
   style: 'forest'
 
   chop: true
