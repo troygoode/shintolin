@@ -2,7 +2,6 @@
 
 ## Shintolin v2 Parity
 
-* blocked tiles (based on skill)
 * dig
 * quarry
 * give items

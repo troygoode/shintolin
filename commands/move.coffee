@@ -93,10 +93,22 @@ module.exports = (character, direction, cb) ->
       new_building = data.buildings[new_tile.building]
 
     ap_cost = 1
-    ap_cost += old_building.cost_to_exit(character, old_tile, new_tile) if old_building?.cost_to_exit?
-    ap_cost += old_terrain.cost_to_exit(character, old_tile, new_tile) if old_terrain.cost_to_exit?
-    ap_cost += new_terrain.cost_to_enter(character, old_tile, new_tile) if new_terrain.cost_to_enter?
-    ap_cost += new_building.cost_to_enter(character, old_tile, new_tile) if new_building?.cost_to_enter?
+    if old_building?.cost_to_exit?
+      extra = old_building.cost_to_exit(character, old_tile, new_tile)
+      return cb('You cannot move there.') unless extra?
+      ap_cost += extra
+    if old_terrain.cost_to_exit?
+      extra = old_terrain.cost_to_exit(character, old_tile, new_tile)
+      return cb('You cannot move there.') unless extra?
+      ap_cost += extra
+    if new_terrain.cost_to_enter?
+      extra = new_terrain.cost_to_enter(character, old_tile, new_tile)
+      return cb('You cannot move there.') unless extra?
+      ap_cost += extra
+    if new_building?.cost_to_enter?
+      extra = new_building.cost_to_enter(character, old_tile, new_tile)
+      return cb('You cannot move there.') unless extra?
+      ap_cost += extra
 
     return cb('Insufficient AP') unless character.ap >= ap_cost
     charge_ap character, ap_cost, (err) ->
