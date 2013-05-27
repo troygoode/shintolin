@@ -4,6 +4,8 @@ module.exports =
   size: 'tiny'
   hp: 3
 
+  exterior: 'dirt'
+
   build: (character, tile) ->
     takes:
       ap: 20
