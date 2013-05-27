@@ -6,6 +6,12 @@ module.exports =
   interior: '_interior_hut'
   actions: ['write']
 
+  recovery: (character, tile) ->
+    if tile.z is 1
+      .5
+    else
+      0
+
   build: (character, tile) ->
     takes:
       ap: 40

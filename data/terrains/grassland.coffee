@@ -5,6 +5,7 @@ module.exports =
   style: 'grass'
 
   buildable: ['tiny', 'small', 'large']
+  actions: ['dig']
 
   describe: (tile) ->
     switch time().season
@@ -33,3 +34,6 @@ module.exports =
       modify_odds odds, .5
     else
       null
+
+  dig_odds: (tile, character) ->
+    onion: .25

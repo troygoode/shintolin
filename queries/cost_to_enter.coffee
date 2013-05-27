@@ -1,9 +1,13 @@
 data = require '../data'
+config = require '../config'
+default_terrain = data.terrains[config.default_terrain]
 
 module.exports = (character, old_tile, new_tile) ->
   old_terrain = data.terrains[old_tile.terrain]
   if new_tile?.terrain?
     new_terrain = data.terrains[new_tile.terrain]
+  else
+    new_terrain = default_terrain
 
   if old_tile.building?
     old_building = data.buildings[old_tile.building]
@@ -27,4 +31,8 @@ module.exports = (character, old_tile, new_tile) ->
     extra = new_building.cost_to_enter(character, old_tile, new_tile, old_terrain, new_terrain)
     return null unless extra?
     ap_cost += extra
-  ap_cost
+
+  if ap_cost >= .5
+    ap_cost
+  else
+    .5

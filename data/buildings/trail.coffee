@@ -22,5 +22,8 @@ module.exports =
       xp:
         wanderer: 1
 
+  cost_to_enter: (character, tile_from, tile_to) ->
+    -.5
+
   text:
     built: 'It\'s tiring work, but you manage to remove the turf in the area, leaving a dirt track.'

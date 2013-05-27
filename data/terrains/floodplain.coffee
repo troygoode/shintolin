@@ -9,6 +9,8 @@ module.exports =
       else
         'flood'
 
+  actions: ['dig']
+
   describe: (tile) ->
     switch time().season
       when 'Spring'
@@ -22,3 +24,15 @@ module.exports =
 
   search_odds: (tile, character) ->
     wheat: .15
+
+  dig_odds: (tile, character) ->
+    clay: .40
+    stone: .10
+    gold_coin: .01
+
+  cost_to_enter: (character, tile_from, tile_to) ->
+    switch time().season
+      when 'Spring'
+        4
+      else
+        1

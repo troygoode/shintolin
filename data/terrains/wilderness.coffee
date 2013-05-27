@@ -15,6 +15,5 @@ module.exports =
       when 'Winter'
         'You are wandering through a seemingly endless wilderness. A cold wind whistles through the desolate landscape.'
 
-  #example
   cost_to_enter: (character, tile_from, tile_to) ->
-    0 # this is in addition to the base of 1 and the cost to exit prior tile, returning null will prevent entry
+    1

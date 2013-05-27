@@ -15,7 +15,7 @@
                 input(type='hidden', name='_csrf', value=csrf)
                 if tile.terrain.blocked || tile.cost === null
                   input.movebutton(type='submit', data-direction='#{tile.direction}', style='display:none;')
-                else if tile.cost > 1
+                else if tile.cost !== 1
                   input.movebutton(type='submit', value='#{tile.direction.toUpperCase()}: #{tile.cost}', data-direction='#{tile.direction}')
                 else
                   input.movebutton(type='submit', value=tile.direction.toUpperCase(), data-direction='#{tile.direction}')

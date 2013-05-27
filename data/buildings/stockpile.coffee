@@ -3,6 +3,7 @@ module.exports =
   name: 'Stockpile'
   size: 'small'
   hp: 10
+  actions: ['take', 'give', 'write']
 
   build: (character, tile) ->
     takes:

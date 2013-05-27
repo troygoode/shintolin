@@ -5,6 +5,7 @@ module.exports =
   style: 'grass'
 
   buildable: ['tiny', 'small']
+  actions: ['dig']
 
   describe: (tile) ->
     switch time().season
@@ -28,3 +29,6 @@ module.exports =
         .10
     return null unless odds > 0
     return 'forest_pine_1' if Math.random() < odds
+
+  dig_odds: (tile, character) ->
+    onion: .25
