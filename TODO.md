@@ -1,18 +1,8 @@
 # TODO list
 
 * implement missing terrains
-  * lake_shore
-  * shallow_lake
-  * deep_lake
-  * rapids
-  * shallow_river
-  * deep_river
   * flood_plain
-  * sand_beach
   * hot_spring
-  * shallow_sea
-  * deep_sea
-  * woodland
   * marsh
   * rocky_flat
   * cliff_bottom

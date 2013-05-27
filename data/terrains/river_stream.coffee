@@ -1,7 +1,7 @@
 time = require '../../time'
 
 module.exports =
-  id: 'stream'
+  id: 'river_stream'
   style: 'river'
 
   actions: ['fill']
