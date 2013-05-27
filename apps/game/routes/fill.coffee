@@ -31,7 +31,7 @@ module.exports = (app) ->
       (cb) ->
         commands.remove_item req.character, data.items.pot, 1, cb
       (cb) ->
-        commands.add_item req.character, data.items.water_pot, 1, cb
+        commands.add_item req.character, data.items.pot_water, 1, cb
       (cb) ->
         commands.send_message 'fill', req.character, req.character, null, cb
     ], (err) ->

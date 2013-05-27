@@ -11,7 +11,7 @@ module.exports =
       skill: 'carpentry'
       building: 'workshop'
       items:
-        handaxe: 2
+        axe_hand: 2
         stone: 2
         stick: 4
     gives:

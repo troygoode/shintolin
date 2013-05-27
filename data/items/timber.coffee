@@ -13,6 +13,6 @@ module.exports =
         log: 1
     gives:
       items:
-        timber: 1
+        timber: 3
       xp:
         crafter: 5

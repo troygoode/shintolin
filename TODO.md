@@ -1,25 +1,5 @@
 # TODO list
 
-* implement missing items
-  * stone axe
-  * raw meat
-  * cooked meat
-  * rotten food
-  * gold coin
-  * bone pick
-  * ocarina
-  * grinding stone
-  * flour pot
-  * bread
-  * honeycomb
-  * tusk
-  * ivory spear
-  * ivory axe
-  * ivory pick
-  * huckleberry
-  * huckleberry pie
-  * noobcake
-
 * implement missing terrains
   * pine_forest_1
   * pine_forest_2

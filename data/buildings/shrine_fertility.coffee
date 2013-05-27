@@ -19,9 +19,9 @@ module.exports =
       building: 'hut'
       skill: 'divine_inspiration'
       items:
-        water_pot: 3
+        pot_water: 3
         wheat: 10
-        stone_sickle: 3
+        sickle_stone: 3
         poultice: 10
         tea: 10
     gives:

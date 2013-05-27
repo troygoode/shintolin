@@ -1,8 +1,8 @@
 module.exports =
-  id: 'stone_sickle'
+  id: 'sickle_stone'
   name: 'stone sickle'
   plural: 'stone sickles'
-  tags: ['weapon']
+  tags: ['weapon', 'sickle', 'harvest', 'harvest+']
   weight: 2
   break_odds: .02
 
@@ -12,10 +12,10 @@ module.exports =
       building: 'workshop'
       skill: 'carpentry'
       items:
-        handaxe: 1
+        axe_hand: 1
         stick: 1
     gives:
       items:
-        stone_sickle: 1
+        sickle_stone: 1
       xp:
         crafter: 10

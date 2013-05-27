@@ -10,7 +10,7 @@ module.exports =
     takes:
       ap: 5
       building: 'campfire'
-      tools: ['handaxe']
+      tools: ['axe_hand']
       items:
         stick: 1
     gives:

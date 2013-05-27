@@ -10,7 +10,7 @@ module.exports =
       ap: 15
       skill: 'carpentry'
       items:
-        handaxe: 4
+        axe_hand: 4
         stick: 4
     gives:
       items:

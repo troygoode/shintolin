@@ -1,5 +1,5 @@
 module.exports =
-  id: 'water_pot'
+  id: 'pot_water'
   name: 'pot of water'
   plural: 'pots of water'
   weight: 10

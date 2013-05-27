@@ -28,7 +28,7 @@ module.exports =
         sabre_tooth: 2
         horn: 2
         antler: 2
-        stone_spear: 3
+        spear_stone: 3
     gives:
       xp:
         crafter: 50

@@ -11,3 +11,16 @@ module.exports =
     .25
   damage: (attacker, target, tile) ->
     2
+
+  craft: (character, tile) ->
+    takes:
+      ap: 12
+      tools: ['stone_carpentry']
+      skill: 'carpentry'
+      items:
+        log: 1
+    gives:
+      items:
+        staff: 3
+      xp:
+        crafter: 5

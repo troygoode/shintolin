@@ -1,16 +1,14 @@
 module.exports =
-  id: 'handaxe'
-  name: 'hand axe'
-  plural: 'hand axes'
-  tags: ['weapon', 'harvest']
-  weight: 2
-
-  chop: true
+  id: 'axe_stone'
+  name: 'stone axe'
+  plural: 'stone axes'
+  tags: ['weapon', 'axe', 'chop']
+  weight: 3
 
   weapon_class: 'slash'
   break_odds: .02
   accuracy: (attacker, target, tile) ->
-    chance = .15
+    chance = .20
     chance += .10 if attacker.skills.indexOf('axe_2') isnt -1
     chance += .10 if attacker.skills.indexOf('axe_4') isnt -1
     chance
@@ -23,11 +21,12 @@ module.exports =
   craft: (character, tile) ->
     takes:
       ap: 10
-      tools: ['stone']
+      skill: 'hafting'
       items:
-        flint: 1
+        axe_hand: 1
+        stick: 1
     gives:
       items:
-        handaxe: 1
+        axe_stone: 1
       xp:
         crafter: 10
