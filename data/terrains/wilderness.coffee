@@ -17,4 +17,4 @@ module.exports =
 
   #example
   cost_to_enter: (character, tile_from, tile_to) ->
-    0 # this is in addition to the base of 1 and the cost to exit prior tile
+    0 # this is in addition to the base of 1 and the cost to exit prior tile, returning null will prevent entry

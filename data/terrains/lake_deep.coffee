@@ -17,6 +17,6 @@ module.exports =
 
   cost_to_enter: (character, tile_from, tile_to) ->
     if _.contains character.skills, 'swimming'
-      4
+      3
     else
       null

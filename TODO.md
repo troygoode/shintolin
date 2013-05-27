@@ -1,13 +1,5 @@
 # TODO list
 
-* implement missing terrains
-  * flood_plain
-  * hot_spring
-  * marsh
-  * rocky_flat
-  * cliff_bottom
-  * low_cliff_face
-
 ## Shintolin v2 Parity
 
 * quarry
