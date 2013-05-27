@@ -2,7 +2,7 @@ module.exports =
   id: 'pick_bone'
   name: 'bone pick'
   plural: 'bone picks'
-  tags: ['pick']
+  tags: ['pick', 'quarry']
   weight: 3
   break_odds: .05
 

@@ -5,6 +5,7 @@ module.exports =
   style: 'grey'
 
   buildable: ['tiny']
+  actions: ['quarry']
 
   describe: (tile) ->
     'You are standing at the bottom of a cliff. Many large boulders, broken free from the rock face, are lying around.'
