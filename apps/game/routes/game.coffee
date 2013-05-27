@@ -3,6 +3,7 @@ async = require 'async'
 moment = require 'moment'
 queries = require '../../../queries'
 data = require '../../../data'
+mw = require '../middleware'
 
 describe_list = (arr) ->
   if arr.length is 1
@@ -128,7 +129,7 @@ repair = (character, tile) ->
   building.repair character, tile
 
 module.exports = (app) ->
-  app.get '/', (req, res, next) ->
+  app.get '/', mw.available_actions(), (req, res, next) ->
     res.locals.moment = moment
     res.locals.describe_list = describe_list
     async.parallel [
@@ -166,20 +167,10 @@ module.exports = (app) ->
         visit_building(building, req.character, center) for key, building of data.buildings
       building = if req.tile.building? then data.buildings[req.tile.building] else null
       terrain = resolve_terrain req.character, req.tile
-      actions = []
-      if terrain.actions? and _.isFunction terrain.actions
-        actions = _.union actions, terrain.actions(req.character, req.tile)
-      else if terrain.actions?
-        actions = _.union actions, terrain.actions
-      if building?.actions? and _.isFunction building.actions
-        actions = _.union actions, building.actions(req.character, req.tile)
-      else if building?.actions?
-        actions = _.union actions, building.actions
       locals =
         character: req.character
         grid: build_grid tiles, req.character
         center: center
-        actions: actions
         building: building
         terrain: terrain
         messages: messages

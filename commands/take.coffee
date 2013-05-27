@@ -2,6 +2,7 @@ _ = require 'underscore'
 async = require 'async'
 data = require '../data'
 db = require '../db'
+time = require '../time'
 remove_item = require './remove_item'
 charge_ap = require './charge_ap'
 
@@ -44,6 +45,12 @@ module.exports = (character, tile, takes, cb) ->
     item_in_inventory = _.find character.items, (i) ->
       i.item is item.item
     return cb("You don't have enough #{item.item} to do that.") unless item_in_inventory?.count >= item.count
+
+  if takes.season?
+    season = time().season
+    seasons = if _.isArray(takes.season) then takes.season else [takes.season]
+    for _season in seasons
+      return next("You must wait until #{seasons.join(' or ')} before you can do that.") unless season.toLowerCase() is _season.toLowerCase()
 
   async.series [
     (cb) ->

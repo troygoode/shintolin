@@ -75,14 +75,15 @@ if character.hp > 0
         input(type='hidden', name='_csrf', value=csrf)
         input(type='submit', value='Join Settlement (25ap)', data-action='join')
 
-    if center.terrain.chop
+    form(method='POST', action='/game/search')
+      input(type='hidden', name='_csrf', value=csrf)
+      input(type='submit', value='Search', data-action='search')
+
+    if _.contains(actions, 'chop')
       form(method='POST', action='/game/chop')
         input(type='hidden', name='_csrf', value=csrf)
         input(type='submit', value='Chop Tree', data-action='chop')
 
-    form(method='POST', action='/game/search')
-      input(type='hidden', name='_csrf', value=csrf)
-      input(type='submit', value='Search', data-action='search')
 
     if _.contains(actions, 'fill')
       form(method='POST', action='/game/fill-pot')
