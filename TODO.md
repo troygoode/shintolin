@@ -1,10 +1,6 @@
 # TODO list
 
 * implement missing terrains
-  * pine_forest_1
-  * pine_forest_2
-  * pine_forest_3
-  * cleared_pine
   * low_hilltop
   * mid_hillside
   * mid_hilltop
