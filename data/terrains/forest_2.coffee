@@ -30,3 +30,14 @@ module.exports =
       0
     else
       1
+
+  grow: (tile) ->
+    odds = switch time().season
+      when 'Spring'
+        .15
+      when 'Summer'
+        .30
+    return null unless odds > 0
+    return 'forest_3' if Math.random() < odds
+  shrink: (tile) ->
+    'forest_1'

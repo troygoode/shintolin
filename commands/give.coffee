@@ -37,4 +37,13 @@ module.exports = (character, tile, gives, cb) ->
         $inc:
           hp: bound_increase gives.tile_hp, tile.hp, (building.hp_max ? building.hp)
       db.tiles.update query, update, cb
+    (cb) ->
+      # change tile terrain
+      return cb() unless gives.terrain? and gives.terrain isnt tile.terrain
+      query =
+        _id: tile._id
+      update =
+        $set:
+          terrain: gives.terrain
+      db.tiles.update query, update, cb
   ], cb

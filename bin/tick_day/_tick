@@ -9,7 +9,7 @@ cd ./bin/tick_day
 ./restore_search_odds
 # restore_ip_hits
 # spawn_animals
-# transition_tiles
+./grow_tiles
 # delete_rotten_food
 ./rot_food
 ./storms

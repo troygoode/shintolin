@@ -21,3 +21,10 @@ module.exports =
     thyme: .18
     wheat: .06
     onion: .03
+
+  grow: (tile) ->
+    odds = switch time().season
+      when 'Spring'
+        .10
+    return null unless odds > 0
+    return 'forest_1' if Math.random() < odds

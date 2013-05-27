@@ -1,0 +1,39 @@
+#!/usr/bin/env coffee
+
+_ = require 'underscore'
+async = require 'async'
+db = require '../../db'
+data = require '../../data'
+commands = require '../../commands'
+
+grow_tile = (tile, cb) ->
+  terrain = data.terrains[tile.terrain]
+  return cb() unless terrain.grow?
+
+  if tile.building?
+    building = data.buildings[tile.building]
+    return cb() if building.exterior? # don't grow tiles while their terrain is overwritten (e.g. walls)
+
+  new_terrain = terrain.grow tile
+  return cb() unless new_terrain? and new_terrain isnt tile.terrain
+
+  console.log "Growing a #{tile.terrain} tile into a #{new_terrain}."
+  query =
+    _id: tile._id
+  update =
+    $set:
+      terrain: new_terrain
+  db.tiles.update query, update, cb
+
+db.tiles.find().toArray (err, tiles) ->
+  if err?
+    console.log err
+    process.exit 1
+  else
+    async.each tiles, grow_tile, (err) ->
+      if err?
+        console.log err
+        process.exit 1
+      else
+        console.log 'Tiles Have Grown'
+        process.exit 0

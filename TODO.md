@@ -5,7 +5,6 @@
   * pine_forest_2
   * pine_forest_3
   * cleared_pine
-  * cleared_forest
   * low_hilltop
   * mid_hillside
   * mid_hilltop
@@ -22,7 +21,6 @@
   * hot_spring
   * shallow_sea
   * deep_sea
-  * thick_forest
   * woodland
   * marsh
   * rocky_flat
@@ -36,8 +34,6 @@
 * dig
 * stockpiles
 * write on buildings
-* diminishing returns for chop
-  * tile transition from chop
 * blocked tiles (based on skill)
 * regions & region painting
 * seasonal bonuses for searching

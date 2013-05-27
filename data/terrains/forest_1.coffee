@@ -23,3 +23,14 @@ module.exports =
     chestnut: .15
     bark: .10
     staff: .08
+
+  grow: (tile) ->
+    odds = switch time().season
+      when 'Spring'
+        .15
+      when 'Summer'
+        .30
+    return null unless odds > 0
+    return 'forest_2' if Math.random() < odds
+  shrink: (tile) ->
+    'forest_0'

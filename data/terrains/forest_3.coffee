@@ -30,3 +30,6 @@ module.exports =
       1
     else
       2
+
+  shrink: (tile) ->
+    'forest_2'
