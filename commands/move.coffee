@@ -94,19 +94,19 @@ module.exports = (character, direction, cb) ->
 
     ap_cost = 1
     if old_building?.cost_to_exit?
-      extra = old_building.cost_to_exit(character, old_tile, new_tile)
+      extra = old_building.cost_to_exit(character, old_tile, new_tile, old_terrain, new_terrain)
       return cb('You cannot move there.') unless extra?
       ap_cost += extra
     if old_terrain.cost_to_exit?
-      extra = old_terrain.cost_to_exit(character, old_tile, new_tile)
+      extra = old_terrain.cost_to_exit(character, old_tile, new_tile, old_terrain, new_terrain)
       return cb('You cannot move there.') unless extra?
       ap_cost += extra
     if new_terrain.cost_to_enter?
-      extra = new_terrain.cost_to_enter(character, old_tile, new_tile)
+      extra = new_terrain.cost_to_enter(character, old_tile, new_tile, old_terrain, new_terrain)
       return cb('You cannot move there.') unless extra?
       ap_cost += extra
     if new_building?.cost_to_enter?
-      extra = new_building.cost_to_enter(character, old_tile, new_tile)
+      extra = new_building.cost_to_enter(character, old_tile, new_tile, old_terrain, new_terrain)
       return cb('You cannot move there.') unless extra?
       ap_cost += extra
 

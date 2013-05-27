@@ -20,3 +20,11 @@ module.exports =
   search_odds: (tile, character) ->
     flint: .25
     stone: .10
+
+  altitude: 3
+  cost_to_enter: (character, tile_from, tile_to, terrain_from, terrain_to) ->
+    from_altitude = terrain_from.altitude ? 0
+    if @altitude > from_altitude
+      ((@altitude - from_altitude) * 2) - 1
+    else
+      0
