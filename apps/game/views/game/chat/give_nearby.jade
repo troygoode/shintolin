@@ -1,0 +1,5 @@
+.action
+  a.neutral(href='/profile/#{msg.sender_slug}')= msg.sender_name
+  |  gave #{msg.quantity}x #{data.items[msg.item].name} to
+  |  <a href='/profile/#{msg.target_slug}'>#{msg.target_name}</a>. 
+  span.time= moment(msg.sent).fromNow()

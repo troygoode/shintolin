@@ -2,7 +2,6 @@
 
 ## Shintolin v2 Parity
 
-* give items
 * stockpiles
 * write on buildings
 * regions & region painting
