@@ -2,7 +2,7 @@ module.exports =
   id: 'meat_cooked'
   name: 'hunk of cooked meat'
   plural: 'hunks of cooked meat'
-  tags: ['food']
+  tags: ['usable', 'food']
   weight: 1
 
   craft: (character, tile) ->

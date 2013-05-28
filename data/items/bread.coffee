@@ -3,7 +3,7 @@ module.exports =
   name: 'flatbread'
   plural: 'flatbreads'
   weight: 1
-  tags: ['food']
+  tags: ['usable', 'food']
 
   craft: (character, tile) ->
     takes:

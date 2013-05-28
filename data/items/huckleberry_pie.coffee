@@ -2,7 +2,7 @@ module.exports =
   id: 'huckleberry_pie'
   name: 'slice of huckleberry pie'
   plural: 'slices of huckleberry pie'
-  tags: ['food']
+  tags: ['usable', 'food']
   weight: 1
 
   craft: (character, tile) ->

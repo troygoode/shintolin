@@ -28,7 +28,7 @@ module.exports =
   dig_odds: (character, tile) ->
     clay: .40
     stone: .10
-    gold_coin: .01
+    coin_gold: .01
 
   cost_to_enter: (character, tile_from, tile_to) ->
     switch time().season
