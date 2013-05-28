@@ -49,20 +49,21 @@ if character.hp > 0
         for c in center.people
           option(value=c._id)= c.name
 
-    form(method='POST', action='/game/take')
-      input(type='hidden', name='_csrf', value=csrf)
-      input(type='submit', value='Take', data-action='take')
-      - var max = _.max(_.pluck(center.tile.items, 'count'));
-      if max === 1
-        input(type='hidden', name='quantity', value=1)
-      else
-        - var range = _.range(max);
-        select(name='quantity')
-          for i in range
-            option(value=i + 1)= i + 1
-      select(name='item', style='width: 10em', data-persist='item', data-action-focus='take')
-        for item in center.tile.items
-          option(value=item.item)= data.items[item.item].name
+    if _.contains(actions, 'take')
+      form(method='POST', action='/game/take')
+        input(type='hidden', name='_csrf', value=csrf)
+        input(type='submit', value='Take', data-action='take')
+        - var max = _.max(_.pluck(center.tile.items, 'count'));
+        if max === 1
+          input(type='hidden', name='quantity', value=1)
+        else
+          - var range = _.range(max);
+          select(name='quantity')
+            for i in range
+              option(value=i + 1)= i + 1
+        select(name='item', style='width: 10em', data-persist='item', data-action-focus='take')
+          for item in center.tile.items
+            option(value=item.item)= data.items[item.item].name
 
     form(method='POST', action='/game/craft')
       input(type='hidden', name='_csrf', value=csrf)

@@ -1,0 +1,5 @@
+.action
+  a.neutral(href='/profile/#{msg.sender_slug}')= msg.sender_name
+  |  took #{msg.quantity}x #{data.items[msg.item].name} from
+  |  the #{data.buildings[msg.building].name}. 
+  span.time= moment(msg.sent).fromNow()
