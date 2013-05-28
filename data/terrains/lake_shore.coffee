@@ -17,5 +17,5 @@ module.exports =
       when 'Winter'
         'You are on the rocky shore of a lake. The water is grey and choppy.'
 
-  search_odds: (tile, character) ->
+  search_odds: (character, tile) ->
     stone: .25

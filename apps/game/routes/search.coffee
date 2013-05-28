@@ -19,7 +19,7 @@ module.exports = (app) ->
 
       req.tile.searches ?= 0
 
-      search_odds = terrain.search_odds req.tile, req.character
+      search_odds = terrain.search_odds(req.character, req.tile)
       queries.process_loot_table search_odds, (err, item_type, total_odds) ->
         return next(err) if err?
         if item_type?

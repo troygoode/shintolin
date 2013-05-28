@@ -16,7 +16,7 @@ module.exports =
       else
         'A number of tall pine trees tower above you here.'
 
-  search_odds: (tile, character) ->
+  search_odds: (character, tile) ->
     stick: .25
     staff: .08
 

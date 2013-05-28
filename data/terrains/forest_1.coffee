@@ -18,7 +18,7 @@ module.exports =
       when 'Winter'
         'You are walking though an open woodland. The tree branches are bare.'
 
-  search_odds: (tile, character) ->
+  search_odds: (character, tile) ->
     stick: .25
     chestnut: .15
     bark: .10

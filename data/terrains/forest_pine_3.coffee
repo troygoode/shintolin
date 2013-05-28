@@ -17,7 +17,7 @@ module.exports =
       else
         'You are walking through a dense evergreen forest, your journey hampered by a thick wall of pine branches.'
 
-  search_odds: (tile, character) ->
+  search_odds: (character, tile) ->
     stick: .25
     staff: .08
 

@@ -22,10 +22,10 @@ module.exports =
       when 'Winter'
         'You are walking across a flood plain.'
 
-  search_odds: (tile, character) ->
+  search_odds: (character, tile) ->
     wheat: .15
 
-  dig_odds: (tile, character) ->
+  dig_odds: (character, tile) ->
     clay: .40
     stone: .10
     gold_coin: .01

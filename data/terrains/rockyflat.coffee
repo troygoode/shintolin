@@ -17,7 +17,7 @@ module.exports =
       when 'Winter'
         'This area is almost devoid of vegetation, with many rocks scattered around. A cold wind howls through the desolate landscape.'
 
-  search_odds: (tile, character) ->
+  search_odds: (character, tile) ->
     flint: .15
     huckleberry: .15
     stone: .10

@@ -7,6 +7,9 @@
 * stockpiles
 * write on buildings
 * regions & region painting
+* think about trails a bit more
+* implement ocarina
+* leader can evict dazed settlement members
 * seasonal bonuses for searching
 * encumberance
 * animals

@@ -19,7 +19,7 @@ module.exports =
       when 'Winter'
         'You are in a forest. The bare branches of the trees are stark against the winter sky.'
 
-  search_odds: (tile, character) ->
+  search_odds: (character, tile) ->
     stick: .25
     chestnut: .15
     bark: .10

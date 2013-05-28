@@ -18,7 +18,7 @@ module.exports =
       when 'Winter'
         'You are walking through a grassland. Frost has hardened the ground, and there is little sign of life.'
 
-  search_odds: (tile, character) ->
+  search_odds: (character, tile) ->
     thyme: .18
     wheat: .06
     onion: .03
@@ -30,5 +30,5 @@ module.exports =
     return null unless odds > 0
     return 'forest_pine_1' if Math.random() < odds
 
-  dig_odds: (tile, character) ->
+  dig_odds: (character, tile) ->
     onion: .25

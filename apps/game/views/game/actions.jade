@@ -104,6 +104,11 @@ if character.hp > 0
         input(type='hidden', name='_csrf', value=csrf)
         input(type='submit', value='Fill', data-action='fill')
 
+    if _.contains(actions, 'dig')
+      form(method='POST', action='/game/dig')
+        input(type='hidden', name='_csrf', value=csrf)
+        input(type='submit', value='Dig', data-action='dig')
+
     if _.contains(actions, 'sow')
       form(method='POST', action='/game/sow')
         input(type='hidden', name='_csrf', value=csrf)

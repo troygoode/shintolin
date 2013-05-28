@@ -18,7 +18,7 @@ module.exports =
       when 'Winter'
         'You are walking through a grassland. Frost has hardened the ground, and there is little sign of life.'
 
-  search_odds: (tile, character) ->
+  search_odds: (character, tile) ->
     modify_odds = (odds, mod) ->
       odds[key] = val * mod for key, val of odds
       odds

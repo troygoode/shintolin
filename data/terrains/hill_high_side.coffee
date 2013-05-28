@@ -15,7 +15,7 @@ module.exports =
       when 'Winter'
         'You are on the side of a hill, at high elevation. A cold wind is blowing.'
 
-  search_odds: (tile, character) ->
+  search_odds: (character, tile) ->
     flint: .25
     stone: .10
 
