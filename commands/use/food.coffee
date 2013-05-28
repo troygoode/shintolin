@@ -13,6 +13,28 @@ bound_increase = (increase, current, max) ->
   else
     increase
 
+alter_target_hpmax_and_hunger = (character, amount_hpmax, amount_hunger, cb) ->
+  async.parallel [
+    (cb) ->
+      query =
+        _id: character._id
+      update =
+        $set:
+          hp_max: character.hp_max + amount_hpmax
+          hunger: character.hunger + amount_hunger
+      db.characters.update query, update, cb
+    (cb) ->
+      query =
+        x: character.x
+        y: character.y
+        z: character.z
+        'people._id': character._id
+      update =
+        $set:
+          'people.$.hp_max': character.hp_max + amount_hpmax
+      db.tiles.update query, update, cb
+  ], cb
+
 module.exports = (user, target, item, tile, cb) ->
   return cb('Your target is already full.') unless target.hunger < MAX_HUNGER
 
@@ -23,13 +45,7 @@ module.exports = (user, target, item, tile, cb) ->
     (cb) ->
       remove_item user, item, 1, cb
     (cb) ->
-      query =
-        _id: target._id
-      update =
-        $inc:
-          hunger: hunger_gain
-          hp_max: hpmax_gain
-      db.characters.update query, update, cb
+      alter_target_hpmax_and_hunger character, hpmax_gain, hunger_gain, cb
     (cb) ->
       send_message 'feed', user, user,
         item: item.id
