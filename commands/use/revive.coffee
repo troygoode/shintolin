@@ -15,14 +15,25 @@ alter_healer_revives = (character, cb) ->
   db.characters.update query, update, cb
 
 alter_target_hp = (character, amount, cb) ->
-  query =
-    _id: character._id
-  update =
-    $inc:
-      hp: amount
-    $set:
-      last_revived: new Date()
-  db.characters.update query, update, cb
+  async.parallel [
+    (cb) ->
+      query =
+        _id: character._id
+      update =
+        $set:
+          hp: character.hp + amount
+      db.characters.update query, update, cb
+    (cb) ->
+      query =
+        x: character.x
+        y: character.y
+        z: character.z
+        'people._id': character._id
+      update =
+        $set:
+          'people.$.hp': character.hp + amount
+      db.tiles.update query, update, cb
+  ], cb
 
 notify_user = (healer, target, item, amount, cb) ->
   send_message 'revive', healer, healer,

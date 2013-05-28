@@ -7,12 +7,25 @@ xp = require '../xp'
 default_heal_amount = 5
 
 alter_target_hp = (character, amount, cb) ->
-  query =
-    _id: character._id
-  update =
-    $inc:
-      hp: amount
-  db.characters.update query, update, cb
+  async.parallel [
+    (cb) ->
+      query =
+        _id: character._id
+      update =
+        $set:
+          hp: character.hp + amount
+      db.characters.update query, update, cb
+    (cb) ->
+      query =
+        x: character.x
+        y: character.y
+        z: character.z
+        'people._id': character._id
+      update =
+        $set:
+          'people.$.hp': character.hp + amount
+      db.tiles.update query, update, cb
+  ], cb
 
 notify_user = (healer, target, item, amount, remaining, cb) ->
   send_message 'heal', healer, healer,
