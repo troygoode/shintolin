@@ -45,7 +45,7 @@ module.exports = (user, target, item, tile, cb) ->
     (cb) ->
       remove_item user, item, 1, cb
     (cb) ->
-      alter_target_hpmax_and_hunger character, hpmax_gain, hunger_gain, cb
+      alter_target_hpmax_and_hunger target, hpmax_gain, hunger_gain, cb
     (cb) ->
       send_message 'feed', user, user,
         item: item.id
