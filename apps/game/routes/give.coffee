@@ -9,6 +9,7 @@ module.exports = (app) ->
   app.post '/give', mw.not_dazed, (req, res, next) ->
     return next('Invalid Target') unless req.target?
     return next('Invalid Item') unless req.item?
+    return next('That item may not be traded or dropped.') if req.item.nodrop or req.item.intrinsic
 
     quantity = parseInt(req.param('quantity'))
     inventory_item = _.find req.character.items, (i) ->

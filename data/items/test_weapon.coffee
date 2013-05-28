@@ -4,6 +4,7 @@ module.exports =
   plural: 'hammers of the gods'
   tags: ['weapon']
   weight: 1
+  nodrop: true
 
   weapon_class: 'blunt'
   break_odds: 0
