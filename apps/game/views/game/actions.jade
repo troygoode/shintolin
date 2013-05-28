@@ -54,13 +54,23 @@ if character.hp > 0
                 | , #{item.count} x #{data.items[item.item].name}
               | )
 
+    if settlement && _.contains(actions, 'promote') && settlement.leader && settlement.leader._id.toString() === character._id.toString()
+      form(method='POST', action='/game/promote')
+        input(type='hidden', name='_csrf', value=csrf)
+        input(type='submit', value='Promote', data-action='promote')
+        select(name='character', style='width: 10em', data-persist='member', data-action-focus='promote')
+          option(value='') no-one
+          for m in settlement.members
+            if m.provisional
+              option(value=m._id)= m.name
+
     if settlement && character.settlement_id && settlement._id.toString() === character.settlement_id.toString()
       - var my_member_record = _.find(settlement.members, function(m){ return m._id.toString() === character._id.toString(); });
       - var candidates = settlement.members.filter(function(m){ return !m.provisional; });
       form(method='POST', action='/game/vote')
         input(type='hidden', name='_csrf', value=csrf)
         input(type='submit', value='Vote For', data-action='vote')
-        select(name='character', style='width: 10em', data-persist='member', data-action-focus='vote')
+        select(name='character', style='width: 10em')
           option(value='') no-one
           for c in candidates
             if my_member_record.voting_for && my_member_record.voting_for._id.toString() === c._id.toString()
