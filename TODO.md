@@ -2,7 +2,6 @@
 
 ## Shintolin v2 Parity
 
-* dig
 * give items
 * stockpiles
 * write on buildings
