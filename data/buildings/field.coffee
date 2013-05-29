@@ -20,7 +20,7 @@ module.exports =
     if tile.hp <= 4
       'dirt'
     else
-      'field'
+      '_exterior_field'
 
   build: (character, tile) ->
     validate: (cb) ->

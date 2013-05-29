@@ -2,8 +2,6 @@
 
 ## Shintolin v2 Parity
 
-* think about trails a bit more
-* implement ocarina
 * leader can evict dazed settlement members
 * seasonal bonuses for searching
 * animals
@@ -21,4 +19,3 @@
 * terrainprint ???
 * terrain ???
 * world ???
-* ocarina ???

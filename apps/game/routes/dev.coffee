@@ -33,7 +33,8 @@ module.exports = (app) ->
 
   app.post '/dev/paint', developers_only, (req, res, next) ->
     return next('Invalid Terrain') unless data.terrains[req.body.terrain]?
-    return next('Invalid Region') unless data.regions[req.body.region]?
+    if req.body.region?.length
+      return next('Invalid Region') unless data.regions[req.body.region]?
     commands.paint req.tile, req.body.terrain, req.body.region, (err) ->
       return next(err) if err?
       res.redirect '/game'

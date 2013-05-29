@@ -2,8 +2,7 @@ module.exports =
   name: 'ocarina'
   plural: 'ocarinas'
   weight: 1
-
-  #TODO: make usable
+  tags: ['usable', 'ocarina']
 
   break_odds: .02
 

@@ -1,6 +1,7 @@
 time = require '../../time'
 
 module.exports =
+  hidden: true
   style: ->
     switch time().season
       when 'Summer'

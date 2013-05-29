@@ -8,6 +8,7 @@ module.exports =
   build: (character, tile) ->
     takes:
       ap: 20
+      terrain_tag: 'trail'
       tools: ['digging_stick']
     gives:
       xp:
@@ -24,7 +25,10 @@ module.exports =
         wanderer: 1
 
   cost_to_enter: (character, tile_from, tile_to) ->
-    -.5
+    if tile_from.building is 'trail'
+      -.5
+    else
+      0
 
   text:
     built: 'It\'s tiring work, but you manage to remove the turf in the area, leaving a dirt track.'

@@ -1,0 +1,7 @@
+.action
+  | You use play a lively melody 
+  if msg.target_id
+    | for 
+    a.neutral(href='/profile/#{msg.target_slug}')= msg.target_name
+  |  on your ocarina.  
+  span.time= moment(msg.sent).fromNow()

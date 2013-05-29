@@ -50,7 +50,11 @@ module.exports = (character, tile, takes, cb) ->
     season = time().season
     seasons = if _.isArray(takes.season) then takes.season else [takes.season]
     for _season in seasons
-      return next("You must wait until #{seasons.join(' or ')} before you can do that.") unless season.toLowerCase() is _season.toLowerCase()
+      return cb("You must wait until #{seasons.join(' or ')} before you can do that.") unless season.toLowerCase() is _season.toLowerCase()
+
+  if takes.terrain_tag?
+    terrain = data.terrains[tile.terrain]
+    return cb('You cannot do that on this kind of terrain.') unless _.contains(terrain.tags, takes.terrain_tag)
 
   async.series [
     (cb) ->
