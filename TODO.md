@@ -2,7 +2,6 @@
 
 ## Shintolin v2 Parity
 
-* write on buildings
 * regions & region painting
 * think about trails a bit more
 * implement ocarina

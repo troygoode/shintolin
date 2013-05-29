@@ -115,6 +115,10 @@
           include chat/take_nearby
         when 'water'
           include chat/water
+        when 'write'
+          include chat/write
+        when 'write_nearby'
+          include chat/write_nearby
         default
           .action
             a.neutral(href='/profile/#{msg.sender_id}')= msg.sender_name

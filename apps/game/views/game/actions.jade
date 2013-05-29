@@ -155,6 +155,7 @@ if character.hp > 0
             if _.contains(item.tags || [], 'plantable')
               option(value=item.id)= item.name
 
+
     if _.contains(actions, 'water')
       form(method='POST', action='/game/water')
         input(type='hidden', name='_csrf', value=csrf)

@@ -2,7 +2,7 @@ module.exports =
   id: 'axe_hand'
   name: 'hand axe'
   plural: 'hand axes'
-  tags: ['weapon', 'axe', 'harvest', 'chop']
+  tags: ['weapon', 'axe', 'harvest', 'chop', 'write']
   weight: 2
 
   weapon_class: 'slash'

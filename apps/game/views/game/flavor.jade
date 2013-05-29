@@ -22,6 +22,20 @@
       -   else return '';
       - };
       != describe_list(center.people.map(function(p){ return character_link(p) + health(p); }))
-      | .
+      | . 
+    if center.tile.message && center.tile.message.length
+      if center.tile.z === 0
+        | Written on the #{building.name} are the words 
+        span.writing= center.tile.message
+        | . 
+      else
+        | Written on the walls are the words 
+        span.writing= center.tile.message
+        | . 
+    if _.contains(actions, 'write')
+      form(method='POST', action='/game/write')
+        input(type='hidden', name='_csrf', value=csrf)
+        input(type='submit', value='Write', data-action='write')
+        input.text(type='text', name='message', maxlength='32', value=center.tile.message, style='width: 500px;')
     if query.error
       .error=query.error

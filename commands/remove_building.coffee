@@ -13,6 +13,7 @@ remove_building = (tile) ->
         building: true
         hp: true
         hq: true
+        message: true
     db.tiles.update query, update, cb
 
 remove_interior = (tile, building) ->
