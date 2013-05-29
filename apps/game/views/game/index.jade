@@ -10,7 +10,8 @@ html
       include map
       include stats
       include nav
-      include dev
+      if developer_mode
+        include dev
       table.infotable
         tr
           td(colspan='2')

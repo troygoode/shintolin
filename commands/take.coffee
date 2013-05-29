@@ -60,6 +60,7 @@ module.exports = (character, tile, takes, cb) ->
       async.each items_to_take, take_item, cb
     (cb) ->
       # charge ap
+      return cb() unless takes.ap?
       charge_ap character, takes.ap, cb
     (cb) ->
       # remove building HP

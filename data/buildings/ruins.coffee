@@ -14,7 +14,7 @@ module.exports =
 
   build: (character, tile) ->
     takes:
-      skill: '_mapmaker'
+      developer: true
 
   cost_to_enter: (character, tile_from, tile_to) ->
     1

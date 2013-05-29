@@ -6,12 +6,9 @@
 * implement ocarina
 * leader can evict dazed settlement members
 * seasonal bonuses for searching
-* encumberance
 * animals
 * whisper
-* message on item drop
 * shout
-* add admin-check for admin abilities (paint, possess)
 * track IP hits
   * block after max
     * reset daily

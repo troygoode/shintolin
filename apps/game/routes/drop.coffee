@@ -8,4 +8,9 @@ module.exports = (app) ->
     count = req.param('count') ? 1
     commands.remove_item req.character, req.item, count, (err) ->
       return next(err) if err?
-      res.redirect '/game'
+      msg =
+        quantity: count
+        item: req.item.id
+      commands.send_message 'drop', req.character, req.character, msg, (err) ->
+        return next(err) if err?
+        res.redirect '/game'

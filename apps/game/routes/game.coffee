@@ -182,6 +182,7 @@ module.exports = (app) ->
         recipes: build_recipes()
         buildings: build_buildings()
         repair: repair req.character, req.tile
+        developer_mode: req.session.developer
       for row, i in locals.grid
         for tile, j in row
           locals.grid[i][j] = visit_tile tile, locals.center, locals.character

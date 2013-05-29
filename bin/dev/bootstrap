@@ -6,6 +6,7 @@ config = require '../../config'
 commands = require '../../commands'
 queries = require '../../queries'
 data = require '../../data'
+db = require '../../db'
 settlement = null
 character_names = ['Ecce', 'Deschain', 'TroyMG', 'Romani']
 characters = {}
@@ -59,14 +60,20 @@ async.series [
         cb()
     , cb
   , (cb) ->
-    tmp = {}
     async.forEachSeries character_names, (name, cb) ->
       commands.create_character name, "#{name.toLowerCase()}@example.com", 'password', settlement, (err, c) ->
         return cb(err) if err?
         console.log "Created character #{c.name}."
         characters[c.name] = c
         cb()
-    , cb
+    , (err) ->
+      return cb(err) if err?
+      query =
+        name: character_names[0]
+      update =
+        $set:
+          developer: true
+      db.characters.update query, update, cb
   , (cb) ->
     async.forEachSeries buildings, (b, cb) ->
       queries.get_tile_by_coords {x: b.x, y: b.y, z: 0}, (err, tile) ->

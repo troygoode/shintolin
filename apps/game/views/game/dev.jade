@@ -4,11 +4,11 @@
       li
         dt Building Health:
         dd #{center.tile.hp}/#{building.hp_max ? building.hp_max : building.hp}
-    li: a.buttonlink(href='/game/debug/replenish-ap') Replenish AP
-    li: a.buttonlink(href='/game/debug/replenish-hp') Replenish HP
+    li: a.buttonlink(href='/game/dev/replenish-ap') Replenish AP
+    li: a.buttonlink(href='/game/dev/replenish-hp') Replenish HP
     li: a.buttonlink(href='/manage/map') Admin
 
-  form(method='POST', action='/game/debug/paint')
+  form(method='POST', action='/game/dev/paint')
     input(type='hidden', name='_csrf', value=csrf)
     select(name='terrain', style='width: 10em')
       if center.terrain.id === config.default_terrain
@@ -29,14 +29,14 @@
     input(type='submit', value='Paint', data-action='paint')
 
   if center.people.length
-    form(method='POST', action='/game/debug/possess')
+    form(method='POST', action='/game/dev/possess')
       input(type='hidden', name='_csrf', value=csrf)
       input(type='submit', value='Possess', data-action='possess')
       select(name='target', style='width: 10em', data-persist='target', data-action-focus='possess')
         for c in center.people
           option(value=c._id)= c.name
 
-  form(method='POST', action='/game/debug/materialize')
+  form(method='POST', action='/game/dev/materialize')
     input(type='hidden', name='_csrf', value=csrf)
     input(type='submit', value='Materialize', data-action='materialize')
     select(name='item', style='width: 10em', data-persist='item', data-action-focus='materialize')
