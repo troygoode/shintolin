@@ -7,7 +7,6 @@ cd ./bin/tick_day
 ./grow_fields
 # mark_inactive
 ./restore_search_odds
-# restore_ip_hits
 # spawn_animals
 ./grow_tiles
 # delete_rotten_food

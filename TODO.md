@@ -9,9 +9,6 @@
 * animals
 * whisper
 * shout
-* track IP hits
-  * block after max
-    * reset daily
 
 ## WTF (Shintolin v2 has these, but what are they?)
 

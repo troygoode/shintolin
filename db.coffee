@@ -12,6 +12,7 @@ module.exports =
   chat_messages: db.collection 'chat_messages'
   tiles: db.collection 'tiles'
   settlements: db.collection 'settlements'
+  hits: db.collection 'hits'
 
   register_index: (collection, index, options) ->
     indexes.push
