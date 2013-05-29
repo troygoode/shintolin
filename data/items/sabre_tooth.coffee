@@ -1,5 +1,4 @@
 module.exports =
-  id: 'sabre_tooth'
   name: 'sabre tooth'
   plural: 'sabre teeth'
   tags: ['weapon']

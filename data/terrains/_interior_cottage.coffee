@@ -1,5 +1,4 @@
 module.exports =
-  id: '_interior_cottage'
   style: 'dirt'
   hidden: true
 

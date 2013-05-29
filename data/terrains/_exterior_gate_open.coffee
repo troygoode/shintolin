@@ -1,5 +1,4 @@
 module.exports =
-  id: '_exterior_gate_open'
   style: 'dirt'
   hidden: true
 

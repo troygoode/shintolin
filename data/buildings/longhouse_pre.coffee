@@ -1,5 +1,4 @@
 module.exports =
-  id: 'longhouse_pre'
   name: 'Longhouse Foundation'
   size: 'large'
   hp: 30

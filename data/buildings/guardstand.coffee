@@ -1,5 +1,4 @@
 module.exports =
-  id: 'guardstand'
   name: 'Guardstand'
   size: 'large'
   hp: 70

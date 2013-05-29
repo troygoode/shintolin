@@ -28,7 +28,9 @@ module.exports = (app) ->
       res.redirect '/game'
 
   app.post '/debug/paint', (req, res, next) ->
-    commands.paint req.tile, req.body.terrain, (err) ->
+    return next('Invalid Terrain') unless data.terrains[req.body.terrain]?
+    return next('Invalid Region') unless data.regions[req.body.region]?
+    commands.paint req.tile, req.body.terrain, req.body.region, (err) ->
       return next(err) if err?
       res.redirect '/game'
 

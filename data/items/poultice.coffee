@@ -1,5 +1,4 @@
 module.exports =
-  id: 'poultice'
   name: 'herbal poultice'
   plural: 'herbal poultices'
   tags: ['usable', 'revive']

@@ -1,7 +1,6 @@
 time = require '../../time'
 
 module.exports =
-  id: 'forest_pine_1'
   style: 'lightforest'
 
   buildable: ['tiny', 'small']

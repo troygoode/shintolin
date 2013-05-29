@@ -1,5 +1,4 @@
 module.exports =
-  id: 'stone_carpentry'
   name: 'set of stone carpentry tools'
   plural: 'sets of stone carpentry tools'
   tags: ['write']

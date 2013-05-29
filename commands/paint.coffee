@@ -1,9 +1,17 @@
 db = require '../db'
 
-module.exports = (tile, terrain, cb) ->
+module.exports = (tile, terrain, region, cb) ->
   query =
     _id: tile._id
-  update =
-    $set:
-      terrain: terrain
+  if region?.length
+    update =
+      $set:
+        terrain: terrain
+        region: region
+  else
+    update =
+      $set:
+        terrain: terrain
+      $unset:
+        region: true
   db.tiles.update query, update, cb

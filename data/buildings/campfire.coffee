@@ -1,5 +1,4 @@
 module.exports =
-  id: 'campfire'
   name: 'Campfire'
   size: 'small'
   hp: 10

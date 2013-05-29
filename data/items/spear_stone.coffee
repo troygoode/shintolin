@@ -1,5 +1,4 @@
 module.exports =
-  id: 'spear_stone'
   name: 'stone spear'
   plural: 'stone spears'
   tags: ['weapon']

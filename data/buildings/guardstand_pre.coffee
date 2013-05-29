@@ -1,5 +1,4 @@
 module.exports =
-  id: 'guardstand_pre'
   name: 'Guardstand Foundation'
   size: 'large'
   hp: 40

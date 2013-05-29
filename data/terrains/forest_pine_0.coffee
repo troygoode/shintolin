@@ -1,7 +1,6 @@
 time = require '../../time'
 
 module.exports =
-  id: 'forest_pine_0'
   style: 'grass'
 
   buildable: ['tiny', 'small']

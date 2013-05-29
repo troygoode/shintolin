@@ -1,9 +1,9 @@
 time = require '../../time'
 
 module.exports =
-  id: 'wilderness'
   style: 'wilderness'
   hidden: true
+
   describe: (tile) ->
     switch time().season
       when 'Spring'

@@ -1,5 +1,4 @@
 module.exports =
-  id: '_interior_stonemasonry'
   style: 'dirt'
   hidden: true
 

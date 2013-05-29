@@ -1,5 +1,4 @@
 module.exports =
-  id: 'stonemasonry'
   name: 'Stonemasonry'
   size: 'large'
   hp: 50

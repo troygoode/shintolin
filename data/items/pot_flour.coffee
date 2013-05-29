@@ -1,5 +1,4 @@
 module.exports =
-  id: 'pot_flour'
   name: 'pot of flour'
   plural: 'pots of flour'
   weight: 7

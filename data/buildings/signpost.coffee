@@ -1,5 +1,4 @@
 module.exports =
-  id: 'signpost'
   name: 'Signpost'
   size: 'tiny'
   hp: 5

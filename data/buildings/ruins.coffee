@@ -1,5 +1,4 @@
 module.exports =
-  id: 'ruins'
   name: 'Ruins'
   size: 'large'
   exterior: '_exterior_ruins'

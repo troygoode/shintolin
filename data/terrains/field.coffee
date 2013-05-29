@@ -1,7 +1,6 @@
 time = require '../../time'
 
 module.exports =
-  id: 'field'
   style: ->
     switch time().season
       when 'Summer'

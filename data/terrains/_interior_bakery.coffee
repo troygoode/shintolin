@@ -1,5 +1,4 @@
 module.exports =
-  id: '_interior_bakery'
   style: 'dirt'
   hidden: true
 

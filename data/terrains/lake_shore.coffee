@@ -1,7 +1,6 @@
 time = require '../../time'
 
 module.exports =
-  id: 'lake_shore'
   style: 'rshore'
 
   buildable: ['tiny', 'small']

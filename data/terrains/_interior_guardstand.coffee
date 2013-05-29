@@ -1,5 +1,4 @@
 module.exports =
-  id: '_interior_guardstand'
   style: 'dirt'
   hidden: true
 

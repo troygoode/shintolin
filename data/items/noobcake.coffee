@@ -1,5 +1,4 @@
 module.exports =
-  id: 'noobcake'
   name: 'noobcake'
   plural: 'noobcakes'
   tags: ['food']

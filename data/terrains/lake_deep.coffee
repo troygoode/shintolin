@@ -2,7 +2,6 @@ _ = require 'underscore'
 time = require '../../time'
 
 module.exports =
-  id: 'lake_deep'
   style: 'dwater'
 
   describe: (tile) ->

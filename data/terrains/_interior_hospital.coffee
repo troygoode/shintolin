@@ -1,5 +1,4 @@
 module.exports =
-  id: '_interior_hospital'
   style: 'dirt'
   hidden: true
 

@@ -10,10 +10,22 @@
 
   form(method='POST', action='/game/debug/paint')
     input(type='hidden', name='_csrf', value=csrf)
-    select(name='terrain', style='width: 10em', data-persist='paint', data-action-focus='paint')
+    select(name='terrain', style='width: 10em')
+      if center.terrain.id === config.default_terrain
+        option(value=center.terrain.id)= center.terrain.id
       for terrain in data.terrains
         unless terrain.hidden
-          option(value=terrain.id)= terrain.id
+          if terrain.id === center.terrain.id
+            option(value=terrain.id, selected)= terrain.id
+          else
+            option(value=terrain.id)= terrain.id
+    select(name='region', style='width: 10em')
+      option(value='') (No Region)
+      for region in data.regions
+        if center.tile.region === region.id
+          option(value=region.id, selected)= region.name
+        else
+          option(value=region.id)= region.name
     input(type='submit', value='Paint', data-action='paint')
 
   if center.people.length

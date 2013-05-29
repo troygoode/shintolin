@@ -1,5 +1,4 @@
 module.exports =
-  id: '_interior_hut'
   style: 'dirt'
   hidden: true
 

@@ -1,5 +1,4 @@
 module.exports =
-  id: 'digging_stick'
   name: 'digging stick'
   plural: 'digging sticks'
 

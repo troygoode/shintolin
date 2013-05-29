@@ -1,5 +1,4 @@
 module.exports =
-  id: 'sickle_stone'
   name: 'stone sickle'
   plural: 'stone sickles'
   tags: ['weapon', 'sickle', 'harvest', 'harvest+']

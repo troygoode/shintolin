@@ -1,7 +1,6 @@
 time = require '../../time'
 
 module.exports =
-  id: 'field'
   name: 'Field'
   size: 'small'
   hp: 4

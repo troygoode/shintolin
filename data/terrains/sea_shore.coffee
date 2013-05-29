@@ -1,7 +1,6 @@
 time = require '../../time'
 
 module.exports =
-  id: 'sea_shore'
   style: 'beach'
 
   buildable: ['tiny']

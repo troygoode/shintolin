@@ -1,5 +1,4 @@
 module.exports =
-  id: 'workshop'
   name: 'Workshop'
   size: 'large'
   hp: 50

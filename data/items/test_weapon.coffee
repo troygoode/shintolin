@@ -1,5 +1,4 @@
 module.exports =
-  id: 'test_weapon'
   name: 'hammer of the gods'
   plural: 'hammers of the gods'
   tags: ['weapon']

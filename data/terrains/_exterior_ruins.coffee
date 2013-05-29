@@ -1,5 +1,4 @@
 module.exports =
-  id: '_exterior_ruins'
   style: 'ruins'
   hidden: true
 

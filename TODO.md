@@ -2,7 +2,6 @@
 
 ## Shintolin v2 Parity
 
-* regions & region painting
 * think about trails a bit more
 * implement ocarina
 * leader can evict dazed settlement members

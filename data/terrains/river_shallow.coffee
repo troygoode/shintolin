@@ -2,7 +2,6 @@ _ = require 'underscore'
 time = require '../../time'
 
 module.exports =
-  id: 'river_shallow'
   style: 'river'
 
   actions: ['fill']

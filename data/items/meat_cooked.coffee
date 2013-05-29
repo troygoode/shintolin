@@ -1,5 +1,4 @@
 module.exports =
-  id: 'meat_cooked'
   name: 'hunk of cooked meat'
   plural: 'hunks of cooked meat'
   tags: ['usable', 'food']

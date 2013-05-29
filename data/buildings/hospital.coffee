@@ -1,5 +1,4 @@
 module.exports =
-  id: 'hospital'
   name: 'Hospital'
   size: 'large'
   hp: 50

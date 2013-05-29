@@ -1,5 +1,4 @@
 module.exports =
-  id: 'grinding_stone'
   name: 'grinding stone'
   plural: 'grinding stones'
   weight: 4

@@ -1,5 +1,4 @@
 module.exports =
-  id: 'cottage_pre'
   name: 'Cottage Foundation'
   size: 'small'
   hp: 30

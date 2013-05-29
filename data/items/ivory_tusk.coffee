@@ -1,5 +1,4 @@
 module.exports =
-  id: 'ivory_tusk'
   name: 'mammoth tusk'
   plural: 'mammoth tusks'
   tags: ['weapon']

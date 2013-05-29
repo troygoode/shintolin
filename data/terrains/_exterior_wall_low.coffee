@@ -1,5 +1,4 @@
 module.exports =
-  id: '_exterior_wall_low'
   style: 'wall'
   hidden: true
 

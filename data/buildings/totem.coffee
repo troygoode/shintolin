@@ -1,5 +1,4 @@
 module.exports =
-  id: 'totem'
   name: 'Totem Pole'
   size: 'small'
   hp: 30

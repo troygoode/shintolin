@@ -1,5 +1,4 @@
 module.exports =
-  id: 'pick_ivory'
   name: 'ivory pick'
   plural: 'ivory picks'
   tags: ['pick', 'quarry']

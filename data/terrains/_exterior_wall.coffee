@@ -1,7 +1,6 @@
 time = require '../../time'
 
 module.exports =
-  id: '_exterior_wall'
   style: 'wall'
   hidden: true
 

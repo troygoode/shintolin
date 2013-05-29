@@ -1,5 +1,4 @@
 module.exports =
-  id: 'huckleberry_pie'
   name: 'slice of huckleberry pie'
   plural: 'slices of huckleberry pie'
   tags: ['usable', 'food']

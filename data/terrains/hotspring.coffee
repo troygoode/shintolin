@@ -1,7 +1,6 @@
 time = require '../../time'
 
 module.exports =
-  id: 'hotspring'
   style: 'spring'
 
   actions: ['fill']

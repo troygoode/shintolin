@@ -2,7 +2,6 @@ _ = require 'underscore'
 walls_connect_to = ['wall', 'gate', 'guardstand']
 
 module.exports =
-  id: 'wall'
   name: 'Wall'
   size: 'tiny'
   hp: 80

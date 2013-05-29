@@ -45,6 +45,7 @@ app.use middleware.time
 app.use middleware.expose_querystring
 
 app.locals._ = _
+app.locals.config = config
 app.locals.data = data
 
 app.use app.router

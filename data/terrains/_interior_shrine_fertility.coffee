@@ -1,5 +1,4 @@
 module.exports =
-  id: '_interior_shrine_fertility'
   style: 'dirt'
   hidden: true
 

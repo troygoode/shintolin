@@ -1,5 +1,4 @@
 module.exports =
-  id: '_interior_longhouse'
   style: 'dirt'
   hidden: true
 

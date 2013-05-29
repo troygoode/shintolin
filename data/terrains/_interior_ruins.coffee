@@ -1,5 +1,4 @@
 module.exports =
-  id: '_interior_ruins'
   style: 'dirt'
   hidden: true
 

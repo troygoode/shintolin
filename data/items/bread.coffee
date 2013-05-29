@@ -1,5 +1,4 @@
 module.exports =
-  id: 'bread'
   name: 'flatbread'
   plural: 'flatbreads'
   weight: 1

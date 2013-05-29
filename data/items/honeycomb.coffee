@@ -1,5 +1,4 @@
 module.exports =
-  id: 'honeycomb'
   name: 'honeycomb'
   plural: 'honeycombs'
   tags: ['usable', 'heal']

@@ -1,5 +1,4 @@
 module.exports =
-  id: '_interior_workshop'
   style: 'dirt'
   hidden: true
 

@@ -1,5 +1,4 @@
 module.exports =
-  id: '_interior_shrine_hunter'
   style: 'dirt'
   hidden: true
 

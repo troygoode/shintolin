@@ -1,5 +1,4 @@
 module.exports =
-  id: 'trail'
   name: 'Trail'
   size: 'tiny'
   hp: 3

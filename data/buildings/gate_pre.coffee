@@ -1,5 +1,4 @@
 module.exports =
-  id: 'gate_pre'
   name: 'Gate Foundation'
   size: 'large'
   hp: 40

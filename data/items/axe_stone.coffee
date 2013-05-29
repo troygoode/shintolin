@@ -1,5 +1,4 @@
 module.exports =
-  id: 'axe_stone'
   name: 'stone axe'
   plural: 'stone axes'
   tags: ['weapon', 'axe', 'chop']

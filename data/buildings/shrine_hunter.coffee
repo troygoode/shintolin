@@ -1,5 +1,4 @@
 module.exports =
-  id: 'shrine_hunter'
   name: 'Hunter\'s Shrine'
   size: 'small'
   hp: 50

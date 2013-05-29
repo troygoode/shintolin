@@ -1,7 +1,6 @@
 time = require '../../time'
 
 module.exports =
-  id: 'hill_low_top'
   style: 'hill1_top'
 
   buildable: ['tiny', 'small']

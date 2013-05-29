@@ -2,7 +2,6 @@ _ = require 'underscore'
 time = require '../../time'
 
 module.exports =
-  id: 'forest_3'
   style: 'denseforest'
 
   buildable: ['tiny', 'small']
