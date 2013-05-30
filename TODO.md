@@ -2,7 +2,16 @@
 
 ## Shintolin v2 Parity
 
+* skills:
+  * settling
+  * mountaineering
+  * tea_making
+  * herb_lore
+  * medicine
 * animals
+* skills:
+  * tracking
+  * butchering
 * whisper
 * shout
 

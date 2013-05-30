@@ -8,6 +8,7 @@ module.exports =
   build: (character, tile) ->
     takes:
       ap: 20
+      skill: 'trailblazing'
       terrain_tag: 'trail'
       tools: ['digging_stick']
     gives:

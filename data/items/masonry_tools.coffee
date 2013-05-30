@@ -7,7 +7,7 @@ module.exports =
   craft: (character, tile) ->
     takes:
       ap: 15
-      skill: 'carpentry'
+      skill: 'stone_working'
       building: 'workshop'
       items:
         axe_hand: 2
