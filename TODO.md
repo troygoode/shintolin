@@ -3,14 +3,13 @@
 ## Shintolin v2 Parity
 
 * skills:
-  * settling
-  * mountaineering
-  * herb_lore
-  * medicine
+  * settling: can establish new settlements
+  * herb_lore: thyme leaves provide better healing
+  * medicine: heal more efffectively and craft healing items for less AP when inside a hospital
 * animals
 * skills:
-  * tracking
-  * butchering
+  * tracking: animals and people are visible on the large map
+  * butchering: obtain more meat from slain animals
 * whisper
 * shout
 

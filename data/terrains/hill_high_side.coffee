@@ -1,3 +1,4 @@
+_ = require 'underscore'
 time = require '../../time'
 
 module.exports =
@@ -21,7 +22,10 @@ module.exports =
   altitude: 3
   cost_to_enter: (character, tile_from, tile_to, terrain_from, terrain_to) ->
     from_altitude = terrain_from.altitude ? 0
-    if @altitude > from_altitude
-      ((@altitude - from_altitude) * 2) - 1
-    else
+    mountaineer = _.contains character.skills, 'mountaineer'
+    if from_altitude >= @altitude
       0
+    else if mountaineer
+      2
+    else
+      ((@altitude - from_altitude) * 2) - 1
