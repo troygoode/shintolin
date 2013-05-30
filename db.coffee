@@ -6,7 +6,13 @@ db = new Mongolian config.mongo_uri
 indexes = []
 
 module.exports =
-  ObjectId: Mongolian.ObjectId
+  ObjectId: (id) ->
+    if id? and typeof(id) is 'string'
+      new Mongolian.ObjectId(id)
+    else if id?
+      id
+    else
+      new Mongolian.ObjectId()
 
   characters: db.collection 'characters'
   chat_messages: db.collection 'chat_messages'

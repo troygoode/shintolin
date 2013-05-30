@@ -102,6 +102,15 @@ if character.hp > 0
             if m.provisional
               option(value=m._id)= m.name
 
+    if settlement && _.contains(actions, 'evict') && settlement.leader && settlement.leader._id.toString() === character._id.toString()
+      form(method='POST', action='/game/evict')
+        input(type='hidden', name='_csrf', value=csrf)
+        input(type='submit', value='Evict', data-action='evict')
+        select(name='character', style='width: 10em', data-persist='member', data-action-focus='evict')
+          option(value='') no-one
+          for m in evictables
+            option(value=m._id)= m.name
+
     if settlement && character.settlement_id && settlement._id.toString() === character.settlement_id.toString()
       - var my_member_record = _.find(settlement.members, function(m){ return m._id.toString() === character._id.toString(); });
       - var candidates = settlement.members.filter(function(m){ return !m.provisional; });

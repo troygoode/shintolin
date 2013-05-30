@@ -5,6 +5,14 @@ queries = require '../../../queries'
 data = require '../../../data'
 mw = require '../middleware'
 
+fetch_evictables = (settlement, cb) ->
+  async.map settlement.members, (member, cb) ->
+    queries.get_character member._id, cb
+  , (err, characters) ->
+    return cb(err) if err?
+    cb null, _.filter characters, (c) ->
+      c.hp <= 0 or c.settlement_provisional
+
 describe_list = (arr) ->
   if arr.length is 1
     arr[0]
@@ -130,6 +138,11 @@ repair = (character, tile) ->
 
 module.exports = (app) ->
   app.get '/', mw.available_actions(), (req, res, next) ->
+    locals = {}
+    render = (err) ->
+      return next(err) if err?
+      res.render 'game/index', locals
+
     res.locals.moment = moment
     res.locals.describe_list = describe_list
     async.parallel [
@@ -189,4 +202,10 @@ module.exports = (app) ->
       locals.center = visit_tile locals.center, undefined, locals.character
       locals.dbg =
         center: center
-      res.render 'game/index', locals
+
+      if _.contains(req.actions, 'evict') and settlement?.leader?._id.toString() is req.character._id.toString()
+        fetch_evictables settlement, (err, evictables) ->
+          locals.evictables = evictables
+          render err
+      else
+        render()

@@ -2,7 +2,6 @@
 
 ## Shintolin v2 Parity
 
-* leader can evict dazed settlement members
 * seasonal bonuses for searching
 * animals
 * whisper

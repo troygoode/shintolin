@@ -3,7 +3,7 @@ module.exports =
   size: 'small'
   hp: 30
   tags: ['no_storm_damage']
-  actions: ['join', 'promote']
+  actions: ['join', 'promote', 'evict']
 
   build_handler: (req, res, next) ->
     res.redirect '/game/settle'
