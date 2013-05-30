@@ -16,7 +16,7 @@ module.exports =
 
   craft: (character, tile) ->
     ap = 10
-    medicine = _.contains healer.skills, 'medicine'
+    medicine = _.contains character.skills, 'medicine'
     in_hospital = tile.z isnt 0 and tile.building is 'hospital'
     ap -= 5 if medicine and in_hospital
 
