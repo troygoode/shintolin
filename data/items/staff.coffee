@@ -1,3 +1,5 @@
+time = require '../../time'
+
 module.exports =
   name: 'staff'
   plural: 'staves'
@@ -23,3 +25,9 @@ module.exports =
         staff: 3
       xp:
         crafter: 5
+
+  modify_search_odds: (odds) ->
+    switch time().season
+      when 'Autumn' then odds * .8
+      when 'Winter' then odds * .7
+      else odds

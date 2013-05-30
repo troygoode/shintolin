@@ -1,3 +1,5 @@
+time = require '../../time'
+
 module.exports =
   name: 'stick'
   plural: 'sticks'
@@ -10,6 +12,12 @@ module.exports =
     .25
   damage: (attacker, target, tile) ->
     1
+
+  modify_search_odds: (odds) ->
+    switch time().season
+      when 'Autumn' then odds * .8
+      when 'Winter' then odds * .7
+      else odds
 
   craft: (character, tile) ->
     takes:

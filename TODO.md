@@ -2,7 +2,7 @@
 
 ## Shintolin v2 Parity
 
-* seasonal bonuses for searching
+* implement skill: foraging
 * animals
 * whisper
 * shout
