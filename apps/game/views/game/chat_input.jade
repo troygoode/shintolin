@@ -1,5 +1,19 @@
 .gamebox
   form(method='POST', action='/game/chat')
-    input(type='hidden', name='_csrf', value=csrf)
-    input(type='submit', value='Chat')
-    input.text(type='text', name='text', maxlength='200', style='width: 300px')
+    div
+      input(type='hidden', name='_csrf', value=csrf)
+      input(type='submit', value='Chat')
+      input.text(type='text', name='text', maxlength='200', style='width: 300px')
+    div
+      label
+        | To:
+        select(name='target', style='width: 10em', data-persist='chat-target')
+          option(value='') No-one
+          for c in center.people
+            option(value=c._id)= c.name
+      label
+        | Volume:
+        select(name='volume', style='width: 10em', data-persist='volume')
+          option(value='whisper') Whisper
+          option(value='', selected) Say
+          option(value='shout') Shout

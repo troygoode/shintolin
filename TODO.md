@@ -2,8 +2,6 @@
 
 ## Shintolin v2 Parity
 
-* whisper
-* shout
 * animals
 * skills:
   * tracking: animals and people are visible on the large map

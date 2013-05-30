@@ -18,6 +18,6 @@ module.exports = (app) ->
         suppress_more_link: true
 
   app.post '/chat', mw.ap(1), (req, res, next) ->
-    commands.say req.character, req.body.text, (err) ->
+    commands.say req.character, req.target, req.body.text, req.body.volume, (err) ->
       return next(err) if err?
       res.redirect '/game'
