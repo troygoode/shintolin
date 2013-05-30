@@ -1,3 +1,5 @@
+_ = require 'underscore'
+
 module.exports =
   name: 'Totem Pole'
   size: 'small'
@@ -6,11 +8,15 @@ module.exports =
   actions: ['join', 'promote', 'evict']
 
   build_handler: (req, res, next) ->
-    res.redirect '/game/settle'
+    if _.contains req.character.skills, 'settling'
+      res.redirect '/game/settle'
+    else
+      next 'The \'settling\' skill is required to do that.'
 
   build: (character, tile) ->
     takes:
       ap: 30
+      skill: 'settling'
       items:
         log: 1
 

@@ -3,7 +3,6 @@
 ## Shintolin v2 Parity
 
 * skills:
-  * settling: can establish new settlements
   * herb_lore: thyme leaves provide better healing
   * medicine: heal more efffectively and craft healing items for less AP when inside a hospital
 * animals
