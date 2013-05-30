@@ -5,7 +5,6 @@
 * skills:
   * settling
   * mountaineering
-  * tea_making
   * herb_lore
   * medicine
 * animals

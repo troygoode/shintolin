@@ -10,6 +10,7 @@ module.exports =
     takes:
       ap: 10
       building: 'campfire'
+      skill: 'tea_making'
       items:
         thyme: 2
         bark: 2
