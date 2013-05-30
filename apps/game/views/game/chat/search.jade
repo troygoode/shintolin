@@ -16,6 +16,6 @@
       | This area appears to have limited resources. 
     else if msg.total_odds <= .3
       | This area appears to have moderate resources. 
-    else
+    else if msg.total_odds > .3
       | This area appears to have abundant resources. 
   span.time= moment(msg.sent).fromNow()

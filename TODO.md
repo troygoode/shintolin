@@ -2,7 +2,6 @@
 
 ## Shintolin v2 Parity
 
-* implement skill: foraging
 * animals
 * whisper
 * shout
