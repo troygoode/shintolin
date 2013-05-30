@@ -2,14 +2,12 @@
 
 ## Shintolin v2 Parity
 
-* skills:
-  * medicine: heal more efffectively and craft healing items for less AP when inside a hospital
+* whisper
+* shout
 * animals
 * skills:
   * tracking: animals and people are visible on the large map
   * butchering: obtain more meat from slain animals
-* whisper
-* shout
 
 ## WTF (Shintolin v2 has these, but what are they?)
 
