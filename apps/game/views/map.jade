@@ -17,5 +17,13 @@ html
               if tile.tile.building
                 span.mapdata.feature= data.buildings[tile.tile.building].name
                 br
+              if tile.creatures && tile.creatures.length
+                for creature in tile.creatures
+                  span.mapdata.creature #{creature.creature.name} (#{creature.hp}/#{creature.hp_max})
+                  br
+              if tile.people && tile.people.length === 1
+                span.mapdata 1 person
+              else if tile.people && tile.people.length > 1
+                span.mapdata #{tile.people.length} people
     hr
     a.buttonlink(href='/game') Return

@@ -12,6 +12,7 @@ kicked_from_settlement = (attacker, target, kill) ->
   kill and attacker.settlement_id.toString() is target.settlement_id.toString() and target.settlement_provisional
 
 calculate_frags = (target) ->
+  return 0 if target.creature?
   Math.ceil(target.frags / 2)
 
 update_attacker = (attacker, target, weapon, damage, broken) ->
@@ -39,21 +40,35 @@ update_target = (attacker, target, weapon, damage, broken) ->
     kill = damage >= target.hp
     frags = if kill then calculate_frags(target) else 0
 
-    query =
-      _id: target._id
-    update =
-      $inc:
-        hp: 0 - damage
-        frags: 0 - frags
-        deaths: if kill then 1 else 0
-    if kicked_from_settlement attacker, target, kill
-      update.$unset =
-        settlement_id: 1
-        settlement_name: 1
-        settlement_slug: 1
-        settlement_joined: 1
-        settlement_provisional: 1
-    db.characters.update query, update, cb
+    if kill and target.creature?
+      async.parallel [
+        (cb) ->
+          db.characters.remove _id: target._id, cb
+        (cb) ->
+          query =
+            'people._id': target._id
+          update =
+            $pull:
+              people:
+                _id: target._id
+          db.tiles.update query, update, cb
+      ], cb
+    else
+      query =
+        _id: target._id
+      update =
+        $inc:
+          hp: 0 - damage
+          frags: 0 - frags
+          deaths: if kill then 1 else 0
+      if kicked_from_settlement attacker, target, kill
+        update.$unset =
+          settlement_id: 1
+          settlement_name: 1
+          settlement_slug: 1
+          settlement_joined: 1
+          settlement_provisional: 1
+      db.characters.update query, update, cb
 
 update_settlement = (attacker, target, weapon, damage, broken) ->
   (cb) ->
@@ -91,6 +106,7 @@ notify_attacker_hit = (attacker, target, weapon, damage, broken) ->
     send_message 'attack', attacker, attacker,
       weapon: weapon.id
       target_id: target._id
+      target_creature: target.creature
       target_name: target.name
       target_slug: target.slug
       damage: damage
@@ -131,6 +147,7 @@ notify_member_kicked = (attacker, target, weapon, damage, broken) ->
         settlement_name: target.settlement_name
         settlement_slug: target.settlement_slug
         target_id: target._id
+        target_creature: target.creature
         target_name: target.name
         target_slug: target.slug
       , cb
@@ -143,6 +160,7 @@ notify_nearby_hit = (attacker, target, weapon, damage, broken) ->
     send_message_nearby 'attack_nearby', attacker, [attacker, target],
       weapon: weapon.id
       target_id: target._id
+      target_creature: target.creature
       target_name: target.name
       target_slug: target.slug
       damage: damage
@@ -160,6 +178,7 @@ notify_attacker_miss = (attacker, target, weapon, broken) ->
     send_message 'attack', attacker, attacker,
       weapon: weapon.id
       target_id: target._id
+      target_creature: target.creature
       target_name: target.name
       target_slug: target.slug
       broken: if broken then broken else undefined
@@ -177,6 +196,7 @@ notify_nearby_miss = (attacker, target, weapon, broken) ->
     send_message_nearby 'attack_nearby', attacker, [attacker, target],
       weapon: weapon.id
       target_id: target._id
+      target_creature: target.creature
       target_name: target.name
       target_slug: target.slug
       broken: if broken then broken else undefined
@@ -190,6 +210,7 @@ module.exports = (attacker, target, tile, weapon, cb) ->
   damage = weapon.damage attacker, target, tile
   damage = target.hp if damage > target.hp
   hit = Math.random() <= accuracy
+  creature = target.creature?
   broken = if hit and weapon.break_odds then Math.random() <= weapon.break_odds else false
 
   if hit
@@ -199,13 +220,16 @@ module.exports = (attacker, target, tile, weapon, cb) ->
     actions.push update_settlement(attacker, target, weapon, damage, broken)
     actions.push update_target_tile_hp(attacker, target, weapon, damage, broken)
     actions.push notify_attacker_hit(attacker, target, weapon, damage, broken)
-    actions.push notify_target_hit(attacker, target, weapon, damage, broken)
+    unless creature
+      actions.push notify_target_hit(attacker, target, weapon, damage, broken)
     actions.push notify_nearby_hit(attacker, target, weapon, damage, broken)
-    actions.push notify_member_kicked(attacker, target, weapon, damage, broken)
+    unless creature
+      actions.push notify_member_kicked(attacker, target, weapon, damage, broken)
   else
     actions.push break_weapon(attacker, target, weapon, null, broken)
     actions.push notify_attacker_miss(attacker, target, weapon, broken)
-    actions.push notify_target_miss(attacker, target, weapon, broken)
+    unless creature
+      actions.push notify_target_miss(attacker, target, weapon, broken)
     actions.push notify_nearby_miss(attacker, target, weapon, broken)
 
   async.parallel actions, cb

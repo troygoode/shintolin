@@ -31,6 +31,13 @@ module.exports = (app) ->
       return next(err) if err?
       res.redirect '/game'
 
+  app.post '/dev/spawn', developers_only, (req, res, next) ->
+    creature = data.creatures[req.body.creature]
+    return next('Invalid Creature') unless creature?
+    commands.create_creature creature, req.tile, (err) ->
+      return next(err) if err?
+      res.redirect '/game'
+
   app.post '/dev/paint', developers_only, (req, res, next) ->
     return next('Invalid Terrain') unless data.terrains[req.body.terrain]?
     if req.body.region?.length

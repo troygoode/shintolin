@@ -32,9 +32,9 @@
                     input.movebutton(type='submit', value='Enter', data-direction='enterexit')
               span.mapdata.feature= building.name
               br
-            if tile.tile.creatures
-              for creature in tile.tile.creatures
-                span.mapdata.creature= creature.type
+            if tile.creatures.length
+              for creature in tile.creatures
+                span.mapdata.creature #{creature.creature.name} (#{creature.hp}/#{creature.hp_max})
                 br
             if tile.people && tile.people.length === 1
               span.mapdata 1 person

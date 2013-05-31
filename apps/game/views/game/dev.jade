@@ -46,4 +46,11 @@
       for i in _.range(100)
         option(value=i + 1)= i + 1
 
+  form(method='POST', action='/game/dev/spawn')
+    input(type='hidden', name='_csrf', value=csrf)
+    input(type='submit', value='Spawn', data-action='spawn')
+    select(name='creature', style='width: 10em', data-persist='creature', data-action-focus='spawn')
+      for c in data.creatures
+        option(value=c.id)= c.name
+
   p Searches: #{dbg.center.searches}

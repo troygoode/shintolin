@@ -40,6 +40,15 @@ visit_tile = (tile, center, character) ->
     building: building
     terrain: terrain
     style: if _.isFunction(terrain.style) then terrain.style() else terrain.style
+  if _.contains character.skills, 'tracking'
+    retval = _.extend retval,
+      people: tile.people?.filter (p) ->
+        not p.creature? and p._id.toString() isnt character._id.toString()
+      creatures: tile.people?.filter (p) ->
+        return false unless p.creature?
+        if _.isString p.creature
+          p.creature = data.creatures[p.creature]
+        true
   retval
 
 module.exports = (app) ->
@@ -52,5 +61,5 @@ module.exports = (app) ->
         data: data
       for row, i in locals.grid
         for tile, j in row
-          locals.grid[i][j] = visit_tile tile, locals.center, locals.character
+          locals.grid[i][j] = visit_tile tile, locals.center, req.character
       res.render 'map', locals

@@ -3,9 +3,11 @@
 ## Shintolin v2 Parity
 
 * animals
-* skills:
-  * tracking: animals and people are visible on the large map
-  * butchering: obtain more meat from slain animals
+  * react to attacks
+  * loot
+  * butchering skill: obtain more meat from slain animals
+  * add missing animals
+  * autospawn
 
 ## WTF (Shintolin v2 has these, but what are they?)
 

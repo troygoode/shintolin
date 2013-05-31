@@ -10,9 +10,16 @@ if msg.damage
         | stabbed
       default
         | attacked
-    |  <a href='/profile/#{msg.target_slug}'>#{msg.target_name}</a> with a #{data.items[msg.weapon].name} for #{msg.damage} hp damage
-    if msg.kill
-      |  and knocked them out! 
+    if msg.target_creature
+      |  the #{data.creatures[msg.target_creature].name}
+    else
+      a(href='/profile/#{msg.target_slug}')= msg.target_name
+    |  with a #{data.items[msg.weapon].name}
+    |  for #{msg.damage} hp damage
+    if msg.kill && msg.target_creature
+      | , killing it! 
+    else if msg.kill
+      | , knocking them out! 
       if msg.kicked_from_settlement
         | They are now no longer a provisional resident of <a href='/settlements/#{msg.settlement_slug}'>#{msg.settlement_name}</a>! 
     else
@@ -32,5 +39,10 @@ else
         | lunged at
       default
         | attacked
-    |  <a href='/profile/#{msg.target_slug}'>#{msg.target_name}</a> with a #{data.items[msg.weapon].name} and missed. 
+    if msg.target_creature
+      |  the #{data.creatures[msg.target_creature].name}
+    else
+      a(href='/profile/#{msg.target_slug}')= msg.target_name
+    |  with a #{data.items[msg.weapon].name}
+    |  and missed. 
     span.time= moment(msg.sent).fromNow()

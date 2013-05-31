@@ -29,9 +29,7 @@ describe_list = (arr) ->
 
 get_center = (tiles, character) ->
   tile = _.find tiles, (t) -> t.x is character.x and t.y is character.y
-  if tile?
-    tile
-  else
+  tile ?
     x: character.x
     y: character.y
     z: character.z
@@ -77,7 +75,12 @@ visit_tile = (tile, center, character) ->
     style: if _.isFunction(terrain.style) then terrain.style() else terrain.style
     building: building
     people: tile.people?.filter (p) ->
-      p._id.toString() isnt character._id.toString()
+      not p.creature? and p._id.toString() isnt character._id.toString()
+    creatures: tile.people?.filter (p) ->
+      return false unless p.creature?
+      if _.isString p.creature
+        p.creature = data.creatures[p.creature]
+      true
   if center?
     if tile.x is center.x - 1 and tile.y is center.y - 1
       retval.direction = 'nw'
@@ -196,10 +199,12 @@ module.exports = (app) ->
         buildings: build_buildings()
         repair: repair req.character, req.tile
         developer_mode: req.session.developer
+
       for row, i in locals.grid
         for tile, j in row
           locals.grid[i][j] = visit_tile tile, locals.center, locals.character
       locals.center = visit_tile locals.center, undefined, locals.character
+
       locals.dbg =
         center: center
 
