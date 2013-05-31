@@ -3,15 +3,15 @@ if msg.damage
     |  You 
     case data.items[msg.weapon].weapon_class
       when 'blunt'
-        | cudgeled
+        | cudgeled 
       when 'slash'
-        | slashed
+        | slashed 
       when 'stab'
-        | stabbed
+        | stabbed 
       default
-        | attacked
+        | attacked 
     if msg.target_creature
-      |  the #{data.creatures[msg.target_creature].name}
+      | the #{data.creatures[msg.target_creature].name}
     else
       a(href='/profile/#{msg.target_slug}')= msg.target_name
     |  with a #{data.items[msg.weapon].name}
@@ -36,15 +36,15 @@ else
     |  You 
     case data.items[msg.weapon].weapon_class
       when 'blunt'
-        | swung at
+        | swung at 
       when 'slash'
-        | swiped at
+        | swiped at 
       when 'stab'
-        | lunged at
+        | lunged at 
       default
-        | attacked
+        | attacked 
     if msg.target_creature
-      |  the #{data.creatures[msg.target_creature].name}
+      | the #{data.creatures[msg.target_creature].name}
     else
       a(href='/profile/#{msg.target_slug}')= msg.target_name
     |  with a #{data.items[msg.weapon].name}
