@@ -59,14 +59,23 @@ module.exports = (character, from, to, cb) ->
             recovery: recovery
         db.characters.update query, update, cb
       , (cb) ->
-        update =
-          $push:
-            people:
-              _id: character._id
-              name: character.name
-              slug: character.slug
-              hp: character.hp
-              hp_max: character.hp_max
+        if character.creature?
+          update =
+            $push:
+              people:
+                _id: character._id
+                hp: character.hp
+                hp_max: character.hp_max
+                creature: character.creature
+        else
+          update =
+            $push:
+              people:
+                _id: character._id
+                name: character.name
+                slug: character.slug
+                hp: character.hp
+                hp_max: character.hp_max
         update.$push.people.settlement_id = character.settlement_id if character.settlement_id?
         if to_tile?
           query =

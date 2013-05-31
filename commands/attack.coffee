@@ -3,6 +3,7 @@ async = require 'async'
 data = require '../data'
 db = require '../db'
 queries = require '../queries'
+move_creature = require './move_creature'
 remove_creature = require './remove_creature'
 remove_from_settlement = require './remove_from_settlement'
 remove_item = require './remove_item'
@@ -40,12 +41,12 @@ update_attacker = (ctx, cb) ->
   ], cb
 
 update_target = (ctx, cb) ->
-  return cb() unless ctx.hit
   if ctx.kill and ctx.is_creature
     remove_creature ctx.target, cb
   else
     async.parallel [
       (cb) ->
+        return cb() unless ctx.hit
         update_character_hp ctx.target, ctx.target.hp - ctx.damage, cb
       (cb) ->
         return cb() unless ctx.kill
@@ -59,6 +60,9 @@ update_target = (ctx, cb) ->
       (cb) ->
         return cb() unless ctx.remove_from_settlement
         remove_from_settlement ctx.target, cb
+      (cb) ->
+        return cb() unless ctx.response?.type is 'flee'
+        move_creature ctx.target, cb
     ], cb
 
 format_message = (ctx) ->
@@ -81,14 +85,18 @@ format_message = (ctx) ->
       settlement_name: ctx.target.settlement_name
       settlement_slug: ctx.target.settlement_slug
   if ctx.response?
-    if ctx.response.hit
-      msg = _.extend msg,
-        response: 'hit'
-        response_damage: ctx.response.damage
-        response_kill: ctx.response.kill
-    else
-      msg = _.extend msg,
-        response: 'miss'
+    switch ctx.response.type
+      when 'attack'
+        if ctx.response.hit
+          msg = _.extend msg,
+            response: 'hit'
+            response_damage: ctx.response.damage
+            response_kill: ctx.response.kill
+        else
+          msg = _.extend msg,
+            response: 'miss'
+      when 'flee'
+        msg.response = 'flee'
   msg
 
 notify = (ctx, cb) ->
@@ -140,15 +148,17 @@ module.exports = (attacker, target, tile, weapon, cb) ->
   # creature response?
   if ctx.creature?.attacked? and not ctx.kill
     response = ctx.creature.attacked attacker, target, tile, weapon
-    if _.isString response and response is 'flee'
+    if _.isString(response) and response is 'flee'
       # implement flee
-      console.log 'TODO: implement FLEE'
+      ctx.response =
+        type: 'flee'
     else if response?
       # attacked back!
       hit = Math.random() <= response.accuracy
       dmg = if hit then response.damage else 0
       dmg = if dmg > attacker.hp then attacker.hp else dmg
       ctx.response =
+        type: 'attack'
         hit: hit
         damage: dmg
         kill: dmg >= attacker.hp

@@ -30,7 +30,6 @@
       | . 
     if msg.broken
       | Your cherished #{data.items[msg.weapon].name} breaks! You throw away the useless pieces in disgust. 
-    span.time= moment(msg.sent).fromNow()
   else
     |  You 
     case data.items[msg.weapon].weapon_class
@@ -56,5 +55,7 @@
       |  The #{data.creatures[msg.target_creature].name} attacked you back and hit you for #{msg.response_damage} damage, knocking you out! 
     else
       |  The #{data.creatures[msg.target_creature].name} attacked you back and hit you for #{msg.response_damage} damage! 
+  else if msg.response === 'flee'
+    |  The #{data.creatures[msg.target_creature].name} fled the area. 
 
   span.time= moment(msg.sent).fromNow()
