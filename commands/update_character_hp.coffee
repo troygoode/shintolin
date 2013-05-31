@@ -7,7 +7,7 @@ module.exports = (character, new_hp, cb) ->
       query =
         _id: character._id
       update =
-        $inc:
+        $set:
           hp: new_hp
       db.characters.update query, update, cb
     (cb) ->

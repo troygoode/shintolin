@@ -3,9 +3,8 @@
 ## Shintolin v2 Parity
 
 * animals
-  * react to attacks
+  * flee
   * loot
-  * butchering skill: obtain more meat from slain animals
   * add missing animals
   * autospawn
 

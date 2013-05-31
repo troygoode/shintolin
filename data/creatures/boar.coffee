@@ -4,7 +4,7 @@ module.exports =
   name: 'wild boar'
   hp: 20
 
-  attacked: (attacker, target, tile) ->
+  attacked: (attacker, target, tile, weapon) ->
     roll = Math.random()
     if roll < .25
       'flee'
@@ -14,7 +14,7 @@ module.exports =
     else
       null
 
-  loot: (attacker, target, tile) ->
+  loot: (attacker, target, tile, weapon) ->
     if _.contains attacker.skills, 'butchering'
       pelt: 1
       meat_raw: 5
