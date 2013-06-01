@@ -24,10 +24,10 @@ get_from = (character, from, cb) ->
 
 module.exports = (character, from, to, cb) ->
   now = new Date()
-  async.parallel [
+  async.series [
     (cb) ->
       get_from character, from, cb
-    , (cb) ->
+    (cb) ->
       get_tile to, cb
   ], (err, [from_tile, to_tile]) ->
     return cb(err) if err?
@@ -53,12 +53,13 @@ module.exports = (character, from, to, cb) ->
           _id: character._id
         update =
           $set:
-            x: to.x
-            y: to.y
-            z: to.z
+            x: to_tile.x
+            y: to_tile.y
+            z: to_tile.z
+            region: to_tile.region
             recovery: recovery
         db.characters.update query, update, cb
-      , (cb) ->
+      (cb) ->
         if character.creature?
           update =
             $push:
@@ -89,7 +90,7 @@ module.exports = (character, from, to, cb) ->
           create_tile query, undefined, undefined, (err) ->
             return cb(err) if err?
             db.tiles.update query, update, cb
-      , (cb) ->
+      (cb) ->
         query =
           x: from_tile.x
           y: from_tile.y

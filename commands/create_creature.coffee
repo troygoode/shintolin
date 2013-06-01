@@ -12,6 +12,7 @@ module.exports = (creature, tile, cb) ->
         x: tile.x
         y: tile.y
         z: tile.z
+        region: tile.region
         hp: creature.hp
         hp_max: creature.hp
         created: now

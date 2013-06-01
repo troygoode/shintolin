@@ -61,7 +61,7 @@ async.series [
     , cb
   , (cb) ->
     async.forEachSeries character_names, (name, cb) ->
-      commands.create_character name, "#{name.toLowerCase()}@example.com", 'password', settlement, (err, c) ->
+      commands.create_character name, "#{name.toLowerCase()}@example.com", 'password', undefined, (err, c) ->
         return cb(err) if err?
         console.log "Created character #{c.name}."
         characters[c.name] = c
@@ -108,7 +108,7 @@ async.series [
     arr = []
     arr.push character: character, coords: coords for character, coords of move
     async.forEach arr, (a, cb) ->
-      commands.teleport characters[a.character], null, a.coords, (err) ->
+      commands.teleport characters[a.character], characters[a.character], a.coords, (err) ->
         return cb(err) if err?
         console.log "Moved #{a.character} to #{a.coords.x},#{a.coords.y},#{a.coords.z}."
         cb()

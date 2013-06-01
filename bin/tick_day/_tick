@@ -5,9 +5,8 @@ cd ./bin/tick_day
 
 ./hold_elections
 ./grow_fields
-# mark_inactive
 ./restore_search_odds
-# spawn_animals
+./spawn_creatures
 ./grow_tiles
 ./rot_food
 ./storms
