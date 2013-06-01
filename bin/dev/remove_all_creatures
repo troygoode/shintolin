@@ -1,0 +1,21 @@
+#!/usr/bin/env coffee
+
+async = require 'async'
+db = require '../../db'
+commands = require '../../commands'
+
+fin = (err) ->
+  if err?
+    console.log err
+    process.exit 1
+  else
+    console.log 'All Creatures Removed'
+    process.exit 0
+
+query =
+  creature: {$exists: true}
+db.characters.find(query).toArray (err, creatures) ->
+  return fin(err) if err?
+  async.each creatures, (creature, cb) ->
+    commands.remove_creature creature, cb
+  , fin

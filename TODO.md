@@ -1,11 +1,6 @@
 # TODO list
 
-## Shintolin v2 Parity
-
-* animals
-  * autospawn
-
-## WTF (Shintolin v2 has these, but what are they?)
+Shintolin v2 has these, but what are they?
 
 * admin_mapview ???
 * animal_infospawn ???

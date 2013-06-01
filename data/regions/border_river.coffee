@@ -1,4 +1,4 @@
 module.exports =
   name: 'The Border River'
-  spawn:
+  spawn: ->
     goose: 1

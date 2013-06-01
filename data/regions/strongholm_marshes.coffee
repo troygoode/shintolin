@@ -1,5 +1,5 @@
 module.exports =
   name: 'Strongholm Marshes'
-  spawn:
+  spawn: ->
     goose: 1.5
     crocodile: .6

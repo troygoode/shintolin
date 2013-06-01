@@ -1,5 +1,5 @@
 module.exports =
   name: 'Scavenger Isles'
-  spawn:
+  spawn: ->
     goose: 2
     pheasant: 1

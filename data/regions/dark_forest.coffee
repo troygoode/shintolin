@@ -1,6 +1,6 @@
 module.exports =
   name: 'The Dark Forest'
-  spawn:
+  spawn: ->
     boar: 2
     wolf: .5
     bear: .2

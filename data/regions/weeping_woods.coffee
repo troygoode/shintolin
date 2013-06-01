@@ -1,6 +1,6 @@
 module.exports =
   name: 'Weeping Woods'
-  spawn:
+  spawn: ->
     boar: 2
     pheasant: 2
     squirrel: .5

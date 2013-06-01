@@ -1,6 +1,6 @@
 module.exports =
   name: 'The Westwood'
-  spawn:
+  spawn: ->
     beehive: .5
     bear: .2
     stag: 1
