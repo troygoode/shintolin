@@ -3,7 +3,6 @@
 ## Shintolin v2 Parity
 
 * animals
-  * loot
   * add missing animals
   * autospawn
 

@@ -3,6 +3,7 @@ async = require 'async'
 data = require '../data'
 db = require '../db'
 queries = require '../queries'
+add_item = require './add_item'
 move_creature = require './move_creature'
 remove_creature = require './remove_creature'
 remove_from_settlement = require './remove_from_settlement'
@@ -38,6 +39,13 @@ update_attacker = (ctx, cb) ->
     (cb) ->
       return cb() unless ctx.is_weapon_broken
       remove_item ctx.attacker, ctx.weapon, 1, cb
+    (cb) ->
+      return cb() unless ctx.loot?
+      loot = []
+      loot.push item: key, count: value for key, value of ctx.loot
+      async.each loot, (looted_item, cb) ->
+        add_item ctx.attacker, data.items[looted_item.item], looted_item.count, cb
+      , cb
   ], cb
 
 update_target = (ctx, cb) ->
@@ -73,6 +81,7 @@ format_message = (ctx) ->
     target_creature: ctx.target.creature
     target_name: ctx.target.name
     target_slug: ctx.target.slug
+    loot: ctx.loot
   if ctx.hit
     msg = _.extend msg,
       damage: ctx.damage
@@ -146,7 +155,7 @@ module.exports = (attacker, target, tile, weapon, cb) ->
     ctx.remove_from_settlement = is_provisional and same_settlement
 
   # creature response?
-  if ctx.creature?.attacked? and not ctx.kill
+  if not ctx.kill and ctx.creature?.attacked?
     response = ctx.creature.attacked attacker, target, tile, weapon
     if _.isString(response) and response is 'flee'
       # implement flee
@@ -164,6 +173,10 @@ module.exports = (attacker, target, tile, weapon, cb) ->
         kill: dmg >= attacker.hp
     else
       # no response
+
+  # loot dead creatures
+  if ctx.kill and ctx.creature?.loot?
+    ctx.loot = ctx.creature.loot attacker, target, tile, weapon
 
   # message
   ctx.message = format_message ctx

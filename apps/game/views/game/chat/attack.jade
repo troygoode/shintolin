@@ -58,4 +58,7 @@
   else if msg.response === 'flee'
     |  The #{data.creatures[msg.target_creature].name} fled the area. 
 
+  if msg.loot
+    |  You looted #{describe_list(object_to_array(msg.loot).map(function(i){ return i.value + 'x ' + data.items[i.key].plural; }))}. 
+
   span.time= moment(msg.sent).fromNow()

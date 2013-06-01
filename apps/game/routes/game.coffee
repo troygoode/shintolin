@@ -13,6 +13,15 @@ fetch_evictables = (settlement, cb) ->
     cb null, _.filter characters, (c) ->
       c.hp <= 0 or c.settlement_provisional
 
+object_to_array = (obj, cb) ->
+  cb ?= (key, value) ->
+    key: key
+    value: value
+  arr = []
+  for key, value of obj
+    arr.push cb(key, value)
+  arr
+
 describe_list = (arr) ->
   if arr.length is 1
     arr[0]
@@ -148,6 +157,7 @@ module.exports = (app) ->
 
     res.locals.moment = moment
     res.locals.describe_list = describe_list
+    res.locals.object_to_array = object_to_array
     async.parallel [
       (cb) ->
         queries.tiles_in_square_around req.character, 3, cb
