@@ -32,7 +32,7 @@
                     input.movebutton(type='submit', value='Enter', data-direction='enterexit')
               span.mapdata.feature= building.name
               br
-            if tile.creatures.length
+            if tile.creatures && tile.creatures.length
               for creature in tile.creatures
                 span.mapdata.creature
                   | #{creature.creature.name}
