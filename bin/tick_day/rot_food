@@ -7,27 +7,28 @@ data = require '../../data'
 commands = require '../../commands'
 FOOD_ROT_CHANCE = .04
 
-#TODO: support stockpiles
-
 binomial = (trials, probability) ->
   successes = 0
   for i in [0..trials]
     successes++ if Math.random() < probability
   successes
 
-replace_with_rotten_food = (character, food, count, cb) ->
-  console.log "Rotting #{count} of #{character.name}'s #{food.plural}."
-  commands.remove_item character, food, count, (err) ->
+replace_with_rotten_food = (target, food, count, cb) ->
+  if target.building?
+    console.log "Rotting #{count} of #{target.building}'s #{food.plural}."
+  else
+    console.log "Rotting #{count} of #{target.name}'s #{food.plural}."
+  commands.remove_item target, food, count, (err) ->
     return cb(err) if err?
-    commands.add_item character, data.items.rotten_food, count, cb
+    commands.add_item target, data.items.rotten_food, count, cb
 
-check_for_rot = (character) ->
+check_for_rot = (target) ->
   (inventory_item, cb) ->
     item = data.items[inventory_item.item]
     return cb() unless _.contains(item.tags, 'food')
     amount_to_rot = binomial inventory_item.count, FOOD_ROT_CHANCE
     return cb() if amount_to_rot <= 0
-    replace_with_rotten_food character, item, amount_to_rot, cb
+    replace_with_rotten_food target, item, amount_to_rot, cb
 
 async.series [
   (cb) ->
@@ -35,6 +36,14 @@ async.series [
       return cb(err) if err?
       async.each characters, (character, cb) ->
         async.each character.items, check_for_rot(character), cb
+      , cb
+  (cb) ->
+    query =
+      items: {$exists: true}
+    db.tiles.find(query).toArray (err, tiles) ->
+      return cb(err) if err?
+      async.each tiles, (tile, cb) ->
+        async.each tile.items, check_for_rot(tile), cb
       , cb
 ], (err) ->
   if err?
