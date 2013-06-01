@@ -3,7 +3,7 @@ time = require '../../time'
 module.exports =
   style: 'grass'
 
-  tags: ['trail']
+  tags: ['trail', 'open']
   buildable: ['tiny', 'small', 'large']
   actions: ['dig']
 

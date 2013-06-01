@@ -4,6 +4,7 @@ time = require '../../time'
 module.exports =
   style: 'denseforest'
 
+  tags: ['trees']
   buildable: ['tiny', 'small']
   actions: ['chop']
 

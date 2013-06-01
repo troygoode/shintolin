@@ -4,6 +4,7 @@ time = require '../../time'
 module.exports =
   style: 'hill3_top'
 
+  tags: ['hill']
   buildable: ['tiny', 'small']
 
   describe: (tile) ->

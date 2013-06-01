@@ -21,3 +21,6 @@ module.exports =
       pelt: 1
       sabretooth: 2
       meat_raw: 13
+
+  is_habitable: (terrain, tile) ->
+    _.contains(terrain.tags, 'trees')

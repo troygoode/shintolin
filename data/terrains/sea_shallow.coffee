@@ -4,6 +4,7 @@ time = require '../../time'
 module.exports =
   style: 'river'
 
+  tags: ['saltwater', 'shallow']
   actions: ['fill']
 
   describe: (tile) ->

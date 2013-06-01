@@ -20,3 +20,6 @@ module.exports =
     else
       pelt_bear: 1
       meat_raw: 25
+
+  is_habitable: (terrain, tile) ->
+    _.contains(terrain.tags, 'trees')

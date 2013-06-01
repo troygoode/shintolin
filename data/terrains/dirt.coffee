@@ -3,7 +3,7 @@ time = require '../../time'
 module.exports =
   style: 'dirt'
 
-  tags: ['trail']
+  tags: ['trail', 'open']
 
   describe: (tile) ->
     switch time().season

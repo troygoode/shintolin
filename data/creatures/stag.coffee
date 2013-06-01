@@ -17,3 +17,6 @@ module.exports =
       antler: 2
     else
       meat_raw: 13
+
+  is_habitable: (terrain, tile) ->
+    _.contains(terrain.tags, 'trees') or _.contains(terrain.tags, 'open')

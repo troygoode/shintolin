@@ -23,3 +23,6 @@ module.exports =
       pelt: 1
       meat_raw: 25
       horn: 2
+
+  is_habitable: (terrain, tile) ->
+    _.contains(terrain.tags, 'open')

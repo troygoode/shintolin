@@ -15,3 +15,6 @@ module.exports =
       meat_raw: 3
     else
       meat_raw: 4
+
+  is_habitable: (terrain, tile) ->
+    _.contains(terrain.tags, 'trees')

@@ -1,3 +1,5 @@
+_ = require 'underscore'
+
 module.exports =
   hp: 20
 
@@ -14,3 +16,6 @@ module.exports =
 
   move: ->
     null
+
+  is_habitable: (terrain, tile) ->
+    _.contains(terrain.tags, 'trees')

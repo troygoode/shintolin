@@ -3,6 +3,8 @@ time = require '../../time'
 module.exports =
   style: 'marsh'
 
+  tags: ['wetland']
+
   describe: (tile) ->
     switch time().season
       when 'Spring'

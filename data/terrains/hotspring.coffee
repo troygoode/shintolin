@@ -3,6 +3,7 @@ time = require '../../time'
 module.exports =
   style: 'spring'
 
+  tags: ['freshwater', 'shallow']
   actions: ['fill']
 
   describe: (tile) ->

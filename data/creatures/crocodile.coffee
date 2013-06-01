@@ -20,3 +20,6 @@ module.exports =
     else
       pelt_croc: 1
       meat_raw: 10
+
+  is_habitable: (terrain, tile) ->
+    _.contains(terrain.tags, 'wetland') or _.contains(terrain.tags, 'shallow')

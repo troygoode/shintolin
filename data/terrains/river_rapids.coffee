@@ -3,6 +3,8 @@ _ = require 'underscore'
 module.exports =
   style: 'rapids'
 
+  tags: ['freshwater', 'deep']
+
   describe: (tile) ->
     'You are wading through a rapid stream, tumbling down the hillside.'
 

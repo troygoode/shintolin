@@ -3,6 +3,7 @@ time = require '../../time'
 module.exports =
   style: 'beach'
 
+  tags: ['wetland']
   buildable: ['tiny']
 
   describe: (tile) ->

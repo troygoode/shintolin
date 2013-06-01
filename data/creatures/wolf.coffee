@@ -19,3 +19,6 @@ module.exports =
     else
       pelt_wolf: 1
       meat_raw: 8
+
+  is_habitable: (terrain, tile) ->
+    _.contains(terrain.tags, 'trees') or _.contains(terrain.tags, 'open')

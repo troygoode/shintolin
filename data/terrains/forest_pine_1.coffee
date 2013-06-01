@@ -3,6 +3,7 @@ time = require '../../time'
 module.exports =
   style: 'lightforest'
 
+  tags: ['trees']
   buildable: ['tiny', 'small']
   actions: ['chop']
 

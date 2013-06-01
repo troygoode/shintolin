@@ -18,8 +18,14 @@ count_creatures = (tiles) ->
   counts
 
 find_habitable_tile = (creature, tiles) ->
+  is_habitable = (terrain, tile) ->
+    not tile.building?
   habitable_tiles = tiles.filter (t) ->
-    true #TODO: support habitats
+    return false unless is_habitable(t.terrain, t.tile)
+    if creature.is_habitable?
+      creature.is_habitable t.terrain, t.tile
+    else
+      true
   return null unless habitable_tiles.length
   habitable_tiles[Math.floor(Math.random() * habitable_tiles.length)].tile
 
@@ -27,6 +33,7 @@ spawn_in_region = (region, cb) ->
   return cb() unless region.spawn?
   query =
     region: region.id
+    z: 0
   db.tiles.find(query).toArray (err, tiles_in_region) ->
     return cb(err) if err?
     return cb() unless tiles_in_region?.length

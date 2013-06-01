@@ -20,3 +20,6 @@ module.exports =
     else
       ivory_tusk: 2
       meat_raw: 82
+
+  is_habitable: (terrain, tile) ->
+    _.contains(terrain.tags, 'open')

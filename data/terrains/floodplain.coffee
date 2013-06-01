@@ -8,6 +8,7 @@ module.exports =
       else
         'flood'
 
+  tags: ['wetland', 'open']
   actions: ['dig']
 
   describe: (tile) ->
