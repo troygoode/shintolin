@@ -19,4 +19,5 @@ module.exports = (creature, cb) ->
 
       pick_direction = creature_type.move ? random_direction
       new_tile = pick_direction tiles
+      return cb() unless new_tile?
       teleport creature, center, new_tile, cb

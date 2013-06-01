@@ -3,7 +3,6 @@
 ## Shintolin v2 Parity
 
 * animals
-  * add missing animals
   * autospawn
 
 ## WTF (Shintolin v2 has these, but what are they?)

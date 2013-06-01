@@ -1,23 +1,22 @@
 _ = require 'underscore'
 
 module.exports =
-  name: 'wild boar'
-  hp: 20
+  hp: 100
 
   attacked: (attacker, target, tile, weapon) ->
     roll = Math.random()
-    if roll < .25
+    if roll < .10
       'flee'
-    else if roll < .75
+    else if roll < .50
       accuracy: 1
-      damage: 2
+      damage: 5
     else
       null
 
   loot: (attacker, target, tile, weapon) ->
     if _.contains attacker.skills, 'butchering'
-      pelt: 1
-      meat_raw: 5
+      pelt_croc: 1
+      meat_raw: 7
     else
-      pelt: 1
-      meat_raw: 3
+      pelt_croc: 1
+      meat_raw: 10
