@@ -47,7 +47,7 @@ module.exports = (character, from, to, cb) ->
         recovery += building.recovery(character, to_tile)
     recovery = 1 if recovery < 1
 
-    async.parallel [
+    async.series [
       (cb) ->
         query =
           _id: character._id
@@ -59,6 +59,16 @@ module.exports = (character, from, to, cb) ->
             region: to_tile.region
             recovery: recovery
         db.characters.update query, update, cb
+      (cb) ->
+        query =
+          x: from_tile.x
+          y: from_tile.y
+          z: from_tile.z
+        update =
+          $pull:
+            people:
+              _id: character._id
+        db.tiles.update query, update, false, true, cb
       (cb) ->
         if character.creature?
           update =
@@ -90,14 +100,4 @@ module.exports = (character, from, to, cb) ->
           create_tile query, undefined, undefined, (err) ->
             return cb(err) if err?
             db.tiles.update query, update, cb
-      (cb) ->
-        query =
-          x: from_tile.x
-          y: from_tile.y
-          z: from_tile.z
-        update =
-          $pull:
-            people:
-              _id: character._id
-        db.tiles.update query, update, false, true, cb
     ], cb

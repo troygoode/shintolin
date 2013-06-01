@@ -5,6 +5,7 @@ bcrypt = require 'bcrypt'
 db = require '../db'
 queries = require '../queries'
 teleport = require './teleport'
+join_settlement = require './join_settlement'
 default_coords =
   x: 0
   y: 0
@@ -67,15 +68,24 @@ module.exports = (name, email, password, settlement, cb) ->
       character.settlement_id  = settlement._id
       character.settlement_name = settlement.name
       character.settlement_slug = settlement.slug
-      character.settlement_provisional = settlement.population isnt 0
       character.settlement_joined = now
+      character.settlement_provisional = settlement.population isnt 0
     db.characters.insert character, cb
 
-  async.waterfall [
+  character = null
+  async.series [
     (cb) ->
-      create_character cb
-    (character, cb) ->
+      create_character (err, _character) ->
+        return cb(err) if err?
+        character = _character
+        cb()
+    (cb) ->
       teleport character, undefined, coords, cb
-    (ignore, cb) ->
+    (cb) ->
+      return cb() unless settlement?
+      join_settlement character, settlement, cb
+    (cb) ->
       queries.get_character_by_slug slug, cb
-  ], cb
+  ], (err) ->
+    return cb(err) if err?
+    cb null, character
