@@ -13,6 +13,8 @@ module.exports = (founder, hq, name, cb) ->
   coords = null
   settlement = null
 
+  return cb('Cannot create settlements in the wilderness.') unless hq.region?
+
   async.series [
     (cb) ->
       # update hq tile
@@ -41,6 +43,7 @@ module.exports = (founder, hq, name, cb) ->
         image_url: ''
         x: hq.x
         y: hq.y
+        region: hq.region
         radius: radius
         founded: now
         founder:
@@ -84,7 +87,7 @@ module.exports = (founder, hq, name, cb) ->
         queries.get_tile_by_coords coord, (err, tile) ->
           return cb(err) if err?
           return update_tile(tile, cb) if tile?
-          create_tile coord, undefined, (err, tile) ->
+          create_tile coord, undefined, undefined, (err, tile) ->
             return cb(err) if err?
             update_tile tile, cb
       , cb

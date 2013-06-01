@@ -86,7 +86,7 @@ module.exports = (character, from, to, cb) ->
             x: to.x
             y: to.y
             z: to.z
-          create_tile query, undefined, (err) ->
+          create_tile query, undefined, undefined, (err) ->
             return cb(err) if err?
             db.tiles.update query, update, cb
       , (cb) ->

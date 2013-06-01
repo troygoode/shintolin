@@ -124,7 +124,7 @@ html
           tr
             td= i + 1
             td: a(href='/settlements/#{s.slug}')= s.name
-            td TODO
+            td= data.regions[s.region].name
             td= moment(s.founded).fromNow()
     if locals.newtowns
       hr
@@ -138,7 +138,7 @@ html
           tr
             td= i + 1
             td: a(href='/settlements/#{s.slug}')= s.name
-            td TODO
+            td= data.regions[s.region].name
             td= moment(s.founded).fromNow()
     if locals.bigtowns
       hr
@@ -152,7 +152,7 @@ html
           tr
             td= i + 1
             td: a(href='/settlements/#{s.slug}')= s.name
-            td TODO
+            td= data.regions[s.region].name
             td= s.population
     hr
     if logged_in

@@ -1,4 +1,5 @@
 moment = require 'moment'
+data = require '../../../data'
 queries = require '../../../queries'
 
 module.exports = (app) ->
@@ -7,6 +8,7 @@ module.exports = (app) ->
     queries.active_characters (err, active) ->
       return next(err) if err?
       res.locals.active = active
+      res.locals.data = data
       switch req.param('metric')
         when 'frags'
           queries.rankings.frags (err, characters) ->

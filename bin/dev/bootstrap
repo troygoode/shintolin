@@ -11,15 +11,15 @@ settlement = null
 character_names = ['Ecce', 'Deschain', 'TroyMG', 'Romani']
 characters = {}
 tiles = [
-  {x: -1, y: -1, terrain: data.terrains.grassland}
-  {x: 0, y: -1, terrain: data.terrains.grassland}
-  {x: 1, y: -1, terrain: data.terrains.grassland}
-  {x: -1, y: 0, terrain: data.terrains.grassland}
-  {x: 0, y: 0, terrain: data.terrains.grassland}
-  {x: 1, y: 0, terrain: data.terrains.grassland}
-  {x: -1, y: 1, terrain: data.terrains.forest_2}
-  {x: 0, y: 1, terrain: data.terrains.grassland}
-  {x: 1, y: 1, terrain: data.terrains.hill_low_side}
+  {x: -1, y: -1, terrain: data.terrains.grassland, region: data.regions.midlands}
+  {x: 0, y: -1, terrain: data.terrains.grassland, region: data.regions.midlands}
+  {x: 1, y: -1, terrain: data.terrains.grassland, region: data.regions.midlands}
+  {x: -1, y: 0, terrain: data.terrains.grassland, region: data.regions.midlands}
+  {x: 0, y: 0, terrain: data.terrains.grassland, region: data.regions.midlands}
+  {x: 1, y: 0, terrain: data.terrains.grassland, region: data.regions.midlands}
+  {x: -1, y: 1, terrain: data.terrains.forest_2, region: data.regions.midlands}
+  {x: 0, y: 1, terrain: data.terrains.grassland, region: data.regions.midlands}
+  {x: 1, y: 1, terrain: data.terrains.hill_low_side, region: data.regions.midlands}
 ]
 buildings = [
   {x: -1, y: 0, building: data.buildings.hut}
@@ -54,7 +54,7 @@ async.series [
   , (cb) ->
     async.forEachSeries tiles, (t, cb) ->
       return cb("invalid terrain") unless t.terrain?
-      commands.create_tile {x: t.x, y: t.y, z: 0}, t.terrain.id, (err, tile) ->
+      commands.create_tile {x: t.x, y: t.y, z: 0}, t.terrain.id, t.region.id, (err, tile) ->
         return cb(err) if err?
         console.log "Created #{tile.terrain} tile at #{tile.x},#{tile.y},#{tile.z}."
         cb()
@@ -114,10 +114,12 @@ async.series [
         cb()
     , cb
   , (cb) ->
-    commands.create_settlement characters[founder], hq, settlement_name, (err) ->
+    queries.get_tile_by_coords hq, (err, hq) ->
       return cb(err) if err?
-      console.log "#{founder} founded the settlement of #{settlement_name}."
-      cb()
+      commands.create_settlement characters[founder], hq, settlement_name, (err) ->
+        return cb(err) if err?
+        console.log "#{founder} founded the settlement of #{settlement_name}."
+        cb()
 ], (err) ->
   if err?
     console.log err

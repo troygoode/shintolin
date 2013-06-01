@@ -86,6 +86,6 @@ module.exports = (name, email, password, settlement, cb) ->
     if tile?
       finish tile
     else
-      create_tile character, 'wilderness', (err, tile) ->
+      create_tile character, undefined, undefined, (err, tile) ->
         return cb(err) if err?
         finish tile

@@ -3,15 +3,15 @@ db = require '../db'
 queries = require '../queries'
 create_tile = require './create_tile'
 
-module.exports = (tile, building, cb) ->
-  return cb('You cannot build a building inside a building.') if tile.z isnt 0 #Xyzzy shenanigans!
+module.exports = (outside_tile, building, cb) ->
+  return cb('You cannot build a building inside a building.') if outside_tile.z isnt 0 #Xyzzy shenanigans!
   return cb('Invalid Building') unless building?
-  return cb('There is already a building here.') if tile.building? and not building.upgrade
+  return cb('There is already a building here.') if outside_tile.building? and not building.upgrade
   async.series [
     (cb) ->
       # update current tile
       query =
-        _id: tile._id
+        _id: outside_tile._id
       update =
         $set:
           building: building.id
@@ -21,22 +21,22 @@ module.exports = (tile, building, cb) ->
       # create interior tile
       return cb() unless building.interior?
       coords =
-        x: tile.x
-        y: tile.y
+        x: outside_tile.x
+        y: outside_tile.y
         z: 1
-      queries.get_tile_by_coords coords, (err, tile) ->
+      queries.get_tile_by_coords coords, (err, inside_tile) ->
         return cb(err) if err?
-        update_tile = (err, tile) ->
+        update_tile = (err, inside_tile) ->
           return cb(err) if err?
           query =
-            _id: tile._id
+            _id: inside_tile._id
           update =
             $set:
               building: building.id
               terrain: building.interior
           db.tiles.update query, update, cb
-        if tile?
-          update_tile null, tile
+        if inside_tile?
+          update_tile null, inside_tile
         else
-          create_tile coords, building.interior, update_tile
+          create_tile coords, building.interior, outside_tile.region, update_tile
   ], cb
