@@ -1,7 +1,10 @@
 db = require '../../db'
 
 db.register_index db.characters,
+  creature: 1
   created: -1
 
 module.exports = (cb) ->
-  db.characters.find().sort({ created: -1 }).toArray cb
+  query =
+    creature: {$exists: false}
+  db.characters.find(query).sort({ created: -1 }).toArray cb
