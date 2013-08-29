@@ -34,7 +34,7 @@ module.exports = (app) ->
           return next(err) if err?
           res.redirect '/game'
     else
-      return next('Your target is already knocked out.') if req.target.hp <= 1
+      return next('Your target is already knocked out.') if req.target.hp < 1
       commands.attack req.character, req.target, req.tile, req.item, (err) ->
         return next(err) if err?
         res.redirect '/game'
