@@ -1,4 +1,4 @@
-$(document.body).bind 'keyup', (event) ->
+$(document.body).keypress (event) ->
   return unless event.srcElement.localName is 'body'
   return if event.altKey or event.ctrlKey or event.metaKey or event.shiftKey
   switch event.keyCode

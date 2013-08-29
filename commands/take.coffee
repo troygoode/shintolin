@@ -33,7 +33,7 @@ module.exports = (character, tile, takes, cb) ->
   if takes.tools?
     for tool in takes.tools
       unless _.some(character.items, (i) -> i.item is tool)
-        return cb("You must have a #{tool} to do that.")
+        return cb("You must have a #{data.items[tool].name} to do that.")
       else
         tool_type = data.items[tool]
         broken.push tool if tool_type.break_odds? and Math.random() <= tool_type.break_odds
