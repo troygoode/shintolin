@@ -6,6 +6,6 @@ cd ./bin/tick_ap
 ./recover_ap
 ./check_settlement_membership
 ./diminish_campfires
-# move_animals
+./move_creatures
 
 echo "### TICK: AP (END) ###"
