@@ -12,7 +12,7 @@ module.exports = (app) ->
       return next(err) if err?
       res.locals.moment = moment
       res.render 'chat',
-        charater: req.character
+        character: req.character
         messages: messages
         page: page
         page_size: page_size

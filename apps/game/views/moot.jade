@@ -1,0 +1,22 @@
+!!! 5
+html
+  head
+    title Shintolin - Forums
+    link(rel='stylesheet', type='text/css', href='/shintolin.css')
+    link(rel='stylesheet', type='text/css', href="/game#{assets.url('/css/game.css')}")
+    link(rel='stylesheet', href='https://cdn.moot.it/1/moot.css')
+    style(type='text/css').
+      body > .moot{
+        background-color: #fff;
+        padding: 1em;
+        border-radius: .25em;
+      }
+  body
+    h1.header Forums
+    a.buttonlink(href='/game') Return
+    hr
+    a.moot(href='https://moot.it/i/shintolin')
+    hr
+    a.buttonlink(href='/game') Return
+    script(src='https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js')
+    script(src='https://cdn.moot.it/1/moot.min.js')
