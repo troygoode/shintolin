@@ -1,7 +1,7 @@
 mixin render_skill(skill, buy_cost, buyable, available_xp)
   - var bought = character.skills.indexOf(skill.skill.id) !== -1;
   - var sellable = _.intersection(character.skills, _.pluck(skill.children, 'id')).length === 0;
-  li 
+  li
     if bought
       b.bought= skill.skill.name
     else
@@ -42,7 +42,7 @@ html
   head
     title Shintolin - Skills
     link(rel='stylesheet', type='text/css', href='/shintolin.css')
-    link(rel='stylesheet', type='text/css', href='/game#{assets.url('/css/game.css')}')
+    link(rel='stylesheet', type='text/css', href="/game#{assets.url('/css/game.css')}")
   body
     h1.header Skills
     p You are level #{character.level}. You have learned #{character.skills.length} out of a maximum #{maximum_skills} skills.
