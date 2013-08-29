@@ -9,7 +9,10 @@ if character.hp > 0
         for c in center.people
           option(value=c._id)= c.name
         for c in center.creatures
-          option(value=c._id)= c.creature.name
+          if character.developer
+            option(value=c._id) #{c.creature.name} #{c.hp}/#{c.hp_max}
+          else
+            option(value=c._id)= c.creature.name
         if center.building
           option(value='building')= center.building.name
       |  with 
