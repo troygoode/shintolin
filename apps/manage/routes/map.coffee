@@ -1,3 +1,6 @@
+#TODO: allow map manipulation from this view
+#TODO: import/export maps
+
 _ = require 'underscore'
 async = require 'async'
 queries = require '../../../queries'
