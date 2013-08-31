@@ -36,7 +36,3 @@ app.use(express.errorHandler(
 ))
 
 route app for key, route of routes
-
-unless module.parent?
-  app.listen config.port, ->
-    console.log "SHINTOLIN (WEBSITE) listening on port #{config.port}"

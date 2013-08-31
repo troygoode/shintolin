@@ -3,8 +3,7 @@
   , "version": "0.0.1"
   , "private": true
   , "scripts": {
-      "start": "coffee apps/website/app.coffee"
-    , "test": "./node_modules/mocha/bin/mocha"
+      "test": "./node_modules/mocha/bin/mocha"
     , "reset": "bin/dev/bootstrap"
     , "kill": "kill $(ps aux | grep node | grep -v grep | awk '{print $2}')"
     , "tick_ap": "bin/tick_ap/_tick"
@@ -13,7 +12,7 @@
   }
   , "engines": {
       "node": "0.10.x"
-    , "npm": "1.2.x"
+    , "npm": "1.x"
   }
   , "dependencies": {
       "async": "*"
@@ -25,6 +24,7 @@
     , "jade": "*"
     , "moment": "*"
     , "mongolian": "*"
+    , "nodetime": "*"
     , "require-directory": "*"
     , "stylus": "*"
     , "underscore": "*"
