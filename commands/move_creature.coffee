@@ -4,9 +4,15 @@ db = require '../db'
 queries = require '../queries'
 teleport = require './teleport'
 
-random_direction = (tiles) ->
-  index = Math.floor(Math.random() * tiles.length)
-  tiles[index]
+random_direction = (creature_type) ->
+  (tiles) ->
+    _tiles = tiles
+    if creature_type.is_habitable?
+      _tiles = _tiles.filter (t) ->
+        creature_type.is_habitable data.terrains[t.terrain], t
+    return null unless _tiles?.length
+    index = Math.floor(Math.random() * _tiles.length)
+    _tiles[index]
 
 module.exports = (creature, cb) ->
   creature_type = data.creatures[creature.creature]
@@ -17,7 +23,7 @@ module.exports = (creature, cb) ->
       tiles = _.filter tiles, (t) ->
         not (t.x is creature.x and t.y is creature.y and t.z is creature.z)
 
-      pick_direction = creature_type.move ? random_direction
+      pick_direction = creature_type.move ? random_direction(creature_type)
       new_tile = pick_direction tiles
       return cb() unless new_tile?
       teleport creature, center, new_tile, cb
