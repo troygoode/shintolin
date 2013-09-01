@@ -1,9 +1,6 @@
 _ = require 'underscore'
 express = require 'express'
 rack = require 'asset-rack'
-debug =
-  request: require('debug')('shintolin:request')
-  middleware: require('debug')('shintolin:middleware')
 config = require '../../config'
 data = require '../../data'
 shared_session = require '../shared_session'
@@ -34,11 +31,7 @@ app.locals._ = _
 app.locals.config = config
 app.locals.data = data
 
-app.use (req, res, next) ->
-  debug.request "enter #{req.url} (#{new Date().getTime()})"
-  res.on 'finish', ->
-    debug.request "exit #{req.url} (#{new Date().getTime()})"
-  next()
+app.use middleware.debug.request
 
 app.use express.favicon "#{__dirname}/public/favicon.ico"
 app.use express.static "#{__dirname}/public"
