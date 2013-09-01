@@ -18,7 +18,7 @@ build_grid = (tiles, center) ->
             x: x
             y: y
             z: center.z
-            terrain: 'wilderness'
+            terrain: config.default_terrain
         else if center.z is 1
           row.push
             x: x

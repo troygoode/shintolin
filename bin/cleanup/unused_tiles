@@ -1,9 +1,10 @@
 #!/usr/bin/env coffee
 
 db = require '../../db'
+config = require '../../config'
 
 query =
-  terrain: 'wilderness'
+  terrain: config.default_terrain
   people: {$size: 0}
   settlement_id: {$exists: true}
 
