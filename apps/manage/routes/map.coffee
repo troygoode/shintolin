@@ -1,5 +1,5 @@
 #TODO: allow map manipulation from this view
-#TODO: import maps
+#TODO: allow importing maps safely (only overwrite wilderness; only overwrite no-regions with specificed regions)
 
 _ = require 'underscore'
 async = require 'async'
