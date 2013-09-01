@@ -6,15 +6,12 @@ db = require '../db'
 queries = require '../queries'
 teleport = require './teleport'
 join_settlement = require './join_settlement'
-default_coords =
-  x: 0
-  y: 0
-  z: 0
 
 module.exports = (name, email, password, settlement, cb) ->
   now = new Date()
   slug = _str.slugify name
-  coords = default_coords
+  character = null
+  coords = null
 
   if settlement?
     coords =
@@ -22,7 +19,7 @@ module.exports = (name, email, password, settlement, cb) ->
       y: settlement.y
       z: 0
 
-  create_character = (cb) ->
+  create_character = (coords, cb) ->
     hash = bcrypt.hashSync password, 12
     character =
       slug: slug
@@ -72,10 +69,15 @@ module.exports = (name, email, password, settlement, cb) ->
       character.settlement_provisional = settlement.population isnt 0
     db.characters.insert character, cb
 
-  character = null
   async.series [
     (cb) ->
-      create_character (err, _character) ->
+      return cb() if coords?
+      queries.get_random_tile (err, tile) ->
+        return cb(err) if err?
+        coords = tile
+        cb()
+    (cb) ->
+      create_character coords, (err, _character) ->
         return cb(err) if err?
         character = _character
         cb()

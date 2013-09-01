@@ -28,7 +28,7 @@
           option(value=region.id)= region.name
     input(type='submit', value='Paint', data-action='paint')
 
-  if center.people.length
+  if center.people && center.people.length
     form(method='POST', action='/game/dev/possess')
       input(type='hidden', name='_csrf', value=csrf)
       input(type='submit', value='Possess', data-action='possess')
@@ -52,5 +52,9 @@
     select(name='creature', style='width: 10em', data-persist='creature', data-action-focus='spawn')
       for c in data.creatures
         option(value=c.id)= c.name
+
+  form(method='POST', action='/game/dev/move-random')
+    input(type='hidden', name='_csrf', value=csrf)
+    input(type='submit', value='Random Tile', data-action='move_random')
 
   p Searches: #{dbg.center.searches}

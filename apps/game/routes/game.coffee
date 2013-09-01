@@ -2,6 +2,7 @@ _ = require 'underscore'
 async = require 'async'
 moment = require 'moment'
 debug = require('debug')('shintolin:game')
+config = require '../../../config'
 queries = require '../../../queries'
 data = require '../../../data'
 mw = require '../middleware'
@@ -43,7 +44,7 @@ get_center = (tiles, character) ->
     x: character.x
     y: character.y
     z: character.z
-    terrain: 'wilderness'
+    terrain: config.default_terrain
 
 build_grid = (tiles, center) ->
   rows = []
@@ -60,7 +61,7 @@ build_grid = (tiles, center) ->
             x: x
             y: y
             z: center.z
-            terrain: 'wilderness'
+            terrain: config.default_terrain
         else if center.z is 1
           row.push
             x: x

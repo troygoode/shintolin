@@ -1,6 +1,7 @@
 db = require '../../../db'
 data = require '../../../data'
 commands = require '../../../commands'
+queries = require '../../../queries'
 mw = require '../middleware'
 
 developers_only = (req, res, next) ->
@@ -30,6 +31,14 @@ module.exports = (app) ->
     db.characters.update query, update, (err) ->
       return next(err) if err?
       res.redirect '/game'
+
+  app.post '/dev/move-random', developers_only, (req, res, next) ->
+    queries.get_random_tile (err, tile) ->
+      return next(err) if err?
+      return next('NO_RANDOM_TILE_RETURNED') unless tile?._id?
+      commands.teleport req.character, req.tile, tile, (err) ->
+        return next(err) if err?
+        res.redirect '/game'
 
   app.post '/dev/spawn', developers_only, (req, res, next) ->
     creature = data.creatures[req.body.creature]
