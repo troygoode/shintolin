@@ -1,6 +1,7 @@
 _ = require 'underscore'
 async = require 'async'
 moment = require 'moment'
+debug = require('debug')('shintolin:game')
 queries = require '../../../queries'
 data = require '../../../data'
 mw = require '../middleware'
@@ -150,9 +151,11 @@ repair = (character, tile) ->
 
 module.exports = (app) ->
   app.get '/', mw.available_actions(), (req, res, next) ->
+    debug 'enter'
     locals = {}
     render = (err) ->
       return next(err) if err?
+      debug "render (#{new Date().getTime()})"
       res.render 'game/index', locals
 
     res.locals.moment = moment

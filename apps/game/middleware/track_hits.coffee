@@ -1,7 +1,9 @@
+debug = require('debug')('shintolin:middleware')
 db = require '../../../db'
 MAX_HITS = 1000
 
 module.exports = (req, res, next) ->
+  debug 'track_hits enter'
   now = new Date()
   date_string = now.toDateString()
   _id = "#{req.ip}_#{date_string}".replace /\W/g, '_'
@@ -12,6 +14,7 @@ module.exports = (req, res, next) ->
     if record?.hits > MAX_HITS
       res.send('You have exceeded your IP limit for the day. Please wait until tomorrow to play again.')
     else
+      debug 'track_hits yield'
       next() # don't block for below update
 
     if record?
@@ -24,6 +27,7 @@ module.exports = (req, res, next) ->
           hits: 1
       db.hits.update query, update, true, (err) ->
         console.log("ERROR in track_hits middleware:", err) if err?
+        debug 'track_hits end'
     else
       doc =
         _id: _id
@@ -34,3 +38,4 @@ module.exports = (req, res, next) ->
         hits: 1
       db.hits.insert doc, (err) ->
         console.log("ERROR in track_hits middleware:", err) if err?
+        debug 'track_hits ends'

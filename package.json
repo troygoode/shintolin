@@ -20,6 +20,7 @@
     , "bcrypt": "*"
     , "coffee-script": "*"
     , "connect-mongo": "*"
+    , "debug": "*"
     , "express": "*"
     , "jade": "*"
     , "moment": "*"
