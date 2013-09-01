@@ -48,6 +48,12 @@
           }
           var $td = $('<td></td>');
           $td.addClass('tile-' + terrainLookup[tile.terrain].style);
+          if(tile.settlement_id && tile.settlement_id.length){
+            $td.addClass('settlement-' + tile.settlement_id);
+          }
+          if(tile.region && tile.region.length){
+            $td.addClass('region-' + tile.region);
+          }
           $td.attr('id', key);
           $td.data('x', tile.x);
           $td.data('y', tile.y);
@@ -68,12 +74,6 @@
     $.each(settlements, function(){
       var settlement = this;
 
-      $.each(settlement.tiles, function(){
-        var tile = this;
-        var key = generateKey(tile);
-        $('#' + key).addClass('settlement-' + settlement._id);
-      });
-
       var $li = $('<li></li>');
       $li.attr('id', settlement._id);
       $li.text(settlement.name);
@@ -88,19 +88,35 @@
     $settlements.append($ul);
   };
 
+  var constructRegions = function(regions){
+    var $regions = $('#regions');
+    var $ul = $('<ul></ul>');
+    $.each(regions, function(){
+      var region = this;
+
+      var $li = $('<li></li>');
+      $li.attr('id', region.id);
+      $li.text(region.name);
+      $li.mouseover(function(){
+        $('.region-' + region.id).addClass('highlight');
+      });
+      $li.mouseout(function(){
+        $('#map td').removeClass('highlight');
+      });
+      $ul.append($li);
+    });
+    $regions.append($ul);
+  };
+
   $(function(){
     $.ajax({
-      url: '/manage/api/map/terrains',
-      success: function(terrains){
+      url: '/manage/api/map/metadata',
+      success: function(metadata){
         $.ajax({
           url: '/manage/api/map',
-          success: constructMapTable(terrains, function(){
-            $.ajax({
-              url: '/manage/api/map/settlements',
-              success: function(settlements){
-                constructSettlements(settlements);
-              }
-            });
+          success: constructMapTable(metadata.terrains, function(){
+            constructSettlements(metadata.settlements || []);
+            constructRegions(metadata.regions || []);
           })
         });
       }

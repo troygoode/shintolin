@@ -1,5 +1,5 @@
-#TODO: allow map manipulation from this view
-#TODO: allow importing maps safely (only overwrite wilderness; only overwrite no-regions with specificed regions)
+#TODO allow map manipulation from this view
+#TODO allow importing maps safely (only overwrite wilderness; only overwrite no-regions with specificed regions)
 
 _ = require 'underscore'
 async = require 'async'
@@ -11,23 +11,33 @@ map_tile = (tile) ->
   y: tile.y
   z: tile.z
   terrain: tile.terrain
+  settlement_id: tile.settlement_id?.toString()
+  region: tile.region
 
 map_terrain = (terrain) ->
   id: terrain.id
   style: if _.isFunction(terrain.style) then terrain.style() else terrain.style
 
+map_region = (region) ->
+  id: region.id
+  name: region.name
+
 map_settlement = (settlement) ->
-  _id: settlement.settlement._id.toString()
-  name: settlement.settlement.name
-  tiles: settlement.tiles.map(map_tile)
+  _id: settlement._id.toString()
+  name: settlement.name
 
 map_tile_tsv = (tile) ->
   [
-    tile.x,
-    tile.y,
+    tile.x
+    tile.y
     tile.region ? 'no-region'
-    tile.terrain,
+    tile.terrain
   ].join('\t')
+
+filter_all = (tile) ->
+  tile.terrain isnt 'wilderness' or
+    tile.settlement_id? or
+    tile.building?
 
 filter_tsv = (tile) ->
   tile.terrain isnt 'wilderness'
@@ -40,21 +50,28 @@ module.exports = (app) ->
   app.get '/api/map', (req, res, next) ->
     queries.all_tiles 0, (err, tiles) ->
       return next(err) if err?
-      res.json tiles.map(map_tile)
+      res.json tiles.filter(filter_all).map(map_tile)
 
-  app.get '/api/map/terrains', (req, res) ->
-    terrains = []
-    terrains.push(map_terrain(terrain)) for key, terrain of data.terrains
-    res.json terrains
-
-  app.get '/api/map/settlements', (req, res) ->
-    queries.all_settlements (err, settlements) ->
-      async.map settlements, (settlement, cb) ->
-        queries.tiles_in_settlement settlement, (err, tiles) ->
+  app.get '/api/map/metadata', (req, res, next) ->
+    async.parallel [
+      (cb) ->
+        terrains = []
+        terrains.push(map_terrain(terrain)) for key, terrain of data.terrains
+        cb null, terrains
+      (cb) ->
+        regions = []
+        regions.push(map_region(region)) for key, region of data.regions
+        cb null, regions
+      (cb) ->
+        queries.all_settlements (err, settlements) ->
           return cb(err) if err?
-          cb null, settlement: settlement, tiles: tiles
-      , (err, settlements) ->
-        res.json settlements.map(map_settlement)
+          cb null, settlements.map(map_settlement)
+    ], (err, [terrains, regions, settlements]) ->
+      return next(err) if err?
+      res.json
+        terrains: terrains
+        regions: regions
+        settlements: settlements
 
   app.get '/api/map.tsv', (req, res, next) ->
     queries.all_tiles 0, (err, tiles) ->
