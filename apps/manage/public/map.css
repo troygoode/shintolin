@@ -7,3 +7,7 @@
 #map table tr td.highlight{
   background-color: red !important;
 }
+
+#map .tile-wilderness{
+  opacity: .25;
+}

@@ -38,9 +38,9 @@
       var tileLookup = constructTileLookup(tiles);
       var $map = $('#map');
       var $table = $('<table></table>');
-      for(var y = bounds.top; y <= bounds.bottom; y++){
+      for(var y = bounds.top - 1; y <= bounds.bottom + 1; y++){
         var $tr = $('<tr></tr>');
-        for(var x = bounds.left; x <= bounds.right; x++){
+        for(var x = bounds.left - 1; x <= bounds.right + 1; x++){
           var key = generateKey({x: x, y: y});
           var tile = tileLookup[key];
           if(!tile){
