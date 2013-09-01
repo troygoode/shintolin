@@ -1,26 +1,24 @@
 #!/usr/bin/env coffee
 
 async = require 'async'
+fs = require 'fs'
 Mongolian = require 'mongolian'
 config = require '../../config'
 commands = require '../../commands'
 queries = require '../../queries'
 data = require '../../data'
 db = require '../../db'
+
 settlement = null
 character_names = ['Ecce', 'Deschain', 'TroyMG', 'Romani']
 characters = {}
-tiles = [
-  {x: -1, y: -1, terrain: data.terrains.grassland, region: data.regions.midlands}
-  {x: 0, y: -1, terrain: data.terrains.grassland, region: data.regions.midlands}
-  {x: 1, y: -1, terrain: data.terrains.grassland, region: data.regions.midlands}
-  {x: -1, y: 0, terrain: data.terrains.grassland, region: data.regions.midlands}
-  {x: 0, y: 0, terrain: data.terrains.grassland, region: data.regions.midlands}
-  {x: 1, y: 0, terrain: data.terrains.grassland, region: data.regions.midlands}
-  {x: -1, y: 1, terrain: data.terrains.forest_2, region: data.regions.midlands}
-  {x: 0, y: 1, terrain: data.terrains.grassland, region: data.regions.midlands}
-  {x: 1, y: 1, terrain: data.terrains.hill_low_side, region: data.regions.midlands}
-]
+tile_data = fs.readFileSync "#{__dirname}/../../data/map-backups/bootstrap.tsv", encoding: 'utf-8'
+tiles = tile_data.split('\n').slice(1).map (row) ->
+  arr = row.split('\t')
+  x: parseInt(arr[0])
+  y: parseInt(arr[1])
+  region: if arr[2] is 'no-region' then null else data.regions[arr[2]]
+  terrain: data.terrains[arr[3]]
 buildings = [
   {x: -1, y: 0, building: data.buildings.hut}
   {x: 0, y: -1, building: data.buildings.hut}

@@ -1,5 +1,5 @@
 #TODO: allow map manipulation from this view
-#TODO: import/export maps
+#TODO: import maps
 
 _ = require 'underscore'
 async = require 'async'
@@ -20,6 +20,17 @@ map_settlement = (settlement) ->
   _id: settlement.settlement._id.toString()
   name: settlement.settlement.name
   tiles: settlement.tiles.map(map_tile)
+
+map_tile_tsv = (tile) ->
+  [
+    tile.x,
+    tile.y,
+    tile.region ? 'no-region'
+    tile.terrain,
+  ].join('\t')
+
+filter_tsv = (tile) ->
+  tile.terrain isnt 'wilderness'
 
 module.exports = (app) ->
 
@@ -44,3 +55,11 @@ module.exports = (app) ->
           cb null, settlement: settlement, tiles: tiles
       , (err, settlements) ->
         res.json settlements.map(map_settlement)
+
+  app.get '/api/map.tsv', (req, res, next) ->
+    queries.all_tiles 0, (err, tiles) ->
+      return next(err) if err?
+      res.set 'Content-Type', 'text/plain'
+      res.set 'Content-disposition', 'attachment; filename=shintolin.tsv'
+      rows = tiles.filter(filter_tsv).map(map_tile_tsv)
+      res.send 'X\tY\tRegion\tTerrain\n' + rows.join('\n')
