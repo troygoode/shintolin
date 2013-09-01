@@ -20,6 +20,10 @@ assets = new rack.Rack [
     url: '/js/game.js'
     filename: "#{__dirname}/assets/js/game.coffee"
     compress: config.production
+  new rack.SnocketsAsset
+    url: '/js/persist-selections.js'
+    filename: "#{__dirname}/assets/js/persist_selections.coffee"
+    compress: config.production
 ]
 
 app = module.exports = express()

@@ -53,12 +53,21 @@
           }
           if(tile.region && tile.region.length){
             $td.addClass('region-' + tile.region);
+          }else if(tile.terrain !== 'wilderness'){
+            $td.addClass('region-none');
           }
+
           $td.attr('id', key);
           $td.data('x', tile.x);
           $td.data('y', tile.y);
           $td.data('z', tile.z);
           $td.data('terrain', tile.terrain);
+
+          $td.click(function(){
+            $('#paint input[name=x]').val($(this).data('x'));
+            $('#paint input[name=y]').val($(this).data('y'));
+            $('#paint').submit();
+          });
           $tr.append($td);
         }
         $table.append($tr);
@@ -89,6 +98,19 @@
   };
 
   var constructRegions = function(regions){
+    var $region = $('#region').empty().append($('<option></option>'));
+    $.each(regions, function(){
+      var $option = $('<option></option>');
+      $option.attr('value', this.id);
+      $option.text(this.name);
+      $region.append($option);
+    });
+
+    regions.unshift({
+      id: 'none',
+      name: 'NONE'
+    });
+
     var $regions = $('#regions');
     var $ul = $('<ul></ul>');
     $.each(regions, function(){
@@ -108,6 +130,18 @@
     $regions.append($ul);
   };
 
+  var constructTerrains = function(terrains){
+    var $terrain = $('#terrain').empty().append($('<option></option>'));
+    $.each(terrains, function(){
+      if(this.hidden){
+        return;
+      }
+      var $option = $('<option></option>');
+      $option.text(this.id);
+      $terrain.append($option);
+    });
+  };
+
   $(function(){
     $.ajax({
       url: '/manage/api/map/metadata',
@@ -115,8 +149,10 @@
         $.ajax({
           url: '/manage/api/map',
           success: constructMapTable(metadata.terrains, function(){
+            constructTerrains(metadata.terrains || []);
             constructSettlements(metadata.settlements || []);
             constructRegions(metadata.regions || []);
+            window.hydrate_persisted_selections();
           })
         });
       }

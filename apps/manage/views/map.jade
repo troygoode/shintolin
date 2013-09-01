@@ -4,13 +4,24 @@ html
     title Map Viewer
     link(rel='stylesheet', href='/game/css/tiles.css')
     link(rel='stylesheet', href='/manage/map.css')
-    script(src="http://code.jquery.com/jquery-1.9.1.min.js")
-    script(src="http://underscorejs.org/underscore-min.js")
-    script(src="/manage/map.js")
   body
 
     h1 Map
     #map
+
+    h2 Paint
+    form#paint(method='POST', action='/manage/map')
+      input(type='hidden', name='_csrf', value='#{csrf}')
+      input(type='hidden', name='x')
+      input(type='hidden', name='y')
+      label
+        span Terrain
+        select#terrain(name='terrain', data-persist='admin_map_terrain')
+          option Loading...
+      label
+        span Region
+        select#region(name='region', data-persist='admin_map_region')
+          option Loading...
 
     h2 Settlements
     #settlements
@@ -21,3 +32,8 @@ html
     h2 Options
     ul
       li: a(href='/manage/api/map.tsv') Export Terrain
+
+    script(src="http://code.jquery.com/jquery-1.9.1.min.js")
+    script(src="http://underscorejs.org/underscore-min.js")
+    script(src="/game/js/persist-selections.js")
+    script(src="/manage/map.js")

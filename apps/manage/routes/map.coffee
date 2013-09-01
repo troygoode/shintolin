@@ -1,8 +1,8 @@
-#TODO allow map manipulation from this view
 #TODO allow importing maps safely (only overwrite wilderness; only overwrite no-regions with specificed regions)
 
 _ = require 'underscore'
 async = require 'async'
+commands = require '../../../commands'
 queries = require '../../../queries'
 data = require '../../../data'
 
@@ -16,6 +16,7 @@ map_tile = (tile) ->
 
 map_terrain = (terrain) ->
   id: terrain.id
+  hidden: terrain.hidden
   style: if _.isFunction(terrain.style) then terrain.style() else terrain.style
 
 map_region = (region) ->
@@ -46,6 +47,20 @@ module.exports = (app) ->
 
   app.get '/map', (req, res) ->
     res.render 'map'
+
+  app.post '/map', (req, res, next) ->
+    res.redirect '/manage/map' unless req.body.terrain?.length
+    coords = x: req.body.x, y: req.body.y
+    queries.get_tile_by_coords coords, (err, tile) ->
+      return next(err) if err?
+      if tile?
+        commands.paint tile, req.body.terrain, req.body.region, (err) ->
+          return next(err) if err?
+          res.redirect '/manage/map'
+      else
+        commands.create_tile coords, req.body.terrain, req.body.region, (err) ->
+          return next(err) if err?
+          res.redirect '/manage/map'
 
   app.get '/api/map', (req, res, next) ->
     queries.all_tiles 0, (err, tiles) ->

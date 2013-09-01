@@ -22,6 +22,7 @@ app.use shared_session
 
 app.use middleware.auth
 app.use express.csrf()
+app.use middleware.csrf
 
 app.use app.router
 route app for key, route of routes
