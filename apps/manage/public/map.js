@@ -44,7 +44,7 @@
           var key = generateKey({x: x, y: y});
           var tile = tileLookup[key];
           if(!tile){
-            tile = {x: x, y: y, terrain: 'wilderness'};
+            tile = {x: x, y: y, terrain: window.defaultTerrain};
           }
           var $td = $('<td></td>');
           $td.addClass('tile-' + terrainLookup[tile.terrain].style);
@@ -53,7 +53,7 @@
           }
           if(tile.region && tile.region.length){
             $td.addClass('region-' + tile.region);
-          }else if(tile.terrain !== 'wilderness'){
+          }else if(tile.terrain !== window.defaultTerrain){
             $td.addClass('region-none');
           }
 

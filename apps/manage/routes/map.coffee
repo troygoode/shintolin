@@ -1,7 +1,8 @@
-#TODO allow importing maps safely (only overwrite wilderness; only overwrite no-regions with specificed regions)
+#TODO allow importing maps safely (only overwrite default terrain; only overwrite no-regions with specificed regions)
 
 _ = require 'underscore'
 async = require 'async'
+config = require '../../../config'
 commands = require '../../../commands'
 queries = require '../../../queries'
 data = require '../../../data'
@@ -36,12 +37,12 @@ map_tile_tsv = (tile) ->
   ].join('\t')
 
 filter_all = (tile) ->
-  tile.terrain isnt 'wilderness' or
+  tile.terrain isnt config.default_terrain or
     tile.settlement_id? or
     tile.building?
 
 filter_tsv = (tile) ->
-  tile.terrain isnt 'wilderness'
+  tile.terrain isnt config.default_terrain
 
 module.exports = (app) ->
 

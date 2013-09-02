@@ -11,6 +11,7 @@ app.set 'views', "#{__dirname}/views"
 app.set 'view engine', 'jade'
 
 app.locals._ = _
+app.locals.config = config
 
 app.use express.favicon "#{__dirname}/public/favicon.ico"
 app.use express.static "#{__dirname}/public"
