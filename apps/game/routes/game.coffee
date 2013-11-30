@@ -15,29 +15,6 @@ fetch_evictables = (settlement, cb) ->
     cb null, _.filter characters, (c) ->
       c.hp <= 0 or c.settlement_provisional
 
-object_to_array = (obj, cb) ->
-  cb ?= (key, value) ->
-    key: key
-    value: value
-  arr = []
-  for key, value of obj
-    arr.push cb(key, value)
-  arr
-
-describe_list = (arr) ->
-  if arr.length is 1
-    arr[0]
-  else if arr.length is 2
-    "#{arr[0]} and #{arr[1]}"
-  else
-    retval = ''
-    for o, i in arr
-      if i is arr.length - 1
-        retval += "and #{o}"
-      else
-        retval += "#{o}, "
-    retval
-
 get_center = (tiles, character) ->
   tile = _.find tiles, (t) -> t.x is character.x and t.y is character.y
   tile ?
@@ -151,7 +128,7 @@ repair = (character, tile) ->
   building.repair character, tile
 
 module.exports = (app) ->
-  app.get '/', mw.available_actions(), (req, res, next) ->
+  app.get '/', mw.chat_locals, mw.available_actions(), (req, res, next) ->
     debug 'enter'
     locals = {}
     render = (err) ->
@@ -160,8 +137,6 @@ module.exports = (app) ->
       res.render 'game/index', locals
 
     res.locals.moment = moment
-    res.locals.describe_list = describe_list
-    res.locals.object_to_array = object_to_array
     async.parallel [
       (cb) ->
         queries.tiles_in_square_around req.character, 3, cb

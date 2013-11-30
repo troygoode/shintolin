@@ -5,7 +5,7 @@ mw = require '../middleware'
 page_size = 25
 
 module.exports = (app) ->
-  app.get '/chat', (req, res, next) ->
+  app.get '/chat', mw.chat_locals, (req, res, next) ->
     page = parseInt(req.param('page') ? 0)
     return next('Invalid Page') unless page >= 0
     queries.latest_chat_messages req.character, page * page_size, page_size, (err, messages) ->
