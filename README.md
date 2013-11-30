@@ -8,7 +8,6 @@ A node.js port of [Isaac Lewis' Ruby version of Shintolin](https://github.com/Is
 
 * Install [homebrew](http://mxcl.github.com/homebrew/): `$ ruby -e "$(curl -fsSkL raw.github.com/mxcl/homebrew/go)"`
 * Install [node.js](http://nodejs.org/): `$ brew install node`
-* Install [coffee-script](http://coffeescript.org/) globally: `$ npm install -g coffee-script`
 * Install [mongodb](http://www.mongodb.org/): `$ brew install mongo`
 * Download the code via [git](http://git-scm.com/): `$ git clone https://github.com/shintolin/shintolin`
 
