@@ -1,6 +1,9 @@
 async = require 'async'
 db = require '../db'
 
+db.register_index db.tiles,
+  'people._id': 1
+
 module.exports = (creature, cb) ->
   return cb('Invalid Creature') unless creature.creature?
   async.parallel [

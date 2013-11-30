@@ -8,6 +8,11 @@ create_tile = require './create_tile'
 radius = 5
 hq_building = data.buildings.totem
 
+db.register_index db.tiles,
+  x: 1
+  y: 1
+  z: 1
+
 module.exports = (founder, hq, name, cb) ->
   now = new Date()
   coords = null

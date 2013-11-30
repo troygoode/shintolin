@@ -6,6 +6,11 @@ queries = require '../queries'
 create_tile = require './create_tile'
 BASE_RECOVERY = 3.0
 
+db.register_index db.tiles,
+  x: 1
+  y: 1
+  z: 1
+
 get_tile = (coords, cb) ->
   return cb null, coords if coords._id?
   queries.get_tile_by_coords coords, cb

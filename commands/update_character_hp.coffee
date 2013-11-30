@@ -1,6 +1,9 @@
 async = require 'async'
 db = require '../db'
 
+db.register_index db.tiles,
+  'people._id': 1
+
 module.exports = (character, new_hp, cb) ->
   async.parallel [
     (cb) ->

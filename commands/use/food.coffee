@@ -5,6 +5,12 @@ remove_item = require '../remove_item'
 MAX_MAXHP = 50
 MAX_HUNGER = 12
 
+db.register_index db.tiles,
+  x: 1
+  y: 1
+  z: 1
+  'people._id': 1
+
 bound_increase = (increase, current, max) ->
   if current >= max
     0

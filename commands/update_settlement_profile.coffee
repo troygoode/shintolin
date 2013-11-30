@@ -2,6 +2,11 @@ async = require 'async'
 db = require '../db'
 settlement_name_format = /^\w+(\s\w+)*$/
 
+db.register_index db.characters,
+  settlement_id: 1
+db.register_index db.tiles,
+  settlement_id: 1
+
 module.exports = (settlement, new_values, cb) ->
   return cb('Invalid Name') unless settlement_name_format.test new_values.name
   return cb('Settlement name not long enough.') unless new_values.name.length >= 2

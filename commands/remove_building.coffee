@@ -4,6 +4,11 @@ data = require '../data'
 queries = require '../queries'
 teleport = require './teleport'
 
+db.register_index db.tiles,
+  x: 1
+  y: 1
+  z: 1
+
 remove_building = (tile) ->
   (cb) ->
     query =

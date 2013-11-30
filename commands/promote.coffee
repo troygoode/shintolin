@@ -3,6 +3,10 @@ db = require '../db'
 queries = require '../queries'
 send_message_settlement = require './send_message_settlement'
 
+db.register_index db.settlements,
+  _id: 1
+  'members._id': 1
+
 module.exports = (character, cb) ->
   queries.get_settlement character.settlement_id.toString(), (err, settlement) ->
     return cb(err) if err?

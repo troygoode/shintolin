@@ -8,6 +8,11 @@ teleport = require './teleport'
 broadcast_message = require './broadcast_message'
 _remove_building = require './remove_building'
 
+db.register_index db.characters,
+  settlement_id: 1
+db.register_index db.tiles,
+  settlement_id: 1
+
 get_settlement = (ctx) ->
   (cb) ->
     queries.get_settlement ctx.tile.settlement_id?.toString(), (err, settlement) ->

@@ -2,6 +2,10 @@ async = require 'async'
 db = require '../db'
 send_message = require './send_message'
 
+db.register_index db.settlements,
+  _id: 1
+  'members._id': 1
+
 update_settlement = (settlement, voter, voting_for, cb) ->
   query =
     _id: settlement._id

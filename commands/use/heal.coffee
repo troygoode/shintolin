@@ -6,6 +6,12 @@ send_message_nearby = require '../send_message_nearby'
 xp = require '../xp'
 default_heal_amount = 5
 
+db.register_index db.tiles,
+  x: 1
+  y: 1
+  z: 1
+  'people._id': 1
+
 alter_target_hp = (character, amount, cb) ->
   async.parallel [
     (cb) ->

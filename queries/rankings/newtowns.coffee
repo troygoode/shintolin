@@ -4,4 +4,4 @@ db.register_index db.settlements,
   founded: -1
 
 module.exports = (cb) ->
-  db.settlements.find().sort({ revives: -1 }).toArray cb
+  db.settlements.find().sort({ founded: -1 }).toArray cb
