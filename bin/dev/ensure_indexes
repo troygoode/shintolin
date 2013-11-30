@@ -1,0 +1,10 @@
+#!/usr/bin/env coffee
+
+db = require '../../db'
+
+db.ensure_indexes (err) ->
+  if err?
+    console.error err
+  else
+    console.log 'ensure_indexes complete'
+  process.exit()
