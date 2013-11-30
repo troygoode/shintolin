@@ -7,7 +7,7 @@ MAX_HUNGER = 12
 
 bound_increase = (increase, current, max) ->
   if current >= max
-    current
+    0
   else if current + increase > max
     max - current
   else

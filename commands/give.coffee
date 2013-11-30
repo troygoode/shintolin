@@ -7,7 +7,7 @@ xp = require './xp'
 
 bound_increase = (increase, current, max) ->
   if current > max
-    max - current
+    0
   else if current + increase >= max
     max - current
   else
