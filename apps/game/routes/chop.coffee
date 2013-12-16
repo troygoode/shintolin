@@ -2,6 +2,7 @@ _ = require 'underscore'
 async = require 'async'
 mw = require '../middleware'
 data = require '../../../data'
+chop = data.actions.chop
 commands = require '../../../commands'
 SHRINK_ODDS = .12
 
@@ -19,7 +20,7 @@ module.exports = (app) ->
     recipe =
       takes:
         tools: [item.id]
-        ap: if _.contains(req.character.skills, 'lumberjack') then 4 else 8
+        ap: chop.ap req.character, req.tile
       gives:
         terrain: new_terrain
         items:

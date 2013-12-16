@@ -1,5 +1,8 @@
 data = require('require-directory')(module, null, /\.txt$/)
 
+for key, obj of data.actions
+  obj.id ?= key
+
 for key, obj of data.buildings
   obj.id ?= key
 
