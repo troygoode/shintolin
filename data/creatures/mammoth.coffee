@@ -14,7 +14,7 @@ module.exports =
       null
 
   loot: (attacker, target, tile, weapon) ->
-    if _.contains attacker.skills, 'butchering'
+    if _.contains(attacker.skills, 'butchering')
       ivory_tusk: 2
       meat_raw: 65
     else
