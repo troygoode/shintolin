@@ -2,11 +2,11 @@ if msg.found
   .action
     | Digging a hole, you find a #{data.items[msg.found].name}! 
     if msg.broken
-      | Your cherished #{data.items[msg.tool].name} breaks! You throw away the useless pieces in disgust.
+      | Your cherished #{data.items[msg.broken_item].name} breaks! You throw away the useless pieces in disgust.
     span.time= moment(msg.sent).fromNow()
 else
   .action
     | You dig a hole, but find nothing of use. 
     if msg.broken
-      | Your cherished #{data.items[msg.tool].name} breaks! You throw away the useless pieces in disgust.
+      | Your cherished #{data.items[msg.broken_item].name} breaks! You throw away the useless pieces in disgust.
     span.time= moment(msg.sent).fromNow()

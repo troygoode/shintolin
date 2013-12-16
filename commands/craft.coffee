@@ -21,7 +21,7 @@ module.exports = (character, tile, craft_obj, craft_function, cb) ->
       return cb() unless result.takes?
       take character, tile, result.takes, cb
     (broken_items, cb) ->
-      return cb() unless result.gives?
+      return cb(null, broken_items) unless result.gives?
       give character, tile, result.gives, (err) ->
         cb err, broken_items
   ], (err, broken_items) ->
