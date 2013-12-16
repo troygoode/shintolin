@@ -1,6 +1,6 @@
 .gamebox.buttonsbox
   ul
-    if building
+    if building && center.tile.z === 0
       li
         dt Building Health:
         dd #{center.tile.hp}/#{building.hp_max ? building.hp_max : building.hp}
