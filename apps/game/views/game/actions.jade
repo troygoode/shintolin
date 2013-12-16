@@ -67,7 +67,7 @@ if character.hp > 0
           select(name='quantity')
             for i in range
               option(value=i + 1)= i + 1
-        select(name='item', style='width: 10em', data-persist='item', data-action-focus='take')
+        select(name='tile_item', style='width: 10em', data-persist='item', data-action-focus='take')
           for item in center.tile.items
             option(value=item.item)= data.items[item.item].name
 
