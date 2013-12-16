@@ -43,11 +43,14 @@
         for(var x = bounds.left - 1; x <= bounds.right + 1; x++){
           var key = generateKey({x: x, y: y});
           var tile = tileLookup[key];
+          var terrain = tile && terrainLookup[tile.terrain];
           if(!tile){
             tile = {x: x, y: y, terrain: window.defaultTerrain};
           }
           var $td = $('<td></td>');
-          $td.addClass('tile-' + terrainLookup[tile.terrain].style);
+          if (terrain) {
+            $td.addClass('tile-' + terrain.style);
+          }
           if(tile.settlement_id && tile.settlement_id.length){
             $td.addClass('settlement-' + tile.settlement_id);
           }
