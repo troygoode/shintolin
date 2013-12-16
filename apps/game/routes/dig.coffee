@@ -30,6 +30,7 @@ module.exports = (app) ->
         msg =
           found: found_item_type
           broken: broken_items?.length > 0
+          broken_item: broken_items[0]
         commands.send_message 'dig', req.character, req.character, msg, (err) ->
           return next(err) if err?
           res.redirect '/game'
