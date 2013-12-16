@@ -32,6 +32,11 @@
         | Written on the walls are the words 
         span.writing= center.tile.message
         | . 
+    if center.tile.items.length
+      p
+        span Nearby, in the #{center.building.name}, you find 
+          != describe_list(center.tile.items.map(function(i){ return i.count + 'x ' + i.item; }))
+          | .
     if _.contains(actions, 'write')
       form(method='POST', action='/game/write')
         input(type='hidden', name='_csrf', value=csrf)

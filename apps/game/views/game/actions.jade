@@ -33,7 +33,7 @@ if character.hp > 0
           for c in center.people
             option(value=c._id)= c.name
 
-    if center.people.length
+    if center.people.length || _.contains(actions, 'give')
       form(method='POST', action='/game/give')
         input(type='hidden', name='_csrf', value=csrf)
         input(type='submit', value='Give', data-action='give')

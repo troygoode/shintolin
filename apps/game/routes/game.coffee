@@ -69,6 +69,7 @@ visit_tile = (tile, center, character) ->
       if _.isString p.creature
         p.creature = data.creatures[p.creature]
       true
+  retval.tile.items ?= []
   if center?
     if tile.x is center.x - 1 and tile.y is center.y - 1
       retval.direction = 'nw'
