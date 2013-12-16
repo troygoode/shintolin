@@ -107,6 +107,7 @@ visit_recipe = (recipe, character, tile) ->
   items.push {item: key, count: value} for key, value of takes.items
   id: recipe.id
   name: recipe.name
+  gives: io.gives
   ap: takes.ap
   items: items
   tools: takes.tools

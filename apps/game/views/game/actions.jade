@@ -76,7 +76,7 @@ if character.hp > 0
       input(type='submit', value='Craft', data-action='craft')
       select(name='recipe', style='width: 10em', data-persist='recipe', data-action-focus='craft')
         for recipe in recipes
-          option(value=recipe.id)= recipe.name
+          option(value=recipe.id) #{describe_gives(recipe.gives)}
             |  (#{recipe.ap}ap
             if recipe.tools
               for item in recipe.tools

@@ -1,3 +1,6 @@
+data = require '../../../data'
+vowels = 'aeiou'.split('')
+
 module.exports = (req, res, next) ->
 
   res.locals.object_to_array = (obj, cb) ->
@@ -22,5 +25,19 @@ module.exports = (req, res, next) ->
         else
           retval += "#{o}, "
       retval
+
+  res.locals.describe_item = (item_type, quantity = 1) ->
+    item = data.items[item_type]
+    if quantity is 1 and vowels.indexOf(item.name[0]) is -1
+      "a #{item.name}"
+    else if quantity is 1
+      "an #{item.name}"
+    else
+      "#{quantity}x #{item.plural}"
+
+  res.locals.describe_gives = (gives) ->
+    arr = []
+    arr.push res.locals.describe_item(item_type, quantity) for item_type, quantity of gives.items ? []
+    return res.locals.describe_list(arr)
 
   next()

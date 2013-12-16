@@ -1,5 +1,5 @@
 .action
-  | You craft a #{msg.recipe}.  
+  | You craft #{describe_gives(msg.gives)}.
   if msg.broken && msg.broken.length
     for broken_item in msg.broken
       | Your cherished #{data.items[broken_item].name} breaks!  
