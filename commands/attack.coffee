@@ -3,7 +3,7 @@ async = require 'async'
 data = require '../data'
 db = require '../db'
 queries = require '../queries'
-add_item = require './add_item'
+give = require './give'
 move_creature = require './move_creature'
 remove_creature = require './remove_creature'
 remove_from_settlement = require './remove_from_settlement'
@@ -41,11 +41,7 @@ update_attacker = (ctx, cb) ->
       remove_item ctx.attacker, ctx.weapon, 1, cb
     (cb) ->
       return cb() unless ctx.loot?
-      loot = []
-      loot.push item: key, count: value for key, value of ctx.loot
-      async.each loot, (looted_item, cb) ->
-        add_item ctx.attacker, data.items[looted_item.item], looted_item.count, cb
-      , cb
+      give.items ctx.attacker, null, ctx.loot, cb
   ], cb
 
 update_target = (ctx, cb) ->

@@ -27,9 +27,9 @@ module.exports = (app) ->
         commands.remove_item req.character, req.item, quantity, cb
       (cb) ->
         if req.target is 'building'
-          commands.add_item req.tile, req.item, quantity, cb
+          commands.give.items null, req.tile, {item: req.item, count: quantity}, cb
         else
-          commands.add_item req.target, req.item, quantity, cb
+          commands.give.items req.target, null, {item: req.item, count: quantity}, cb
       (cb) ->
         commands.charge_ap req.character, 1, cb
       (cb) ->

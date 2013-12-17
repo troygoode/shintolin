@@ -23,7 +23,7 @@ module.exports = (app) ->
       (cb) ->
         commands.remove_item req.tile, req.tile_item, quantity, cb
       (cb) ->
-        commands.add_item req.character, req.tile_item, quantity, cb
+        commands.give.items req.character, null, {item: req.tile_item, count: quantity}, cb
       (cb) ->
         commands.charge_ap req.character, 1, cb
       (cb) ->

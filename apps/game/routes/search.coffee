@@ -28,8 +28,7 @@ module.exports = (app) ->
       queries.process_loot_table search_odds, (err, item_type, total_odds) ->
         return next(err) if err?
         if item_type?
-          item = data.items[item_type]
-          commands.add_item req.character, item, 1, (err) ->
+          commands.give.items req.character, null, {item: item_type, count: 1}, (err) ->
             return next(err) if err?
             msg =
               item: item_type
@@ -37,7 +36,7 @@ module.exports = (app) ->
               msg.total_odds = total_odds
             commands.send_message 'search', req.character, req.character, msg, (err) ->
               return next(err) if err?
-              commands.xp req.character, 1, 0, 0, 0, (err) ->
+              commands.give.xp req.character, req.tile, {wanderer: 1}, (err) ->
                 return next(err) if err?
                 return res.redirect '/game'
         else
