@@ -2,7 +2,7 @@ _ = require 'underscore'
 time = require '../../time'
 
 module.exports =
-  style: 'dwater'
+  style: 'ocean'
 
   tags: ['freshwater', 'deep']
 
