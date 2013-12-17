@@ -22,7 +22,13 @@ module.exports = (character, tile, craft_obj, craft_function, cb) ->
       take character, tile, result.takes, cb
     (broken_items, cb) ->
       return cb(null, broken_items) unless result.gives?
-      give character, tile, result.gives, (err) ->
+      async.each _.keys(result.gives), (key, cb) ->
+        handler = give[key]
+        if handler?
+          handler character, tile, result.gives[key], cb
+        else
+          cb()
+      , (err) ->
         cb err, broken_items
   ], (err, broken_items) ->
     cb err, result, broken_items

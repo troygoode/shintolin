@@ -20,7 +20,7 @@ replace_with_rotten_food = (target, food, count, cb) ->
     console.log "Rotting #{count} of #{target.name}'s #{food.plural}."
   commands.remove_item target, food, count, (err) ->
     return cb(err) if err?
-    commands.add_item target, data.items.rotten_food, count, cb
+    commands.give.items target, null, {item: data.items.rotten_food, count: count}, cb
 
 check_for_rot = (target) ->
   (inventory_item, cb) ->

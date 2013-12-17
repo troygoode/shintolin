@@ -87,7 +87,7 @@ async.series [
     async.forEachSeries items, (i, cb) ->
       character = characters[i.to]
       count = i.count ? 1
-      commands.add_item character, i.item, count, (err) ->
+      commands.give.items character, null, {item: i.item, count: count}, (err) ->
         return cb(err) if err?
         if count is 1
           console.log "Gave a #{i.item.name} to #{character.name}."
@@ -99,7 +99,7 @@ async.series [
     arr = []
     arr.push c for key, c of characters
     async.forEachSeries arr, (c, cb) ->
-      commands.xp c, xp, xp, xp, xp, (err) ->
+      commands.give.xp c, null, {wanderer: xp, herbalist: xp, crafter: xp, warrior: xp}, (err) ->
         return cb(err) if err?
         console.log "Granted #{xp}xp to each xp type for #{c.name}."
         cb()

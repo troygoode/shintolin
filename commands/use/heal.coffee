@@ -3,7 +3,7 @@ db = require '../../db'
 remove_item = require '../remove_item'
 send_message = require '../send_message'
 send_message_nearby = require '../send_message_nearby'
-xp = require '../xp'
+give = require '../give'
 default_heal_amount = 5
 
 db.register_index db.tiles,
@@ -84,11 +84,7 @@ module.exports = (healer, target, item, tile, cb) ->
       (cb) ->
         alter_target_hp target, amount_to_heal, cb
       (cb) ->
-        wanderer = 0
-        herbalist = Math.round(amount_to_heal / 2) + 1
-        crafter = 0
-        warrior = 0
-        xp healer, wanderer, herbalist, crafter, warrior, cb
+        give.xp healer, tile, {herbalist: Math.round(amount_to_heal / 2) + 1}, cb
       (cb) ->
         notify_user healer, target, item, amount_to_heal, max_amount_to_heal - amount_to_heal, cb
       (cb) ->
