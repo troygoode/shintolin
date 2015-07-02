@@ -1,3 +1,4 @@
+moment = require 'moment'
 commands = require '../../../commands'
 queries = require '../../../queries'
 days_until_full_status = 1
@@ -30,6 +31,7 @@ module.exports = (app) ->
       return next(err) if err?
       return next() unless settlement?
       res.render 'settlement',
+        moment: moment
         settlement: settlement
         members: settlement.members.map (m) -> visit_member settlement, m
         editable: req.session.character? and settlement.leader? and req.session.character is settlement.leader._id.toString()

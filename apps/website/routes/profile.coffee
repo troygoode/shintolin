@@ -1,3 +1,4 @@
+moment = require 'moment'
 commands = require '../../../commands'
 queries = require '../../../queries'
 
@@ -8,6 +9,7 @@ module.exports = (app) ->
       return next(err) if err?
       return next() unless character?
       res.render 'profile',
+        moment: moment
         character: character
         editable: character._id.toString() is req.session.character
 
