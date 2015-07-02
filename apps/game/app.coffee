@@ -5,31 +5,12 @@ body_parser = require 'body-parser'
 method_override = require 'method-override'
 cookie_parser = require 'cookie-parser'
 csurf = require 'csurf'
-rack = require 'asset-rack'
+stylus = require 'connect-stylus'
 config = require '../../config'
 data = require '../../data'
 shared_session = require '../shared_session'
 middleware = require './middleware'
 routes = require('require-directory')(module, "#{__dirname}/routes")
-
-assets = new rack.Rack [
-  new rack.StylusAsset
-    url: '/css/game.css'
-    filename: "#{__dirname}/assets/css/game.styl"
-    compress: config.production
-  new rack.StylusAsset
-    url: '/css/tiles.css'
-    filename: "#{__dirname}/assets/css/tiles.styl"
-    compress: config.production
-  new rack.SnocketsAsset
-    url: '/js/game.js'
-    filename: "#{__dirname}/assets/js/game.coffee"
-    compress: config.production
-  new rack.SnocketsAsset
-    url: '/js/persist-selections.js'
-    filename: "#{__dirname}/assets/js/persist_selections.coffee"
-    compress: config.production
-]
 
 app = module.exports = express()
 app.set 'views', "#{__dirname}/views"
@@ -44,7 +25,10 @@ app.use middleware.debug.request
 
 app.use favicon "#{__dirname}/../website/public/favicon.ico"
 app.use express.static "#{__dirname}/public"
-# app.use assets
+app.get '/css/game.css', stylus
+  entry: "#{__dirname}/assets/css/game.styl"
+app.get '/css/tiles.css', stylus
+  entry: "#{__dirname}/assets/css/tiles.styl"
 app.use body_parser.urlencoded()
 app.use body_parser.json()
 app.use method_override()

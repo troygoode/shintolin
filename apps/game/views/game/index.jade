@@ -3,8 +3,8 @@ html
   head
     title Shintolin - Explore. Settle. Trade. Conquer.
     link(rel='stylesheet', type='text/css', href='/shintolin.css')
-    link(rel='stylesheet', type='text/css', href="/game#{assets.url('/css/game.css')}")
-    link(rel='stylesheet', type='text/css', href="/game#{assets.url('/css/tiles.css')}")
+    link(rel='stylesheet', type='text/css', href='/game/css/game.css')
+    link(rel='stylesheet', type='text/css', href='/game/css/tiles.css')
   body
     .bigbox
       include map
@@ -26,5 +26,6 @@ html
           td
             include chat
             include chat_input
-            script(src='//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js')
-            script(src="/game#{assets.url('/js/game.js')}")
+            script(src='/js/lib/jquery-2.1.4.min.js')
+            script(src='/js/lib/jquery.cookie.js')
+            script(src='/js/game.js')
