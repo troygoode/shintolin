@@ -1,0 +1,26 @@
+doctype html
+html
+  head
+    title Shintolin - Updates
+    link(rel='stylesheet', type='text/css', href='shintolin.css')
+  body
+
+    h1 Updates
+    hr
+
+    if logged_in
+      a.buttonlink(href='/game') Return
+    else
+      a.buttonlink(href='/') Home
+
+    .news
+      for update in updates
+        hr
+        h4 #{moment(update.date).format('MMMM Do, YYYY')}
+        | !{update.html}
+
+    hr
+    if logged_in
+      a.buttonlink(href='/game') Return
+    else
+      a.buttonlink(href='/') Home

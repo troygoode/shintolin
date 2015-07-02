@@ -1,3 +1,4 @@
+_ = require 'underscore'
 async = require 'async'
 marked = require 'marked'
 glob = require 'glob'
@@ -39,5 +40,10 @@ module.exports = (app) ->
         settlements: active_settlements
         younguns: younguns
         server_time: new Date()
-        updates: updates
+        updates: _.first(updates, 5)
         moment: moment
+
+  app.get '/updates', (req, res, next) ->
+    res.render 'updates',
+      updates: updates
+      moment: moment

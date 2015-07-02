@@ -103,11 +103,19 @@ html
                 hr
                 input(type='submit', value='Sign Up Now!')
       i Now that enough money was donated to buy a new server, Shintolin is no longer taking donations. A big thank you to everyone who gave money, very much appreciated.
-    font(size='-1', color='e8e8d0') Server Time: #{server_time}
+
     hr
+
     .news
-      h3 Updates
+      h3 Recent Updates
       for update in updates
         hr
         h4 #{moment(update.date).format('MMMM Do, YYYY')}
         | !{update.html}
+
+      hr
+      p: a(href='/updates') View older updates.
+
+    hr
+
+    font(size='-1', color='e8e8d0') Server Time: #{server_time}
