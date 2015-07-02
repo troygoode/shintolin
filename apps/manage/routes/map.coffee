@@ -55,16 +55,15 @@ module.exports = (app) ->
       res.json tiles.filter(filter_all).map(map_tile)
 
   app.post '/api/map', (req, res, next) ->
-    return res.status(500).send('NO_TERRAIN_SPECIFIED') unless req.body.terrain?.length
     coords = x: parseInt(req.body.x), y: parseInt(req.body.y)
     queries.get_tile_by_coords coords, (err, tile) ->
       return next(err) if err?
       if tile?
-        commands.paint tile, req.body.terrain, req.body.region, (err) ->
+        commands.paint tile, req.body.terrain ? tile.terrain, req.body.region ? tile.region, (err) ->
           return next(err) if err?
           res.status(204).send()
       else
-        commands.create_tile coords, req.body.terrain, req.body.region, (err) ->
+        commands.create_tile coords, req.body.terrain ? config.default_terrain, req.body.region, (err) ->
           return next(err) if err?
           res.status(201).send()
 
