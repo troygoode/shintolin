@@ -3,7 +3,6 @@ express = require 'express'
 body_parser = require 'body-parser'
 method_override = require 'method-override'
 cookie_parser = require 'cookie-parser'
-csurf = require 'csurf'
 favicon = require 'express-favicon'
 config = require '../../config'
 shared_session = require '../shared_session'
@@ -28,8 +27,6 @@ app.use cookie_parser()
 app.use shared_session
 
 app.use middleware.auth
-app.use csurf()
-app.use middleware.csrf
 
 router = express.Router()
 app.use router

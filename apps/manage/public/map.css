@@ -1,9 +1,37 @@
+html{
+  height: 100%;
+}
+body{
+  font-size: 11px;
+  font-family: Helvetica, Arial, sans-serif;
+  cursor: default;
+  padding: 0;
+  margin: 0;
+  height: 100%;
+}
+
+#structure{
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+#map{
+  width: 480;
+  height: 360;
+  overflow: scroll;
+  border: 4px solid black;
+  border-radius: 8px;
+}
+
 #map table tr td{
   width: 16px;
   min-width: 16px;
   height: 16px;
   min-height: 16px;
   background-image: none;
+  cursor: pointer;
 }
 
 #map table tr td.highlight{
@@ -12,4 +40,53 @@
 
 #map .tile-wilderness{
   opacity: .25;
+}
+
+ul{
+  margin: 0;
+  padding: 0;
+}
+ul li{
+  list-style: none;
+  margin: 3px;
+  padding: 3px;
+  cursor: pointer;
+  background-color: #ccc;
+  width: 120px;
+  text-overflow: ellipsis;
+}
+ul li:hover{
+  background-color: red;
+  color: white;
+}
+
+#td-map{
+  height: 100%;
+}
+#td-regions{
+  width: 140px;
+}
+#td-settlements{
+  width: 140px;
+}
+
+#td-tools{
+  background-color: #333;
+  color: white;
+  padding: 8px;
+}
+#td-tools a{
+  color: white;
+}
+
+#paint > div{
+  display: inline-block;
+  margin-right: 16px;
+}
+#paint > div label{
+  display: block;
+  font-weight: bold;
+}
+#paint > div select{
+  display: block;
 }

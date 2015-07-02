@@ -5,36 +5,36 @@ html
     link(rel='stylesheet', href='/game/css/tiles.css')
     link(rel='stylesheet', href='/manage/map.css')
   body
-    table
-      tr
-        td(valign='top')
-          h1 Map
-          #map
-
-          h2 Paint
+    table#structure
+      tr#tr-tools
+        td#td-tools(colspan=3)
           form#paint(method='POST', action='/manage/map')
-            input(type='hidden', name='_csrf', value='#{csrf}')
             input(type='hidden', name='x')
             input(type='hidden', name='y')
-            label
-              span Terrain
-              select#terrain(name='terrain', data-persist='admin_map_terrain')
-                option Loading...
-            label
-              span Region
-              select#region(name='region', data-persist='admin_map_region')
-                option Loading...
 
-        td(valign='top')
+            div
+              label
+                span Terrain
+                select#terrain(name='terrain', data-persist='admin_map_terrain')
+                  option Loading...
+
+            div
+              label
+                span Region
+                select#region(name='region', data-persist='admin_map_region')
+                  option Loading...
+
+            div
+              a(href='/manage/api/map.tsv') Export Terrain
+      tr
+        td#td-map(valign='top')
+          #map
+        td#td-regions(valign='top')
           h2 Regions
           #regions
-        td(valign='top')
+        td#td-settlements(valign='top')
           h2 Settlements
           #settlements
-
-    h2 Options
-    ul
-      li: a(href='/manage/api/map.tsv') Export Terrain
 
     script(src='/game/js/lib/jquery-2.1.4.min.js')
     script(src='/game/js/lib/jquery.cookie.js')
