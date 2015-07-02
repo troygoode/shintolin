@@ -10,7 +10,7 @@
 
   form(method='POST', action='/game/dev/paint')
     input(type='hidden', name='_csrf', value=csrf)
-    select(name='terrain', style='width: 10em')
+    select(name='terrain', style='width: 10em', data-persist='dev-paint-terrain', data-action-focus='paint')
       if center.terrain.id === config.default_terrain
         option(value=center.terrain.id)= center.terrain.id
       for terrain in data.terrains
@@ -19,7 +19,7 @@
             option(value=terrain.id, selected)= terrain.id
           else
             option(value=terrain.id)= terrain.id
-    select(name='region', style='width: 10em')
+    select(name='region', style='width: 10em', data-persist='dev-paint-region')
       option(value='') (No Region)
       for region in data.regions
         if center.tile.region === region.id
