@@ -1,4 +1,11 @@
 module.exports = (app) ->
-  for page in ['screenshot', 'faq', 'credits']
-    app.get "/#{page}", (req, res) ->
-      res.render page
+
+  app.get '/credits', (req, res) ->
+    res.render 'credits'
+
+  app.get '/faq', (req, res) ->
+    res.render 'faq'
+
+  app.get '/screenshot', (req, res) ->
+    res.render 'screenshot'
+

@@ -7,5 +7,5 @@ db.register_index db.characters,
 module.exports = (cb) ->
   query =
     last_action:
-      '$gt': moment().subtract('hours', 24)._d
+      '$gt': moment().subtract(24, 'hours')._d
   db.characters.find(query).count cb

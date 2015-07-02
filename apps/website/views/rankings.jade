@@ -14,17 +14,17 @@ html
     form(method='GET')
       b Rank by:
       select(width='300px', name='metric')
-        option(value='frags') Frags
-        option(value='deaths') Deaths
-        option(value='kills') Kills
-        option(value='revives') Players Revived
-        option(value='younguns') Newest players
-        option(value='oldies') Oldest players
-        option(value='survival') Longest surviving players
+        option(value='frags', selected=(locals.metric == 'frags')) Frags
+        option(value='deaths', selected=(locals.metric == 'deaths')) Deaths
+        option(value='kills', selected=(locals.metric == 'kills')) Kills
+        option(value='revives', selected=(locals.metric == 'revives')) Players Revived
+        option(value='younguns', selected=(locals.metric == 'younguns')) Newest players
+        option(value='oldies', selected=(locals.metric == 'oldies')) Oldest players
+        option(value='survival', selected=(locals.metric == 'survival')) Longest surviving players
         option(value='') -----
-        option(value='oldtowns') Oldest Settlements
-        option(value='newtowns') Newest Settlements
-        option(value='bigtowns') Most Populous Settlements
+        option(value='oldtowns', selected=(locals.metric == 'oldtowns')) Oldest Settlements
+        option(value='newtowns', selected=(locals.metric == 'newtowns')) Newest Settlements
+        option(value='bigtowns', selected=(locals.metric == 'bigtowns')) Most Populous Settlements
       input(type='submit', value='View')
 
     if locals.frags

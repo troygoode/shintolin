@@ -9,7 +9,8 @@ module.exports = (router) ->
       res.locals.moment = moment
       res.locals.active = active
       res.locals.data = data
-      switch req.query.metric
+      res.locals.metric = req.query.metric ? 'frags'
+      switch res.locals.metric
         when 'frags'
           queries.rankings.frags (err, characters) ->
             res.render 'rankings', frags: characters
