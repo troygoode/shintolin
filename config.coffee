@@ -9,9 +9,9 @@ marked.setOptions
 
 module.exports =
   port: process.env.PORT or 3000
-  session_secret: process.env.SESSION_SECRET or 'secret'
-  mongo_uri: process.env.MONGOLAB_URI or 'mongodb://localhost/shintolin'
-  maximum_cpus: process.env.MAXIMUM_CPUS or 1
+  session_secret: process.env.SESSION_SECRET ? 'secret'
+  mongo_uri: process.env.MONGODB_URI ? process.env.MONGOLAB_URI ? 'mongodb://localhost/shintolin'
+  web_concurrency: process.env.WEB_CONCURRENCY ? 1
 
   maximum_level: 18
   default_terrain: 'wilderness'

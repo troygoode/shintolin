@@ -25,13 +25,6 @@ move =
 
 async.series [
   (cb) ->
-    # DROP DATABASE!!!
-    _db = new Mongolian config.mongo_uri
-    _db.dropDatabase (err) ->
-      return cb(err) if err?
-      console.log "Database dropped."
-      cb()
-  (cb) ->
     # create database indexes
     db.ensure_indexes cb
   (cb) ->
