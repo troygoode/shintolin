@@ -51,7 +51,7 @@ module.exports = (app) ->
 
   app.post '/map', (req, res, next) ->
     return res.redirect('/manage/map') unless req.body.terrain?.length
-    coords = x: req.body.x, y: req.body.y
+    coords = x: parseInt(req.body.x), y: parseInt(req.body.y)
     queries.get_tile_by_coords coords, (err, tile) ->
       return next(err) if err?
       if tile?

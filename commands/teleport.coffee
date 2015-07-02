@@ -58,10 +58,10 @@ module.exports = (character, from, to, cb) ->
           _id: character._id
         update =
           $set:
-            x: to_tile.x
-            y: to_tile.y
-            z: to_tile.z
-            region: to_tile.region
+            x: if to_tile then to_tile.x else to.x
+            y: if to_tile then to_tile.y else to.y
+            z: if to_tile then to_tile.z else to.z
+            region: to_tile?.region
             recovery: recovery
         db.characters.update query, update, cb
       (cb) ->

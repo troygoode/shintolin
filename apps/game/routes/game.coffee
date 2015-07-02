@@ -22,6 +22,7 @@ get_center = (tiles, character) ->
     y: character.y
     z: character.z
     terrain: config.default_terrain
+    people: []
 
 build_grid = (tiles, center) ->
   rows = []

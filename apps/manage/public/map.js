@@ -53,7 +53,7 @@
           if (terrain) {
             $td.addClass("tile-" + terrain.style);
           } else {
-            $td.addClass("tile-" + terrainLookup.nothing.style);
+            $td.addClass("tile-" + terrainLookup[window.defaultTerrain].style);
           }
           if(tile.settlement_id && tile.settlement_id.length){
             $td.addClass("settlement-" + tile.settlement_id);
