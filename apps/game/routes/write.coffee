@@ -10,7 +10,7 @@ module.exports = (app) ->
       type = data.items[item.item]
       item.count >= 1 and _.contains type.tags ? [], 'write'
 
-    message = req.param('message')
+    message = req.body.message
     async.series [
       (cb) ->
         commands.write req.character, req.tile, message, cb

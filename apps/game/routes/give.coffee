@@ -11,7 +11,7 @@ module.exports = (app) ->
     return next('Invalid Item') unless req.item?
     return next('That item may not be traded or dropped.') if req.item.nodrop or req.item.intrinsic
 
-    quantity = parseInt(req.param('quantity'))
+    quantity = parseInt(req.body.quantity)
     inventory_item = _.find req.character.items, (i) ->
       i.item is req.item.id
     return next("You don\'t have #{quantity} #{req.item.name} to give away.") unless inventory_item.count >= quantity

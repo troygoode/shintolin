@@ -7,7 +7,7 @@ module.exports = (app) ->
   app.post '/build', mw.not_dazed, (req, res, next) ->
     return next('You cannot build a building inside a building.') if req.tile.z isnt 0 #Xyzzy shenanigans!
 
-    building = data.buildings[req.param('building')]
+    building = data.buildings[req.body.building]
     return next('Invalid Building') unless building?
     return next('There is already a building here.') if req.tile.building? and not building.upgrade
 

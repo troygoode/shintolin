@@ -7,7 +7,7 @@ in_inventory = (character, item) ->
     i.item is item.id
 
 module.exports = (req, res, next) ->
-  item_type = req.param('item')
+  item_type = req.body.item
   return next() unless item_type?
   item = data.items[item_type]
   return next('Invalid item type.') unless item?

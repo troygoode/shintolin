@@ -1,7 +1,7 @@
 queries = require '../../../../queries'
 
 module.exports = (req, res, next) ->
-  target_id = req.param('character')
+  target_id = req.body.character
   return next() unless target_id?.length
   if target_id is 'self'
     req.target = req.character

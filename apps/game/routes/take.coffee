@@ -11,7 +11,7 @@ module.exports = (app) ->
     return next('That item may not be traded or dropped.') if req.tile_item.nodrop or req.tile_item.intrinsic
 
     building = data.buildings[req.tile.building]
-    quantity = parseInt(req.param('quantity'))
+    quantity = parseInt(req.body.quantity)
     inventory_item = _.find req.tile.items, (i) ->
       i.item is req.tile_item.id
     return next("The #{building.name} doesn\'t have #{quantity} #{req.tile_item.name} to give away.") unless inventory_item.count >= quantity

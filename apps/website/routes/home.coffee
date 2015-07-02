@@ -15,7 +15,7 @@ module.exports = (app) ->
       active_settlements = settlements.filter (s) ->
         not s.destroyed?
       res.render 'home',
-        message: req.param('msg')
+        message: req.query.msg
         square_count: square_count
         settlement_count: active_settlements.length
         settlements: active_settlements

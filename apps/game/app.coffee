@@ -29,7 +29,7 @@ app.get '/css/game.css', stylus
   entry: "#{__dirname}/assets/css/game.styl"
 app.get '/css/tiles.css', stylus
   entry: "#{__dirname}/assets/css/tiles.styl"
-app.use body_parser.urlencoded()
+app.use body_parser.urlencoded(extended: true)
 app.use body_parser.json()
 app.use method_override()
 app.use cookie_parser()

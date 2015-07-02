@@ -20,7 +20,7 @@ app.use '/manage', management_app
 app.use favicon "#{__dirname}/public/favicon.ico"
 app.use express.static "#{__dirname}/public"
 
-app.use body_parser.urlencoded()
+app.use body_parser.urlencoded(extended: true)
 app.use body_parser.json()
 app.use method_override()
 app.use cookie_parser()

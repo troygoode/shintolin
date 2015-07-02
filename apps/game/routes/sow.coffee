@@ -6,7 +6,7 @@ mw = require '../middleware'
 
 module.exports = (app) ->
   app.post '/sow', mw.not_dazed, mw.available_actions('sow'), (req, res, next) ->
-    item = data.items[req.param('item')]
+    item = data.items[req.body.item]
     return next('Invalid Item') unless item?
     return cb('You cannot plant that.') unless _.contains(item.tags, 'plantable')
 

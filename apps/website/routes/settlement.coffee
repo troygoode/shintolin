@@ -26,7 +26,7 @@ visit_member = (settlement, member) ->
 module.exports = (app) ->
 
   app.get '/settlements/:settlement_slug', (req, res, next) ->
-    queries.get_settlement_by_slug req.param('settlement_slug'), (err, settlement) ->
+    queries.get_settlement_by_slug req.params.settlement_slug, (err, settlement) ->
       return next(err) if err?
       return next() unless settlement?
       res.render 'settlement',
@@ -35,7 +35,7 @@ module.exports = (app) ->
         editable: req.session.character? and settlement.leader? and req.session.character is settlement.leader._id.toString()
 
   app.post '/settlements/:settlement_slug', (req, res, next) ->
-    queries.get_settlement_by_slug req.param('settlement_slug'), (err, settlement) ->
+    queries.get_settlement_by_slug req.params.settlement_slug, (err, settlement) ->
       return next(err) if err?
       return next() unless settlement?
       leader = req.session.character? and settlement.leader? and req.session.character is settlement.leader._id.toString()

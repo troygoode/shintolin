@@ -21,6 +21,6 @@ module.exports = (app) ->
   app.post '/move/:direction', (req, res, next) ->
     return next('You are over-encumbered and cannot move.') unless req.character.weight < MAX_WEIGHT
     return next('Invalid Direction') unless req.tile.z is 0
-    commands.move req.character, req.param('direction'), (err) ->
+    commands.move req.character, req.params.direction, (err) ->
       return next(err) if err?
       res.redirect '/game'
