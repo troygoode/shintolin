@@ -5,15 +5,22 @@ html
     link(rel='stylesheet', type='text/css', href='/shintolin.css')
   body
     h1 Credits
-    <hr>
-    <a class='buttonlink' href='/'>Home</a>
-    <hr>
 
-    h2 Creator
-    p Based on the game created by Isaac Lewis. <a href="http://i.saac.me/">http://i.saac.me/</a>
+    hr
+    if logged_in
+      a.buttonlink(href='/game') Return
+    else
+      a.buttonlink(href='/') Home
+    hr
 
     h2 Maintainer
     p Rewritten in node.js and maintained by Troy Goode. <a href="http://www.squaredroot.com">http://www.squaredroot.com/</a>
 
-    <hr>
-    <a class='buttonlink' href='/'>Home</a>
+    h2 Creator
+    p Based on the game created by Isaac Lewis. <a href="http://i.saac.me/">http://i.saac.me/</a>
+
+    hr
+    if logged_in
+      a.buttonlink(href='/game') Return
+    else
+      a.buttonlink(href='/') Home

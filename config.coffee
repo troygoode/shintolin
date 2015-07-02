@@ -1,3 +1,12 @@
+marked = require 'marked'
+
+marked.setOptions
+  gfm: true
+  tables: true
+  breaks: true
+  sanitize: true
+  smartypants: true
+
 module.exports =
   port: process.env.PORT or 3000
   session_secret: process.env.SESSION_SECRET or 'secret'
