@@ -1,4 +1,5 @@
-require('coffee-script');
+require('coffee-script/register');
+
 var config = require('./config');
 
 if(config.nodetime_api_key && config.nodetime_api_key.length){

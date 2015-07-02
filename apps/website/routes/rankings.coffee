@@ -2,11 +2,11 @@ moment = require 'moment'
 data = require '../../../data'
 queries = require '../../../queries'
 
-module.exports = (app) ->
-  app.locals.moment = moment
-  app.get '/rankings', (req, res, next) ->
+module.exports = (router) ->
+  router.get '/rankings', (req, res, next) ->
     queries.active_characters (err, active) ->
       return next(err) if err?
+      res.locals.moment = moment
       res.locals.active = active
       res.locals.data = data
       switch req.param('metric')
