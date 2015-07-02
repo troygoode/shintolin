@@ -10,9 +10,11 @@ html
       include map
       include stats
       include nav
-      if developer_mode
-        include dev
       table.infotable
+        tr
+          td(colspan='2')
+            if developer_mode
+              include dev
         tr
           td(colspan='2')
             include dazed
