@@ -1,4 +1,6 @@
+/*global window, $, _*/
 (function(){
+  "use strict";
 
   var constructTerrainLookup = function(terrains){
     var retval = {};
@@ -9,12 +11,12 @@
   };
 
   var generateKey = function(tile){
-    return tile.x + 'x' + tile.y;
+    return tile.x + "x" + tile.y;
   };
 
   var findBoundaries = function(tiles){
-    var xs = _.pluck(tiles, 'x');
-    var ys = _.pluck(tiles, 'y');
+    var xs = _.pluck(tiles, "x");
+    var ys = _.pluck(tiles, "y");
     return {
       left: _.min(xs),
       right: _.max(xs),
@@ -36,10 +38,10 @@
       var bounds = findBoundaries(tiles);
       var terrainLookup = constructTerrainLookup(terrains);
       var tileLookup = constructTileLookup(tiles);
-      var $map = $('#map');
-      var $table = $('<table></table>');
+      var $map = $("#map");
+      var $table = $("<table></table>");
       for(var y = bounds.top - 1; y <= bounds.bottom + 1; y++){
-        var $tr = $('<tr></tr>');
+        var $tr = $("<tr></tr>");
         for(var x = bounds.left - 1; x <= bounds.right + 1; x++){
           var key = generateKey({x: x, y: y});
           var tile = tileLookup[key];
@@ -47,29 +49,29 @@
           if(!tile){
             tile = {x: x, y: y, terrain: window.defaultTerrain};
           }
-          var $td = $('<td></td>');
+          var $td = $("<td></td>");
           if (terrain) {
-            $td.addClass('tile-' + terrain.style);
+            $td.addClass("tile-" + terrain.style);
           }
           if(tile.settlement_id && tile.settlement_id.length){
-            $td.addClass('settlement-' + tile.settlement_id);
+            $td.addClass("settlement-" + tile.settlement_id);
           }
           if(tile.region && tile.region.length){
-            $td.addClass('region-' + tile.region);
+            $td.addClass("region-" + tile.region);
           }else if(tile.terrain !== window.defaultTerrain){
-            $td.addClass('region-none');
+            $td.addClass("region-none");
           }
 
-          $td.attr('id', key);
-          $td.data('x', tile.x);
-          $td.data('y', tile.y);
-          $td.data('z', tile.z);
-          $td.data('terrain', tile.terrain);
+          $td.attr("id", key);
+          $td.data("x", tile.x);
+          $td.data("y", tile.y);
+          $td.data("z", tile.z);
+          $td.data("terrain", tile.terrain);
 
-          $td.click(function(){
-            $('#paint input[name=x]').val($(this).data('x'));
-            $('#paint input[name=y]').val($(this).data('y'));
-            $('#paint').submit();
+          $td.click(function () {
+            $("#paint input[name=x]").val($(this).data("x"));
+            $("#paint input[name=y]").val($(this).data("y"));
+            $("#paint").submit();
           });
           $tr.append($td);
         }
@@ -81,19 +83,19 @@
   };
 
   var constructSettlements = function(settlements){
-    var $settlements = $('#settlements');
-    var $ul = $('<ul></ul>');
+    var $settlements = $("#settlements");
+    var $ul = $("<ul></ul>");
     $.each(settlements, function(){
       var settlement = this;
 
-      var $li = $('<li></li>');
-      $li.attr('id', settlement._id);
+      var $li = $("<li></li>");
+      $li.attr("id", settlement._id);
       $li.text(settlement.name);
       $li.mouseover(function(){
-        $('.settlement-' + settlement._id).addClass('highlight');
+        $(".settlement-" + settlement._id).addClass("highlight");
       });
       $li.mouseout(function(){
-        $('#map td').removeClass('highlight');
+        $("#map td").removeClass("highlight");
       });
       $ul.append($li);
     });
@@ -101,32 +103,32 @@
   };
 
   var constructRegions = function(regions){
-    var $region = $('#region').empty().append($('<option></option>'));
+    var $region = $("#region").empty().append($("<option></option>"));
     $.each(regions, function(){
-      var $option = $('<option></option>');
-      $option.attr('value', this.id);
+      var $option = $("<option></option>");
+      $option.attr("value", this.id);
       $option.text(this.name);
       $region.append($option);
     });
 
     regions.unshift({
-      id: 'none',
-      name: 'NONE'
+      id: "none",
+      name: "NONE"
     });
 
-    var $regions = $('#regions');
-    var $ul = $('<ul></ul>');
+    var $regions = $("#regions");
+    var $ul = $("<ul></ul>");
     $.each(regions, function(){
       var region = this;
 
-      var $li = $('<li></li>');
-      $li.attr('id', region.id);
+      var $li = $("<li></li>");
+      $li.attr("id", region.id);
       $li.text(region.name);
       $li.mouseover(function(){
-        $('.region-' + region.id).addClass('highlight');
+        $(".region-" + region.id).addClass("highlight");
       });
       $li.mouseout(function(){
-        $('#map td').removeClass('highlight');
+        $("#map td").removeClass("highlight");
       });
       $ul.append($li);
     });
@@ -134,12 +136,12 @@
   };
 
   var constructTerrains = function(terrains){
-    var $terrain = $('#terrain').empty().append($('<option></option>'));
+    var $terrain = $("#terrain").empty().append($("<option></option>"));
     $.each(terrains, function(){
       if(this.hidden){
         return;
       }
-      var $option = $('<option></option>');
+      var $option = $("<option></option>");
       $option.text(this.id);
       $terrain.append($option);
     });
@@ -147,15 +149,15 @@
 
   $(function(){
     $.ajax({
-      url: '/manage/api/map/metadata',
+      url: "/manage/api/map/metadata",
       success: function(metadata){
         $.ajax({
-          url: '/manage/api/map',
+          url: "/manage/api/map",
           success: constructMapTable(metadata.terrains, function(){
             constructTerrains(metadata.terrains || []);
             constructSettlements(metadata.settlements || []);
             constructRegions(metadata.regions || []);
-            window.hydrate_persisted_selections();
+            window.hydratePersistedSelections();
           })
         });
       }

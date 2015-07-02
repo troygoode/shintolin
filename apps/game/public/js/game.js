@@ -4,7 +4,7 @@
   "use strict";
 
   $(document.body).bind("keyup", function (event) {
-    if (event.srcElement.localName !== "body") { return; }
+    if (event.target.localName !== "body") { return; }
     if (event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) { return; }
 
     switch(event.keyCode) {
