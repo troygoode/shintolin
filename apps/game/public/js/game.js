@@ -84,7 +84,7 @@
   window.hydratePersistedSelections = function () {
     for (var key in persistedSelections) {
       if (key && key.length && key !== "undefined") {
-        $("select[data-persist=#{key}]").val(persistedSelections[key]);
+        $("select[data-persist=" + key + "]").val(persistedSelections[key]);
       }
     }
   };
