@@ -1,10 +1,10 @@
 _ = require 'underscore'
 _str = require 'underscore.string'
 async = require 'async'
-bcrypt = require 'bcrypt'
 db = require '../db'
 queries = require '../queries'
 teleport = require './teleport'
+hash_password = require './hash_password'
 join_settlement = require './join_settlement'
 
 module.exports = (name, email, password, settlement, cb) ->
@@ -20,7 +20,7 @@ module.exports = (name, email, password, settlement, cb) ->
       z: 0
 
   create_character = (coords, cb) ->
-    hash = bcrypt.hashSync password, 12
+    hash = hash_password password
     character =
       slug: slug
       name: name

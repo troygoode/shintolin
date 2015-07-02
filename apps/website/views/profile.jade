@@ -17,19 +17,25 @@ html
         if editable
           td(rowspan='2')
             .beigebox(style='width: 25em')
-              form(method='POST')
-                | Edit description:
-                br
-                textarea(rows='7', cols='36', name='bio')= character.bio
-                br
-                br
+              form(method='POST', autocomplete='off')
+                // hack to turn off autocomplete: http://stackoverflow.com/a/23234498/5047
+                div
+                  input(type='text', style='display:none')
+                  input(type='password', style='display:none')
+
+                div: label Edit description:
+                div: textarea(rows='7', cols='36', name='bio')= character.bio
                 hr
-                | Update image <i>(Enter image URL):</i>
-                br
-                input.text(type='text', name='image_url', maxlength='100', style='width: 300px', value=character.image_url)
-                br
-                i Images must be hosted on external sites. Offensive content will be removed.
+
+                div: label Update image <i>(Enter image URL):</i>
+                div: input.text(type='text', name='image_url', maxlength='100', style='width: 300px', value=character.image_url)
+                div: i Images must be hosted on external sites. Offensive content will be removed.
                 hr
+
+                div: label Change your password:
+                div: input.text(type='password', name='password', maxlength='64')
+                hr
+
                 input(type='submit', value='Submit')
       tr
         td

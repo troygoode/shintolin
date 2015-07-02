@@ -18,6 +18,6 @@ module.exports = (app) ->
       return next(err) if err?
       return next() unless character?
       return next('Unauthorized') unless character._id.toString() is req.session.character
-      commands.update_profile character, req.body.bio, req.body.image_url, (err) ->
+      commands.update_profile character, req.body.bio, req.body.image_url, req.body.password, (err) ->
         return next(err) if err?
         res.redirect "/profile/#{character.slug}"
