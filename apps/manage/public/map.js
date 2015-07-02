@@ -15,13 +15,13 @@
   };
 
   var findBoundaries = function(tiles){
-    var xs = _.pluck(tiles, "x");
-    var ys = _.pluck(tiles, "y");
+    var xs = _.pluck(tiles, "x").map(function (n) { return parseInt(n); });
+    var ys = _.pluck(tiles, "y").map(function (n) { return parseInt(n); });
     return {
-      left: _.min(xs),
-      right: _.max(xs),
-      top: _.min(ys),
-      bottom: _.max(ys)
+      left: parseInt(_.min(xs)),
+      right: parseInt(_.max(xs)),
+      top: parseInt(_.min(ys)),
+      bottom: parseInt(_.max(ys))
     };
   };
 
@@ -52,6 +52,8 @@
           var $td = $("<td></td>");
           if (terrain) {
             $td.addClass("tile-" + terrain.style);
+          } else {
+            $td.addClass("tile-" + terrainLookup.nothing.style);
           }
           if(tile.settlement_id && tile.settlement_id.length){
             $td.addClass("settlement-" + tile.settlement_id);
@@ -67,6 +69,7 @@
           $td.data("y", tile.y);
           $td.data("z", tile.z);
           $td.data("terrain", tile.terrain);
+          $td.attr("title", key);
 
           $td.click(function () {
             $("#paint input[name=x]").val($(this).data("x"));

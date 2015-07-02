@@ -5,29 +5,32 @@ html
     link(rel='stylesheet', href='/game/css/tiles.css')
     link(rel='stylesheet', href='/manage/map.css')
   body
+    table
+      tr
+        td(valign='top')
+          h1 Map
+          #map
 
-    h1 Map
-    #map
+          h2 Paint
+          form#paint(method='POST', action='/manage/map')
+            input(type='hidden', name='_csrf', value='#{csrf}')
+            input(type='hidden', name='x')
+            input(type='hidden', name='y')
+            label
+              span Terrain
+              select#terrain(name='terrain', data-persist='admin_map_terrain')
+                option Loading...
+            label
+              span Region
+              select#region(name='region', data-persist='admin_map_region')
+                option Loading...
 
-    h2 Paint
-    form#paint(method='POST', action='/manage/map')
-      input(type='hidden', name='_csrf', value='#{csrf}')
-      input(type='hidden', name='x')
-      input(type='hidden', name='y')
-      label
-        span Terrain
-        select#terrain(name='terrain', data-persist='admin_map_terrain')
-          option Loading...
-      label
-        span Region
-        select#region(name='region', data-persist='admin_map_region')
-          option Loading...
-
-    h2 Settlements
-    #settlements
-
-    h2 Regions
-    #regions
+        td(valign='top')
+          h2 Regions
+          #regions
+        td(valign='top')
+          h2 Settlements
+          #settlements
 
     h2 Options
     ul
