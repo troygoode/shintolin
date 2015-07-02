@@ -33,7 +33,6 @@
     "method-override": "^2.3.3",
     "moment": "^2.10.3",
     "mongolian": "^0.1.18",
-    "nodetime": "^0.8.15",
     "require-directory": "^2.1.1",
     "stylus": "^0.51.1",
     "underscore": "^1.8.3",
