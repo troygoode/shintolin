@@ -19,7 +19,7 @@ A node.js port of [Isaac Lewis' Ruby version of Shintolin](https://github.com/Is
 * Create a separate Terminal tab (CMD+T) and run [mongodb](http://www.mongodb.org/): `$ mongod`
 * In the original tab, run some bootstrap scripts: `$ bin/dev/bootstrap`
 * Finally, run Shintolin: `$ npm start`
-* Browse to [http://localhost:3000](http://localhost) in your web browser to play. You can log in as "Ecce" using the password "password".
+* Browse to [http://localhost:3000](http://localhost) in your web browser to play. You can log in as "ecce@example.com" using the password "password".
 
 ## Deploying to Heroku
 

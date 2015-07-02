@@ -1,9 +1,9 @@
 bcrypt = require 'bcrypt'
 db = require '../db'
-get_character_by_name = require './get_character_by_name'
+get_character_by_email = require './get_character_by_email'
 
-module.exports = (name, password, cb) ->
-  get_character_by_name name, (err, character) ->
+module.exports = (email, password, cb) ->
+  get_character_by_email email, (err, character) ->
     return cb(err) if err?
     return cb(null, false) unless character?
     bcrypt.compare password, character.password, (err, ok) ->

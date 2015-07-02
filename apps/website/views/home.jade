@@ -31,11 +31,11 @@ html
               b Sign in:
               hr
               if message === 'bad_pw'
-                b Incorrect username or password.
+                b Incorrect email or password.
               form(method='POST', action='/login')
-                | Username:
+                | Email Address:
                 br
-                input.text(type='text', name='username', maxlength='24')
+                input.text(type='email', name='email', maxlength='255')
                 br
                 | Password:
                 br
@@ -77,13 +77,9 @@ html
               else if message === 'no_email'
                 b Enter a valid email address
               form(method='POST', action='/register')
-                | Username:
+                | Email Address:
                 br
-                input.text(type='text', name='username', maxlength='24')
-                br
-                | E-mail:
-                br
-                input.text(type='text', name='email', length='100')
+                input.text(type='email', name='email', length='255')
                 br
                 | Password:
                 br
@@ -92,6 +88,10 @@ html
                 | Re-enter password:
                 br
                 input.text(type='password', name='password_2', length='20')
+                hr
+                | Character Name:
+                br
+                input.text(type='text', name='username', maxlength='24')
                 if settlement_count > 0
                   br
                   | Settlement (optional, and can be changed later):
