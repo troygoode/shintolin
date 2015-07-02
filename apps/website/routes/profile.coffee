@@ -9,6 +9,7 @@ module.exports = (app) ->
       return next(err) if err?
       return next() unless character?
       res.render 'profile',
+        message: req.query.msg
         moment: moment
         character: character
         editable: character._id.toString() is req.session.character
@@ -18,6 +19,10 @@ module.exports = (app) ->
       return next(err) if err?
       return next() unless character?
       return next('Unauthorized') unless character._id.toString() is req.session.character
-      commands.update_profile character, req.body.bio, req.body.image_url, req.body.password, (err) ->
-        return next(err) if err?
-        res.redirect "/profile/#{character.slug}"
+      commands.update_profile character, req.body.bio, req.body.image_url, req.body.email, req.body.password, (err) ->
+        if err
+          switch err
+            when 'EMAIL_TAKEN' then res.redirect "/profile/#{character.slug}?msg=email_taken"
+            else next(err)
+        else
+          res.redirect "/profile/#{character.slug}"

@@ -32,6 +32,12 @@ html
                 div: i Images must be hosted on external sites. Offensive content will be removed.
                 hr
 
+                if message == 'email_taken'
+                  div: b E-mail is already in use
+                div: label Change your email:
+                div: input.text(type='email', name='email', maxlength='255', value=character.email)
+                hr
+
                 div: label Change your password:
                 div: input.text(type='password', name='password', maxlength='64')
                 hr
