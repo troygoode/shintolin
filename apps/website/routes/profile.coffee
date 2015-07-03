@@ -22,7 +22,7 @@ module.exports = (app) ->
       return next(err) if err?
       return next() unless character?
       return next('Unauthorized') unless character._id.toString() is req.session.character
-      return fail('no_email') if req.body.email?.length and not /^.+@.+\..+$/.test(email)
+      return fail('no_email') if req.body.email?.length and not /^.+@.+\..+$/.test(req.body.email)
       commands.update_profile character, req.body.bio, req.body.image_url, req.body.email, req.body.password, (err) ->
         if err
           switch err
