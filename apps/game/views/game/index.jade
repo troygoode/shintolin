@@ -10,24 +10,22 @@ html
       include map
       include stats
       include nav
+      include inventory
+      if developer_mode
+        include dev
       table.infotable
         tr
-          td(colspan='2')
-            if developer_mode
-              include dev
-        tr
-          td(colspan='2')
+          td
             include dazed
             include actions
         tr
-          td(colspan='2')
+          td
             include flavor
         tr
           td
-            include inventory
-          td
             include chat_input
             include chat
-            script(src='/game/js/lib/jquery-2.1.4.min.js')
-            script(src='/game/js/lib/jquery.cookie.js')
-            script(src='/game/js/game.js')
+
+    script(src='/game/js/lib/jquery-2.1.4.min.js')
+    script(src='/game/js/lib/jquery.cookie.js')
+    script(src='/game/js/game.js')
