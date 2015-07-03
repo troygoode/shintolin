@@ -1,6 +1,12 @@
 commands = require '../../../commands'
 queries = require '../../../queries'
 
+get_settlement = (settlement_id, cb) ->
+  if settlement_id?.length
+    queries.get_settlement settlement_id, cb
+  else
+    cb()
+
 module.exports = (app) ->
   app.post '/register', (req, res, next) ->
     fail = (msg) ->
@@ -12,7 +18,7 @@ module.exports = (app) ->
       queries.get_character_by_name req.body.name, (err, character) ->
         return next(err) if err?
         return fail('name_taken') if character?
-        queries.get_settlement req.body.settlement, (err, settlement) ->
+        get_settlement req.body.settlement, (err, settlement) ->
           return next(err) if err?
 
           name = req.body.username
