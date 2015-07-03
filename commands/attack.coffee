@@ -19,6 +19,14 @@ update_attacker = (ctx, cb) ->
       return cb() unless ctx.response?.hit
       update_character_hp ctx.attacker, ctx.attacker.hp - ctx.response.damage, cb
     (cb) ->
+      return cb() unless ctx.response?.kill
+      query =
+        _id: ctx.attacker._id
+      update =
+        $inc:
+          deaths: 1
+      db.characters.update query, update, cb
+    (cb) ->
       return cb() unless ctx.hit
       xp = if ctx.kill then (ctx.damage + 20) else Math.ceil( (ctx.damage + 1) / 2)
       query =
