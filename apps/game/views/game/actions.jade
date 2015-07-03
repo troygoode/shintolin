@@ -13,7 +13,7 @@ if character.hp > 0
             option(value=c._id) #{c.creature.name} #{c.hp}/#{c.hp_max}
           else
             option(value=c._id)= c.creature.name
-        if center.building
+        if center.building && !center.building.invulnerable
           option(value='building')= center.building.name
       |  with 
       select(name='item', style='width: 10em', data-persist='weapon')
