@@ -57,6 +57,8 @@ charge_hunger = (character, cb) ->
 query =
   hp:
     $gt: 0
+  hunger:
+    $lte: 0
   last_action:
     $gt: moment().subtract(24, 'hours')._d
 
