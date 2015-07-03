@@ -191,6 +191,7 @@ module.exports = (app) ->
         buildings: build_buildings()
         repair: repair req.character, req.tile
         developer_mode: req.session.developer
+        possessor: req.session.possessor
 
       for row, i in locals.grid
         for tile, j in row

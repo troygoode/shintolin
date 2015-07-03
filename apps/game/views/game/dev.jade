@@ -36,6 +36,11 @@
         for c in center.people
           option(value=c._id)= c.name
 
+  if possessor
+    form(method='POST', action='/game/dev/unpossess')
+      input(type='hidden', name='_csrf', value=csrf)
+      input(type='submit', value='Unpossess', data-action='unpossess')
+
   form(method='POST', action='/game/dev/materialize')
     input(type='hidden', name='_csrf', value=csrf)
     input(type='submit', value='Materialize', data-action='materialize')

@@ -58,8 +58,18 @@ module.exports = (app) ->
   app.post '/dev/possess', developers_only, (req, res, next) ->
     return next('Invalid target.') unless req.target?
     return next('Cannot possess a building.') if req.target is 'building'
+    req.session.possessor =
+      character: req.session.character
+      email: req.session.email
     req.session.character = req.target._id.toString()
     req.session.email = req.target.email
+    res.redirect '/game'
+
+  app.post '/dev/unpossess', developers_only, (req, res, next) ->
+    return next('Not currently possessing anyone.') unless req.session.possessor?
+    req.session.character = req.session.possessor.character
+    req.session.email = req.session.possessor.email
+    delete req.session.possessor
     res.redirect '/game'
 
   app.post '/dev/materialize', developers_only, (req, res, next) ->
