@@ -14,19 +14,20 @@ module.exports = (app) ->
     item = data.items[tool.item]
 
     terrain = data.terrains[req.tile.terrain]
-    if terrain.shrink? and Math.random() < SHRINK_ODDS
-      new_terrain = terrain.shrink(req.tile)
 
     recipe =
       takes:
         tools: [item.id]
         ap: chop.ap req.character, req.tile
       gives:
-        terrain: new_terrain
         items:
           log: 1
         xp:
           wanderer: 2
+
+    if terrain.shrink? and Math.random() < SHRINK_ODDS
+      recipe.gives.terrain = terrain.shrink(req.tile)
+
     commands.craft req.character, req.tile, recipe, null, (err, recipe, broken_items) ->
       return next(err) if err?
       commands.send_message 'chop', req.character, req.character,

@@ -8,9 +8,9 @@ calculate_actions = (character, tile) ->
   building = data.buildings[tile.building] if tile.building?
 
   actions = []
-  if terrain.actions? and _.isFunction terrain.actions
+  if terrain?.actions? and _.isFunction terrain.actions
     actions = _.union actions, terrain.actions(character, tile)
-  else if terrain.actions?
+  else if terrain?.actions?
     actions = _.union actions, terrain.actions
   if building?.actions? and _.isFunction building.actions
     actions = _.union actions, building.actions(character, tile)
