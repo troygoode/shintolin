@@ -59,11 +59,11 @@ module.exports = (app) ->
     queries.get_tile_by_coords coords, (err, tile) ->
       return next(err) if err?
       if tile?
-        commands.paint tile, req.body.terrain ? tile.terrain, req.body.region ? tile.region, (err) ->
+        commands.paint tile, (if req.body.terrain?.length then req.body.terrain else tile.terrain), (if req.body.region?.length then req.body.region else tile.region), (err) ->
           return next(err) if err?
           res.status(204).send()
       else
-        commands.create_tile coords, req.body.terrain ? config.default_terrain, req.body.region, (err) ->
+        commands.create_tile coords, (if req.body.terrain?.length then req.body.terrain ? config.default_terrain), req.body.region ? '', (err) ->
           return next(err) if err?
           res.status(201).send()
 

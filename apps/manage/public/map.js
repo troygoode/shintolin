@@ -190,8 +190,8 @@
           var key = generateKey({x: data.x, y: data.y}),
             $td = $("#" + key),
             tile = tileLookup[key] || {x: data.x, y: data.y, terrain: window.defaultTerrain};
-          tile.terrain = data.terrain;
-          tile.region = data.region;
+          tile.terrain = (data.terrain && data.terrain.length) ? data.terrain : (tile.terrain || window.defaultTerrain);
+          tile.region = (data.region && data.region.length) ? data.region : tile.region;
           updateTileCell($td, key, tile);
         }
       });
