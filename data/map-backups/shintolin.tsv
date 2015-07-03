@@ -80,8 +80,6 @@ X	Y	Region	Terrain
 -7	-31	ferals	cliff_bottom
 -6	-31	ferals	cliff_bottom
 -5	-31	ferals	cliff_bottom
--63	-30	no-region	nothing
--60	-30	no-region	nothing
 -14	-30	ferals	cliff_bottom
 -13	-30	ferals	cliff_face_low
 -12	-30	ferals	grassland
@@ -91,8 +89,6 @@ X	Y	Region	Terrain
 -8	-30	ferals	grassland
 -7	-30	ferals	cliff_face_low
 -6	-30	ferals	cliff_bottom
--62	-29	no-region	nothing
--60	-29	no-region	nothing
 -14	-29	ferals	cliff_bottom
 -13	-29	ferals	cliff_face_low
 -12	-29	ferals	grassland
@@ -102,8 +98,6 @@ X	Y	Region	Terrain
 -8	-29	ferals	cliff_face_low
 -7	-29	ferals	cliff_face_low
 -6	-29	ferals	cliff_bottom
--61	-28	no-region	nothing
--60	-28	no-region	nothing
 -14	-28	ferals	cliff_bottom
 -13	-28	ferals	cliff_face_low
 -12	-28	ferals	grassland
@@ -112,10 +106,6 @@ X	Y	Region	Terrain
 -9	-28	ferals	grassland
 -8	-28	ferals	cliff_face_low
 -7	-28	ferals	cliff_bottom
--63	-27	no-region	nothing
--62	-27	no-region	nothing
--61	-27	no-region	nothing
--60	-27	no-region	nothing
 -14	-27	ferals	cliff_bottom
 -13	-27	ferals	cliff_face_low
 -12	-27	ferals	grassland

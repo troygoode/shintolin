@@ -16,11 +16,13 @@ characters = {}
 map_template_path = path.join __dirname, "../../data/map-backups", (process.argv[2] ? 'bootstrap.tsv')
 tile_data = fs.readFileSync map_template_path, encoding: 'utf-8'
 tiles = tile_data.split('\n').slice(1).map (row) ->
+  return {} if row is ''
   arr = row.split('\t')
   x: parseInt(arr[0])
   y: parseInt(arr[1])
   region: if arr[2] is 'no-region' then null else data.regions[arr[2]]
   terrain: data.terrains[arr[3]]
+  row: row
 buildings = [
   {x: -1, y: 0, building: data.buildings.hut}
   {x: 0, y: -1, building: data.buildings.hut}
@@ -57,6 +59,7 @@ async.series [
   (cb) ->
     # create map
     async.forEachSeries tiles, (t, cb) ->
+      return cb() unless t.x? and t.y?
       return cb("invalid terrain") unless t.terrain?
       commands.create_tile {x: t.x, y: t.y, z: 0}, t.terrain.id, (if t.region then t.region.id else null), (err, tile) ->
         return cb(err) if err?
