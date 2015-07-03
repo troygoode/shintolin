@@ -15,14 +15,18 @@ module.exports = (app) ->
         editable: character._id.toString() is req.session.character
 
   app.post '/profile/:character_slug', (req, res, next) ->
+    fail = (msg) ->
+      res.redirect "/profile/#{character.slug}?msg=#{msg}"
+
     queries.get_character_by_slug req.params.character_slug, (err, character) ->
       return next(err) if err?
       return next() unless character?
       return next('Unauthorized') unless character._id.toString() is req.session.character
+      return fail('no_email') if req.body.email?.length and not /^.+@.+\..+$/.test(email)
       commands.update_profile character, req.body.bio, req.body.image_url, req.body.email, req.body.password, (err) ->
         if err
           switch err
-            when 'EMAIL_TAKEN' then res.redirect "/profile/#{character.slug}?msg=email_taken"
+            when 'EMAIL_TAKEN' then fail('email_taken')
             else next(err)
         else
           res.redirect "/profile/#{character.slug}"
