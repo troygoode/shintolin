@@ -4,7 +4,7 @@ queries = require '../queries'
 send_message = require './send_message'
 send_message_coords = require './send_message_coords'
 send_message_nearby = require './send_message_nearby'
-SHOUT_RADIUS = 3
+SHOUT_RADIUS = 25
 
 module.exports = (character, target, text, volume, cb) ->
   msg =
@@ -28,7 +28,6 @@ module.exports = (character, target, text, volume, cb) ->
       else
         send_message_nearby 'social', character, null, msg, cb
     when 'shout'
-      console.log 'shouting'
       char_coords = x: character.x, y: character.y
 
       in_radius = queries.coords_in_circle_around char_coords, SHOUT_RADIUS
