@@ -34,6 +34,6 @@ route router for key, route of routes
 
 app.use (err, req, res, next) ->
   if _.isNumber err
-    res.send err
+    res.sendStatus err
   else
     next err
