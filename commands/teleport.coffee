@@ -11,9 +11,14 @@ db.register_index db.tiles,
   y: 1
   z: 1
 
+clean_coords = (coords) ->
+  x: parseInt(coords.x)
+  y: parseInt(coords.y)
+  z: parseInt(coords.z ? 0)
+
 get_tile = (coords, cb) ->
   return cb null, coords if coords._id?
-  queries.get_tile_by_coords coords, cb
+  queries.get_tile_by_coords clean_coords(coords), cb
 
 get_from = (character, from, cb) ->
   if from?._id?

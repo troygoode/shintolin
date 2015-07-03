@@ -32,7 +32,21 @@ module.exports = (app) ->
       return next(err) if err?
       res.redirect '/game'
 
-  app.post '/dev/move-random', developers_only, (req, res, next) ->
+  app.post '/dev/teleport-to-coords', developers_only, (req, res, next) ->
+    commands.teleport req.character, req.tile, {x: parseInt(req.body.x), y: parseInt(req.body.y), z: 0}, (err) ->
+      return next(err) if err?
+      res.redirect '/game'
+
+  app.post '/dev/teleport-to-character', developers_only, (req, res, next) ->
+    return next('Invalid target.') unless req.body.target_name?
+    queries.get_character_by_name req.body.target_name, (err, target) ->
+      return next(err) if err?
+      return next('Invalid target.') unless target?
+      commands.teleport req.character, req.tile, {x: target.x, y: target.y, z: target.z}, (err) ->
+        return next(err) if err?
+        res.redirect '/game'
+
+  app.post '/dev/teleport-to-random-tile', developers_only, (req, res, next) ->
     queries.get_random_tile (err, tile) ->
       return next(err) if err?
       return next('NO_RANDOM_TILE_RETURNED') unless tile?._id?

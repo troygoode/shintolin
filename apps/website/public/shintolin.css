@@ -35,7 +35,7 @@ font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, serif;
 padding: 1px 2px 1px 2px;
 text-decoration: none;
 }
-input.text
+input.text, input[type='text'], input[type='number']
 {
 color: #000;
 background: #ffffff;

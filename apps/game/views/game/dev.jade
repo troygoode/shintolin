@@ -58,9 +58,23 @@
       for c in data.creatures
         option(value=c.id)= c.name
 
-  form(method='POST', action='/game/dev/move-random')
+  form(method='POST', action='/game/dev/teleport-to-coords')
     input(type='hidden', name='_csrf', value=csrf)
-    input(type='submit', value='Random Tile', data-action='move_random')
+    label X
+    input(type='number', name='x', value=center.tile.x)
+    label Y
+    input(type='number', name='y', value=center.tile.y)
+    input(type='submit', value='Teleport', data-action='move_to_coords')
+
+  form(method='POST', action='/game/dev/teleport-to-character')
+    input(type='hidden', name='_csrf', value=csrf)
+    label Character
+    input(type='text', name='target_name')
+    input(type='submit', value='Teleport', data-action='move_to_coords')
+
+  form(method='POST', action='/game/dev/teleport-to-random-tile')
+    input(type='hidden', name='_csrf', value=csrf)
+    input(type='submit', value='Teleport (Random Tile)', data-action='move_to_random_tile')
 
   p Searches: #{dbg.center.searches}
   p Location: #{center.tile.x},#{center.tile.y},#{center.tile.z} (#{center.tile.terrain})
