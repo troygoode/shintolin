@@ -76,5 +76,11 @@
     input(type='hidden', name='_csrf', value=csrf)
     input(type='submit', value='Teleport (Random Tile)', data-action='move_to_random_tile')
 
+  form(method='POST', action='/game/dev/teleport-to-coords')
+    input(type='hidden', name='_csrf', value=csrf)
+    input(type='hidden', name='x', value='-67')
+    input(type='hidden', name='y', value='-31')
+    input(type='submit', value="Teleport (God's Glade)", data-action='move_to_gods_glade')
+
   p Searches: #{dbg.center.searches}
   p Location: #{center.tile.x},#{center.tile.y},#{center.tile.z} (#{center.tile.terrain})
