@@ -2,6 +2,7 @@ time = require '../../time'
 
 module.exports =
   style: 'grey'
+  block_spawning: true
 
   buildable: ['tiny']
   actions: ['quarry']

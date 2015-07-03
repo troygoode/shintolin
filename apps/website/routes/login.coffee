@@ -8,6 +8,10 @@ module.exports = (app) ->
 
       req.session.character = character._id.toString()
       req.session.email = character.email
-      req.session.developer = character.developer
+
+      if character.developer
+        req.session.developer = true
+      else
+        delete req.session.developer
 
       res.redirect '/game'

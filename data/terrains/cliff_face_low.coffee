@@ -3,6 +3,7 @@ time = require '../../time'
 
 module.exports =
   style: 'rshore'
+  block_spawning: true
 
   describe: (tile) ->
     'You are clinging to the side of a cliff, at low elevation.'

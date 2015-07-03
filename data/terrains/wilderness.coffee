@@ -2,6 +2,7 @@ time = require '../../time'
 
 module.exports =
   style: 'wilderness'
+  block_spawning: true
 
   describe: (tile) ->
     switch time().season

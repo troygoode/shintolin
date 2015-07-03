@@ -2,6 +2,7 @@ time = require '../../time'
 
 module.exports =
   style: 'spring'
+  block_spawning: true
 
   tags: ['freshwater', 'shallow']
   actions: ['fill']

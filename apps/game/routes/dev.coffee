@@ -47,7 +47,7 @@ module.exports = (app) ->
         res.redirect '/game'
 
   app.post '/dev/teleport-to-random-tile', developers_only, (req, res, next) ->
-    queries.get_random_tile (err, tile) ->
+    queries.get_random_spawnable_tile (err, tile) ->
       return next(err) if err?
       return next('NO_RANDOM_TILE_RETURNED') unless tile?._id?
       commands.teleport req.character, req.tile, tile, (err) ->

@@ -72,7 +72,7 @@ module.exports = (name, email, password, settlement, cb) ->
   async.series [
     (cb) ->
       return cb() if coords?
-      queries.get_random_tile (err, tile) ->
+      queries.get_random_spawnable_tile (err, tile) ->
         return cb(err) if err?
         coords = tile
         cb()

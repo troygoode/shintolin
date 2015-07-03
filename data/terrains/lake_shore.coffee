@@ -2,6 +2,7 @@ time = require '../../time'
 
 module.exports =
   style: 'rshore'
+  block_spawning: true
 
   tags: ['wetland']
   buildable: ['tiny', 'small']

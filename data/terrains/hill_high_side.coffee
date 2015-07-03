@@ -3,6 +3,7 @@ time = require '../../time'
 
 module.exports =
   style: 'hill3_side'
+  block_spawning: true
 
   tags: ['hill']
   describe: (tile) ->

@@ -2,6 +2,7 @@ time = require '../../time'
 
 module.exports =
   style: 'marsh'
+  block_spawning: true
 
   tags: ['wetland']
 

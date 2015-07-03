@@ -2,6 +2,7 @@ _ = require 'underscore'
 
 module.exports =
   style: 'rapids'
+  block_spawning: true
 
   tags: ['freshwater', 'deep']
 
