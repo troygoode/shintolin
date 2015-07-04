@@ -1,6 +1,6 @@
 debug = require('debug')('shintolin:middleware')
 db = require '../../../db'
-MAX_HITS = 1000
+MAX_HITS = 1500
 
 module.exports = (req, res, next) ->
   debug 'track_hits enter'
