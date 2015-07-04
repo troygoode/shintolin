@@ -1,0 +1,21 @@
+#!/usr/bin/env coffee
+
+async = require 'async'
+db = require '../../db'
+teleport = require '../../commands/teleport'
+
+fail = (err) ->
+  console.error err
+  process.exit 1
+
+db.tiles.update {}, {$set: {people: []}}, (err) ->
+  return fail(err) if err?
+
+  db.characters.find({}).toArray (err, characters) ->
+    return fail(err) if err?
+
+    async.forEachOfSeries characters, (c, i, cb) ->
+      teleport c, undefined, {x: c.x, y: c.y, z: c.z}, cb
+    , (err) ->
+      return fail(err) if err?
+      process.exit 0
