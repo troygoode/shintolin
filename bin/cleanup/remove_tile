@@ -1,0 +1,13 @@
+#!/usr/bin/env coffee
+
+db = require '../../db'
+
+fail = (err) ->
+  console.error err
+  process.exit 1
+
+db.tiles.findOne {_id: db.ObjectId(process.argv[2])}, (err, tile) ->
+  return fail(err) if err?
+  db.tiles.remove {_id: tile._id}, (err) ->
+    return fail(err) if err?
+    process.exit 0
