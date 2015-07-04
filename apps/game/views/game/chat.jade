@@ -1,154 +1,176 @@
-.gamebox.infobox
+.gamebox.infobox.chat
+  if locals.center
+    form(method='POST', action='/game/chat')
+      div
+        input(type='hidden', name='_csrf', value=csrf)
+        input(type='text', name='text', maxlength='200', placeholder='Enter chat message.')
+        button.btn.btn-link(type='submit')
+          span.glyphicon.glyphicon-share-alt
+          span.sr-only Speak
+      div
+        label
+          | To:
+          select(name='target', style='width: 10em', data-persist='chat-target')
+            option(value='') No-one
+            for c in center.people
+              option(value=c._id)= c.name
+        label
+          | Volume:
+          select(name='volume', style='width: 10em', data-persist='volume')
+            option(value='whisper') Whisper (1 AP)
+            option(value='', selected) Say (1 AP)
+            option(value='shout') Shout (1 AP)
   if messages.length
     for msg in messages
-      case msg.type
-        when 'attack'
-          include chat/attack
-        when 'attacked'
-          include chat/attacked
-        when 'attack_nearby'
-          include chat/attack_nearby
-        when 'autoeat'
-          include chat/autoeat
-        when 'built'
-          include chat/built
-        when 'built_nearby'
-          include chat/built_nearby
-        when 'campfire_low'
-          include chat/campfire_low
-        when 'campfire_destroyed'
-          include chat/campfire_destroyed
-        when 'changed_vote'
-          include chat/changed_vote
-        when 'chop'
-          include chat/chop
-        when 'craft'
-          include chat/craft
-        when 'damage_building'
-          include chat/damage_building
-        when 'damage_building_nearby'
-          include chat/damage_building_nearby
-        when 'damage_settlement_building'
-          include chat/damage_settlement_building
-        when 'damage_building_inside'
-          include chat/damage_building_inside
-        when 'destroyed_nearby'
-          include chat/destroyed_nearby
-        when 'destroyed_inside'
-          include chat/destroyed_inside
-        when 'destroyed_settlement_building'
-          include chat/destroyed_settlement_building
-        when 'dig'
-          include chat/dig
-        when 'drop'
-          include chat/drop
-        when 'election'
-          include chat/election
-        when 'evicted'
-          include chat/evicted
-        when 'evicted_settlement'
-          include chat/evicted_settlement
-        when 'fed'
-          include chat/fed
-        when 'feed'
-          include chat/feed
-        when 'fill'
-          include chat/fill
-        when 'give'
-          include chat/give
-        when 'given'
-          include chat/given
-        when 'give_nearby'
-          include chat/give_nearby
-        when 'harvest'
-          include chat/harvest
-        when 'heal'
-          include chat/heal
-        when 'healed'
-          include chat/healed
-        when 'heal_nearby'
-          include chat/heal_nearby
-        when 'hungry'
-          include chat/hungry
-        when 'join'
-          include chat/join
-        when 'join_nearby'
-          include chat/join_nearby
-        when 'kicked'
-          include chat/kicked
-        when 'learned'
-          include chat/learned
-        when 'left'
-          include chat/left
-        when 'left_nearby'
-          include chat/left_nearby
-        when 'nonprovisional'
-          include chat/nonprovisional
-        when 'ocarina'
-          include chat/ocarina
-        when 'ocarina_nearby'
-          include chat/ocarina_nearby
-        when 'quarry'
-          include chat/quarry
-        when 'repair'
-          include chat/repair
-        when 'repair_nearby'
-          include chat/repair_nearby
-        when 'revive'
-          include chat/revive
-        when 'revived'
-          include chat/revived
-        when 'revive_nearby'
-          include chat/revive_nearby
-        when 'search'
-          include chat/search
-        when 'settled'
-          include chat/settled
-        when 'settled_nearby'
-          include chat/settled_nearby
-        when 'settlement_removed'
-          include chat/settlement_removed
-        when 'social'
-          - var volume = msg.volume || 'say';
-          div
-            if msg.sender_id.toString() === character._id.toString()
-              | You #{volume}, 
-            else
-              a.neutral(href='/profile/#{msg.sender_slug}')= msg.sender_name
-              |  #{volume}s, 
-            | "#{msg.text}"
-            if msg.target_id
-              if msg.target_id.toString() === character._id.toString()
-                |  to you. 
+      .message
+        case msg.type
+          when 'attack'
+            include chat/attack
+          when 'attacked'
+            include chat/attacked
+          when 'attack_nearby'
+            include chat/attack_nearby
+          when 'autoeat'
+            include chat/autoeat
+          when 'built'
+            include chat/built
+          when 'built_nearby'
+            include chat/built_nearby
+          when 'campfire_low'
+            include chat/campfire_low
+          when 'campfire_destroyed'
+            include chat/campfire_destroyed
+          when 'changed_vote'
+            include chat/changed_vote
+          when 'chop'
+            include chat/chop
+          when 'craft'
+            include chat/craft
+          when 'damage_building'
+            include chat/damage_building
+          when 'damage_building_nearby'
+            include chat/damage_building_nearby
+          when 'damage_settlement_building'
+            include chat/damage_settlement_building
+          when 'damage_building_inside'
+            include chat/damage_building_inside
+          when 'destroyed_nearby'
+            include chat/destroyed_nearby
+          when 'destroyed_inside'
+            include chat/destroyed_inside
+          when 'destroyed_settlement_building'
+            include chat/destroyed_settlement_building
+          when 'dig'
+            include chat/dig
+          when 'drop'
+            include chat/drop
+          when 'election'
+            include chat/election
+          when 'evicted'
+            include chat/evicted
+          when 'evicted_settlement'
+            include chat/evicted_settlement
+          when 'fed'
+            include chat/fed
+          when 'feed'
+            include chat/feed
+          when 'fill'
+            include chat/fill
+          when 'give'
+            include chat/give
+          when 'given'
+            include chat/given
+          when 'give_nearby'
+            include chat/give_nearby
+          when 'harvest'
+            include chat/harvest
+          when 'heal'
+            include chat/heal
+          when 'healed'
+            include chat/healed
+          when 'heal_nearby'
+            include chat/heal_nearby
+          when 'hungry'
+            include chat/hungry
+          when 'join'
+            include chat/join
+          when 'join_nearby'
+            include chat/join_nearby
+          when 'kicked'
+            include chat/kicked
+          when 'learned'
+            include chat/learned
+          when 'left'
+            include chat/left
+          when 'left_nearby'
+            include chat/left_nearby
+          when 'nonprovisional'
+            include chat/nonprovisional
+          when 'ocarina'
+            include chat/ocarina
+          when 'ocarina_nearby'
+            include chat/ocarina_nearby
+          when 'quarry'
+            include chat/quarry
+          when 'repair'
+            include chat/repair
+          when 'repair_nearby'
+            include chat/repair_nearby
+          when 'revive'
+            include chat/revive
+          when 'revived'
+            include chat/revived
+          when 'revive_nearby'
+            include chat/revive_nearby
+          when 'search'
+            include chat/search
+          when 'settled'
+            include chat/settled
+          when 'settled_nearby'
+            include chat/settled_nearby
+          when 'settlement_removed'
+            include chat/settlement_removed
+          when 'social'
+            - var volume = msg.volume || 'say';
+            .social(class='social-' + msg.volume)
+              if msg.sender_id.toString() === character._id.toString()
+                | You #{volume}, 
               else
-                |  to 
-                a.neutral(href='/profile/#{msg.target_slug}')= msg.target_name
+                a.neutral(href='/profile/#{msg.sender_slug}')= msg.sender_name
+                |  #{volume}s, 
+              | "#{msg.text}"
+              if msg.target_id
+                if msg.target_id.toString() === character._id.toString()
+                  |  to you. 
+                else
+                  |  to 
+                  a.neutral(href='/profile/#{msg.target_slug}')= msg.target_name
+                  | . 
+              else
                 | . 
-            else
-              | . 
-            span.time= moment(msg.sent).fromNow()
-        when 'sow'
-          include chat/sow
-        when 'storm_damage_building_exterior'
-          include chat/storm_damage_building_exterior
-        when 'storm_damage_building_interior'
-          include chat/storm_damage_building_interior
-        when 'take'
-          include chat/take
-        when 'take_nearby'
-          include chat/take_nearby
-        when 'unlearned'
-          include chat/unlearned
-        when 'water'
-          include chat/water
-        when 'write'
-          include chat/write
-        when 'write_nearby'
-          include chat/write_nearby
-        default
-          .action
-            a.neutral(href='/profile/#{msg.sender_id}')= msg.sender_name
-            i  ??? (#{msg.type}) ??? 
-            span.time= moment(msg.sent).fromNow()
-    unless locals.suppress_more_link
-      a.buttonlink(href='/game/chat') More...
+              span.time= moment(msg.sent).fromNow()
+          when 'sow'
+            include chat/sow
+          when 'storm_damage_building_exterior'
+            include chat/storm_damage_building_exterior
+          when 'storm_damage_building_interior'
+            include chat/storm_damage_building_interior
+          when 'take'
+            include chat/take
+          when 'take_nearby'
+            include chat/take_nearby
+          when 'unlearned'
+            include chat/unlearned
+          when 'water'
+            include chat/water
+          when 'write'
+            include chat/write
+          when 'write_nearby'
+            include chat/write_nearby
+          default
+            .action
+              a.neutral(href='/profile/#{msg.sender_id}')= msg.sender_name
+              i  ??? (#{msg.type}) ??? 
+              span.time= moment(msg.sent).fromNow()
+  unless locals.suppress_more_link
+    .more: a.btn.btn-link(href='/game/chat') Full Chat History

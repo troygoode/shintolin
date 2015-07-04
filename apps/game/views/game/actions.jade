@@ -1,5 +1,5 @@
 if character.hp > 0
-  .gamebox.actionbox(style='opacity: .82')
+  div
 
     form(method='POST', action='/game/attack')
       input(type='hidden', name='_csrf', value=csrf)
