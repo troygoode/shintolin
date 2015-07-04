@@ -22,6 +22,7 @@ alter_target_hp = (character, amount, cb) ->
       update =
         $set:
           hp: character.hp + amount
+          last_revived: new Date()
       db.characters.update query, update, cb
     (cb) ->
       query =

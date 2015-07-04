@@ -1,0 +1,22 @@
+#!/usr/bin/env coffee
+
+db = require '../../db'
+UPSERT = {YES: true, NO: false}
+MULTI = {YES: true, NO: false}
+
+fail = (err) ->
+  console.error err
+  process.exit 1
+
+query =
+  email:
+    $exists: true
+update =
+  $set:
+    frags: 1
+    kills: 0
+    deaths: 0
+
+db.characters.update query, update, UPSERT.NO, MULTI.YES, (err) ->
+  return fail(err) if err?
+  process.exit 0

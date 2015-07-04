@@ -7,4 +7,5 @@ db.register_index db.characters,
 module.exports = (cb) ->
   query =
     creature: {$exists: false}
+    hp: {$gt: 0}
   db.characters.find(query).sort({ last_revived: 1 }).toArray cb

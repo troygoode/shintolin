@@ -20,6 +20,7 @@ update_attacker = (ctx, cb) ->
       update_character_hp ctx.attacker, ctx.attacker.hp - ctx.response.damage, cb
     (cb) ->
       return cb() unless ctx.response?.kill
+      return cb() if ctx.is_creature
       query =
         _id: ctx.attacker._id
       update =
@@ -37,6 +38,7 @@ update_attacker = (ctx, cb) ->
       db.characters.update query, update, cb
     (cb) ->
       return cb() unless ctx.kill
+      return cb() if ctx.is_creature
       query =
         _id: ctx.attacker._id
       update =
@@ -62,6 +64,7 @@ update_target = (ctx, cb) ->
         update_character_hp ctx.target, ctx.target.hp - ctx.damage, cb
       (cb) ->
         return cb() unless ctx.kill
+        return cb() if ctx.is_creature
         query =
           _id: ctx.target._id
         update =
