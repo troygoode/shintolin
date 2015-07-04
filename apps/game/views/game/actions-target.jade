@@ -17,7 +17,7 @@ div
     |  with 
     select(name='item', style='width: 10em', data-persist='weapon')
       for weapon in weapons
-        option(value=weapon.id) #{weapon.name} (#{weapon.hit_chance * 100}%, #{weapon.damage} dmg)
+        option(value=weapon.id) #{weapon.name} (#{Math.floor(weapon.hit_chance * 100)}%, #{weapon.damage} dmg)
 
   if (center.people.length || _.contains(actions, 'give')) && character.items.length
     form(method='POST', action='/game/give')
