@@ -1,20 +1,29 @@
+$bg_light=#d0d0b0
+$bg_medium=#d6d4a6
+$bg_dark=#c8c8a0
+$bg_extradark=#908c70
+$text_dark=#333
+$text_light=$bg_extradark
+
 body
   min-height 2000px
   padding-top 70px
 
 .navbar
-  background-color #d0d0b0
+  background-color $bg_light
   background-image none
-  border-color #c9c9aa
+  border-color $bg_dark
   .active, .open
     a
       background-image none !important
-      background-color #c9c9aa !important
+      background-color $bg_dark !important
   .dropdown-menu
     a
-      background-color #fff !important
+      background-color white !important
     a:hover
-      background-color #d0d0b0 !important
+      background-color $bg_light !important
+.btn-default
+  background-color $bg_light
 
 .mapdata
   &.feature
@@ -48,6 +57,17 @@ input[type='submit'].disabled
 .gamebox-no-bottom
   border-bottom none
 
+.locationbox
+  > div
+    margin 0
+    padding 0
+  div:first-child
+    padding-top 8px
+  div:last-child
+    padding-bottom 8px
+  span.disabled
+    color $text_light
+
 .statsbox-bottom
   text-align center
   > div > span
@@ -69,6 +89,9 @@ input[type='submit'].disabled
       display inline-block
       margin 5px 0 0 0
       position relative
+      background-image none
+      background-color $bg_light
+      border 1px solid $bg_extradark
       .content
         position absolute
         top 0
