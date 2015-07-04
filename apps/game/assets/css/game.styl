@@ -2,7 +2,6 @@ body
   min-height 2000px
   padding-top 70px
 
-
 .navbar
   background-color #d0d0b0
   background-image none
@@ -48,3 +47,31 @@ input[type='submit'].disabled
   font-weight bold
 .gamebox-no-bottom
   border-bottom none
+
+.statsbox-bottom
+  text-align center
+  > div > span
+    display inline-block
+    margin 0 6px
+
+.statsbox-top
+  text-align center
+  > div
+    display inline-block
+    margin 0 10px
+    label
+      display inline-block
+      position relative
+      top -5px
+      margin 0 6px 0 0
+    .progress
+      width 100px
+      display inline-block
+      margin 5px 0 0 0
+      position relative
+      .content
+        position absolute
+        top 0
+        left 0
+        width 100px
+        text-align center

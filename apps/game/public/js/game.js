@@ -101,4 +101,8 @@
     $.cookie("persisted_selections", persistedSelections);
   });
 
+  $(function () {
+    $("[data-toggle=\"tooltip\"]").tooltip();
+  });
+
 }());
