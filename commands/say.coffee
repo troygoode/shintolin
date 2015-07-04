@@ -4,7 +4,7 @@ queries = require '../queries'
 send_message = require './send_message'
 send_message_coords = require './send_message_coords'
 send_message_nearby = require './send_message_nearby'
-SHOUT_RADIUS = 25
+SHOUT_RADIUS = 75
 
 module.exports = (character, target, text, volume, cb) ->
   msg =
