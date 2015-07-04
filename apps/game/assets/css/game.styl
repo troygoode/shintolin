@@ -5,6 +5,7 @@ $bg_dark=#c8c8a0
 $bg_extradark=#908c70
 $text_dark=#333
 $text_light=$bg_extradark
+$text_extralight=#fff
 
 body
   min-height 2000px
@@ -24,6 +25,9 @@ body
     a:hover
       background-color $bg_light !important
 .btn-default
+  background-color $bg_light
+
+select[disabled]
   background-color $bg_light
 
 .mapdata
@@ -100,12 +104,47 @@ input[type='submit'].disabled
         width 100px
         text-align center
 
+.flavor, .actions
+  padding 8px
+.actions
+  form
+    input[type='submit']
+      width 80px
+      margin-right 5px
+  p.empty
+    padding 8px 8px 0 8px
+  .nav-tabs
+    border 0
+    border-bottom 0
+    li
+      a
+        border 0
+        padding 5px 15px
+      &.active a, &.active:hover a
+        background-color $bg_extradark
+        color $text_extralight
+        border 0
+      &:hover a
+        background-color $bg_dark
+        border 0
+  .tab-content
+    position relative
+    top -1px
+    padding 8px
+    background-color $bg_extradark
+    color $text_extralight
+
 .chat
   padding 0
   form
     padding 5px
     input[type='text']
       width 440px
+    text-align center
+    label
+      margin 0 8px
+      select
+        font-weight normal
   .message
     margin-bottom 3px
     .social

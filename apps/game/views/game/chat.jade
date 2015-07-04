@@ -10,7 +10,7 @@
       div
         label
           | To:
-          select(name='target', style='width: 10em', data-persist='chat-target')
+          select(name='target', style='width: 10em', data-persist='chat-target', disabled=(center.people.length === 0))
             option(value='') No-one
             for c in center.people
               option(value=c._id)= c.name

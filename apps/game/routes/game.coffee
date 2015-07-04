@@ -144,7 +144,7 @@ module.exports = (app) ->
       (cb) ->
         queries.tiles_in_square_around req.character, 3, cb
       , (cb) ->
-        queries.latest_chat_messages req.character, 0, 12, cb
+        queries.latest_chat_messages req.character, 0, 25, cb
       , (cb) ->
         if req.tile.building is 'totem'
           queries.get_settlement req.tile.settlement_id.toString(), cb

@@ -1,4 +1,4 @@
-div
+.flavor
   .beigeoverlay
     if center.terrain.describe
       = center.terrain.describe(center.tile)
@@ -37,10 +37,6 @@ div
         span Nearby, in the #{center.building.name}, you find 
           != describe_list(center.tile.items.map(function(i){ return i.count + 'x ' + i.item; }))
           | .
-    if _.contains(actions, 'write')
-      form(method='POST', action='/game/write')
-        input(type='hidden', name='_csrf', value=csrf)
-        input(type='submit', value='Write', data-action='write')
-        input.text(type='text', name='message', maxlength='32', value=center.tile.message, style='width: 500px;')
+
     if query.error
       .error=query.error

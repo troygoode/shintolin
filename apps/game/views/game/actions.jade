@@ -2,7 +2,7 @@
   include ./flavor.jade
 
   if character.hp > 0
-    .actions
+    .actions.hidden
 
       ul.nav.nav-tabs(role='tablist')
         li.active(role='presentation'): a(href='#actions-location', aria-controls='actions-location', role='tab', data-toggle='tab') Location

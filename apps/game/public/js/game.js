@@ -105,4 +105,15 @@
     $("[data-toggle=\"tooltip\"]").tooltip();
   });
 
+  window.setTimeout(function () {
+    var actionTabSelected = $.cookie("action_tab_selected");
+    if (actionTabSelected) {
+      $("a[href='" + actionTabSelected + "']").tab("show");
+    }
+    $(".actions").removeClass("hidden");
+  }, 0);
+  $(".actions a[data-toggle='tab']").on("shown.bs.tab", function (e) {
+    $.cookie("action_tab_selected", e.target.hash);
+  });
+
 }());

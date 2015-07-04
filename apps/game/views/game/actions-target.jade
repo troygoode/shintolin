@@ -19,3 +19,25 @@ div
       for weapon in weapons
         option(value=weapon.id) #{weapon.name} (#{weapon.hit_chance * 100}%, #{weapon.damage} dmg)
 
+  if (center.people.length || _.contains(actions, 'give')) && character.items.length
+    form(method='POST', action='/game/give')
+      input(type='hidden', name='_csrf', value=csrf)
+      input(type='submit', value='Give', data-action='give')
+      - var max = _.max(_.pluck(character.items, 'count'));
+      if max === 1
+        input(type='hidden', name='quantity', value=1)
+      else
+        - var range = _.range(max);
+        select(name='quantity')
+          for i in range
+            option(value=i + 1)= i + 1
+      select(name='item', style='width: 10em', data-persist='item', data-action-focus='give')
+        for item in character.items
+          option(value=item.item)= data.items[item.item].name
+      |  to 
+      select(name='target', style='width: 10em', data-persist='target')
+        if _.contains(actions, 'give')
+          option(value='building')= center.building.name
+        for c in center.people
+          option(value=c._id)= c.name
+
