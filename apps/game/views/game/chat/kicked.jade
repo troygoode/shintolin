@@ -1,4 +1,4 @@
 .action
   | <a href='/profile/#{msg.sender_slug}'>#{msg.sender_name}</a> dazed <a href='/profile/#{msg.target_slug}'>#{msg.target_name}</a>.  
   | <a href='/profile/#{msg.target_slug}'>#{msg.target_name}</a> is now no longer a provisional resident of <a href='/settlements/#{msg.settlement_slug}'>#{msg.settlement_name}</a>!  
-  span.time= moment(msg.sent).fromNow()
+  div.time= moment(msg.sent).fromNow()

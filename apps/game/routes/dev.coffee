@@ -41,6 +41,11 @@ module.exports = (app) ->
       return next(err) if err?
       res.redirect '/game'
 
+  app.post '/dev/announce', developers_only, (req, res, next) ->
+    commands.announce req.body.text, (err) ->
+      return next(err) if err?
+      res.redirect '/game'
+
   app.post '/dev/teleport-to-coords', developers_only, (req, res, next) ->
     commands.teleport req.character, req.tile, {x: parseInt(req.body.x), y: parseInt(req.body.y), z: 0}, (err) ->
       return next(err) if err?

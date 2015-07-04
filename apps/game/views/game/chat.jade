@@ -24,6 +24,10 @@
     for msg in messages
       .message
         case msg.type
+          when 'announcement'
+            .announcement
+              div #{msg.text}
+              div.time #{moment(msg.sent).fromNow()} <i>via</i> <u>Shintolin Staff</u>
           when 'attack'
             include chat/attack
           when 'attacked'
@@ -148,7 +152,7 @@
                   | . 
               else
                 | . 
-              span.time= moment(msg.sent).fromNow()
+              div.time= moment(msg.sent).fromNow()
           when 'sow'
             include chat/sow
           when 'storm_damage_building_exterior'
@@ -171,6 +175,6 @@
             .action
               a.neutral(href='/profile/#{msg.sender_id}')= msg.sender_name
               i  ??? (#{msg.type}) ??? 
-              span.time= moment(msg.sent).fromNow()
+              div.time= moment(msg.sent).fromNow()
   unless locals.suppress_more_link
     .more: a.btn.btn-link(href='/game/chat') Full Chat History

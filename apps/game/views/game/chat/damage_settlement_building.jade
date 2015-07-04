@@ -19,7 +19,7 @@ if msg.hit
       | . 
     if msg.broken
       | Your cherished #{data.items[msg.weapon].name} breaks! You throw away the useless pieces in disgust. 
-    span.time= moment(msg.sent).fromNow()
+    div.time= moment(msg.sent).fromNow()
 else
   .action
     | Guards report someone has 
@@ -34,4 +34,4 @@ else
         | attacked
     |  the #{data.buildings[msg.building].name}
     |  with a #{data.items[msg.weapon].name} and missed. 
-    span.time= moment(msg.sent).fromNow()
+    div.time= moment(msg.sent).fromNow()

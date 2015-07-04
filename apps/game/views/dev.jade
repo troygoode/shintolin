@@ -63,6 +63,11 @@ block content
             for c in data.creatures
               option(value=c.id)= c.name
 
+        form(method='POST', action='/game/dev/announce')
+          input(type='hidden', name='_csrf', value=csrf)
+          input(type='text', name='text')
+          input(type='submit', value='Announce', data-action='dev-announce')
+
         form(method='POST', action='/game/dev/teleport-to-coords')
           input(type='hidden', name='_csrf', value=csrf)
           label X

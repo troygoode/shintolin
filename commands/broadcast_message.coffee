@@ -5,7 +5,7 @@ queries = require '../queries'
 
 module.exports = (type, sender, blacklist = [], message = {}, cb) ->
   now = new Date()
-  queries.all_characters (err, characters) ->
+  queries.all_players (err, characters) ->
     return cb(err) if err?
     async.forEach characters, (actor, cb) ->
       blacklisted = _.some blacklist, (a) ->

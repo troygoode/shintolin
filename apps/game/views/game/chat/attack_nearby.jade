@@ -54,4 +54,4 @@
   else if msg.response === 'flee'
     |  The #{data.creatures[msg.target_creature].name} fled the area. 
 
-  span.time= moment(msg.sent).fromNow()
+  div.time= moment(msg.sent).fromNow()

@@ -2,4 +2,4 @@
   | The nearby #{data.buildings[msg.building].name} was destroyed by 
   a(href='/profile/#{msg.destroyer_slug}')= msg.destroyer_name
   | . 
-  span.time= moment(msg.sent).fromNow()
+  div.time= moment(msg.sent).fromNow()
