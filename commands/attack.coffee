@@ -67,7 +67,7 @@ update_target = (ctx, cb) ->
         update =
           $inc:
             frags: 0 - ctx.frags
-            deaths: -1
+            deaths: 1
         db.characters.update query, update, cb
       (cb) ->
         return cb() unless ctx.remove_from_settlement
