@@ -3,16 +3,20 @@
 async = require 'async'
 db = require '../../db'
 teleport = require '../../commands/teleport'
+UPSERT = {YES: true, NO: false}
+MULTI = {YES: true, NO: false}
 
 fail = (err) ->
   console.error err
   process.exit 1
 
-db.tiles.update {}, {$set: {people: []}}, (err) ->
+db.tiles.update {$where: "this.people.length > 0"}, {$set: {people: []}}, UPSERT.NO, MULTI.YES, (err, count) ->
   return fail(err) if err?
+  console.log "#{count} affected tiles"
 
   db.characters.find({}).toArray (err, characters) ->
     return fail(err) if err?
+    console.log "#{characters.length} characters"
 
     async.forEachOfSeries characters, (c, i, cb) ->
       teleport c, undefined, {x: c.x, y: c.y, z: c.z}, cb
