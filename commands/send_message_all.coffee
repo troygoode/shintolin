@@ -7,7 +7,7 @@ module.exports = (type, sender, recipients, blacklist = [], message = {}, cb) ->
   async.forEach recipients, (recipient, cb) ->
     blacklisted = _.some blacklist, (a) ->
       a?._id.toString() is recipient?._id.toString()
-    if blacklisted
+    if blacklisted or recipient.creature?
       cb()
     else
       m = _.extend
