@@ -3,7 +3,7 @@ div
   if usables.length
     form(method='POST', action='/game/use')
       input(type='hidden', name='_csrf', value=csrf)
-      input(type='submit', value='Use', data-action='use')
+      mixin action_button('Use')
       select(name='item', style='width: 10em', data-persist='usable-item', data-action-focus='use')
         for usable in usables
           option(value=usable.id)= usable.name
@@ -15,7 +15,7 @@ div
 
   form(method='POST', action='/game/craft')
     input(type='hidden', name='_csrf', value=csrf)
-    input(type='submit', value='Craft', data-action='craft')
+    mixin action_button('Craft', undefined, 'Variable')
     select(name='recipe', style='width: 10em', data-persist='recipe', data-action-focus='craft')
       for recipe in recipes
         option(value=recipe.id) #{describe_gives(recipe.gives)}
@@ -30,7 +30,7 @@ div
   if center.tile.z === 0
     form(method='POST', action='/game/build')
       input(type='hidden', name='_csrf', value=csrf)
-      input(type='submit', value='Build', data-action='build')
+      mixin action_button('Build', undefined, 'Variable')
       select(name='building', style='width: 10em', data-persist='building', data-action-focus='build')
         for building in buildings
           option(value=building.id)= building.name
@@ -41,32 +41,32 @@ div
 
   form(method='POST', action='/game/search')
     input(type='hidden', name='_csrf', value=csrf)
-    input(type='submit', value='Search', data-action='search')
+    mixin action_button('Search')
 
   if _.contains(actions, 'chop')
     form(method='POST', action='/game/chop')
       input(type='hidden', name='_csrf', value=csrf)
-      input(type='submit', value='Chop Tree', data-action='chop', data-toggle='tooltip', data-placement='left', title='#{data.actions.chop.ap(character, center.tile)} AP')
+      mixin action_button('Chop Tree', 'chop', data.actions.chop.ap(character, center.tile))
 
   if _.contains(actions, 'quarry')
     form(method='POST', action='/game/quarry')
       input(type='hidden', name='_csrf', value=csrf)
-      input(type='submit', value='Quarry', data-action='quarry')
+      mixin action_button('Quarry')
 
   if _.contains(actions, 'fill')
     form(method='POST', action='/game/fill-pot')
       input(type='hidden', name='_csrf', value=csrf)
-      input(type='submit', value='Fill', data-action='fill')
+      mixin action_button('Fill')
 
   if _.contains(actions, 'dig')
     form(method='POST', action='/game/dig')
       input(type='hidden', name='_csrf', value=csrf)
-      input(type='submit', value='Dig', data-action='dig')
+      mixin action_button('Dig')
 
   if _.contains(actions, 'sow')
     form(method='POST', action='/game/sow')
       input(type='hidden', name='_csrf', value=csrf)
-      input(type='submit', value='Sow Field', data-action='sow')
+      mixin action_button('Sow')
       select(name='item', style='width: 10em', data-persist='plantable', data-action-focus='sow')
         for item in data.items
           if _.contains(item.tags || [], 'plantable')
@@ -75,7 +75,7 @@ div
   if _.contains(actions, 'water')
     form(method='POST', action='/game/water')
       input(type='hidden', name='_csrf', value=csrf)
-      input(type='submit', value='Water Field', data-action='water')
+      mixin action_button('Water Field')
       select(name='item', style='width: 10em', data-persist='water', data-action-focus='water')
         for citem in character.items
           - var item = data.items[citem.item];
@@ -85,7 +85,7 @@ div
   if _.contains(actions, 'harvest')
     form(method='POST', action='/game/harvest')
       input(type='hidden', name='_csrf', value=csrf)
-      input(type='submit', value='Harvest Field', data-action='harvest')
+      mixin action_button('Harvest')
       select(name='item', style='width: 10em', data-persist='harvest', data-action-focus='harvest')
         for citem in character.items
           - var item = data.items[citem.item];
