@@ -1,57 +1,51 @@
-mixin render_skill(skill, buy_cost, buyable, available_xp)
-  - var bought = character.skills.indexOf(skill.skill.id) !== -1;
-  - var sellable = _.intersection(character.skills, _.pluck(skill.children, 'id')).length === 0;
-  li
-    if bought
-      b.bought= skill.skill.name
-    else
-      b.unbought= skill.skill.name
-    |  - 
-    i= skill.skill.description
-    |  
-    if bought
-      if sellable
-        form(method='POST', action='/game/skills/sell/#{skill.skill.id}', style='display: inline')
-          input(type='hidden', name='_csrf', value=csrf)
-          input(type='submit', value='Sell')
-    else if can_buy && buyable
-      if buy_cost <= available_xp
-        form(method='POST', action='/game/skills/buy/#{skill.skill.id}', style='display: inline')
-          input(type='hidden', name='_csrf', value=csrf)
-          input(type='submit', value='Buy: #{buy_cost}xp')
+extends ./_layout.jade
+
+block content
+  .col-md-12
+    mixin render_skill(skill, buy_cost, buyable, available_xp)
+      - var bought = character.skills.indexOf(skill.skill.id) !== -1;
+      - var sellable = _.intersection(character.skills, _.pluck(skill.children, 'id')).length === 0;
+      li
+        if bought
+          b.bought= skill.skill.name
+        else
+          b.unbought= skill.skill.name
+        |  - 
+        i= skill.skill.description
+        |  
+        if bought
+          if sellable
+            form(method='POST', action='/game/skills/sell/#{skill.skill.id}', style='display: inline')
+              input(type='hidden', name='_csrf', value=csrf)
+              input(type='submit', value='Sell')
+        else if can_buy && buyable
+          if buy_cost <= available_xp
+            form(method='POST', action='/game/skills/buy/#{skill.skill.id}', style='display: inline')
+              input(type='hidden', name='_csrf', value=csrf)
+              input(type='submit', value='Buy: #{buy_cost}xp')
+          else
+            input.disabled(type='submit', disabled='disabled', value='Buy: #{buy_cost}xp')
+        if skill.children
+          ul
+            for child in skill.children
+              mixin render_skill(child, buy_cost, bought, available_xp)
+    mixin branch(branch)
+      - var level = character['level_' + branch.id];
+      - var xp = character['xp_' + branch.id];
+      h2 Level #{level} #{branch.name}
+      if xp === 1
+        | You have #{xp} #{branch.name} experience point left to spend.
       else
-        input.disabled(type='submit', disabled='disabled', value='Buy: #{buy_cost}xp')
-    if skill.children
+        | You have #{xp} #{branch.name} experience points left to spend.
+      br
       ul
-        for child in skill.children
-          mixin render_skill(child, buy_cost, bought, available_xp)
-mixin branch(branch)
-  - var level = character['level_' + branch.id];
-  - var xp = character['xp_' + branch.id];
-  h2 Level #{level} #{branch.name}
-  if xp === 1
-    | You have #{xp} #{branch.name} experience point left to spend.
-  else
-    | You have #{xp} #{branch.name} experience points left to spend.
-  br
-  ul
-    for skill in branch.skills
-      mixin render_skill(skill, (level + 2) * 30, true, xp)
-doctype html
-html
-  head
-    title Shintolin - Skills
-    link(rel='stylesheet', type='text/css', href='/shintolin.css')
-    link(rel='stylesheet', type='text/css', href='/game/css/game.css')
-  body
-    h1.header Skills
+        for skill in branch.skills
+          mixin render_skill(skill, (level + 2) * 30, true, xp)
+
     p You are level #{character.level}. You have learned #{character.skills.length} out of a maximum #{maximum_skills} skills.
     hr
-    a.buttonlink(href='/game') Return
-    hr
+
     mixin branch(tree.wanderer)
     mixin branch(tree.herbalist)
     mixin branch(tree.crafter)
     mixin branch(tree.warrior)
-    hr
-    a.buttonlink(href='/game') Return

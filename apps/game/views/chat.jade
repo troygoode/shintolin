@@ -1,13 +1,7 @@
-doctype html
-html
-  head
-    title Shintolin - Chat Log
-    link(rel='stylesheet', type='text/css', href='/shintolin.css')
-    link(rel='stylesheet', type='text/css', href='/game/css/game.css')
-  body
-    h1.header Chat Log
-    a.buttonlink(href='/game') Return
-    hr
+extends ./_layout.jade
+
+block content
+  .col-md-12
     if page > 0
       a.buttonlink(href='/game/chat?page=#{page - 1}') &larr; Newer
     else
@@ -27,5 +21,3 @@ html
       a.buttonlink(href='/game/chat?page=#{page + 1}') Older &rarr;
     else
       a.disabled.buttonlink(disabled='disabled') Older &rarr;
-    hr
-    a.buttonlink(href='/game') Return

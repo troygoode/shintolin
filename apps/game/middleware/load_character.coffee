@@ -5,4 +5,5 @@ module.exports = (req, res, next) ->
     return next(err) if err?
     return res.redirect('/logout') unless character? #probably a db reset
     req.character = character
+    res.locals.character = character
     next()

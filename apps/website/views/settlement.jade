@@ -108,6 +108,10 @@ html
                   else
                     br
                     i None
+                  if is_member
+                    form(method='POST', action='/game/leave')
+                      input(type='hidden', name='_csrf', value=csrf)
+                      input(type='submit', value='Leave Settlement', data-action='leave')
         td
           if settlement.image_url.length
             img(style='max-width: 300px; max-height: 300px', src=settlement.image_url)

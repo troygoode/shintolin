@@ -23,6 +23,7 @@ module.exports = (app) ->
 
   app.get '/skills', (req, res, next) ->
     res.render 'skills',
+      _nav: 'skills'
       tree: skill_tree
       character: req.character
       can_buy: true

@@ -53,10 +53,15 @@ html
                 tr
                   td: b Settlement:
                   td
-                    a.neutral(href='/settlements/#{character.settlement_slug}')= character.settlement_name
-                    if character.settlement_provisional
-                      |  
-                      i (Provisional)
+                    div
+                      a.neutral(href='/settlements/#{character.settlement_slug}')= character.settlement_name
+                      if character.settlement_provisional
+                        |  
+                        i (Provisional)
+                    if editable
+                      form(method='POST', action='/game/leave')
+                        input(type='hidden', name='_csrf', value=csrf)
+                        input(type='submit', value='Leave Settlement', data-action='leave')
               tr
                 td: b Level:
                 td= character.skills.length + 1

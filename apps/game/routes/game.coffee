@@ -176,6 +176,7 @@ module.exports = (app) ->
       building = if req.tile.building? then data.buildings[req.tile.building] else null
       terrain = resolve_terrain req.character, req.tile
       locals =
+        _nav: 'game'
         character: req.character
         grid: build_grid tiles, req.character
         center: center

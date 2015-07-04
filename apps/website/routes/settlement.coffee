@@ -1,3 +1,4 @@
+_ = require 'underscore'
 moment = require 'moment'
 commands = require '../../../commands'
 queries = require '../../../queries'
@@ -24,6 +25,11 @@ visit_member = (settlement, member) ->
   leader: leader
   votes: count_votes settlement, member
 
+is_member = (settlement, character_id) ->
+  match = _.find settlement.members ? [], (member) ->
+    member._id.toString() is character_id
+  !!match
+
 module.exports = (app) ->
 
   app.get '/settlements/:settlement_slug', (req, res, next) ->
@@ -32,6 +38,8 @@ module.exports = (app) ->
       return next() unless settlement?
       res.render 'settlement',
         moment: moment
+        is_leader: req.session.character? and settlement.leader? and req.session.character is settlement.leader._id.toString()
+        is_member: is_member settlement, req.session.character
         settlement: settlement
         members: settlement.members.map (m) -> visit_member settlement, m
         editable: req.session.character? and settlement.leader? and req.session.character is settlement.leader._id.toString()

@@ -4,6 +4,7 @@ errorhandler = require 'errorhandler'
 body_parser = require 'body-parser'
 cookie_parser = require 'cookie-parser'
 method_override = require 'method-override'
+csurf = require 'csurf'
 config = require '../../config'
 time = require '../../time'
 shared_session = require '../shared_session'
@@ -25,6 +26,11 @@ app.use body_parser.json()
 app.use method_override()
 app.use cookie_parser()
 app.use shared_session
+
+app.use csurf()
+app.use (req, res, next) ->
+  res.locals.csrf = req.csrfToken()
+  next()
 
 app.use (req, res, next) ->
   req.time = time()

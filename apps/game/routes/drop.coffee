@@ -4,7 +4,7 @@ commands = require '../../../commands'
 
 module.exports = (app) ->
   app.post '/drop', (req, res, next) ->
-    return res.redirect '/game' unless req.item?
+    return res.redirect '/game/inventory' unless req.item?
     count = req.body.count ? 1
     commands.remove_item req.character, req.item, count, (err) ->
       return next(err) if err?
@@ -13,4 +13,4 @@ module.exports = (app) ->
         item: req.item.id
       commands.send_message 'drop', req.character, req.character, msg, (err) ->
         return next(err) if err?
-        res.redirect '/game'
+        res.redirect '/game/inventory'

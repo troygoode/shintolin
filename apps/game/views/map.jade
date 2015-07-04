@@ -1,14 +1,7 @@
-doctype html
-html
-  head
-    title Shintolin - Explore. Settle. Trade. Conquer.
-    link(rel='stylesheet', type='text/css', href='/shintolin.css')
-    link(rel='stylesheet', type='text/css', href='/game/css/game.css')
-    link(rel='stylesheet', type='text/css', href='/game/css/tiles.css')
-  body
-    h1.header Map
-    a.buttonlink(href='/game') Return
-    hr
+extends ./_layout.jade
+
+block content
+  .col-md-12
     table
       for row in grid
         tr
@@ -25,5 +18,3 @@ html
                 span.mapdata 1 person
               else if tile.people && tile.people.length > 1
                 span.mapdata #{tile.people.length} people
-    hr
-    a.buttonlink(href='/game') Return

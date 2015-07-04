@@ -1,0 +1,46 @@
+extends ./_layout.jade
+
+block content
+  .col-md-12
+    .gamebox.invbox(style='opacity: .82')
+      if character.weight === 0
+        b Weight: None
+      else if character.weight <= 30
+        b Weight: Light
+      else if character.weight <= 50
+        b Weight: Medium
+      else if character.weight <= 60
+        b Weight: Heavy
+      else if character.weight <= 70
+        b Weight: Very Heavy
+      else
+        b Weight: You are over encumbered and cannot move.
+      hr
+      i You are carrying:
+      if character.items.length === 0
+        p: i Nothing.
+      else
+        - var sorted_items = _.sortBy(character.items, function(i){ return data.items[i.item].name});
+        for item in sorted_items
+          if item.count === 1
+            div 1 x #{data.items[item.item].name}
+          else
+            div #{item.count} x #{data.items[item.item].plural}
+        hr
+        form(method='POST', action='/game/drop')
+          input(type='hidden', name='_csrf', value=csrf)
+          input(type='submit', value='Drop')
+          - var max = _.max(_.pluck(character.items, 'count'));
+          if max === 1
+            input(type='hidden', name='count', value=1)
+          else
+            - var range = _.range(max);
+            select(name='count')
+              for i in range
+                option(value=i + 1)= i + 1
+          select(name='item', style='width: 10em')
+            for item in sorted_items
+              if item.count === 1
+                option(value=item.item)= data.items[item.item].name
+              else
+                option(value=item.item)= data.items[item.item].plural

@@ -1,3 +1,4 @@
+config = require '../../../config'
 db = require '../../../db'
 data = require '../../../data'
 commands = require '../../../commands'
@@ -11,6 +12,14 @@ developers_only = (req, res, next) ->
     res.send('Only developers may access that feature.')
 
 module.exports = (app) ->
+
+  app.get '/dev', (req, res, next) ->
+    res.render 'dev',
+      config: config
+      center:
+        terrain: data.terrains[req.tile.terrain]
+        tile: req.tile
+      data: data
 
   app.get '/dev/replenish-ap', developers_only, (req, res, next) ->
     query =

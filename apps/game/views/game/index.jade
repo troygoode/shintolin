@@ -1,34 +1,12 @@
-doctype html
-html
-  head
-    title Shintolin - Explore. Settle. Trade. Conquer.
-    link(rel='stylesheet', type='text/css', href='/game/bootstrap-3.3.5-dist/css/bootstrap.min.css')
-    link(rel='stylesheet', type='text/css', href='/game/bootstrap-3.3.5-dist/css/bootstrap-theme.min.css')
-    link(rel='stylesheet', type='text/css', href='/shintolin.css')
-    link(rel='stylesheet', type='text/css', href='/game/css/game.css')
-    link(rel='stylesheet', type='text/css', href='/game/css/tiles.css')
-  body
-    .bigbox
-      include map
-      include stats
-      include nav
-      include inventory
-      if developer_mode
-        include dev
-      table.infotable
-        tr
-          td
-            include dazed
-            include actions
-        tr
-          td
-            include flavor
-        tr
-          td
-            include chat_input
-            include chat
+extends ../_layout.jade
 
-    script(src='/game/js/lib/jquery-2.1.4.min.js')
-    script(src='/game/js/lib/jquery.cookie.js')
-    script(src='/game/js/game.js')
-    script(src='/game/bootstrap-3.3.5-dist/js/bootstrap.min.js')
+block content
+  .col-md-6
+    include map
+    include stats
+  .col-md-6
+    include dazed
+    include actions
+    include flavor
+    include chat_input
+    include chat

@@ -56,6 +56,7 @@ module.exports = (app) ->
     queries.tiles_in_square_around req.character, 5, (err, tiles) ->
       return next(err) if err?
       locals =
+        _nav: 'map'
         grid: build_grid tiles, req.character
         time: req.time
         data: data
