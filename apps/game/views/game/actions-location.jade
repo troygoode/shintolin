@@ -46,7 +46,7 @@ div
   if _.contains(actions, 'chop')
     form(method='POST', action='/game/chop')
       input(type='hidden', name='_csrf', value=csrf)
-      input(type='submit', value='Chop Tree (#{data.actions.chop.ap(character, center.tile)}ap)', data-action='chop')
+      input(type='submit', value='Chop Tree', data-action='chop', data-toggle='tooltip', data-placement='left', title='#{data.actions.chop.ap(character, center.tile)} AP')
 
   if _.contains(actions, 'quarry')
     form(method='POST', action='/game/quarry')
