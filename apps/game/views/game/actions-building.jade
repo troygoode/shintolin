@@ -1,0 +1,56 @@
+div
+  -var hasAction = false;
+
+  if repair
+    - hasAction = true;
+    form(method='POST', action='/game/repair')
+      input(type='hidden', name='_csrf', value=csrf)
+      input(type='submit', value=building.text && building.text.repair && building.text.repair.button ? building.text.repair.button : 'Repair', data-action='repair')
+
+
+  if settlement && _.contains(actions, 'promote') && settlement.leader && settlement.leader._id.toString() === character._id.toString()
+    - hasAction = true;
+    form(method='POST', action='/game/promote')
+      input(type='hidden', name='_csrf', value=csrf)
+      input(type='submit', value='Promote', data-action='promote')
+      select(name='character', style='width: 10em', data-persist='member', data-action-focus='promote')
+        option(value='') no-one
+        for m in settlement.members
+          if m.provisional
+            option(value=m._id)= m.name
+
+  if settlement && _.contains(actions, 'evict') && settlement.leader && settlement.leader._id.toString() === character._id.toString()
+    - hasAction = true;
+    form(method='POST', action='/game/evict')
+      input(type='hidden', name='_csrf', value=csrf)
+      input(type='submit', value='Evict', data-action='evict')
+      select(name='character', style='width: 10em', data-persist='member', data-action-focus='evict')
+        option(value='') no-one
+        for m in evictables
+          option(value=m._id)= m.name
+
+  if settlement && character.settlement_id && settlement._id.toString() === character.settlement_id.toString()
+    - hasAction = true;
+    - var my_member_record = _.find(settlement.members, function(m){ return m._id.toString() === character._id.toString(); });
+    - var candidates = settlement.members.filter(function(m){ return !m.provisional; });
+    form(method='POST', action='/game/vote')
+      input(type='hidden', name='_csrf', value=csrf)
+      input(type='submit', value='Vote For', data-action='vote')
+      select(name='character', style='width: 10em')
+        option(value='') no-one
+        for c in candidates
+          if my_member_record.voting_for && my_member_record.voting_for._id.toString() === c._id.toString()
+            option(value=c._id, selected='selected')= c.name
+          else
+            option(value=c._id)= c.name
+    if my_member_record.voting_for
+      | Current Vote: <a href='/profile/#{my_member_record.voting_for.slug}'>#{my_member_record.voting_for.name}</a>
+
+  if center.tile.settlement_id && center.building && center.building.id === 'totem' && (!character.settlement_id || center.tile.settlement_id.toString() !== character.settlement_id.toString())
+    - hasAction = true;
+    form(method='POST', action='/game/join')
+      input(type='hidden', name='_csrf', value=csrf)
+      input(type='submit', value='Join Settlement (25ap)', data-action='join')
+
+  if !hasAction
+    p No building actions.
