@@ -57,7 +57,7 @@ module.exports = (app) ->
         motto: req.body.motto
         leader_title: req.body.leader_title
         website_url: req.body.website_url
-        open: Boolean(req.body.open)
+        open: req.body.open is 'true'
       commands.update_settlement_profile settlement, update, (err) ->
         return next(err) if err?
         res.redirect "/settlements/#{settlement.slug}"

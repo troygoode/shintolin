@@ -15,19 +15,30 @@ html
       tr
         td(colspan='2')
           .beigebox(style='font-style: italic; width: 35em')
+
             if settlement.website_url.length
-              <b>Website:</b> <a href='#{settlement.website_url}'>#{settlement.website_url}</a>
+              div
+                b Website:
+                |  
+                a(href='#{settlement.website_url}') #{settlement.website_url}
               hr
+
             unless settlement.destroyed
-              <b>Signup link:</b> <a href='http://www.shintolin.com/?settlement=#{settlement.slug}'>http://www.shintolin.com/?settlement=#{settlement.slug}</a>
+              div
+                b Signup link:
+                |  
+                a(href='http://www.shintolin.com/?settlement=#{settlement.slug}') http://www.shintolin.com/?settlement=#{settlement.slug}
               hr
+
             if settlement.description.length
               | #{settlement.description}
             else
               | A village located in ???.
+
         if editable
           td(rowspan='3')
             .beigebox(style='width: 28em')
+
               form(method='POST')
                 input(type='hidden', name='_csrf', value=csrf)
                 b Welcome, my #{settlement.leader_title}.
@@ -59,14 +70,19 @@ html
                   br
                   input.text(type='text', name='website_url', maxlength='100', style='width: 300px', value=settlement.website_url)
                 div
-                  if settlement.open
-                    | #{settlement.name} is open to new characters. Keep #{settlement.name} open?
-                  else
-                    | New characters are unable to join #{settlement.name}. Open #{settlement.name} to new players?
-                  | Yes:
-                  input(type='radio', name='open', value='true', checked=(settlement.open ? 'checked' : null))
-                  | No:
-                  input(type='radio', name='open', value='true', checked=(settlement.open ? null : 'checked'))
+                  div
+                    if settlement.open
+                      | #{settlement.name} is open to new characters.<br>Keep #{settlement.name} open?
+                    else
+                      | New characters are unable to join #{settlement.name}.<br>Open #{settlement.name} to new players?
+                  div
+                    label(for='open_true') Yes
+                    |  
+                    input#open_true(type='radio', name='open', value='true', checked=(settlement.open ? 'checked' : null))
+                    |  | 
+                    label(for='open_false') No
+                    |  
+                    input#open_false(type='radio', name='open', value='false', checked=(settlement.open ? null : 'checked'))
                 hr
                 input(type='submit', value='Submit')
       tr
@@ -118,6 +134,7 @@ html
             img(style='max-width: 300px; max-height: 300px', src=settlement.image_url)
           else
             img(style='max-width: 300px; max-height: 300px', src='/images/p_huts_small.jpg')
+
     hr
     if logged_in
       a.buttonlink(href='/game') Return

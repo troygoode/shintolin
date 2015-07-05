@@ -38,11 +38,11 @@ html
                 input(type='hidden', name='_csrf', value=csrf)
                 | Email Address:
                 br
-                input.text(type='email', name='email', maxlength='255')
+                input.text(type='email', name='email', maxlength='255', style='width: 12em')
                 br
                 | Password:
                 br
-                input.text(type='password', name='password', length='64')
+                input.text(type='password', name='password', length='64', style='width: 12em')
                 hr
                 input(type='submit', value='Login', style='margin-left: auto; margin-right: 0')
             .beigebox(style='width: 15em; margin-top: 4px')
@@ -83,31 +83,29 @@ html
                 input(type='hidden', name='_csrf', value=csrf)
                 | Email Address:
                 br
-                input.text(type='email', name='email', length='255')
+                input.text(type='email', name='email', length='255', style='width: 12em')
                 br
                 | Password:
                 br
-                input.text(type='password', name='password_1', length='64')
+                input.text(type='password', name='password_1', length='64', style='width: 12em')
                 br
                 | Re-enter password:
                 br
-                input.text(type='password', name='password_2', length='64')
+                input.text(type='password', name='password_2', length='64', style='width: 12em')
                 hr
                 | Character Name:
                 br
-                input.text(type='text', name='username', maxlength='24')
-                if settlement_count > 0
+                input.text(type='text', name='username', maxlength='24', style='width: 12em')
+                if settlements.length > 0
                   br
-                  | Settlement (optional, and can be changed later):
+                  | Starting Settlement
                   br
-                  select(name='settlement', style='width: 10em')
-                    option(value='') None
+                  select(name='settlement', style='width: 12em')
+                    option(value='') None (Wanderer)
                     for settlement in settlements
                       option(value=settlement._id)= settlement.name
                 hr
                 input(type='submit', value='Sign Up Now!')
-      i Now that enough money was donated to buy a new server, Shintolin is no longer taking donations. A big thank you to everyone who gave money, very much appreciated.
-
     hr
 
     .news

@@ -37,7 +37,8 @@ module.exports = (app) ->
         message: req.query.msg
         square_count: square_count
         settlement_count: active_settlements.length
-        settlements: active_settlements
+        settlements: active_settlements.filter (s) ->
+          s.open
         younguns: younguns
         server_time: new Date()
         updates: _.first(updates, 5)
