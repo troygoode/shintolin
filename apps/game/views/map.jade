@@ -8,14 +8,15 @@ block content
           tr
             for tile in row
               td.map(class='tile-#{tile.style}')
-                if tile.tile.building
-                  span.mapdata.feature= data.buildings[tile.tile.building].name
-                  br
-                if tile.creatures && tile.creatures.length
-                  for creature in tile.creatures
-                    span.mapdata.creature #{creature.creature.name} (#{creature.hp}/#{creature.hp_max})
+                div
+                  if tile.tile.building
+                    div: .mapdata.feature= data.buildings[tile.tile.building].name
                     br
-                if tile.people && tile.people.length === 1
-                  span.mapdata 1 person
-                else if tile.people && tile.people.length > 1
-                  span.mapdata #{tile.people.length} people
+                  if tile.creatures && tile.creatures.length
+                    for creature in tile.creatures
+                      div: .mapdata.creature #{creature.creature.name} (#{creature.hp}/#{creature.hp_max})
+                      br
+                  if tile.people && tile.people.length === 1
+                    div: .mapdata 1 person
+                  else if tile.people && tile.people.length > 1
+                    div: .mapdata #{tile.people.length} people

@@ -192,10 +192,6 @@ background-image: url('/images/parchmentbg.jpg');
 {
 font-size: 80%;
 background: #d0d0a0;
-margin:0px;
-padding: 0px 2px 0px 2px;
-position: relative;
-top: 10px;
 }
 .movebutton
 {

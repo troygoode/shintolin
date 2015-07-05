@@ -1,43 +1,56 @@
 div
+  if center.people.length
 
-  form(method='POST', action='/game/attack')
-    input(type='hidden', name='_csrf', value=csrf)
-    mixin action_button('Attack')
-    select(name='target', style='width: 10em', data-persist='target', data-action-focus='attack')
-      option(value='') no-one
-      for c in center.people
-        option(value=c._id)= c.name
-      for c in center.creatures
-        if character.developer
-          option(value=c._id) #{c.creature.name} #{c.hp}/#{c.hp_max}
-        else
-          option(value=c._id)= c.creature.name
-      if center.building && !center.building.invulnerable
-        option(value='building')= center.building.name
-    |  with 
-    select(name='item', style='width: 10em', data-persist='weapon')
-      for weapon in weapons
-        option(value=weapon.id) #{weapon.name} (#{Math.floor(weapon.hit_chance * 100)}%, #{weapon.damage} dmg)
+    if usables.length
+      form(method='POST', action='/game/use')
+        input(type='hidden', name='_csrf', value=csrf)
+        mixin action_button('Use')
+        select(name='item', style='width: 10em', data-persist='usable-item', data-action-focus='use')
+          for usable in usables
+            option(value=usable.id)= usable.name
+        |  on 
+        select(name='target', style='width: 10em', data-persist='target')
+          for c in center.people
+            option(value=c._id)= c.name
 
-  if (center.people.length || _.contains(actions, 'give')) && character.items.length
-    form(method='POST', action='/game/give')
+    form(method='POST', action='/game/attack')
       input(type='hidden', name='_csrf', value=csrf)
-      mixin action_button('Give')
-      - var max = _.max(_.pluck(character.items, 'count'));
-      if max === 1
-        input(type='hidden', name='quantity', value=1)
-      else
-        - var range = _.range(max);
-        select(name='quantity')
-          for i in range
-            option(value=i + 1)= i + 1
-      select(name='item', style='width: 10em', data-persist='item', data-action-focus='give')
-        for item in character.items
-          option(value=item.item)= data.items[item.item].name
-      |  to 
-      select(name='target', style='width: 10em', data-persist='target')
-        if _.contains(actions, 'give')
-          option(value='building')= center.building.name
+      mixin action_button('Attack')
+      select(name='target', style='width: 10em', data-persist='target', data-action-focus='attack')
+        option(value='') no-one
         for c in center.people
           option(value=c._id)= c.name
+        for c in center.creatures
+          if character.developer
+            option(value=c._id) #{c.creature.name} #{c.hp}/#{c.hp_max}
+          else
+            option(value=c._id)= c.creature.name
+        if center.building && !center.building.invulnerable
+          option(value='building')= center.building.name
+      |  with 
+      select(name='item', style='width: 10em', data-persist='weapon')
+        for weapon in weapons
+          option(value=weapon.id) #{weapon.name} (#{Math.floor(weapon.hit_chance * 100)}%, #{weapon.damage} dmg)
 
+    if center.people.length && character.items.length
+      form(method='POST', action='/game/give')
+        input(type='hidden', name='_csrf', value=csrf)
+        mixin action_button('Give')
+        - var max = _.max(_.pluck(character.items, 'count'));
+        if max === 1
+          input(type='hidden', name='quantity', value=1)
+        else
+          - var range = _.range(max);
+          select(name='quantity')
+            for i in range
+              option(value=i + 1)= i + 1
+        select(name='item', style='width: 10em', data-persist='item', data-action-focus='give')
+          for item in character.items
+            option(value=item.item)= data.items[item.item].name
+        |  to 
+        select(name='target', style='width: 10em', data-persist='target')
+          for c in center.people
+            option(value=c._id)= c.name
+
+  else
+    p.empty No targets.

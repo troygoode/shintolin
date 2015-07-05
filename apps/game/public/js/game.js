@@ -9,46 +9,46 @@
 
     switch(event.keyCode) {
       case 81: //q
-        $(".movebutton[data-direction=nw]").trigger("click");
+        $(".map button[data-direction=nw]").trigger("click");
         break;
       case 87: //w
-        $(".movebutton[data-direction=n]").trigger("click");
+        $(".map button[data-direction=n]").trigger("click");
         break;
       case 75: //k (vim-style!)
-        $(".movebutton[data-direction=n]").trigger("click");
+        $(".map button[data-direction=n]").trigger("click");
         break;
       case 69: //e
-        $(".movebutton[data-direction=ne]").trigger("click");
+        $(".map button[data-direction=ne]").trigger("click");
         break;
       case 65: //a
-        $(".movebutton[data-direction=w]").trigger("click");
+        $(".map button[data-direction=w]").trigger("click");
         break;
       case 72: //h (vim-style!)
-        $(".movebutton[data-direction=w]").trigger("click");
+        $(".map button[data-direction=w]").trigger("click");
         break;
       case 68: //d
-        $(".movebutton[data-direction=e]").trigger("click");
+        $(".map button[data-direction=e]").trigger("click");
         break;
       case 76: //l (vim-style!)
-        $(".movebutton[data-direction=e]").trigger("click");
+        $(".map button[data-direction=e]").trigger("click");
         break;
       case 90: //z
-        $(".movebutton[data-direction=sw]").trigger("click");
+        $(".map button[data-direction=sw]").trigger("click");
         break;
       case 83: //s
-        $(".movebutton[data-direction=s]").trigger("click");
+        $(".map button[data-direction=s]").trigger("click");
         break;
       case 88: //x
-        $(".movebutton[data-direction=s]").trigger("click");
+        $(".map button[data-direction=s]").trigger("click");
         break;
       case 74: //j (vim-style!)
-        $(".movebutton[data-direction=s]").trigger("click");
+        $(".map button[data-direction=s]").trigger("click");
         break;
       case 67: //c
-        $(".movebutton[data-direction=se]").trigger("click");
+        $(".map button[data-direction=se]").trigger("click");
         break;
       case 70: //f
-        $(".movebutton[data-direction=enterexit]").trigger("click");
+        $(".map button[data-direction=enterexit]").trigger("click");
         break;
       case 80: //P
         if (event.shiftKey) {

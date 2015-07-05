@@ -30,11 +30,6 @@ body
 select[disabled]
   background-color $bg_light
 
-.mapdata
-  &.feature
-    color #990000
-  &.creature
-    color #0000bb
 td.map
   border 1px solid rgba(255, 255, 255, 0)
   background-color transparent
@@ -42,6 +37,22 @@ td.map > div
   overflow hidden
   max-height 100px
   min-height 100px
+  padding-top 8px
+  form
+    margin 0
+    padding 0
+  button
+    text-transform uppercase
+    min-width 30px
+    margin-bottom 3px
+    font-weight bold
+  .mapdata
+    display inline-block
+    padding 0 4px
+    &.feature
+      color #990000
+    &.creature
+      color #0000bb
 td.map.current
   > div
     border 1px solid rgba(0, 0, 0, .25)
@@ -55,6 +66,8 @@ input[type='submit'].disabled
   border-left 2px solid #eee
   border-bottom 2px solid #666
   border-right 2px solid #666
+input.action
+  font-weight bold
 .error
   margin: 1em 0 0 0
   color #990000

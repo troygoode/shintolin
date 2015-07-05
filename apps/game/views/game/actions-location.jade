@@ -1,33 +1,6 @@
 div
 
-  if usables.length
-    form(method='POST', action='/game/use')
-      input(type='hidden', name='_csrf', value=csrf)
-      mixin action_button('Use')
-      select(name='item', style='width: 10em', data-persist='usable-item', data-action-focus='use')
-        for usable in usables
-          option(value=usable.id)= usable.name
-      |  on 
-      select(name='target', style='width: 10em', data-persist='target')
-        option(value='self') yourself
-        for c in center.people
-          option(value=c._id)= c.name
-
-  form(method='POST', action='/game/craft')
-    input(type='hidden', name='_csrf', value=csrf)
-    mixin action_button('Craft', undefined, 'Variable')
-    select(name='recipe', style='width: 10em', data-persist='recipe', data-action-focus='craft')
-      for recipe in recipes
-        option(value=recipe.id) #{describe_gives(recipe.gives)}
-          |  (#{recipe.ap}ap
-          if recipe.tools
-            for item in recipe.tools
-              | , #{data.items[item].name}
-          for item in recipe.items
-            | , #{item.count} x #{data.items[item.item].name}
-          | )
-
-  if center.tile.z === 0
+  if center.tile.z === 0 && !building
     form(method='POST', action='/game/build')
       input(type='hidden', name='_csrf', value=csrf)
       mixin action_button('Build', undefined, 'Variable')

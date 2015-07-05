@@ -50,7 +50,7 @@ block content
           input(type='hidden', name='_csrf', value=csrf)
           input(type='submit', value='Materialize', data-action='materialize')
           select(name='item', style='width: 10em', data-persist='item', data-action-focus='materialize')
-            for i in data.items
+            for i in _.sortBy(data.items, 'name')
               option(value=i.id)= i.name
           select(name='quantity', data-persist='materialize-quantity', data-action-focus='materialize')
             for i in _.range(100)

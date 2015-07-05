@@ -14,6 +14,24 @@ div
       input(type='hidden', name='_csrf', value=csrf)
       input(type='submit', value=building.text && building.text.repair && building.text.repair.button ? building.text.repair.button : 'Repair', data-action='repair')
 
+  if _.contains(actions, 'give') && character.items.length
+    - hasAction = true;
+    form(method='POST', action='/game/give')
+      input(type='hidden', name='_csrf', value=csrf)
+      mixin action_button('Give')
+      - var max = _.max(_.pluck(character.items, 'count'));
+      if max === 1
+        input(type='hidden', name='quantity', value=1)
+      else
+        - var range = _.range(max);
+        select(name='quantity')
+          for i in range
+            option(value=i + 1)= i + 1
+      select(name='item', style='width: 10em', data-persist='item', data-action-focus='give')
+        for item in character.items
+          option(value=item.item)= data.items[item.item].name
+      input(type='hidden', name='target', value='building')
+
   if _.contains(actions, 'take') && center.tile.items.length
     form(method='POST', action='/game/take')
       input(type='hidden', name='_csrf', value=csrf)

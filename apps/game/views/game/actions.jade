@@ -2,7 +2,7 @@
   include ./flavor.jade
 
   mixin action_button(text, key, ap)
-    input(type='submit', value=text, data-action=(key || text.toLowerCase().replace(/\s/g, '-')), data-toggle='tooltip', data-placement='left', title='#{ap || 1} AP')
+    input.action.btn.btn-default(type='submit', value=text, data-action=(key || text.toLowerCase().replace(/\s/g, '-')), data-toggle='tooltip', data-placement='left', title='#{ap || 1} AP')
 
   if character.hp > 0
     .actions.hidden
@@ -11,6 +11,7 @@
         li.active(role='presentation'): a(href='#actions-location', aria-controls='actions-location', role='tab', data-toggle='tab') Location
         li(role='presentation'): a(href='#actions-building', aria-controls='actions-building', role='tab', data-toggle='tab') Building
         li(role='presentation'): a(href='#actions-target', aria-controls='actions-target', role='tab', data-toggle='tab') Target
+        li(role='presentation'): a(href='#actions-self', aria-controls='actions-self', role='tab', data-toggle='tab') Self
 
       .tab-content
         #actions-location.tab-pane.active(role='tabpanel')
@@ -19,4 +20,6 @@
           include ./actions-building.jade
         #actions-target.tab-pane(role='tabpanel')
           include ./actions-target.jade
+        #actions-self.tab-pane(role='tabpanel')
+          include ./actions-self.jade
 
