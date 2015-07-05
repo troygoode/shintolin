@@ -29,6 +29,7 @@ html
           td(rowspan='3')
             .beigebox(style='width: 28em')
               form(method='POST')
+                input(type='hidden', name='_csrf', value=csrf)
                 b Welcome, my #{settlement.leader_title}.
                 hr
                 | Edit description:

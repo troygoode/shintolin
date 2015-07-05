@@ -18,6 +18,7 @@ html
           td(rowspan='2')
             .beigebox(style='width: 25em')
               form(method='POST', autocomplete='off')
+                input(type='hidden', name='_csrf', value=csrf)
                 // hack to turn off autocomplete: http://stackoverflow.com/a/23234498/5047
                 div
                   input(type='text', style='display:none')
