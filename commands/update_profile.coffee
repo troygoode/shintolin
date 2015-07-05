@@ -6,7 +6,7 @@ get_character_by_email = require '../queries/get_character_by_email'
 module.exports = (character, bio, image_url, email, password, cb) ->
   async.series [
     (cb) ->
-      return cb() unless email?.length
+      return cb() unless email?.length and email isnt character.email
       get_character_by_email email, (err, existing_character) ->
         return cb(err) if err?
         return cb() unless existing_character?
