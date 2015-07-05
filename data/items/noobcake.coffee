@@ -1,6 +1,6 @@
 module.exports =
   name: 'noobcake'
   plural: 'noobcakes'
-  tags: ['food']
+  tags: ['usable', 'food']
   weight: 0
   nodrop: true
