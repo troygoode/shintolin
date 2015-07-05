@@ -32,8 +32,10 @@ html
 
             if settlement.description.length
               | #{settlement.description}
+            else if region
+              | A village located in #{region.name}.
             else
-              | A village located in ???.
+              | A village located in the wilderness.
 
         if editable
           td(rowspan='3')
@@ -91,7 +93,10 @@ html
             table
               tr
                 td: b Region:
-                td ???
+                if region
+                  td #{region.name}
+                else
+                  td: i Unknown
               tr
                 td: b #{settlement.leader_title}:
                 if settlement.leader

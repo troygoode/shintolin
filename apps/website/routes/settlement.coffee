@@ -1,6 +1,7 @@
 _ = require 'underscore'
 moment = require 'moment'
 commands = require '../../../commands'
+data = require '../../../data'
 queries = require '../../../queries'
 days_until_full_status = 1
 
@@ -41,6 +42,7 @@ module.exports = (app) ->
         is_leader: req.session.character? and settlement.leader? and req.session.character is settlement.leader._id.toString()
         is_member: is_member settlement, req.session.character
         settlement: settlement
+        region: if settlement.region?.length then data.regions[settlement.region] else null
         members: settlement.members.map (m) -> visit_member settlement, m
         editable: req.session.character? and settlement.leader? and req.session.character is settlement.leader._id.toString()
 
