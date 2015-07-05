@@ -45,7 +45,7 @@ module.exports = (app) ->
 
       building = data.buildings.totem
 
-      takes = building.takes req.character, req.tile
+      takes = building.build(req.character, req.tile).takes
       return next('Insufficient AP') unless req.character.ap >= takes.ap
 
       if takes.tools?
