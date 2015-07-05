@@ -29,7 +29,17 @@ give_item = (character, tile, item, count, cb) ->
 
   has_some = _.some target.items ? [], (i) ->
     i.item is item.id
-  if has_some
+  if not target.items?
+    query =
+      _id: target._id
+    update =
+      $set:
+        items: [
+          item: item.id
+          count: count
+        ]
+        weight: item.weight * count
+  else if has_some
     query =
       _id: target._id
       'items.item': item.id
@@ -48,21 +58,20 @@ give_item = (character, tile, item, count, cb) ->
           item: item.id
           count: count
 
-  if target.building?
-    db.tiles.update query, update, cb
-  else
+  if target.email? or target.creature?
     db.characters.update query, update, cb
+  else
+    db.tiles.update query, update, cb
 
 module.exports = (character, tile, msg, cb) ->
-  
   async.waterfall [
-    (cb) -> 
+    (cb) ->
       #force msg to be an array
       cb(null, [].concat(msg))
     (items, cb) ->
       async.map items, to_item_array, cb
     (items, cb) ->
-      async.each _.flatten(items), (item, cb) -> 
+      async.each _.flatten(items), (item, cb) ->
         give_item character, tile, to_data_item(item.item), item.count, cb
       , cb
   ], cb

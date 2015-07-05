@@ -18,6 +18,13 @@ module.exports =
 
   production: process.env.NODE_ENV is 'production'
 
+  starting_items: [
+    {
+      item: 'noobcake'
+      count: 9
+    }
+  ]
+
   now: ->
     switch process.env.FORCE_SEASON
       when 'SPRING'

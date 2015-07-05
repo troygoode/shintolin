@@ -32,7 +32,7 @@
         | Written on the walls are the words 
         span.writing= center.tile.message
         | . 
-    if center.tile.items.length
+    if center.tile.items.length && center.building
       p
         span Nearby, in the #{center.building.name}, you find 
           != describe_list(center.tile.items.map(function(i){ return i.count + 'x ' + i.item; }))

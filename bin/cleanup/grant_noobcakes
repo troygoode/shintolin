@@ -1,0 +1,19 @@
+#!/usr/bin/env coffee
+
+async = require 'async'
+commands = require '../../commands'
+queries = require '../../queries'
+
+fail = (err) ->
+  console.error err
+  process.exit 1
+
+queries.all_players (err, players) ->
+  return fail(err) if err?
+
+  async.forEachOfSeries players, (p, i, cb) ->
+    commands.give.items p, null, [{item: 'noobcake', count: 9}], cb
+  , (err) ->
+
+    return fail(err) if err?
+    process.exit 0

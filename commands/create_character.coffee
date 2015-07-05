@@ -2,6 +2,7 @@ _ = require 'underscore'
 _str = require 'underscore.string'
 async = require 'async'
 db = require '../db'
+config = require '../config'
 queries = require '../queries'
 teleport = require './teleport'
 hash_password = require './hash_password'
@@ -49,7 +50,7 @@ module.exports = (name, email, password, settlement, cb) ->
       xp_wanderer: 0
       skills: []
 
-      items: []
+      items: config.starting_items ? []
       weight: 0
 
       kills: 0
@@ -61,6 +62,9 @@ module.exports = (name, email, password, settlement, cb) ->
 
       bio: ''
       image_url: ''
+
+    character.weight = queries.calculate_weight(character.items)
+
     if settlement?
       character.settlement_id  = settlement._id
       character.settlement_name = settlement.name

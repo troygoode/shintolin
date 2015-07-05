@@ -14,6 +14,9 @@ module.exports = (app) ->
         return next(err) if err?
         res.redirect '/game'
 
+    #TODO: find abandoned items
+    # https://github.com/Buttercup2k/Shintolin/blob/master/functions.cgi#L2654
+
     commands.increment_search req.tile, (err) ->
       return next(err) if err?
 
