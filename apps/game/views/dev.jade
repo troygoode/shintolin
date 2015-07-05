@@ -39,7 +39,7 @@ block content
             input(type='submit', value='Possess', data-action='possess')
             select(name='target', style='width: 10em', data-persist='target', data-action-focus='possess')
               for c in center.people
-                option(value=c._id)= c.name
+                option(value=c._id) #{c.name} #{i}
 
         if possessor
           form(method='POST', action='/game/dev/unpossess')

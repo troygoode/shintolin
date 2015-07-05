@@ -19,7 +19,10 @@ module.exports = (app) ->
       center:
         terrain: data.terrains[req.tile.terrain]
         tile: req.tile
+        people: req.tile.people?.filter (p) ->
+          not p.creature? and p._id.toString() isnt req.character._id.toString()
       data: data
+      possessor: req.session.possessor
 
   app.get '/dev/replenish-ap', developers_only, (req, res, next) ->
     query =
