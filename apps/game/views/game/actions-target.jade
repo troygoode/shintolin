@@ -1,5 +1,5 @@
 div
-  if center.people.length
+  if center.people.length || center.creatures.length
 
     if usables.length
       form(method='POST', action='/game/use')
