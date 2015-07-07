@@ -1,7 +1,7 @@
 div
 
   if actions.build
-    form.action(method='POST', action='/game/build')
+    form.action(method='POST', action='/game/actions/build')
       input(type='hidden', name='_csrf', value=csrf)
       mixin action_button('Build', undefined, 'Variable')
       select(name='building', style='width: 10em', data-persist='building', data-action-focus='build')
