@@ -1,9 +1,10 @@
-/* global require */
+/* global require, __dirname */
 
 require("coffee-script/register");
 
-var config = require("./config"),
-  cluster = require("./apps/cluster"),
-  app = require("./apps/website/app");
+var path = require("path"),
+  recluster = require("recluster"),
+  config = require("./config"),
+  cluster = recluster(path.join(__dirname, "./apps/website/app.coffee"), {workers: config.web_concurrency || 1});
 
-cluster(app, config.web_concurrency);
+cluster.run();

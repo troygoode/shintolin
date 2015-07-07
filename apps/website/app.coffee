@@ -49,3 +49,6 @@ app.use(errorhandler(
   dumpExceptions: config.production
   showStack: config.production
 ))
+
+app.listen config.port, ->
+  console.log "apps/website/app listening on port #{config.port}"
