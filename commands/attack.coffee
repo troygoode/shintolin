@@ -148,7 +148,7 @@ module.exports = (attacker, target, tile, weapon, cb) ->
   ctx.is_weapon_broken = if ctx.hit and ctx.weapon.break_odds then Math.random() <= weapon.break_odds else false
 
   # determine damage
-  dmg = weapon.damage attacker, target, tile
+  dmg = if ctx.hit then weapon.damage(attacker, target, tile) else 0
   ctx.damage = if dmg > target.hp then target.hp else dmg
 
   # kill?
