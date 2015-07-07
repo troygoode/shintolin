@@ -1,5 +1,8 @@
 _ = require 'underscore'
+BPromise = require 'bluebird'
 
 module.exports =
-  ap: (character, tile) ->
-    if _.contains(character.skills, 'lumberjack') then 4 else 8
+  prepare: (character, tile) ->
+    BPromise.resolve
+      category: 'location'
+      ap: if _.contains(character.skills, 'lumberjack') then 4 else 8

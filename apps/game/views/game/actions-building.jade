@@ -1,7 +1,7 @@
 div
   -var hasAction = false;
 
-  if _.contains(actions, 'write')
+  if actions.write
     - hasAction = true;
     form(method='POST', action='/game/write')
       input(type='hidden', name='_csrf', value=csrf)
@@ -14,7 +14,7 @@ div
       input(type='hidden', name='_csrf', value=csrf)
       input(type='submit', value=building.text && building.text.repair && building.text.repair.button ? building.text.repair.button : 'Repair', data-action='repair')
 
-  if _.contains(actions, 'give') && character.items.length
+  if actions.give && character.items.length
     - hasAction = true;
     form(method='POST', action='/game/give')
       input(type='hidden', name='_csrf', value=csrf)
@@ -32,7 +32,7 @@ div
           option(value=item.item)= data.items[item.item].name
       input(type='hidden', name='target', value='building')
 
-  if _.contains(actions, 'take') && center.tile.items.length
+  if actions.take && center.tile.items.length
     form(method='POST', action='/game/take')
       input(type='hidden', name='_csrf', value=csrf)
       mixin action_button('Take')
@@ -48,7 +48,7 @@ div
         for item in center.tile.items
           option(value=item.item)= data.items[item.item].name
 
-  if settlement && _.contains(actions, 'promote') && settlement.leader && settlement.leader._id.toString() === character._id.toString()
+  if settlement && actions.promote && settlement.leader && settlement.leader._id.toString() === character._id.toString()
     - hasAction = true;
     form(method='POST', action='/game/promote')
       input(type='hidden', name='_csrf', value=csrf)
@@ -59,7 +59,7 @@ div
           if m.provisional
             option(value=m._id)= m.name
 
-  if settlement && _.contains(actions, 'evict') && settlement.leader && settlement.leader._id.toString() === character._id.toString()
+  if settlement && actions.evict && settlement.leader && settlement.leader._id.toString() === character._id.toString()
     - hasAction = true;
     form(method='POST', action='/game/evict')
       input(type='hidden', name='_csrf', value=csrf)

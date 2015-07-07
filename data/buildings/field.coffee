@@ -1,3 +1,4 @@
+BPromise = require 'bluebird'
 time = require '../../time'
 
 module.exports =
@@ -7,7 +8,7 @@ module.exports =
   hp_max: 200
 
   actions: (character, tile) ->
-    switch time().season
+    BPromise.resolve switch time().season
       when 'Spring', 'Summer'
         if tile.hp <= 4
           ['sow']

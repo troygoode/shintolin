@@ -2,7 +2,6 @@ _ = require 'underscore'
 async = require 'async'
 mw = require '../middleware'
 data = require '../../../data'
-chop = data.actions.chop
 commands = require '../../../commands'
 SHRINK_ODDS = .12
 
@@ -18,7 +17,7 @@ module.exports = (app) ->
     recipe =
       takes:
         tools: [item.id]
-        ap: chop.ap req.character, req.tile
+        ap: req.actions.chop.ap
       gives:
         items:
           log: 1

@@ -12,27 +12,27 @@ div
               | , #{item.count} x #{data.items[item.item].name}
             | )
 
-  if _.contains(actions, 'chop')
+  if actions.chop
     form(method='POST', action='/game/chop')
       input(type='hidden', name='_csrf', value=csrf)
-      mixin action_button('Chop Tree', 'chop', data.actions.chop.ap(character, center.tile))
+      mixin action_button('Chop Tree', 'chop', actions.chop.ap)
 
-  if _.contains(actions, 'quarry')
+  if actions.quarry
     form(method='POST', action='/game/quarry')
       input(type='hidden', name='_csrf', value=csrf)
       mixin action_button('Quarry')
 
-  if _.contains(actions, 'fill')
+  if actions.fill
     form(method='POST', action='/game/fill-pot')
       input(type='hidden', name='_csrf', value=csrf)
       mixin action_button('Fill')
 
-  if _.contains(actions, 'dig')
+  if actions.dig
     form(method='POST', action='/game/dig')
       input(type='hidden', name='_csrf', value=csrf)
       mixin action_button('Dig')
 
-  if _.contains(actions, 'sow')
+  if actions.sow
     form(method='POST', action='/game/sow')
       input(type='hidden', name='_csrf', value=csrf)
       mixin action_button('Sow')
@@ -41,7 +41,7 @@ div
           if _.contains(item.tags || [], 'plantable')
             option(value=item.id)= item.name
 
-  if _.contains(actions, 'water')
+  if actions.water
     form(method='POST', action='/game/water')
       input(type='hidden', name='_csrf', value=csrf)
       mixin action_button('Water Field')
@@ -51,7 +51,7 @@ div
           if _.contains(item.tags || [], 'water')
             option(value=item.id)= item.name
 
-  if _.contains(actions, 'harvest')
+  if actions.harvest
     form(method='POST', action='/game/harvest')
       input(type='hidden', name='_csrf', value=csrf)
       mixin action_button('Harvest')
