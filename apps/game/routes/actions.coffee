@@ -7,4 +7,9 @@ module.exports = (app) ->
       .then ->
         res.redirect '/game'
       .catch (err) ->
-        next err.message
+        if typeof err is 'string'
+          next err
+        else if err.message?
+          next err.message
+        else
+          next err

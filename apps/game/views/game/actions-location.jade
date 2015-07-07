@@ -5,12 +5,8 @@ div
       input(type='hidden', name='_csrf', value=csrf)
       mixin action_button('Build', undefined, 'Variable')
       select(name='building', style='width: 10em', data-persist='building', data-action-focus='build')
-        for building in buildings
-          option(value=building.id)= building.name
-            |  (#{building.ap}ap
-            for item in building.items
-              | , #{item.count} x #{data.items[item.item].name}
-            | )
+        for value, key in actions.build.buildings
+          option(value=key)= value.label
 
   if actions.chop
     form.action(method='POST', action='/game/actions/chop')
