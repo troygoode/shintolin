@@ -61,4 +61,5 @@ app.use (err, req, res, next) ->
   if typeof err is 'string'
     res.redirect '/game?error=' + err
   else
+    console.log err
     next err

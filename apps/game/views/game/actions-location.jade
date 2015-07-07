@@ -1,7 +1,7 @@
 div
 
   if actions.build
-    form(method='POST', action='/game/build')
+    form.action(method='POST', action='/game/build')
       input(type='hidden', name='_csrf', value=csrf)
       mixin action_button('Build', undefined, 'Variable')
       select(name='building', style='width: 10em', data-persist='building', data-action-focus='build')
@@ -13,27 +13,27 @@ div
             | )
 
   if actions.chop
-    form(method='POST', action='/game/actions/chop')
+    form.action(method='POST', action='/game/actions/chop')
       input(type='hidden', name='_csrf', value=csrf)
       mixin action_button('Chop Tree', 'chop', actions.chop.ap)
 
   if actions.quarry
-    form(method='POST', action='/game/quarry')
+    form.action(method='POST', action='/game/quarry')
       input(type='hidden', name='_csrf', value=csrf)
       mixin action_button('Quarry')
 
   if actions.fill
-    form(method='POST', action='/game/fill-pot')
+    form.action(method='POST', action='/game/fill-pot')
       input(type='hidden', name='_csrf', value=csrf)
       mixin action_button('Fill')
 
   if actions.dig
-    form(method='POST', action='/game/dig')
+    form.action(method='POST', action='/game/dig')
       input(type='hidden', name='_csrf', value=csrf)
       mixin action_button('Dig')
 
   if actions.sow
-    form(method='POST', action='/game/sow')
+    form.action(method='POST', action='/game/sow')
       input(type='hidden', name='_csrf', value=csrf)
       mixin action_button('Sow')
       select(name='item', style='width: 10em', data-persist='plantable', data-action-focus='sow')
@@ -42,7 +42,7 @@ div
             option(value=item.id)= item.name
 
   if actions.water
-    form(method='POST', action='/game/water')
+    form.action(method='POST', action='/game/water')
       input(type='hidden', name='_csrf', value=csrf)
       mixin action_button('Water Field')
       select(name='item', style='width: 10em', data-persist='water', data-action-focus='water')
@@ -52,7 +52,7 @@ div
             option(value=item.id)= item.name
 
   if actions.harvest
-    form(method='POST', action='/game/harvest')
+    form.action(method='POST', action='/game/harvest')
       input(type='hidden', name='_csrf', value=csrf)
       mixin action_button('Harvest')
       select(name='item', style='width: 10em', data-persist='harvest', data-action-focus='harvest')
@@ -62,6 +62,6 @@ div
             option(value=item.id)= item.name
 
   if actions.search
-    form(method='POST', action='/game/search')
+    form.action(method='POST', action='/game/search')
       input(type='hidden', name='_csrf', value=csrf)
       mixin action_button('Search')

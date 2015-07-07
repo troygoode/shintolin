@@ -3,20 +3,20 @@ div
 
   if actions.write
     - hasAction = true;
-    form(method='POST', action='/game/write')
+    form.action(method='POST', action='/game/write')
       input(type='hidden', name='_csrf', value=csrf)
       mixin action_button('Write')
       input.text(type='text', name='message', maxlength='32', value=center.tile.message, style='width: 300px;')
 
   if repair
     - hasAction = true;
-    form(method='POST', action='/game/repair')
+    form.action(method='POST', action='/game/repair')
       input(type='hidden', name='_csrf', value=csrf)
       input(type='submit', value=building.text && building.text.repair && building.text.repair.button ? building.text.repair.button : 'Repair', data-action='repair')
 
   if actions.give && character.items.length
     - hasAction = true;
-    form(method='POST', action='/game/give')
+    form.action(method='POST', action='/game/give')
       input(type='hidden', name='_csrf', value=csrf)
       mixin action_button('Give')
       - var max = _.max(_.pluck(character.items, 'count'));
@@ -33,7 +33,7 @@ div
       input(type='hidden', name='target', value='building')
 
   if actions.take && center.tile.items.length
-    form(method='POST', action='/game/take')
+    form.action(method='POST', action='/game/take')
       input(type='hidden', name='_csrf', value=csrf)
       mixin action_button('Take')
       - var max = _.max(_.pluck(center.tile.items, 'count'));
@@ -50,7 +50,7 @@ div
 
   if settlement && actions.promote && settlement.leader && settlement.leader._id.toString() === character._id.toString()
     - hasAction = true;
-    form(method='POST', action='/game/promote')
+    form.action(method='POST', action='/game/promote')
       input(type='hidden', name='_csrf', value=csrf)
       mixin action_button('Promote', undefined, '0')
       select(name='character', style='width: 10em', data-persist='member', data-action-focus='promote')
@@ -61,7 +61,7 @@ div
 
   if settlement && actions.evict && settlement.leader && settlement.leader._id.toString() === character._id.toString()
     - hasAction = true;
-    form(method='POST', action='/game/evict')
+    form.action(method='POST', action='/game/evict')
       input(type='hidden', name='_csrf', value=csrf)
       mixin action_button('Evict', undefined, '0')
       select(name='character', style='width: 10em', data-persist='member', data-action-focus='evict')
@@ -73,7 +73,7 @@ div
     - hasAction = true;
     - var my_member_record = _.find(settlement.members, function(m){ return m._id.toString() === character._id.toString(); });
     - var candidates = settlement.members.filter(function(m){ return !m.provisional; });
-    form(method='POST', action='/game/vote')
+    form.action(method='POST', action='/game/vote')
       input(type='hidden', name='_csrf', value=csrf)
       mixin action_button('Vote For', undefined, '0')
       select(name='character', style='width: 10em')
@@ -88,7 +88,7 @@ div
 
   if center.tile.settlement_id && center.building && center.building.id === 'totem' && (!character.settlement_id || center.tile.settlement_id.toString() !== character.settlement_id.toString())
     - hasAction = true;
-    form(method='POST', action='/game/join')
+    form.action(method='POST', action='/game/join')
       input(type='hidden', name='_csrf', value=csrf)
       mixin action_button('Join Settlement', undefined, 25)
 

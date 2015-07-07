@@ -6,4 +6,5 @@ module.exports = (app) ->
     action.execute(req.body)
       .then ->
         res.redirect '/game'
-      .catch next
+      .catch (err) ->
+        next err.message

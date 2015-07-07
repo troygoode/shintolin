@@ -1,3 +1,26 @@
+body {
+  margin-bottom: 3em;
+}
 .beigebox{
   overflow: scroll;
+}
+
+.nav-pills > li.active > a {
+  background-color: black;
+}
+
+.rankings table {
+  width: 100%;
+}
+.rankings table td, .rankings table th {
+  min-width: 130px;
+  text-align: left;
+  padding: 5px;
+}
+.rankings table, .rankings th, .rankings td {
+   border: 1px solid black;
+}
+.rankings thead th {
+  background-color: black;
+  color: #fff;
 }

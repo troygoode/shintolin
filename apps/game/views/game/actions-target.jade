@@ -1,7 +1,7 @@
 div
   if center.people.length || center.creatures.length
 
-    form(method='POST', action='/game/attack')
+    form.action(method='POST', action='/game/attack')
       input(type='hidden', name='_csrf', value=csrf)
       mixin action_button('Attack')
       select(name='target', style='width: 10em', data-persist='target', data-action-focus='attack')
@@ -21,7 +21,7 @@ div
           option(value=weapon.id) #{weapon.name} (#{Math.floor(weapon.hit_chance * 100)}%, #{weapon.damage} dmg)
 
     if usables.length
-      form(method='POST', action='/game/use')
+      form.action(method='POST', action='/game/use')
         input(type='hidden', name='_csrf', value=csrf)
         mixin action_button('Use')
         select(name='item', style='width: 10em', data-persist='usable-item', data-action-focus='use')
@@ -33,7 +33,7 @@ div
             option(value=c._id)= c.name
 
     if center.people.length && character.items.length
-      form(method='POST', action='/game/give')
+      form.action(method='POST', action='/game/give')
         input(type='hidden', name='_csrf', value=csrf)
         mixin action_button('Give')
         - var max = _.max(_.pluck(character.items, 'count'));

@@ -2,160 +2,184 @@ doctype html
 html
   head
     title Shintolin - Rankings
+    link(rel='stylesheet', type='text/css', href='/game/bootstrap-3.3.5-dist/css/bootstrap.min.css')
+    link(rel='stylesheet', type='text/css', href='/game/bootstrap-3.3.5-dist/css/bootstrap-theme.min.css')
     link(rel='stylesheet', type='text/css', href='/shintolin.css')
+    link(rel='stylesheet', type='text/css', href='/override.css')
   body
-    | It is Year #{time.year}, #{time.month} #{time.season} ----- Active Users: #{active}
-    hr
-    if logged_in
-      a.buttonlink(href='/game') Return
-    else
-      a.buttonlink(href='/') Home
-    hr
-    form(method='GET')
-      b Rank by:
-      select(width='300px', name='metric')
-        option(value='frags', selected=(locals.metric == 'frags')) Frags
-        option(value='deaths', selected=(locals.metric == 'deaths')) Deaths
-        option(value='kills', selected=(locals.metric == 'kills')) Kills
-        option(value='revives', selected=(locals.metric == 'revives')) Players Revived
-        option(value='younguns', selected=(locals.metric == 'younguns')) Newest players
-        option(value='oldies', selected=(locals.metric == 'oldies')) Oldest players
-        option(value='survival', selected=(locals.metric == 'survival')) Longest surviving players
-        option(value='') -----
-        option(value='oldtowns', selected=(locals.metric == 'oldtowns')) Oldest Settlements
-        option(value='newtowns', selected=(locals.metric == 'newtowns')) Newest Settlements
-        option(value='bigtowns', selected=(locals.metric == 'bigtowns')) Most Populous Settlements
-      input(type='submit', value='View')
 
-    if locals.frags
-      i Frags measure not just the number of foes killed, but the quality of one's opponents. New players begin with one frag, and when a character is knocked out, the attacker takes half their frags (rounded up).
-      hr
-      table
-        tr
-          td: b Rank
-          td: b Name
-          td: b Frags
-        for c, i in frags
-          tr
-            td= i + 1
-            td: a(href='/profile/#{c.slug}')= c.name
-            td= c.frags
-    if locals.deaths
-      hr
-      table
-        tr
-          td: b Rank
-          td: b Name
-          td: b Deaths
-        for c, i in deaths
-          tr
-            td= i + 1
-            td: a(href='/profile/#{c.slug}')= c.name
-            td= c.deaths
-    if locals.kills
-      hr
-      table
-        tr
-          td: b Rank
-          td: b Name
-          td: b Kills
-        for c, i in kills
-          tr
-            td= i + 1
-            td: a(href='/profile/#{c.slug}')= c.name
-            td= c.kills
-    if locals.revives
-      hr
-      table
-        tr
-          td: b Rank
-          td: b Name
-          td: b Revives
-        for c, i in revives
-          tr
-            td= i + 1
-            td: a(href='/profile/#{c.slug}')= c.name
-            td= c.revives
-    if locals.younguns
-      hr
-      table
-        tr
-          td: b Rank
-          td: b Name
-          td: b Joined
-        for c, i in younguns
-          tr
-            td= i + 1
-            td: a(href='/profile/#{c.slug}')= c.name
-            td= moment(c.created).fromNow()
-    if locals.oldies
-      hr
-      table
-        tr
-          td: b Rank
-          td: b Name
-          td: b Joined
-        for c, i in oldies
-          tr
-            td= i + 1
-            td: a(href='/profile/#{c.slug}')= c.name
-            td= moment(c.created).fromNow()
-    if locals.survival
-      hr
-      table
-        tr
-          td: b Rank
-          td: b Name
-          td: b Alive Since
-        for c, i in survival
-          tr
-            td= i + 1
-            td: a(href='/profile/#{c.slug}')= c.name
-            td= moment(c.last_revived).fromNow()
-    if locals.oldtowns
-      hr
-      table
-        tr
-          td: b Rank
-          td: b Name
-          td: b Region
-          td: b Founded
-        for s, i in oldtowns
-          tr
-            td= i + 1
-            td: a(href='/settlements/#{s.slug}')= s.name
-            td= data.regions[s.region].name
-            td= moment(s.founded).fromNow()
-    if locals.newtowns
-      hr
-      table
-        tr
-          td: b Rank
-          td: b Name
-          td: b Region
-          td: b Founded
-        for s, i in newtowns
-          tr
-            td= i + 1
-            td: a(href='/settlements/#{s.slug}')= s.name
-            td= data.regions[s.region].name
-            td= moment(s.founded).fromNow()
-    if locals.bigtowns
-      hr
-      table
-        tr
-          td: b Rank
-          td: b Name
-          td: b Region
-          td: b Population
-        for s, i in bigtowns
-          tr
-            td= i + 1
-            td: a(href='/settlements/#{s.slug}')= s.name
-            td= data.regions[s.region].name
-            td= s.population
-    hr
-    if logged_in
-      a.buttonlink(href='/game') Return
-    else
-      a.buttonlink(href='/') Home
+    mixin pill(metric, label)
+      li(role='presentation', class={active: locals.metric == metric}): a(href='/rankings?metric=#{metric}')=label
+
+    .container
+      .row
+        .col-md-12
+
+          h1 Leaderboards
+          p It is Year #{time.year}, #{time.month} #{time.season} ----- Active Users: #{active}
+
+          if logged_in
+            a.buttonlink(href='/game') Return to Game
+          else
+            a.buttonlink(href='/') Home
+          hr
+
+      .row
+        .col-md-3
+
+          div(role='navigation')
+            ul.nav.nav-pills.nav-stacked
+              mixin pill('frags', 'Frags')
+              mixin pill('deaths', 'Deaths')
+              mixin pill('kills', 'Kills')
+              mixin pill('revives', 'Revives')
+              hr
+              mixin pill('younguns', 'Newest Players')
+              mixin pill('oldies', 'Oldest Players')
+              mixin pill('survival', 'Longest Surviving Players')
+              hr
+              mixin pill('oldtowns', 'Oldest Settlements')
+              mixin pill('newtowns', 'Newest Settlements')
+              mixin pill('bigtowns', 'Most Populated Settlements')
+
+        .rankings.col-md-9
+
+          if locals.frags
+            p: i Frags measure not just the number of foes killed, but the quality of one's opponents. New players begin with one frag, and when a character is knocked out, the attacker takes half their frags (rounded up).
+            table
+              thead
+                tr
+                  th: b Rank
+                  th: b Name
+                  th: b Frags
+              for c, i in frags
+                tr
+                  td= i + 1
+                  td: a(href='/profile/#{c.slug}')= c.name
+                  td= c.frags
+
+          if locals.deaths
+            table
+              thead
+                tr
+                  th: b Rank
+                  th: b Name
+                  th: b Deaths
+              for c, i in deaths
+                tr
+                  td= i + 1
+                  td: a(href='/profile/#{c.slug}')= c.name
+                  td= c.deaths
+
+          if locals.kills
+            table
+              thead
+                tr
+                  th: b Rank
+                  th: b Name
+                  th: b Kills
+              for c, i in kills
+                tr
+                  td= i + 1
+                  td: a(href='/profile/#{c.slug}')= c.name
+                  td= c.kills
+
+          if locals.revives
+            table
+              thead
+                tr
+                  th: b Rank
+                  th: b Name
+                  th: b Revives
+              for c, i in revives
+                tr
+                  td= i + 1
+                  td: a(href='/profile/#{c.slug}')= c.name
+                  td= c.revives
+
+          if locals.younguns
+            table
+              thead
+                tr
+                  th: b Rank
+                  th: b Name
+                  th: b Joined
+              for c, i in younguns
+                tr
+                  td= i + 1
+                  td: a(href='/profile/#{c.slug}')= c.name
+                  td= moment(c.created).fromNow()
+
+          if locals.oldies
+            table
+              thead
+                tr
+                  th: b Rank
+                  th: b Name
+                  th: b Joined
+              for c, i in oldies
+                tr
+                  td= i + 1
+                  td: a(href='/profile/#{c.slug}')= c.name
+                  td= moment(c.created).fromNow()
+
+          if locals.survival
+            table
+              thead
+                tr
+                  th: b Rank
+                  th: b Name
+                  th: b Alive Since
+              for c, i in survival
+                tr
+                  td= i + 1
+                  td: a(href='/profile/#{c.slug}')= c.name
+                  td= moment(c.last_revived).fromNow()
+
+          if locals.oldtowns
+            table
+              thead
+                tr
+                  th: b Rank
+                  th: b Name
+                  th: b Region
+                  th: b Founded
+              for s, i in oldtowns
+                tr
+                  td= i + 1
+                  td: a(href='/settlements/#{s.slug}')= s.name
+                  td= data.regions[s.region].name
+                  td= moment(s.founded).fromNow()
+
+          if locals.newtowns
+            table
+              thead
+                tr
+                  th: b Rank
+                  th: b Name
+                  th: b Region
+                  th: b Founded
+              for s, i in newtowns
+                tr
+                  td= i + 1
+                  td: a(href='/settlements/#{s.slug}')= s.name
+                  td= data.regions[s.region].name
+                  td= moment(s.founded).fromNow()
+
+          if locals.bigtowns
+            table
+              thead
+                tr
+                  th: b Rank
+                  th: b Name
+                  th: b Region
+                  th: b Population
+              for s, i in bigtowns
+                tr
+                  td= i + 1
+                  td: a(href='/settlements/#{s.slug}')= s.name
+                  td= data.regions[s.region].name
+                  td= s.population
+
+    script(src='/game/js/lib/jquery-2.1.4.min.js')
+    script(src='/game/bootstrap-3.3.5-dist/js/bootstrap.min.js')
