@@ -46,6 +46,11 @@ block content
             input(type='hidden', name='_csrf', value=csrf)
             input(type='submit', value='Unpossess', data-action='unpossess')
 
+        if building && center.tile.z === 0
+          form(method='POST', action='/game/dev/destroy')
+            input(type='hidden', name='_csrf', value=csrf)
+            input(type='submit', value='Destroy', data-action='destroy')
+
         form(method='POST', action='/game/dev/materialize')
           input(type='hidden', name='_csrf', value=csrf)
           input(type='submit', value='Materialize', data-action='materialize')

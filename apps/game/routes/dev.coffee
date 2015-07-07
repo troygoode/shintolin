@@ -16,6 +16,7 @@ module.exports = (app) ->
   app.get '/dev', (req, res, next) ->
     res.render 'dev',
       config: config
+      building: if req.tile.building then data.buildings[req.tile.building] else undefined
       center:
         terrain: data.terrains[req.tile.terrain]
         tile: req.tile
@@ -31,6 +32,11 @@ module.exports = (app) ->
       $set:
         ap: 100
     db.characters.update query, update, (err) ->
+      return next(err) if err?
+      res.redirect '/game/dev'
+
+  app.post '/dev/destroy', developers_only, (req, res, next) ->
+    commands.destroy_building req.character, req.tile, (err) ->
       return next(err) if err?
       res.redirect '/game/dev'
 
