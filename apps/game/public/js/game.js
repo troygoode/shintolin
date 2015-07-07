@@ -50,30 +50,24 @@
       case 70: //f
         $(".map button[data-direction=enterexit]").trigger("click");
         break;
-      case 80: //P
-        if (event.shiftKey) {
-          $("[data-action-focus=paint]").focus();
-        } else {
-          $("input[data-action=paint]").trigger("click");
-        }
-        break;
-      case 85: //U
-        if (event.shiftKey) {
-          $("[data-action-focus=use]").focus();
-        } else {
-          $("input[data-action=use]").trigger("click");
-        }
-        break;
-      case 75: //K
-        if (event.shiftKey) {
-          $("[data-action-focus=attack]").focus();
-        } else {
-          $("input[data-action=attack]").trigger("click");
-        }
-        break;
-      case 76: //L
-        $("input[data-action=search]").trigger("click");
-        break;
+
+//       case 80: //P
+//         if (!event.shiftKey) { break; }
+//         $("button[data-action=paint]").trigger("click");
+//         break;
+//       case 85: //U
+//         if (!event.shiftKey) { break; }
+//         $("button[data-action=use]").trigger("click");
+//         break;
+//       case 75: //K
+//         console.log(event);
+//         if (!event.shiftKey) { break; }
+//         $("button[data-action=attack]").trigger("click");
+//         break;
+//       case 76: //L
+//         if (!event.shiftKey) { break; }
+//         $("button[data-action=search]").trigger("click");
+//         break;
     }
   });
 

@@ -12,10 +12,6 @@ div
               | , #{item.count} x #{data.items[item.item].name}
             | )
 
-  form(method='POST', action='/game/search')
-    input(type='hidden', name='_csrf', value=csrf)
-    mixin action_button('Search')
-
   if _.contains(actions, 'chop')
     form(method='POST', action='/game/chop')
       input(type='hidden', name='_csrf', value=csrf)
@@ -64,3 +60,7 @@ div
           - var item = data.items[citem.item];
           if _.contains(item.tags || [], 'harvest')
             option(value=item.id)= item.name
+
+  form(method='POST', action='/game/search')
+    input(type='hidden', name='_csrf', value=csrf)
+    mixin action_button('Search')

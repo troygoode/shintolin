@@ -1,18 +1,6 @@
 div
   if center.people.length || center.creatures.length
 
-    if usables.length
-      form(method='POST', action='/game/use')
-        input(type='hidden', name='_csrf', value=csrf)
-        mixin action_button('Use')
-        select(name='item', style='width: 10em', data-persist='usable-item', data-action-focus='use')
-          for usable in usables
-            option(value=usable.id)= usable.name
-        |  on 
-        select(name='target', style='width: 10em', data-persist='target')
-          for c in center.people
-            option(value=c._id)= c.name
-
     form(method='POST', action='/game/attack')
       input(type='hidden', name='_csrf', value=csrf)
       mixin action_button('Attack')
@@ -31,6 +19,18 @@ div
       select(name='item', style='width: 10em', data-persist='weapon')
         for weapon in weapons
           option(value=weapon.id) #{weapon.name} (#{Math.floor(weapon.hit_chance * 100)}%, #{weapon.damage} dmg)
+
+    if usables.length
+      form(method='POST', action='/game/use')
+        input(type='hidden', name='_csrf', value=csrf)
+        mixin action_button('Use')
+        select(name='item', style='width: 10em', data-persist='usable-item', data-action-focus='use')
+          for usable in usables
+            option(value=usable.id)= usable.name
+        |  on 
+        select(name='target', style='width: 10em', data-persist='target')
+          for c in center.people
+            option(value=c._id)= c.name
 
     if center.people.length && character.items.length
       form(method='POST', action='/game/give')

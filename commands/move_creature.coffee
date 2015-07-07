@@ -7,9 +7,12 @@ teleport = require './teleport'
 random_direction = (creature_type) ->
   (tiles) ->
     _tiles = tiles
+
     if creature_type.is_habitable?
       _tiles = _tiles.filter (t) ->
         creature_type.is_habitable data.terrains[t.terrain], t
+      _tiles = tiles unless _tiles.length # if it has no valid moves, let it move anywhere
+
     return null unless _tiles?.length
     index = Math.floor(Math.random() * _tiles.length)
     _tiles[index]
