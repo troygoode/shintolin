@@ -1,7 +1,4 @@
-data = require('require-directory')(module, null, /\.txt$/)
-
-for key, obj of data.actions
-  obj.id ?= key
+data = require('require-directory')(module, null, exclude: /\.txt$|\/actions\//)
 
 for key, obj of data.buildings
   obj.id ?= key

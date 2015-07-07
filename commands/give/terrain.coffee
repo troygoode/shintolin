@@ -5,7 +5,7 @@ data = require '../../data'
 
 module.exports = (character, tile, msg, cb) ->
   # change tile terrain
-  return cb() unless msg isnt tile.terrain
+  return cb() unless msg?.length and msg isnt tile.terrain
   query =
     _id: tile._id
   update =

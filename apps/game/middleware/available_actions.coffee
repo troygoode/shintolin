@@ -1,9 +1,13 @@
 _ = require 'underscore'
 BPromise = require 'bluebird'
 data = require '../../../data'
+actions = require '../../../data/actions'
 
 calculate_actions = (character, tile) ->
   return BPromise.resolve([]) unless character? and tile?
+
+  defaults = ->
+    actions._default(character, tile)
 
   for_terrain = (terrain) ->
     return [] unless terrain?
@@ -20,6 +24,7 @@ calculate_actions = (character, tile) ->
       building.actions
 
   BPromise.all([
+    defaults()
     for_terrain(data.terrains[tile.terrain])
     for_building(if tile.building? then data.buildings[tile.building] else null)
   ])
@@ -39,12 +44,12 @@ module.exports = (check_for_action) ->
       .then (action_keys) ->
         hash = {}
         for key in action_keys
-          hash[key] = if data.actions[key]? then data.actions[key].prepare(req.character, req.tile) else true
+          hash[key] = if actions[key]? then actions[key](req.character, req.tile) else true
         BPromise.props hash
 
-      .then (actions) ->
-        req.actions = actions
-        res.locals.actions = actions
+      .then (available_actions) ->
+        req.actions = available_actions
+        res.locals.actions = available_actions
         next()
 
       .catch (err) ->

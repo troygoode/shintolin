@@ -1,6 +1,6 @@
 div
 
-  if center.tile.z === 0 && !building
+  if actions.build
     form(method='POST', action='/game/build')
       input(type='hidden', name='_csrf', value=csrf)
       mixin action_button('Build', undefined, 'Variable')
@@ -13,7 +13,7 @@ div
             | )
 
   if actions.chop
-    form(method='POST', action='/game/chop')
+    form(method='POST', action='/game/actions/chop')
       input(type='hidden', name='_csrf', value=csrf)
       mixin action_button('Chop Tree', 'chop', actions.chop.ap)
 
@@ -61,6 +61,7 @@ div
           if _.contains(item.tags || [], 'harvest')
             option(value=item.id)= item.name
 
-  form(method='POST', action='/game/search')
-    input(type='hidden', name='_csrf', value=csrf)
-    mixin action_button('Search')
+  if actions.search
+    form(method='POST', action='/game/search')
+      input(type='hidden', name='_csrf', value=csrf)
+      mixin action_button('Search')
