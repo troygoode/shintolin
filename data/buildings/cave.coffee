@@ -1,8 +1,8 @@
 module.exports =
-  name: 'Ruins'
+  name: 'Cave'
   size: 'small'
-  exterior: '_exterior_ruins'
-  interior: '_interior_ruins'
+  exterior: '_exterior_cave'
+  interior: '_interior_cave'
   invulnerable: true
   tags: ['no_storm_damage']
 
