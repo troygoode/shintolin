@@ -4,10 +4,11 @@ queries = require '../../../queries'
 
 module.exports = (router) ->
   router.get '/rankings', (req, res, next) ->
-    queries.active_characters (err, active) ->
+    queries.active_characters (err, active_count) ->
       return next(err) if err?
+      res.locals.developer = req.session?.developer
       res.locals.moment = moment
-      res.locals.active = active
+      res.locals.active_count = active_count
       res.locals.data = data
       res.locals.metric = req.query.metric ? 'frags'
       switch res.locals.metric
@@ -41,5 +42,11 @@ module.exports = (router) ->
         when 'bigtowns'
           queries.rankings.bigtowns (err, settlements) ->
             res.render 'rankings', bigtowns: settlements
+        when 'active'
+          if req.session?.developer
+            queries.rankings.active (err, characters) ->
+              res.render 'rankings', active: characters
+          else
+            next 'Invalid metric.'
         else
           res.render 'rankings'

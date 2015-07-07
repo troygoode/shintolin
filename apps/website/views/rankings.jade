@@ -16,7 +16,7 @@ html
         .col-md-12
 
           h1 Leaderboards
-          p It is Year #{time.year}, #{time.month} #{time.season} ----- Active Users: #{active}
+          p It is Year #{time.year}, #{time.month} #{time.season} ----- Active Users: #{active_count}
 
           if logged_in
             a.buttonlink(href='/game') Return to Game
@@ -41,6 +41,9 @@ html
               mixin pill('oldtowns', 'Oldest Settlements')
               mixin pill('newtowns', 'Newest Settlements')
               mixin pill('bigtowns', 'Most Populated Settlements')
+              if developer
+                hr
+                mixin pill('active', 'Active Players')
 
         .rankings.col-md-9
 
@@ -180,6 +183,19 @@ html
                   td: a(href='/settlements/#{s.slug}')= s.name
                   td= data.regions[s.region].name
                   td= s.population
+
+          if locals.active
+            table
+              thead
+                tr
+                  th: b Rank
+                  th: b Name
+                  th: b Last Active
+              for c, i in active
+                tr
+                  td= i + 1
+                  td: a(href='/profile/#{c.slug}')= c.name
+                  td= moment(c.last_action).fromNow()
 
     script(src='/game/js/lib/jquery-2.1.4.min.js')
     script(src='/game/bootstrap-3.3.5-dist/js/bootstrap.min.js')
