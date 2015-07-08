@@ -1,8 +1,8 @@
 .gamebox.infobox(style='opacity: .82')
   include ./flavor.jade
 
-  mixin action_button(text, key, ap)
-    input.action.btn.btn-default(type='submit', value=text, data-action=(key || text.toLowerCase().replace(/\s/g, '-')), data-toggle='tooltip', data-placement='left', title='#{ap || 1} AP')
+  mixin action_button(text, ap, key)
+    input.action.btn.btn-default(type='submit', value=text, data-action=(key || text.toLowerCase().replace(/\s/g, '-')), data-toggle='tooltip', data-placement='left', title='#{ap === 0 ? 0 : ap || 1} AP')
 
   if character.hp > 0
     .actions

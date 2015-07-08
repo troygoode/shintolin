@@ -3,7 +3,7 @@ div
   if actions.build
     form.action(method='POST', action='/game/actions/build')
       input(type='hidden', name='_csrf', value=csrf)
-      mixin action_button('Build', undefined, 'Variable')
+      mixin action_button('Build', 'Variable')
       select(name='building', style='width: 10em', data-persist='building', data-action-focus='build')
         for value, key in actions.build.buildings
           option(value=key)= value.label
@@ -11,12 +11,12 @@ div
   if actions.chop
     form.action(method='POST', action='/game/actions/chop')
       input(type='hidden', name='_csrf', value=csrf)
-      mixin action_button('Chop Tree', 'chop', actions.chop.ap)
+      mixin action_button('Chop Tree', actions.chop.ap, 'chop')
 
   if actions.quarry
     form.action(method='POST', action='/game/quarry')
       input(type='hidden', name='_csrf', value=csrf)
-      mixin action_button('Quarry')
+      mixin action_button('Quarry', 4)
 
   if actions.fill
     form.action(method='POST', action='/game/fill-pot')
@@ -26,12 +26,12 @@ div
   if actions.dig
     form.action(method='POST', action='/game/dig')
       input(type='hidden', name='_csrf', value=csrf)
-      mixin action_button('Dig')
+      mixin action_button('Dig', 2)
 
   if actions.sow
     form.action(method='POST', action='/game/sow')
       input(type='hidden', name='_csrf', value=csrf)
-      mixin action_button('Sow')
+      mixin action_button('Sow', 15)
       select(name='item', style='width: 10em', data-persist='plantable', data-action-focus='sow')
         for item in data.items
           if _.contains(item.tags || [], 'plantable')
@@ -50,7 +50,7 @@ div
   if actions.harvest
     form.action(method='POST', action='/game/harvest')
       input(type='hidden', name='_csrf', value=csrf)
-      mixin action_button('Harvest')
+      mixin action_button('Harvest', 16)
       select(name='item', style='width: 10em', data-persist='harvest', data-action-focus='harvest')
         for citem in character.items
           - var item = data.items[citem.item];

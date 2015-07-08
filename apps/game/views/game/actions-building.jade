@@ -5,7 +5,7 @@ div
     - hasAction = true;
     form.action(method='POST', action='/game/write')
       input(type='hidden', name='_csrf', value=csrf)
-      mixin action_button('Write')
+      mixin action_button('Write', 3)
       input.text(type='text', name='message', maxlength='32', value=center.tile.message, style='width: 300px;')
 
   if repair
@@ -52,7 +52,7 @@ div
     - hasAction = true;
     form.action(method='POST', action='/game/promote')
       input(type='hidden', name='_csrf', value=csrf)
-      mixin action_button('Promote', undefined, '0')
+      mixin action_button('Promote', 0)
       select(name='character', style='width: 10em', data-persist='member', data-action-focus='promote')
         option(value='') no-one
         for m in settlement.members
@@ -63,7 +63,7 @@ div
     - hasAction = true;
     form.action(method='POST', action='/game/evict')
       input(type='hidden', name='_csrf', value=csrf)
-      mixin action_button('Evict', undefined, '0')
+      mixin action_button('Evict', 0)
       select(name='character', style='width: 10em', data-persist='member', data-action-focus='evict')
         option(value='') no-one
         for m in evictables
@@ -75,7 +75,7 @@ div
     - var candidates = settlement.members.filter(function(m){ return !m.provisional; });
     form.action(method='POST', action='/game/vote')
       input(type='hidden', name='_csrf', value=csrf)
-      mixin action_button('Vote For', undefined, '0')
+      mixin action_button('Vote For', 0)
       select(name='character', style='width: 10em')
         option(value='') no-one
         for c in candidates
@@ -90,7 +90,7 @@ div
     - hasAction = true;
     form.action(method='POST', action='/game/join')
       input(type='hidden', name='_csrf', value=csrf)
-      mixin action_button('Join Settlement', undefined, 25)
+      mixin action_button('Join Settlement', 25)
 
   if !hasAction
     p.empty No building actions.
