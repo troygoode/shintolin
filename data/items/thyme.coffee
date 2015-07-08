@@ -12,7 +12,7 @@ module.exports =
     medicine = _.contains healer.skills, 'medicine'
     in_hospital = tile.z isnt 0 and tile.building is 'hospital'
 
-    heal = 3
+    heal = 5
     heal += 2 if herb_lore
     heal += 2 if medicine and in_hospital
     cb null, heal
