@@ -1,9 +1,9 @@
 mixin progress(label, current, max, colorClass, title)
-  div(data-toggle='tooltip', data-placement='top', title='#{current}/#{max}' + (title || ''))
+  div(data-toggle='tooltip', data-placement='top', title='#{rounded(current)}/#{rounded(max)}' + (title || ''))
     label #{label}
     .progress
-      .progress-bar(class=colorClass, role='progressbar', aria-valuenow=current, aria-valuemin='0', aria-valuemax=max, style='width: #{Math.floor(current/max * 100)}%;')
-      .content #{current}/#{max}
+      .progress-bar(class=colorClass, role='progressbar', aria-valuenow=rounded(current), aria-valuemin='0', aria-valuemax=rounded(max), style='width: #{Math.floor(rounded(current)/rounded(max) * 100)}%;')
+      .content #{rounded(current)}/#{rounded(max)}
 
 .gamebox.statsbox-top
   mixin progress('HP', character.hp, character.hp_max, 'progress-bar-danger')

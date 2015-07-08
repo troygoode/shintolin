@@ -50,6 +50,10 @@ app.use auto_loader for key, auto_loader of middleware.auto_loaders
 app.use middleware.debug 'shintolin:middleware', 'autoloaders exit'
 app.use middleware.time
 app.use middleware.expose_querystring
+app.use (req, res, next) ->
+  res.locals.rounded = (num) ->
+    Math.floor(num * 10) / 10
+  next()
 
 app.use middleware.debug 'shintolin:middleware', 'exit'
 

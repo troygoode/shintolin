@@ -38,7 +38,7 @@ module.exports = (character, target, text, volume, cb) ->
       for tile in in_radius
         in_radius.push x: tile.x, y: tile.y, z: 1
 
-      async.each in_radius, (tile, cb) ->
+      async.eachSeries in_radius, (tile, cb) ->
         send_message_coords 'social', character, tile, null, msg, cb
       , cb
     else

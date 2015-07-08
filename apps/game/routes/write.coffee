@@ -6,7 +6,7 @@ commands = require '../../../commands'
 
 module.exports = (app) ->
   app.post '/write', mw.not_dazed, mw.available_actions('write'), mw.ap(3), (req, res, next) ->
-    return next('You don\t have anything to write with.') unless _.some req.character.items ? [], (item) ->
+    return next('You don\'t have anything to write with.') unless _.some req.character.items ? [], (item) ->
       type = data.items[item.item]
       item.count >= 1 and _.contains type.tags ? [], 'write'
 

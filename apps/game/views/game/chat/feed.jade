@@ -1,8 +1,6 @@
 .action
-  |  You feed the #{data.items[msg.item].name} to 
   if msg.sender_slug === msg.target_slug
-    | yourself
+    | You ate the #{data.items[msg.item].name}.
   else
-    | <a href='/profile/#{msg.target_slug}'>#{msg.target_name}</a>
-  | . 
+    | You fed the #{data.items[msg.item].name} to <a href='/profile/#{msg.target_slug}'>#{msg.target_name}</a>.
   div.time= moment(msg.sent).fromNow()
