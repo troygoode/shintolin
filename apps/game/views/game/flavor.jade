@@ -23,15 +23,12 @@
       - };
       != describe_list(center.people.map(function(p){ return character_link(p) + health(p); }))
       | . 
-    if center.tile.message && center.tile.message.length
+    if center.tile.message && center.tile.message.trim().length
       if center.tile.z === 0
-        | Written on the #{building.name} are the words 
-        span.writing= center.tile.message
-        | . 
+        span  Scratched upon the #{building.name.toLowerCase()}'s surface is a message which reads: 
       else
-        | Written on the walls are the words 
-        span.writing= center.tile.message
-        | . 
+        span  Scratched upon the walls of the #{building.name.toLowerCase()} is a message which reads: 
+      div.writing= center.tile.message.trim()
     if center.tile.items.length && center.building
       p
         span Nearby, in the #{center.building.name}, you find 
