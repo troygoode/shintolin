@@ -190,10 +190,14 @@ input.action
     input[type='text']
       width 433px
       border none
-      padding 8px 12px
+      padding 8px 8px
+      &:disabled
+        background-color $bg_light
     text-align center
     label
       margin 0 8px
+      span.disabled
+        opacity .5
       select
         font-weight normal
   .message

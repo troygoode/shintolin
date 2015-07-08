@@ -48,15 +48,15 @@ module.exports = (character, target, text = '', volume, cb) ->
 
   msg =
     text: text
-  if target?
-    msg.target_id = target._id
-    msg.target_name = target.name
-    msg.target_slug = target.slug
   if volume?.length
     msg.volume = volume
 
   switch volume
     when 'whisper'
+      return cb() unless target?
+      msg.target_id = target._id
+      msg.target_name = target.name
+      msg.target_slug = target.slug
       async.series [
         (cb) ->
           charge_ap character, 0, cb

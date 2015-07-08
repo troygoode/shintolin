@@ -2,12 +2,12 @@
   mixin chat_tab(target, ap, label, is_active)
     li(class={active: is_active}, role='presentation', data-toggle='tooltip', data-placement='top', title='#{ap} AP')
       a(href='##{target}', aria-controls=target, role='tab', data-toggle='tab')= label
-  mixin chat_form(volume, tooltip)
+  mixin chat_form(volume, tooltip, disabled)
     div
       input(type='hidden', name='_csrf', value=csrf)
       input(type='hidden', name='volume', value=volume)
-      input(type='text', name='text', maxlength='200', placeholder=tooltip)
-      button.btn.btn-link(type='submit')
+      input(type='text', name='text', maxlength='200', placeholder=tooltip, disabled=disabled)
+      button.btn.btn-link(type='submit', disabled=disabled)
         span.glyphicon.glyphicon-share-alt
         span.sr-only Send
 
@@ -28,14 +28,13 @@
             mixin chat_form('shout', 'Shout to everyone within earshot.')
         #chat-whisper.tab-pane(role='tabpanel')
           form(method='POST', action='/game/chat')
-            mixin chat_form('whisper', 'Whisper to another player.')
+            mixin chat_form('whisper', 'Whisper to another player.', (center.people.length === 0))
             div.target
               label
-                | To:
+                span(class={disabled: (center.people.length === 0)}) To:
                 select(name='target', style='width: 10em', data-persist='chat-target', disabled=(center.people.length === 0))
-                  option(value='') No-one
-                  for c in center.people
-                    option(value=c._id)= c.name
+                  for c, i in center.people
+                    option(value=c._id, selected=(i === 0))= c.name
         #chat-emote.tab-pane(role='tabpanel')
           form(method='POST', action='/game/chat')
             mixin chat_form('emote', 'Gesture with body language.')

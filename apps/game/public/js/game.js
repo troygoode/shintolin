@@ -77,8 +77,22 @@
 
   window.hydratePersistedSelections = function () {
     for (var key in persistedSelections) {
+      var $select = $("select[data-persist=" + key + "]");
       if (key && key.length && key !== "undefined") {
-        $("select[data-persist=" + key + "]").val(persistedSelections[key]);
+        var targetValue = persistedSelections[key],
+          hydrate = false;
+
+        /*eslint-disable no-loop-func*/
+        $select.children("option").each(function () {
+          if ($(this).val() === targetValue) {
+            hydrate = true;
+          }
+        });
+        /*eslint-enable no-loop-func*/
+
+        if (hydrate) {
+          $select.val(targetValue);
+        }
       }
     }
   };
