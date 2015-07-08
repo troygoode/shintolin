@@ -5,7 +5,7 @@
     input.action.btn.btn-default(type='submit', value=text, data-action=(key || text.toLowerCase().replace(/\s/g, '-')), data-toggle='tooltip', data-placement='left', title='#{ap || 1} AP')
 
   if character.hp > 0
-    .actions.hidden
+    .actions
 
       ul.nav.nav-tabs(role='tablist')
         li.active(role='presentation'): a(href='#actions-location', aria-controls='actions-location', role='tab', data-toggle='tab') Location

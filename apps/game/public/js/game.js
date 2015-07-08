@@ -96,17 +96,27 @@
   });
 
   $(function () {
-    $("[data-toggle=\"tooltip\"]").tooltip({html: true});
+    $("[data-toggle=\"tooltip\"]").tooltip({
+      html: true,
+      trigger: "hover",
+      animate: true
+    });
   });
 
   var actionTabSelected = $.cookie("action_tab_selected");
   if (actionTabSelected) {
     $("a[href='" + actionTabSelected + "']").tab("show");
   }
-  $(".actions").removeClass("hidden");
-
   $(".actions a[data-toggle='tab']").on("shown.bs.tab", function (e) {
     $.cookie("action_tab_selected", e.target.hash);
+  });
+
+  var chatTabSelected = $.cookie("chat_tab_selected");
+  if (chatTabSelected) {
+    $("a[href='" + chatTabSelected + "']").tab("show");
+  }
+  $(".chat-tabs a[data-toggle='tab']").on("shown.bs.tab", function (e) {
+    $.cookie("chat_tab_selected", e.target.hash);
   });
 
 }());

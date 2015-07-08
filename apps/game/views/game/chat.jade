@@ -1,25 +1,48 @@
 .gamebox.infobox.chat
+  mixin chat_tab(target, ap, label, is_active)
+    li(class={active: is_active}, role='presentation', data-toggle='tooltip', data-placement='top', title='#{ap} AP')
+      a(href='##{target}', aria-controls=target, role='tab', data-toggle='tab')= label
+  mixin chat_form(volume, tooltip)
+    div
+      input(type='hidden', name='_csrf', value=csrf)
+      input(type='hidden', name='volume', value=volume)
+      input(type='text', name='text', maxlength='200', placeholder=tooltip)
+      button.btn.btn-link(type='submit')
+        span.glyphicon.glyphicon-share-alt
+        span.sr-only Send
+
   if locals.center
-    form(method='POST', action='/game/chat')
-      div
-        input(type='hidden', name='_csrf', value=csrf)
-        input(type='text', name='text', maxlength='200', placeholder='Enter chat message.')
-        button.btn.btn-link(type='submit')
-          span.glyphicon.glyphicon-share-alt
-          span.sr-only Speak
-      div
-        label
-          | To:
-          select(name='target', style='width: 10em', data-persist='chat-target', disabled=(center.people.length === 0))
-            option(value='') No-one
-            for c in center.people
-              option(value=c._id)= c.name
-        label
-          | Volume:
-          select(name='volume', style='width: 10em', data-persist='volume')
-            option(value='whisper') Whisper (0 AP)
-            option(value='', selected) Say (0 AP)
-            option(value='shout') Shout (0 AP)
+    .chat-tabs
+      ul.nav.nav-tabs(role='tablist')
+        mixin chat_tab('chat-say', 0, 'Say', true)
+        mixin chat_tab('chat-emote', 0, 'Emote')
+        mixin chat_tab('chat-whisper', 0, 'Whisper')
+        mixin chat_tab('chat-shout', 0, 'Shout')
+        mixin chat_tab('chat-ooc', 0, 'OOC')
+      .tab-content
+        #chat-say.tab-pane.active(role='tabpanel')
+          form(method='POST', action='/game/chat')
+            mixin chat_form('', 'Speak to those directly next to you.')
+        #chat-shout.tab-pane(role='tabpanel')
+          form(method='POST', action='/game/chat')
+            mixin chat_form('shout', 'Shout to everyone within earshot.')
+        #chat-whisper.tab-pane(role='tabpanel')
+          form(method='POST', action='/game/chat')
+            mixin chat_form('whisper', 'Whisper to another player.')
+            div.target
+              label
+                | To:
+                select(name='target', style='width: 10em', data-persist='chat-target', disabled=(center.people.length === 0))
+                  option(value='') No-one
+                  for c in center.people
+                    option(value=c._id)= c.name
+        #chat-emote.tab-pane(role='tabpanel')
+          form(method='POST', action='/game/chat')
+            mixin chat_form('emote', 'Gesture with body language.')
+        #chat-ooc.tab-pane(role='tabpanel')
+          form(method='POST', action='/game/chat')
+            mixin chat_form('ooc', 'Send an out-of-character message to all active players.')
+
   if messages.length
     for msg in messages
       .message
@@ -135,24 +158,19 @@
           when 'settlement_removed'
             include chat/settlement_removed
           when 'social'
-            - var volume = msg.volume || 'say';
-            .social(class='social-' + msg.volume)
-              if msg.sender_id.toString() === character._id.toString()
-                | You #{volume}, 
-              else
-                a.neutral(href='/profile/#{msg.sender_slug}')= msg.sender_name
-                |  #{volume}s, 
-              | "#{msg.text}"
-              if msg.target_id
-                if msg.target_id.toString() === character._id.toString()
-                  |  to you. 
-                else
-                  |  to 
-                  a.neutral(href='/profile/#{msg.target_slug}')= msg.target_name
-                  | . 
-              else
-                | . 
-              div.time= moment(msg.sent).fromNow()
+            case msg.volume
+              when undefined
+              when ''
+              when 'say'
+                include chat/social-say
+              when 'emote'
+                include chat/social-emote
+              when 'ooc'
+                include chat/social-ooc
+              when 'shout'
+                include chat/social-shout
+              when 'whisper'
+                include chat/social-whisper
           when 'sow'
             include chat/sow
           when 'storm_damage_building_exterior'

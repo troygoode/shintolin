@@ -1,0 +1,18 @@
+.social(class='social-whisper')
+  if msg.sender_id.toString() === character._id.toString()
+    | You whisper, 
+  else
+    a.neutral(href='/profile/#{msg.sender_slug}')= msg.sender_name
+    |  whispers, 
+  | "#{msg.text}"
+  if msg.target_id
+    if msg.target_id.toString() === character._id.toString()
+      |  to you. 
+    else
+      |  to 
+      a.neutral(href='/profile/#{msg.target_slug}')= msg.target_name
+      | . 
+  else
+    | . 
+  div.time= moment(msg.sent).fromNow()
+

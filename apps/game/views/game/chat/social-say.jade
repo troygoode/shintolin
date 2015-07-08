@@ -1,0 +1,9 @@
+.social(class='social-say')
+  if msg.sender_id.toString() === character._id.toString()
+    | You say, 
+  else
+    a.neutral(href='/profile/#{msg.sender_slug}')= msg.sender_name
+    |  says, 
+  | "#{msg.text}".
+  div.time= moment(msg.sent).fromNow()
+

@@ -150,11 +150,41 @@ input.action
     color $text_extralight
 
 .chat
+  .nav-tabs
+    border-bottom 1px solid $bg_extradark
+    li
+      a
+        border none
+        border-radius 0
+      &.active a, &.active:hover a
+        border none
+        background-color $bg_extradark
+        color $text_extralight
+      &:hover a
+        background-color $bg_dark
+        border 0
+  .tab-content
+    position relative
+    top -1px
+    background-color $bg_extradark
+    padding 5px
+    form
+      margin 0
+      button
+        color $text_extralight
+    .target
+      margin-top 8px
+      color $text_extralight
+      select
+        margin-left 8px
+
   padding 0
   form
     padding 5px
     input[type='text']
-      width 440px
+      width 433px
+      border none
+      padding 8px 12px
     text-align center
     label
       margin 0 8px
@@ -171,8 +201,12 @@ input.action
       padding 5px
     .social-shout
       font-weight bold
-    .social-whisper
+    .social-whisper, .social-emote
       font-style italic
+    .social-ooc
+      .label
+        position relative
+        top -1px
     .action
       padding 2px 5px
   .more

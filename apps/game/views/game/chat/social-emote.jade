@@ -1,0 +1,10 @@
+.social(class='social-emote')
+  if msg.sender_id.toString() === character._id.toString()
+    | You 
+  else
+    | You see 
+    a.neutral(href='/profile/#{msg.sender_slug}')= msg.sender_name
+    |  
+  | #{msg.text}.
+  div.time= moment(msg.sent).fromNow()
+

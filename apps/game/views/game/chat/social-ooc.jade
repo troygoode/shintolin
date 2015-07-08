@@ -1,0 +1,8 @@
+.social(class='social-ooc')
+  span.label.label-default OOC
+  |  
+  a.neutral(href='/profile/#{msg.sender_slug}')= msg.sender_name
+  | : 
+  span "#{msg.text}".
+  div.time= moment(msg.sent).fromNow()
+
