@@ -23,12 +23,11 @@ app.locals.data = data
 
 app.use middleware.debug.request
 
-app.use favicon "#{__dirname}/../website/public/favicon.ico"
-app.use express.static "#{__dirname}/public"
+app.use favicon "#{__dirname}/../assets/public/favicon.ico"
 app.get '/css/game.css', stylus
-  entry: "#{__dirname}/assets/css/game.styl"
+  entry: "#{__dirname}/../assets/stylus/game.styl"
 app.get '/css/tiles.css', stylus
-  entry: "#{__dirname}/assets/css/tiles.styl"
+  entry: "#{__dirname}/../assets/stylus/tiles.styl"
 app.use body_parser.urlencoded(extended: true)
 app.use body_parser.json()
 app.use method_override()

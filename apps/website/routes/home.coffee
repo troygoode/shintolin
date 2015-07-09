@@ -29,7 +29,9 @@ module.exports = (app) ->
         queries.all_settlements cb
       , (cb) ->
         queries.rankings.younguns cb
-    ], (err, [square_count, settlements, younguns]) ->
+      , (cb) ->
+        queries.active_characters cb
+    ], (err, [square_count, settlements, younguns, active_character_count]) ->
       return next(err) if err?
       active_settlements = settlements.filter (s) ->
         not s.destroyed?
@@ -41,8 +43,9 @@ module.exports = (app) ->
           s.open
         younguns: younguns
         server_time: new Date()
-        updates: _.first(updates, 5)
+        latest_release_note: updates[0]
         moment: moment
+        active_character_count: active_character_count
 
   app.get '/updates', (req, res, next) ->
     res.render 'updates',

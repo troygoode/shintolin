@@ -1,26 +1,19 @@
-doctype html
-html
-  head
-    title Shintolin - Updates
-    link(rel='stylesheet', type='text/css', href='shintolin.css')
-  body
+extends ./_page.jade
 
-    h1 Updates
-    hr
+block content
+  .container
+    .row
+      .col-md-12
 
-    if logged_in
-      a.buttonlink(href='/game') Return
-    else
-      a.buttonlink(href='/') Home
+        .jumbotron.page-header
+          h1.header Release Notes
 
-    .news
-      for update in updates
-        hr
-        h4 #{moment(update.date).format('MMMM Do, YYYY')}
-        | !{update.html}
+    .row
+      .col-md-12
 
-    hr
-    if logged_in
-      a.buttonlink(href='/game') Return
-    else
-      a.buttonlink(href='/') Home
+        .news
+          for update, i in updates
+            if i !== 0
+              hr
+            h4 #{moment(update.date).format('MMMM Do, YYYY')}
+            | !{update.html}

@@ -1,96 +1,95 @@
-doctype html
-html
-  head
-    title Shintolin - #{character.name}
-    link(rel='stylesheet', type='text/css', href='/shintolin.css')
-    link(rel='stylesheet', type='text/css', href='/override.css')
-  body
-    h1.header= character.name
+extends ./_page.jade
 
-    table
-      tr
-        td(colspan='2')
-          if character.bio.length
-            .beigebox(style='font-style: italic; width: 35em')= character.bio
-          else
-            .beigebox(style='font-style: italic; width: 35em') A rather non-descript individual.
-        if editable
-          td(rowspan='2')
-            .beigebox(style='width: 25em')
-              form(method='POST', autocomplete='off')
-                input(type='hidden', name='_csrf', value=csrf)
-                // hack to turn off autocomplete: http://stackoverflow.com/a/23234498/5047
-                div
-                  input(type='text', style='display:none')
-                  input(type='password', style='display:none')
+block content
+  .container
+    .row
+      .col-md-12
 
-                div: label Edit description:
-                div: textarea(rows='7', cols='36', name='bio')= character.bio
-                hr
+        .jumbotron.page-header
+          h1.header= character.name
 
-                div: label Update image <i>(Enter image URL):</i>
-                div: input.text(type='text', name='image_url', maxlength='100', style='width: 300px', value=character.image_url)
-                div: i Images must be hosted on external sites. Offensive content will be removed.
-                hr
+    .row
+      .col-md-12
 
-                if message == 'email_taken'
-                  div: b E-mail is already in use
-                div: label Change your email:
-                div: input.text(type='email', name='email', maxlength='255', value=character.email)
-                hr
-
-                div: label Change your password:
-                div: input.text(type='password', name='password', maxlength='64')
-                hr
-
-                input(type='submit', value='Submit')
-      tr
-        td
-          .beigebox
-            table
-              if character.donated
-                tr: td(colspan='2') <b><i>Donated!</i></b>
-              if character.settlement_id
-                tr
-                  td: b Settlement:
-                  td
+        table
+          tr
+            td(colspan='2')
+              if character.bio.length
+                .beigebox(style='font-style: italic; width: 35em')= character.bio
+              else
+                .beigebox(style='font-style: italic; width: 35em') A rather non-descript individual.
+            if editable
+              td(rowspan='2')
+                .beigebox(style='width: 25em')
+                  form(method='POST', autocomplete='off')
+                    input(type='hidden', name='_csrf', value=csrf)
+                    // hack to turn off autocomplete: http://stackoverflow.com/a/23234498/5047
                     div
-                      a.neutral(href='/settlements/#{character.settlement_slug}')= character.settlement_name
-                      if character.settlement_provisional
-                        |  
-                        i (Provisional)
-                    if editable
-                      form(method='POST', action='/game/leave')
-                        input(type='hidden', name='_csrf', value=csrf)
-                        input(type='submit', value='Leave Settlement', data-action='leave')
-              tr
-                td: b Level:
-                td= character.skills.length + 1
-              tr
-                td: b Played since:
-                td= moment(character.created).fromNow()
-              tr
-                td: b Alive since:
-                td= moment(character.last_revived).fromNow()
-              tr
-                td: b Frags:
-                td= character.frags
-              tr
-                td: b Kills:
-                td= character.kills
-              tr
-                td: b Deaths:
-                td= character.deaths
-              tr
-                td: b Revives:
-                td= character.revives
-        td
-          if character.image_url.length
-            img(style='max-width: 300px; max-height: 300px;', alt='portrait of #{character.name}', src=character.image_url)
-          else
-            img(style='max-width: 300px; max-height: 300px;', alt='portrait of #{character.name}', src='/images/cave_art.jpg')
-    hr
-    if logged_in
-      a.buttonlink(href='/game') Return
-    else
-      a.buttonlink(href='/') Home
+                      input(type='text', style='display:none')
+                      input(type='password', style='display:none')
+
+                    div: label Edit description:
+                    div: textarea(rows='7', cols='36', name='bio')= character.bio
+                    hr
+
+                    div: label Update image <i>(Enter image URL):</i>
+                    div: input.text(type='text', name='image_url', maxlength='100', style='width: 300px', value=character.image_url)
+                    div: i Images must be hosted on external sites. Offensive content will be removed.
+                    hr
+
+                    if message == 'email_taken'
+                      div: b E-mail is already in use
+                    div: label Change your email:
+                    div: input.text(type='email', name='email', maxlength='255', value=character.email)
+                    hr
+
+                    div: label Change your password:
+                    div: input.text(type='password', name='password', maxlength='64')
+                    hr
+
+                    input(type='submit', value='Submit')
+          tr
+            td
+              .beigebox
+                table
+                  if character.donated
+                    tr: td(colspan='2') <b><i>Donated!</i></b>
+                  if character.settlement_id
+                    tr
+                      td: b Settlement:
+                      td
+                        div
+                          a.neutral(href='/settlements/#{character.settlement_slug}')= character.settlement_name
+                          if character.settlement_provisional
+                            |  
+                            i (Provisional)
+                        if editable
+                          form(method='POST', action='/game/leave')
+                            input(type='hidden', name='_csrf', value=csrf)
+                            input(type='submit', value='Leave Settlement', data-action='leave')
+                  tr
+                    td: b Level:
+                    td= character.skills.length + 1
+                  tr
+                    td: b Played since:
+                    td= moment(character.created).fromNow()
+                  tr
+                    td: b Alive since:
+                    td= moment(character.last_revived).fromNow()
+                  tr
+                    td: b Frags:
+                    td= character.frags
+                  tr
+                    td: b Kills:
+                    td= character.kills
+                  tr
+                    td: b Deaths:
+                    td= character.deaths
+                  tr
+                    td: b Revives:
+                    td= character.revives
+            td
+              if character.image_url.length
+                img(style='max-width: 300px; max-height: 300px;', alt='portrait of #{character.name}', src=character.image_url)
+              else
+                img(style='max-width: 300px; max-height: 300px;', alt='portrait of #{character.name}', src='/images/cave_art.jpg')

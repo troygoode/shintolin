@@ -5,6 +5,7 @@ body_parser = require 'body-parser'
 cookie_parser = require 'cookie-parser'
 method_override = require 'method-override'
 csurf = require 'csurf'
+stylus = require 'connect-stylus'
 config = require '../../config'
 time = require '../../time'
 shared_session = require '../shared_session'
@@ -18,8 +19,12 @@ app.set 'view engine', 'jade'
 
 app.use '/game', game_app
 app.use '/manage', management_app
-app.use favicon "#{__dirname}/public/favicon.ico"
-app.use express.static "#{__dirname}/public"
+app.use favicon "#{__dirname}/../assets/public/favicon.ico"
+app.get '/css/default.css', stylus
+  entry: "#{__dirname}/../assets/stylus/default.styl"
+app.get '/css/apps/website.css', stylus
+  entry: "#{__dirname}/../assets/stylus/apps/website.styl"
+app.use express.static "#{__dirname}/../assets/public"
 
 app.use body_parser.urlencoded(extended: true)
 app.use body_parser.json()

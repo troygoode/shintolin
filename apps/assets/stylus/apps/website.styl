@@ -1,0 +1,121 @@
+@require "../variables"
+
+// HOME
+
+body#home > .jumbotron
+  .logo
+    margin-right 2em
+    img
+      border 3px solid $border_dark
+      border-radius 70px
+      box-shadow 5px 5px 10px $border_dark
+      height 150px
+  h1
+    font 6.5em $font_logo
+    margin 0
+  p.tagline
+    font 1.75em $font_logo
+
+.marketing
+  strong
+    text-transform uppercase
+  .screenshots ul
+    margin 0
+    padding 0
+    list-style none
+    li
+      display inline-block
+      margin 5px
+      padding 0
+      img
+        border 3px solid $border_dark
+        box-shadow 3px 3px 5px $border_dark
+
+.well.register
+  border-radius 4px
+  h2
+    font 2em $font_logo
+    margin 0
+  a
+    color $text_light
+    text-decoration underline
+
+.stats
+  text-align right
+  > div
+    display inline-block
+    background-color $bg_light
+    border-radius 4px
+    color $text_dark
+    text-align right
+    padding .5em 1em
+    table
+      margin 0
+      tr
+        margin 0
+        td
+          margin 0
+          padding 0
+          font-size 11px
+        td:first-child
+          text-align right
+          padding-right 8px
+        td:last-child
+          text-align left
+          width 60px
+          a
+            display block
+            width @width
+            text-overflow ellipsis
+            overflow hidden
+
+.release-notes
+  h2 > span
+    font 1.5em $font_logo
+  h3 > span
+    font 1em $font_logo
+  .note
+    background-color $bg_light
+    border-radius 4px
+    padding 16px
+    color $bg_dark
+    margin 0 0 16px 0
+    ul
+      padding-left 15px
+      margin-left 5px
+      margin-bottom 0
+
+.server-time
+  font-size 12px
+  font-family monospace
+  label
+    margin-right 8px
+  margin-bottom 1.5em
+
+// LOGIN
+
+body#login
+
+  .well.login
+    margin-top 25px
+    width 350px
+    border-radius 15px
+    h2
+      font 2em $font_logo
+      margin 0
+    a
+      color $text_light
+      text-decoration underline
+
+// RESET PASSWORD
+
+body#reset-password
+
+  .well.reset-password
+    text-align center
+    margin-top 25px
+    width 350px
+    border-radius 15px
+    p
+      font 2em $font_logo
+      margin 0

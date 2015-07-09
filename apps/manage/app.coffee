@@ -17,8 +17,7 @@ app.set 'view engine', 'jade'
 app.locals._ = _
 app.locals.config = config
 
-app.use favicon "#{__dirname}/../website/public/favicon.ico"
-app.use express.static "#{__dirname}/public"
+app.use favicon "#{__dirname}/../assets/public/favicon.ico"
 
 app.use body_parser.urlencoded(extended: true)
 app.use body_parser.json()

@@ -1,0 +1,34 @@
+doctype html
+html
+  head
+    title Shintolin
+    link(rel='stylesheet', type='text/css', href='/bootstrap-3.3.5-dist/css/bootstrap.min.css')
+    link(rel='stylesheet', type='text/css', href='/bootstrap-3.3.5-dist/css/bootstrap-theme.min.css')
+    link(rel='stylesheet', type='text/css', href='/css/default.css')
+    link(rel='stylesheet', type='text/css', href='/css/apps/website.css')
+  body#login
+
+    .container
+      .row
+        .col-xs-12
+          .well.login.center-block
+            h2 Login to Shintolin
+            p: a(href='/') Don't have a character? Create one for free!
+
+            if message === 'bad_pw'
+              .alert.alert-danger Incorrect email address or password.
+
+            form(method='POST', action='/login')
+              input(type='hidden', name='_csrf', value=csrf)
+              .form-group
+                label(for='email') Email Address
+                input.form-control#email(type='email', name='email', maxlength='255')
+              .form-group
+                label(for='password') Password
+                input.form-control#password(type='password', name='password', maxlength='64', aria-describedby='password-help')
+                #password-help.help-block: a(href='/reset-password') Forgot your password?
+              .buttons.text-center
+                button.btn.btn-default(type='submit') Play Now!
+
+    script(src='/js/lib/jquery-2.1.4.min.js')
+    script(src='/bootstrap-3.3.5-dist/js/bootstrap.min.js')

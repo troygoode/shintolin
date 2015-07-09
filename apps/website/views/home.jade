@@ -1,126 +1,118 @@
 doctype html
 html
   head
-    title Shintolin - Home
-    link(rel='stylesheet', type='text/css', href='/game/bootstrap-3.3.5-dist/css/bootstrap.min.css')
-    link(rel='stylesheet', type='text/css', href='/game/bootstrap-3.3.5-dist/css/bootstrap-theme.min.css')
-    link(rel='stylesheet', type='text/css', href='shintolin.css')
-  body
-    .bigbox(style='height: 600px')
-      table
-        tr
-          td: img(alt='Cave painting logo', src='/images/cave_artthumb.png', style='height: 160px; display: inline;')
-          td
+    title Shintolin
+    link(rel='stylesheet', type='text/css', href='/bootstrap-3.3.5-dist/css/bootstrap.min.css')
+    link(rel='stylesheet', type='text/css', href='/bootstrap-3.3.5-dist/css/bootstrap-theme.min.css')
+    link(rel='stylesheet', type='text/css', href='/css/default.css')
+    link(rel='stylesheet', type='text/css', href='/css/apps/website.css')
+  body#home
+
+    .jumbotron
+      .container
+        .row
+          .col-xs-9
+            .logo.pull-left.hidden-xs
+              img(alt='Shintolin logo', src='/images/cave_artthumb.png')
             h1 Shintolin
-            h2 Explore. Settle. Trade. Conquer.
-            p: i A free <a href='http://github.com/shintolin/shintolin'>open-source</a> browser-based massively multiplayer game.
-          td: img(alt='Cave painting logo', src='/images/bw_hutsthumb.png', style='height: 160px; display: inline;')
-          td: a(href='/screenshot')
-            img(src='/images/screenthumb.png')
-            br
-            | [Screenshot]
-      table
-        tr
-          td
-            .beigebox(style='width: 15em')
-              b Settlements: #{settlement_count}
-              br
-              b Map: #{square_count} squares
-              if younguns && younguns.length > 0
-                br
-                b Newest Player: <a href='/profile/#{younguns[0].slug}'>#{younguns[0].name}</a>
-            .beigebox(style='width: 15em; margin-top: 4px')
-              b Sign in:
-              hr
-              if message === 'bad_pw'
-                b Incorrect email or password.
-              form(method='POST', action='/login')
-                input(type='hidden', name='_csrf', value=csrf)
-                | Email Address:
-                br
-                input.text(type='email', name='email', maxlength='255', style='width: 12em')
-                br
-                | Password:
-                br
-                input.text(type='password', name='password', length='64', style='width: 12em')
-                hr
-                input(type='submit', value='Login', style='margin-left: auto; margin-right: 0')
-            .beigebox(style='width: 15em; margin-top: 4px')
-              a.buttonlink(href='https://muut.com/shintolin') Forums
-              a.buttonlink(href='http://shintolin.wikia.com/wiki/Shintolin') Wiki
-              a.buttonlink(href='/rankings') Leaderboards
-          td
-            .beigebox(style='width: 30em')
-              i Humanity has wandered the world of Shintolin for millenia, hunting and gathering to survive. But some grow tired of the nomadic life, and are beginning to settle down. Forests make way for farmland, villages grow into towns and cities, and civilisations seek wealth, power, and glory.
-              hr
-              b Hunt, or farm. Fight, or heal. Build, or conquer. Join hundreds of players in a free, browser-based world.
-              hr
-              div(style='text-align: left; font-style: italic')
-                ul
-                  li Work with other players to build a village, or try and survive the dangers of the wilderness
-                  li Find your fortune through farming, crafting, or trading
-                  li Explore a dynamic world, where every item, building and town is player-created
-                  li Shape the landscape, and write your own chapter in the history of Shintolin
-          td
-            .beigebox(style='width: 15em')
-              b Create New Account:
-              hr
-              if message === 'too_long'
-                b Username or password too long
-              else if message === 'too_short'
-                b Username or password too short
-              else if message === 'name_taken'
-                b Username is already taken
-              else if message === 'email_taken'
-                b E-mail is already in use
-              else if message === 'pw_not_match'
-                b Passwords do not match
-              else if message === 'invalid_name'
-                b Invalid username
-              else if message === 'no_email'
-                b Enter a valid email address
-              form(method='POST', action='/register')
-                input(type='hidden', name='_csrf', value=csrf)
-                | Email Address:
-                br
-                input.text(type='email', name='email', length='255', style='width: 12em')
-                br
-                | Password:
-                br
-                input.text(type='password', name='password_1', length='64', style='width: 12em')
-                br
-                | Re-enter password:
-                br
-                input.text(type='password', name='password_2', length='64', style='width: 12em')
-                hr
-                | Character Name:
-                br
-                input.text(type='text', name='username', maxlength='24', style='width: 12em')
-                if settlements.length > 0
-                  br
-                  | Starting Settlement
-                  br
-                  select(name='settlement', style='width: 12em')
-                    option(value='') None (Wanderer)
-                    for settlement in settlements
-                      option(value=settlement._id)= settlement.name
-                hr
-                input(type='submit', value='Sign Up Now!')
-    hr
+            p.tagline.hidden-xs Explore. Settle. Trade. Conquer.
+          .col-xs-3
+            .login-botton.text-right
+              p: a.btn.btn-default(href='/login') Login
+            .stats.hidden-xs.hidden-sm
+              div
+                table
+                  tr
+                    td: label Active Players
+                    td: span #{active_character_count}
+                  tr
+                    td: label Settlements
+                    td: span #{settlement_count}
+                  tr
+                    td: label Map Size
+                    td: span #{square_count}
+                  if younguns && younguns.length > 0
+                    tr
+                      td: label Newest Player
+                      td: a(href='/profile/#{younguns[0].slug}') #{younguns[0].name}
 
-    .news
-      h3 Recent Updates
-      for update in updates
-        hr
-        h4 #{moment(update.date).format('MMMM Do, YYYY')}
-        | !{update.html}
+    .container
 
-      hr
-      p: a(href='/updates') View older updates.
+      .row
+        .col-sm-7
+          div.marketing
+            p: strong Hunt, or farm. Fight, or heal. Build, or conquer. Join fellow players in a free, persistent browser-based world.
+            p.hidden-xs Humanity has wandered the world of Shintolin for millenia, hunting and gathering to survive. But some grow tired of the nomadic life, and are beginning to settle down. Forests make way for farmland, villages grow into towns and cities, and civilisations seek wealth, power, and glory.
+            ul.hidden-xs
+              li Work with other players to build a village, or try and survive the dangers of the wilderness
+              li Find your fortune through farming, crafting, or trading
+              li Explore a dynamic world, where every item, building and town is player-created
+              li Shape the landscape, and write your own chapter in the history of Shintolin
 
-    hr
+            div.screenshots.text-center.hidden-xs
+              ul
+                li: a(href='/images/screenfull.png'): img(src='/images/screenthumb.png')
 
-    font(size='-1', color='e8e8d0') Server Time: #{server_time}
+        .col-sm-5
+          .well.register
+            h2 Create Your Character
+            p: a(href='/login') Already have a character? Log in here.
 
-    script(src='/game/js/lib/jquery-2.1.4.min.js')
-    script(src='/game/bootstrap-3.3.5-dist/js/bootstrap.min.js')
+            if message === 'too_long'
+              .alert.alert-danger Username or password too long
+            else if message === 'too_short'
+              .alert.alert-danger Username or password too short
+            else if message === 'name_taken'
+              .alert.alert-danger Username is already taken
+            else if message === 'email_taken'
+              .alert.alert-danger E-mail is already in use
+            else if message === 'pw_not_match'
+              .alert.alert-danger Passwords do not match
+            else if message === 'invalid_name'
+              .alert.alert-danger Invalid username
+            else if message === 'no_email'
+              .alert.alert-danger Enter a valid email address
+
+            form(method='POST', action='/register')
+              input(type='hidden', name='_csrf', value=csrf)
+              .form-group
+                label(for='email') Email Address
+                input.form-control#email(type='email', name='email', maxlength='255')
+              .form-group
+                label(for='password') Password
+                input.form-control#password(type='password', name='password', maxlength='64')
+              .form-group
+                label(for='password_2') Re-enter Password
+                input.form-control#password_2(type='password', name='password_2', maxlength='64')
+              .form-group
+                label(for='username') Character Name
+                input.form-control#username(type='text', name='username', maxlength='16')
+              if settlements.length > 0
+                label(for='settlement') Starting Settlement
+                select.form-control#settlement(name='settlement')
+                  option(value='') None (Wanderer)
+                  for settlement in settlements
+                    option(value=settlement._id)= settlement.name
+              .buttons.text-center
+                button.btn.btn-default(type='submit') Play Now!
+
+    .jumbotron
+      .container
+        .row
+          .col-xs-12
+            .release-notes
+              h2: span Recently Released!
+              h3: span #{moment(latest_release_note.date).format('MMMM Do, YYYY')}
+              .note
+                | !{latest_release_note.html}
+              p.text-center: a.btn.btn-default(href='/updates') Read Older Release Notes
+
+    .container
+      .row
+        .col-xs-12
+          p.server-time.text-center
+            label Server Time:
+            span #{moment(server_time).format("YYYY-MM-DD HH:mm:ss \\[h:mm A\\]")}
+
+    script(src='/js/lib/jquery-2.1.4.min.js')
+    script(src='/bootstrap-3.3.5-dist/js/bootstrap.min.js')
