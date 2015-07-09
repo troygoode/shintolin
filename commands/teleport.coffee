@@ -42,20 +42,7 @@ module.exports = (character, from, to, cb) ->
   ], (err, [from_tile, to_tile]) ->
     return cb(err) if err?
 
-    recovery = BASE_RECOVERY
-    if to_tile?
-      terrain = data.terrains[to_tile.terrain]
-      if terrain.recovery?
-        recovery += terrain.recovery(character, to_tile)
-    else
-      terrain = data.terrains[config.default_terrain]
-      if terrain.recovery?
-        recovery += terrain.recovery(character, to_tile)
-    if to_tile?.building?
-      building = data.buildings[to_tile.building]
-      if building.recovery?
-        recovery += building.recovery(character, to_tile)
-    recovery = 1 if recovery < 1
+    recovery = queries.calculate_recovery character, to_tile
 
     async.series [
       (cb) ->
