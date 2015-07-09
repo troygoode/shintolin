@@ -13,6 +13,7 @@ module.exports =
   mongo_uri: process.env.MONGODB_URI ? process.env.MONGOLAB_URI ? 'mongodb://localhost/shintolin'
   web_concurrency: process.env.WEB_CONCURRENCY ? 1
 
+  ap_per_hour: 3.0
   maximum_level: 18
   default_terrain: 'wilderness'
 

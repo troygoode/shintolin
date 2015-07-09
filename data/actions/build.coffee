@@ -1,9 +1,13 @@
 BPromise = require 'bluebird'
+config = require '../../config'
 craft = BPromise.promisify(require '../../commands/craft')
 create_building = BPromise.promisify(require '../../commands/create_building')
 send_message = BPromise.promisify(require '../../commands/send_message')
 send_message_nearby = BPromise.promisify(require '../../commands/send_message_nearby')
+characters = require("../../db").characters
 data = require '../'
+update_characters = BPromise.promisify(characters.update, characters)
+BASE_RECOVERY = config.ap_per_hour
 
 module.exports = (character, tile) ->
   buildings = {}
@@ -55,6 +59,19 @@ module.exports = (character, tile) ->
             craft character, tile, building, 'build'
           .tap ->
             create_building tile, building
+          .tap ->
+            return unless building.recovery?
+            recovery = building.recovery character, tile
+            query =
+              creature:
+                $exists: false
+              x: tile.x
+              y: tile.y
+              z: tile.z
+            update =
+              $set:
+                recovery: (BASE_RECOVERY + recovery)
+            update_characters query, update, null, true
           .tap (io, broken_items) ->
               send_message 'built', character, character,
                 building: building.id

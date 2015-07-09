@@ -4,7 +4,7 @@ db = require '../db'
 data = require '../data'
 queries = require '../queries'
 create_tile = require './create_tile'
-BASE_RECOVERY = 3.0
+BASE_RECOVERY = config.ap_per_hour
 
 db.register_index db.tiles,
   x: 1
