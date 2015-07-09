@@ -17,8 +17,10 @@ html
             h1 Shintolin
             p.tagline.hidden-xs Explore. Settle. Trade. Conquer.
           .col-xs-3
-            .login-botton.text-right
-              p: a.btn.btn-default(href='/login') Login
+            .login-button.text-right
+              a.btn.btn-default(href='/login') Login
+              if current_character
+                a.btn.btn-default(href='/game') Play as #{current_character.name}
             .stats.hidden-xs.hidden-sm
               div
                 table

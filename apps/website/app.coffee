@@ -11,6 +11,7 @@ time = require '../../time'
 shared_session = require '../shared_session'
 game_app = require '../game/app'
 management_app = require '../manage/app'
+queries = require '../../queries'
 routes = require('require-directory')(module, "#{__dirname}/routes")
 
 app = module.exports = express()
@@ -44,7 +45,11 @@ app.use (req, res, next) ->
 
 app.use (req, res, next) ->
   res.locals.logged_in = req.session.character?
-  next()
+  return next() unless res.locals.logged_in
+  queries.get_character req.session.character, (err, character) ->
+    return next(err) if err?
+    res.locals.current_character = character
+    next()
 
 router = express.Router()
 app.use router
