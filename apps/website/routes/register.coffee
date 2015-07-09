@@ -28,9 +28,9 @@ module.exports = (app) ->
           return fail('too_long') unless name?.length < 21
           return fail('invalid_name') unless /^\w+$/.test name
           return fail('no_email') unless /^.+@.+\..+$/.test email
-          return fail('pw_not_match') unless req.body.password_1 is req.body.password_2
+          return fail('pw_not_match') unless req.body.password is req.body.password_2
 
-          commands.create_character name, email, req.body.password_1, settlement, (err, character) ->
+          commands.create_character name, email, req.body.password, settlement, (err, character) ->
             return next(err) if err?
             return next('No character created!') unless character?
 
