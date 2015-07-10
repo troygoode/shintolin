@@ -1,0 +1,28 @@
+#!/usr/bin/env coffee
+
+async = require 'async'
+db = require '../../db'
+
+fail = (err) ->
+  console.error err
+  process.exit 1
+
+query =
+  settlement_id: {$exists: true}
+  z: 0
+
+db.tiles.find(query).toArray (err, tiles) ->
+  return fail(err) if err?
+  async.eachSeries tiles, (tile, cb) ->
+    query2 =
+      x: tile.x
+      y: tile.y
+      z: 1
+    update =
+      settlement_id: tile.settlement_id
+      settlement_name: tile.settlement_name
+      settlement_slug: tile.settlement_slug
+    db.tiles.update query2, update, cb
+  , (err) ->
+    return fail(err) if err?
+    process.exit 0
