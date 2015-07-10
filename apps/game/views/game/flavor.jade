@@ -23,17 +23,18 @@
       - };
       != describe_list(center.people.map(function(p){ return character_link(p) + health(p); }))
       | . 
+    if center.tile.items.length && center.building && center.building.show_inventory
+      |  
+      span In the #{center.building.name.toLowerCase()} you see 
+        != describe_list(center.tile.items.map(function(i){ return '<strong>' + i.count + 'x ' + data.items[i.item].name + '</strong>'; }))
+        | .
     if center.tile.message && center.tile.message.trim().length
+      |  
       if center.tile.z === 0
-        span  Scratched upon the #{building.name.toLowerCase()}'s surface is a message which reads: 
+        span Scratched upon the #{building.name.toLowerCase()}'s surface is a message which reads: 
       else
-        span  Scratched upon the walls of the #{building.name.toLowerCase()} is a message which reads: 
+        span Scratched upon the walls of the #{building.name.toLowerCase()} is a message which reads: 
       div.writing= center.tile.message.trim()
-    if center.tile.items.length && center.building
-      p
-        span Nearby, in the #{center.building.name}, you find 
-          != describe_list(center.tile.items.map(function(i){ return i.count + 'x ' + i.item; }))
-          | .
 
     if query.error
       .error=query.error

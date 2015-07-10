@@ -3,6 +3,7 @@ module.exports =
   size: 'small'
   hp: 10
   actions: ['take', 'give', 'write']
+  show_inventory: true
 
   build: (character, tile) ->
     takes:

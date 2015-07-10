@@ -17,7 +17,7 @@ module.exports = (app) ->
     return next("You don\'t have #{quantity} #{req.item.name} to give away.") unless inventory_item.count >= quantity
 
     if req.target is 'building'
-      return next('You cannot leave items in this building.') unless _.contains(req.actions, 'give')
+      return next('You cannot leave items in this building.') unless req.actions.give?
     else
       weight = quantity * (req.item.weight ? 0)
       return next("Giving that to #{req.target.name} would overburden them.") if req.target.weight + weight > MAX_WEIGHT
