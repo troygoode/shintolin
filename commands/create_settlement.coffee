@@ -79,6 +79,11 @@ module.exports = (founder, hq, name, cb) ->
         cb()
     , (cb) ->
       # update all tiles
+      coords_and_inside = coords.concat coords.map((c) ->
+        x: c.x
+        y: c.y
+        z: 1
+      )
       update_tile = (tile, cb) ->
         query =
           _id: tile._id
@@ -88,10 +93,11 @@ module.exports = (founder, hq, name, cb) ->
             settlement_name: settlement.name
             settlement_slug: settlement.slug
         db.tiles.update query, update, cb
-      async.each coords, (coord, cb) ->
+      async.each coords_and_inside, (coord, cb) ->
         queries.get_tile_by_coords coord, (err, tile) ->
           return cb(err) if err?
           return update_tile(tile, cb) if tile?
+          return cb() unless coord.z is 0 # don't create underground tiles automatically
           create_tile coord, undefined, undefined, (err, tile) ->
             return cb(err) if err?
             update_tile tile, cb
