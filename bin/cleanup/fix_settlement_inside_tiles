@@ -2,6 +2,7 @@
 
 async = require 'async'
 db = require '../../db'
+data = require '../../data'
 
 fail = (err) ->
   console.error err
@@ -9,20 +10,26 @@ fail = (err) ->
 
 query =
   settlement_id: {$exists: true}
+  building: {$exists: true}
   z: 0
 
 db.tiles.find(query).toArray (err, tiles) ->
   return fail(err) if err?
   async.eachSeries tiles, (tile, cb) ->
+    building = data.buildings[tile.building]
+    return cb() unless building.interior?
+
     query2 =
       x: tile.x
       y: tile.y
       z: 1
     update =
-      settlement_id: tile.settlement_id
-      settlement_name: tile.settlement_name
-      settlement_slug: tile.settlement_slug
+      $set:
+        settlement_id: tile.settlement_id
+        settlement_name: tile.settlement_name
+        settlement_slug: tile.settlement_slug
     db.tiles.update query2, update, cb
+    cb()
   , (err) ->
     return fail(err) if err?
     process.exit 0
