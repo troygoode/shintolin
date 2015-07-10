@@ -66,7 +66,7 @@ div
       mixin action_button('Evict', 0)
       select(name='character', style='width: 10em', data-persist='member', data-action-focus='evict')
         option(value='') no-one
-        for m in evictables
+        for m in (evictables || [])
           option(value=m._id)= m.name
 
   if settlement && character.settlement_id && settlement._id.toString() === character.settlement_id.toString()
