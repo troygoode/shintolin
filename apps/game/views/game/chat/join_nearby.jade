@@ -1,4 +1,4 @@
 .action
   a(href='/profile/#{msg.sender_slug}')= msg.sender_name
-  |  has pledged to allegiance to to the settlement of <a href='/settlements/#{msg.settlement_slug}'>#{msg.settlement_name}</a>. 
+  |  has pledged allegiance to the settlement of <a href='/settlements/#{msg.settlement_slug}'>#{msg.settlement_name}</a>. 
   div.time= moment(msg.sent).fromNow()
