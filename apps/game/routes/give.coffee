@@ -68,7 +68,7 @@ module.exports = (app) ->
             target_id: req.target._id
             target_name: req.target.name
             target_slug: req.target.slug
-        commands.send_message_nearby 'give_nearby', req.character, [req.character], msg, cb
+        commands.send_message_nearby 'give_nearby', req.character, [req.character, req.target], msg, cb
     ], (err) ->
       return next(err) if err?
       res.redirect '/game'

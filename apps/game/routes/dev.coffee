@@ -105,9 +105,10 @@ module.exports = (app) ->
     queries.get_character_by_name req.body.target_name, (err, target) ->
       return next(err) if err?
       return next('Invalid target.') unless target?
-      req.session.possessor =
-        character: req.session.character
-        email: req.session.email
+      unless req.session.possessor?
+        req.session.possessor =
+          character: req.session.character
+          email: req.session.email
       req.session.character = target._id.toString()
       req.session.email = target.email
       res.redirect '/game'
