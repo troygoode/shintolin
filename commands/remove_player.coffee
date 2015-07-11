@@ -26,4 +26,8 @@ module.exports = (character, cb) ->
           members:
             _id: character._id
       db.settlements.update query, update, false, true, cb
+    (cb) ->
+      query =
+        sender_id: character._id
+      db.chat_messages.remove query, cb
   ], cb
