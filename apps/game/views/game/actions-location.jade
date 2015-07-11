@@ -58,6 +58,6 @@ div
             option(value=item.id)= item.name
 
   if actions.search
-    form.action(method='POST', action='/game/search')
+    form.action(method='POST', action='/game/actions/search')
       input(type='hidden', name='_csrf', value=csrf)
       mixin action_button('Search')
