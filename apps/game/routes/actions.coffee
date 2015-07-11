@@ -5,10 +5,14 @@ charge_ap = BPromise.promisify(require '../../../commands/charge_ap')
 module.exports = (app) ->
   app.post '/actions/:action_key', mw.available_actions(), (req, res, next) ->
     action = req.actions[req.params.action_key]
-    action.execute(req.body, req, res, next)
+    BPromise.resolve()
       .then ->
-        if action.ap?
-          charge_ap req.character, action.ap
+        throw 'You cannot do that while dazed.' if character.hp is 0
+        throw 'You don\'t have enough AP.' if action.ap? and req.character.ap < action.ap
+      .then ->
+        action.execute(req.body, req, res, next)
+      .then ->
+        charge_ap(req.character, action.ap) if action.ap?
       .then ->
         res.redirect '/game'
       .catch (err) ->

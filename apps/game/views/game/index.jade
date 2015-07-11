@@ -1,12 +1,14 @@
 extends ../_layout.jade
 
 block content
-  .col-md-6
-    include stats-top
-    include map
-    include stats-bottom
-  .col-md-6
+  .container
     include dazed
-    include actions
-    br
-    include chat
+    .row
+      .col-md-6
+        include stats-top
+        include map
+        include stats-bottom
+      .col-md-6
+        include actions
+        br
+        include chat
