@@ -30,4 +30,8 @@ module.exports = (character, cb) ->
       query =
         sender_id: character._id
       db.chat_messages.remove query, cb
+    (cb) ->
+      query =
+        recipient_id: character._id
+      db.chat_messages.remove query, cb
   ], cb
