@@ -193,7 +193,7 @@ block content
                 td= i + 1
                 td: a(href='/settlements/#{s.slug}')= s.name
                 td= data.regions[s.region].name
-                td= s.population
+                td= s.members.length
 
         if locals.active
           table
