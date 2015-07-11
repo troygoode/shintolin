@@ -13,7 +13,10 @@ block content
 
         .news
           for update, i in updates
-            if i !== 0
-              hr
-            h4 #{moment(update.date).format('MMMM Do, YYYY')}
-            | !{update.html}
+            div: a(id=update.date.getTime())
+            br
+            hr
+            br
+            div
+              h4: a(href="/updates##{update.date.getTime()}") #{moment(update.date).format('MMMM Do, YYYY')}
+              | !{update.html}
