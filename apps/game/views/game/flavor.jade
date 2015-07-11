@@ -1,7 +1,13 @@
 .flavor
   .beigeoverlay
+
+    // description
+
     if center.terrain.describe
       = center.terrain.describe(center.tile)
+
+    // people
+
     if center.people && center.people.length
       |  Standing here
       if center.people.length === 1
@@ -23,11 +29,22 @@
       - };
       != describe_list(center.people.map(function(p){ return character_link(p) + health(p); }))
       | . 
-    if center.tile.items.length && center.building && center.building.show_inventory
+
+    // items
+
+    if center.tile.items.length && (center.building && _.contains(center.building.tags || [], 'visible_inventory'))
       |  
       span In the #{center.building.name.toLowerCase()} you see 
         != describe_list(center.tile.items.map(function(i){ return '<strong>' + i.count + 'x ' + data.items[i.item].name + '</strong>'; }))
         | .
+    else if center.tile.items.length && (center.terrain && _.contains(center.terrain.tags || [], 'visible_inventory'))
+      |  
+      span Nearby you see 
+        != describe_list(center.tile.items.map(function(i){ return '<strong>' + i.count + 'x ' + data.items[i.item].name + '</strong>'; }))
+        | .
+
+    // writing
+
     if center.tile.message && center.tile.message.trim().length
       |  
       if center.tile.z === 0
@@ -35,6 +52,8 @@
       else
         span Scratched upon the walls of the #{building.name.toLowerCase()} is a message which reads: 
       div.writing= center.tile.message.trim()
+
+    // error message
 
     if query.error
       .error=query.error

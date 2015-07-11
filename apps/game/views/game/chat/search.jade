@@ -4,9 +4,15 @@
   else
     | You search the area and find 
     if msg.item
-      | a <strong>#{data.items[msg.item].name}</strong>
+      if msg.count && msg.count > 1
+        | #{msg.count}x 
+      else
+        | a 
+      strong #{data.items[msg.item].name}
     else
       | nothing of use
+    if msg.abandoned
+      | , which someone had abandoned
     | . 
     if msg.total_odds === 0
       | This area appears to have been picked clean. 
