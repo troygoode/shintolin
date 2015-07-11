@@ -22,7 +22,7 @@ module.exports = (app) ->
             broken: broken_items
           , cb
         (cb) ->
-          commands.send_message 'repair_nearby', req.character, [req.character],
+          commands.send_message_nearby 'repair_nearby', req.character, [req.character],
             building: building.id
             gives: io.gives
             takes: io.takes
