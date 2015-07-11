@@ -19,11 +19,13 @@ html
               img(alt='Shintolin logo', src='/images/cave_artthumb.png')
             h1 Shintolin
             p.tagline.hidden-xs Explore. Settle. Trade. Conquer.
-          .col-xs-3
+          .col-xs-3.hidden-xs.hidden-sm
             .login-button.text-right
-              a.btn.btn-default(href='/login') Login
               if current_character
                 a.btn.btn-default(href='/game') Play as #{current_character.name}
+                a.btn.btn-default(href='/logout') Logout
+              else
+                a.btn.btn-default(href='/login') Login
             .stats.hidden-xs.hidden-sm
               div
                 table
@@ -40,6 +42,14 @@ html
                     tr
                       td: label Newest Player
                       td: a(href='/profile/#{younguns[0].slug}') #{younguns[0].name}
+        .row.hidden-md.hidden-lg
+          .col-xs-12
+            .login-button.text-center
+              if current_character
+                a.btn.btn-default(href='/game') Play as #{current_character.name}
+                a.btn.btn-default(href='/logout') Logout
+              else
+                a.btn.btn-default(href='/login') Login
 
     .container
 
@@ -93,11 +103,12 @@ html
                 label(for='username') Character Name
                 input.form-control#username(type='text', name='username', maxlength='16')
               if settlements.length > 0
-                label(for='settlement') Starting Settlement
-                select.form-control#settlement(name='settlement')
-                  option(value='') None (Wanderer)
-                  for settlement in settlements
-                    option(value=settlement._id)= settlement.name
+                .form-group
+                  label(for='settlement') Starting Settlement
+                  select.form-control#settlement(name='settlement')
+                    option(value='') None (Wanderer)
+                    for settlement in settlements
+                      option(value=settlement._id)= settlement.name
               .buttons.text-center
                 button.btn.btn-default(type='submit') Play Now!
 
