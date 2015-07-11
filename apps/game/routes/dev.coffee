@@ -40,6 +40,14 @@ module.exports = (app) ->
       return next(err) if err?
       res.redirect '/game/dev'
 
+  app.post '/dev/remove-player/:character_slug', developers_only, (req, res, next) ->
+    queries.get_character_by_slug req.params.character_slug, (err, player) ->
+      return next(err) if err?
+      return next('Unknown Player') unless player?
+      commands.remove_player player, (err) ->
+        return next(err) if err?
+        res.redirect '/rankings?metric=younguns'
+
   app.get '/dev/replenish-hp', developers_only, (req, res, next) ->
     query =
       _id: req.character._id

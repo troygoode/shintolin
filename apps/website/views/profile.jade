@@ -1,6 +1,16 @@
 extends ./_page.jade
 
 block content
+  if is_developer
+    .container
+      .row
+        .col-md-12
+          div(role='navigation').visible-md-block.visible-lg-block
+            ul.nav.nav-pills
+              form(method='POST', action='/game/dev/remove-player/#{character.slug}')
+                input(type='hidden', name='_csrf', value=csrf)
+                button.btn.btn-danger(type='submit') Delete Player
+
   .container
     .row
       .col-md-12

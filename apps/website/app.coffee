@@ -48,6 +48,7 @@ app.use (req, res, next) ->
   return next() unless res.locals.logged_in
   queries.get_character req.session.character, (err, character) ->
     return next(err) if err?
+    res.locals.is_developer = req.session.developer
     res.locals.current_character = character
     next()
 
