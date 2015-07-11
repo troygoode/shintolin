@@ -1,0 +1,25 @@
+#!/usr/bin/env coffee
+
+async = require 'async'
+db = require '../../db'
+commands = require '../../commands'
+
+rgx = new RegExp('^' + process.argv[2] + '$', 'i')
+
+fail = (err) ->
+  console.error err
+  process.exit 1
+
+query =
+  creature: {$exists: false}
+  name: {$regex: rgx}
+
+db.characters.find(query).toArray (err, players) ->
+  return fail(err) if err?
+  console.log "#{players.length} players matched"
+  async.eachSeries players, (player, cb) ->
+    console.log "removing player '#{player.name}'"
+    commands.remove_player player, cb
+  , (err) ->
+    return fail(err) if err?
+    process.exit 0
