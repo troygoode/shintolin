@@ -4,19 +4,26 @@ block content
   if is_developer
     .container
       .row
-        .col-sm-9
+        .col-sm-10
           div(role='navigation').visible-md-block.visible-lg-block
             ul.nav.nav-pills
-              form(method='POST', action='/game/dev/possess')
-                input(type='hidden', name='_csrf', value=csrf)
-                input(type='hidden', name='target_name', value=character.name)
-                button.btn.btn-default(type='submit') Possess
-        .col-sm-3.text-right
+              li
+                form(method='POST', action='/game/dev/possess')
+                  input(type='hidden', name='_csrf', value=csrf)
+                  input(type='hidden', name='target_name', value=character.name)
+                  button.btn.btn-default(type='submit') Possess
+              li
+                form(method='POST', action='/game/dev/teleport-to-character')
+                  input(type='hidden', name='_csrf', value=csrf)
+                  input(type='hidden', name='target_name', value=character.name)
+                  button.btn.btn-default(type='submit') Teleport To
+        .col-sm-2.text-right
           div(role='navigation').visible-md-block.visible-lg-block
             ul.nav.nav-pills
-              form(method='POST', action='/game/dev/remove-player/#{character.slug}')
-                input(type='hidden', name='_csrf', value=csrf)
-                button.btn.btn-danger(type='submit') Delete
+              li
+                form(method='POST', action='/game/dev/remove-player/#{character.slug}')
+                  input(type='hidden', name='_csrf', value=csrf)
+                  button.btn.btn-danger(type='submit') Delete
 
   .container
     .row
@@ -87,6 +94,10 @@ block content
                   tr
                     td: b Level:
                     td= character.skills.length + 1
+                  if is_developer
+                    tr
+                      td: b Last active:
+                      td(title='#{moment(character.last_action).format("MMM Do, YYYY H:mm A")}')= moment(character.last_action).fromNow()
                   tr
                     td: b Played since:
                     td= moment(character.created).fromNow()

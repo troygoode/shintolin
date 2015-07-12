@@ -75,7 +75,7 @@ module.exports = (app) ->
       return next('Invalid target.') unless target?
       commands.teleport req.character, req.tile, {x: target.x, y: target.y, z: target.z}, (err) ->
         return next(err) if err?
-        res.redirect '/game/dev'
+        res.redirect '/game'
 
   app.post '/dev/teleport-to-random-tile', developers_only, (req, res, next) ->
     queries.get_random_spawnable_tile (err, tile) ->
