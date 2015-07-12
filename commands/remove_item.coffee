@@ -34,5 +34,7 @@ module.exports = (target, item, count, cb) ->
 
   if target.terrain? or target.building?
     db.tiles.update query, update, cb
-  else
+  else if target.email? or target.creature?
     db.characters.update query, update, cb
+  else
+    cb 'Invalid target for remove_item'
