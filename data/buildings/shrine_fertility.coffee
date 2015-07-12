@@ -1,5 +1,5 @@
 module.exports =
-  name: 'Fertiltiy Shrine'
+  name: 'Fertility Shrine'
   size: 'small'
   hp: 50
   interior: '_interior_shrine_fertility'
