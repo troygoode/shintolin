@@ -24,3 +24,11 @@ body {
   background-color: black;
   color: #fff;
 }
+
+.profile-stats td {
+  text-align: left;
+}
+.profile-stats td:first-child {
+  padding-right: 1em;
+}
+

@@ -75,7 +75,7 @@ block content
           tr
             td
               .beigebox
-                table
+                table.profile-stats
                   if character.donated
                     tr: td(colspan='2') <b><i>Donated!</i></b>
                   if character.settlement_id
@@ -99,6 +99,9 @@ block content
                       td: b #{label}
                       td(title='#{moment(date).format("MMM Do, YYYY H:mm A")}')= moment(date).fromNow()
                   if is_developer
+                    tr
+                      td: b Played for:
+                      td #{moment.duration(moment(character.last_action).diff(character.created)).humanize()}
                     mixin profile_date(character.last_action, 'Last active:')
                   mixin profile_date(character.created, 'Played since:')
                   mixin profile_date(character.last_revived, 'Alive since:')
