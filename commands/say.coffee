@@ -77,7 +77,7 @@ module.exports = (character, target, text = '', volume, cb) ->
         (cb) ->
           ooc character, target, msg, cb
       ], cb
-    when '', 'emote'
+    when 'say', 'emote'
       async.series [
         (cb) ->
           charge_ap character, 0, cb

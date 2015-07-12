@@ -1,24 +1,59 @@
 moment = require 'moment'
-commands = require '../../../commands'
-queries = require '../../../queries'
+BPromise = require 'bluebird'
+say = BPromise.promisify(require '../../../commands/say')
+latest_chat_messages = BPromise.promisify(require '../../../queries/latest_chat_messages')
+get_character_by_name = BPromise.promisify(require '../../../queries/get_character_by_name')
 mw = require '../middleware'
-page_size = 25
+
+PAGE_SIZE = 25
+REGEX = /^(\/(\w+)\s)?(.+)$/
+REGEX_WHISPER = /^(\@(\w+)\s)(.+)$/
+SHORTCUTS =
+  w: 'whisper'
+  t: 'whisper'
+  tell: 'whisper'
+  me: 'emote'
+
+is_same_tile = (character1, character2) ->
+  character1.x is character2.x and character1.y is character2.y and character1.z is character2.z
 
 module.exports = (app) ->
   app.get '/chat', mw.chat_locals, (req, res, next) ->
     page = parseInt(req.query.page ? 0)
     return next('Invalid Page') unless page >= 0
-    queries.latest_chat_messages req.character, page * page_size, page_size, (err, messages) ->
-      return next(err) if err?
-      res.locals.moment = moment
-      res.render 'chat',
-        character: req.character
-        messages: messages
-        page: page
-        page_size: page_size
-        suppress_more_link: true
+    BPromise.resolve()
+      .then ->
+        latest_chat_messages req.character, page * PAGE_SIZE, PAGE_SIZE
+      .then (messages) ->
+        res.locals.moment = moment
+        res.render 'chat',
+          character: req.character
+          messages: messages
+          page: page
+          page_size: PAGE_SIZE
+          suppress_more_link: true
+      .catch next
 
   app.post '/chat', (req, res, next) ->
-    commands.say req.character, req.target, req.body.text, req.body.volume, (err) ->
-      return next(err) if err?
-      res.redirect '/game'
+    [..., volume, text] = (req.body.text ? '').match REGEX
+    volume ?= 'say'
+    volume = SHORTCUTS[volume] ? volume
+
+    BPromise.resolve()
+      .then ->
+        return undefined unless volume is 'whisper'
+        [..., target_name, text] = text.match REGEX_WHISPER
+        throw 'Invalid Whisper' unless target_name?.length
+        get_character_by_name target_name
+      .then (target) ->
+        if target?
+          throw 'That player is too far away.' unless is_same_tile(target, req.character) # found elsewhere
+        else if volume is 'whisper'
+          throw 'No such player.' # no target found
+
+        return unless text?.length
+        text = text.trim()
+        say req.character, target, text, volume
+      .then ->
+        res.redirect '/game'
+      .catch next

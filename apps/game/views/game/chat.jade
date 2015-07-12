@@ -1,46 +1,26 @@
 .gamebox.infobox.chat
-  mixin chat_tab(target, ap, label, is_active)
-    li(class={active: is_active}, role='presentation', data-toggle='tooltip', data-placement='top', title='#{ap} AP')
-      a(href='##{target}', aria-controls=target, role='tab', data-toggle='tab')= label
-  mixin chat_form(volume, tooltip, disabled)
-    div
-      input(type='hidden', name='_csrf', value=csrf)
-      input(type='hidden', name='volume', value=volume)
-      input(type='text', name='text', maxlength='200', placeholder=tooltip, disabled=disabled)
-      button.btn.btn-link(type='submit', disabled=disabled)
-        span.glyphicon.glyphicon-share-alt
-        span.sr-only Send
-
   if locals.center
-    .chat-tabs
-      ul.nav.nav-tabs(role='tablist')
-        mixin chat_tab('chat-say', 0, 'Say', true)
-        mixin chat_tab('chat-emote', 0, 'Emote')
-        mixin chat_tab('chat-whisper', 0, 'Whisper')
-        mixin chat_tab('chat-shout', 0, 'Shout')
-        mixin chat_tab('chat-ooc', 0, 'OOC')
-      .tab-content
-        #chat-say.tab-pane.active(role='tabpanel')
-          form(method='POST', action='/game/chat')
-            mixin chat_form('', 'Speak to those directly next to you.')
-        #chat-shout.tab-pane(role='tabpanel')
-          form(method='POST', action='/game/chat')
-            mixin chat_form('shout', 'Shout to everyone within earshot.')
-        #chat-whisper.tab-pane(role='tabpanel')
-          form(method='POST', action='/game/chat')
-            mixin chat_form('whisper', 'Whisper to another player.', (center.people.length === 0))
-            div.target
-              label
-                span(class={disabled: (center.people.length === 0)}) To:
-                select(name='target', style='width: 10em', data-persist='chat-target', disabled=(center.people.length === 0))
-                  for c, i in center.people
-                    option(value=c._id, selected=(i === 0))= c.name
-        #chat-emote.tab-pane(role='tabpanel')
-          form(method='POST', action='/game/chat')
-            mixin chat_form('emote', 'Gesture with body language.')
-        #chat-ooc.tab-pane(role='tabpanel')
-          form(method='POST', action='/game/chat')
-            mixin chat_form('ooc', 'Send an out-of-character message to all active players.')
+    .chat-entry.text-center
+      form(method='POST', action='/game/chat')
+        .form
+          input(type='hidden', name='_csrf', value=csrf)
+          input(type='text', name='text', maxlength='200', placeholder='Communicate with your fellow players.')
+          button.btn.btn-link(type='submit')
+            span.glyphicon.glyphicon-share-alt
+            span.sr-only Send
+        .legend
+          label Tip:
+          |  
+          -var result = Math.floor(Math.random() * 4);
+          case result
+            when 0
+              kbd /whisper @PLAYER pssst
+            when 1
+              kbd /shout howdy folks nearby
+            when 2
+              kbd /ooc oh hai all active players
+            when 3
+              kbd /emote wave hello
 
   if messages.length
     for msg in messages
