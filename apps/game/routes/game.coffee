@@ -6,6 +6,21 @@ config = require '../../../config'
 queries = require '../../../queries'
 data = require '../../../data'
 mw = require '../middleware'
+MAX_WEIGHT = 70
+
+measure_weight = (weight) ->
+  if weight is 0
+    'None'
+  else if weight <= 30
+    'Light'
+  else if weight <= 50
+    'Medium'
+  else if weight <= 60
+    'Heavy'
+  else if weight <= MAX_WEIGHT
+    'Very Heavy'
+  else
+    'Encumbered'
 
 fetch_evictables = (settlement, cb) ->
   async.map settlement.members, (member, cb) ->
@@ -193,6 +208,8 @@ module.exports = (app) ->
         repair: repair req.character, req.tile
         developer_mode: req.session.developer
         possessor: req.session.possessor
+        encumberance: measure_weight req.character.weight
+        max_weight: MAX_WEIGHT
 
       for row, i in locals.grid
         for tile, j in row

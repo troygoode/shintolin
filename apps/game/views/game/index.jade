@@ -1,16 +1,15 @@
-extends ../_layout.jade
+extends ../_layout2.jade
 
 block content
-  .container
+  include stats-top
+  .container.game
     include dazed
     .row
-      .col-md-6
-        include stats-top
+      .col-sm-6
         include map
         include stats-bottom
-      .col-md-6
+      .col-sm-6
         include actions
-        br
-        .gamebox.infobox.chat
+        .chat
           include chat-entry
           include chat

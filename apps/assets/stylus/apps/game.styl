@@ -1,7 +1,7 @@
 @require "../variables"
 
 body
-  padding-top 70px
+  padding-top 51px
   margin-bottom 2em
 
 // NAV
@@ -44,27 +44,93 @@ nav.navbar-inverse
             text-decoration @text-decoration !important
             font-size @font-size !important
 
+// STATS (TOP)
+
+.statsbox-top
+  text-align center
+  margin-bottom 1em
+  background-color ($bg_dark + 15%)
+  color $text_light
+  width 100%
+  padding .5em 0 .25em 0
+  .stat
+    margin 0 1em
+    display inline-block
+    text-align right
+    width 150px
+    label, .progress
+      display inline-block
+      height 20px
+      margin 0
+    label
+      position relative
+      top -4px
+      margin-right .5em
+    .progress
+      position relative
+      width 85px
+      background-image none
+      background-color $bg_dark
+      .content
+        position absolute
+        top 0
+        left 0
+        width @width
+        text-align center
+    @media (min-width: 768px)
+      width 150px
+      .progress
+        width 85px
+        .content
+          width @width
+    @media (min-width: 992px)
+      width 200px
+      .progress
+        width 135px
+        .content
+          width @width
+    @media (min-width: 1200px)
+      width 250px
+      .progress
+        width 185px
+        .content
+          width @width
+
+// ACTIONS
+
+.actions
+  margin 1.5em 0
+  .tab-content
+    background-color white
+    border-left 1px solid #ddd
+    border-bottom 1px solid #ddd
+    border-right 1px solid #ddd
+    padding 1em
+
 // CHAT
 
 .chat-nav
   margin-bottom 1.5em
-.chat-history
-  .jumbotron
-    padding 1em 0
+.chat
+  .chat-entry
     input[type=text]
       display inline-block
-      width 20em
-      @media (min-width: 768px)
-        width 45em
-      @media (min-width: 992px)
-        width 62em
-      @media (min-width: 1200px)
-        width 78em
-    button
-      color $text_light
     .legend
       label
         margin-right .5em
+  .chat-history
+    .jumbotron
+      padding 1em 0
+      input[type=text]
+        width 20em
+        @media (min-width: 768px)
+          width 45em
+        @media (min-width: 992px)
+          width 62em
+        @media (min-width: 1200px)
+          width 78em
+      button
+        color $text_light
   .messages
     background-color white
     border-radius .5em
@@ -92,3 +158,22 @@ nav.navbar-inverse
         font-size 10px
         font-weight normal
         font-style normal
+.game
+  .chat
+    background-color white
+    border-radius .5em
+    form
+      padding 1em 1em 0 1em
+      .form-group
+        margin-bottom 6px
+        input[type=text]
+          width 19.5em
+          @media (min-width: 768px)
+            width 19.5em
+          @media (min-width: 992px)
+            width 27em
+          @media (min-width: 1200px)
+            width 34em
+      margin-bottom 0
+    .messages
+      margin-bottom 0

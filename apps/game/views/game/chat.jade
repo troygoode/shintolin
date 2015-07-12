@@ -150,5 +150,6 @@ if messages.length
               a.neutral(href='/profile/#{msg.sender_id}')= msg.sender_name
               i  ??? (#{msg.type}) ??? 
               div.time= moment(msg.sent).fromNow()
-unless locals.origin === 'history'
-  .more: a.btn.btn-link(href='/game/chat') Full Chat History
+    unless locals.origin === 'history'
+      .more.text-center
+        a.btn.btn-default(href='/game/chat') More
