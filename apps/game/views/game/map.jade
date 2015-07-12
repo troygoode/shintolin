@@ -1,16 +1,13 @@
 .map
-  .locationbox
-    div
-      span #{center.tile.region ? data.regions[center.tile.region].name : 'The Wilderness'} - #{time.month} #{time.season}, #{time.year}
-      |  
-      a.btn.btn-link.btn-xs(href='/game/map')
-        span.glyphicon.glyphicon-fullscreen
-        span.sr-only Large Map
-    div
+  .location
+    h1
       if center.tile.settlement_id
         a.neutral(href='/settlements/#{center.tile.settlement_slug}')= center.tile.settlement_name
       else
         span.disabled Unsettled Land
+    h2
+      a(href='/game/map') #{center.tile.region ? data.regions[center.tile.region].name : 'The Wilderness'}
+      | , #{time.month} #{time.season} #{time.year}SR
   table
     for row in grid
       tr
