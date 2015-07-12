@@ -94,16 +94,14 @@ block content
                   tr
                     td: b Level:
                     td= character.skills.length + 1
-                  if is_developer
+                  mixin profile_date(date, label)
                     tr
-                      td: b Last active:
-                      td(title='#{moment(character.last_action).format("MMM Do, YYYY H:mm A")}')= moment(character.last_action).fromNow()
-                  tr
-                    td: b Played since:
-                    td= moment(character.created).fromNow()
-                  tr
-                    td: b Alive since:
-                    td= moment(character.last_revived).fromNow()
+                      td: b #{label}
+                      td(title='#{moment(date).format("MMM Do, YYYY H:mm A")}')= moment(date).fromNow()
+                  if is_developer
+                    mixin profile_date(character.last_action, 'Last active:')
+                  mixin profile_date(character.created, 'Played since:')
+                  mixin profile_date(character.last_revived, 'Alive since:')
                   tr
                     td: b Frags:
                     td= character.frags
