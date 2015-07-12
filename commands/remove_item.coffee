@@ -32,7 +32,7 @@ module.exports = (target, item, count, cb) ->
         'items.$.count': 0 - count
         weight: 0 - (item.weight * count)
 
-  if target.building?
+  if target.terrain? or target.building?
     db.tiles.update query, update, cb
   else
     db.characters.update query, update, cb
