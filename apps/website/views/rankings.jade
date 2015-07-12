@@ -21,9 +21,12 @@ block content
             |  
             span.caret
           ul.dropdown-menu(aria-labelledby='rankings-nav')
+            if developer
+              mixin pill('active', 'Active Players')
+              li.divider(role='separator')
             mixin pill('frags', 'Frags')
-            mixin pill('deaths', 'Deaths')
             mixin pill('kills', 'Kills')
+            mixin pill('deaths', 'Deaths')
             mixin pill('revives', 'Revives')
             li.divider(role='separator')
             mixin pill('younguns', 'Newest Players')
@@ -33,16 +36,16 @@ block content
             mixin pill('oldtowns', 'Oldest Settlements')
             mixin pill('newtowns', 'Newest Settlements')
             mixin pill('bigtowns', 'Most Populated Settlements')
-            if developer
-              li.divider(role='separator')
-              mixin pill('active', 'Active Players')
           hr
 
         div(role='navigation').visible-md-block.visible-lg-block
           ul.nav.nav-pills.nav-stacked
+            if developer
+              mixin pill('active', 'Active Players')
+              hr
             mixin pill('frags', 'Frags')
-            mixin pill('deaths', 'Deaths')
             mixin pill('kills', 'Kills')
+            mixin pill('deaths', 'Deaths')
             mixin pill('revives', 'Revives')
             hr
             mixin pill('younguns', 'Newest Players')
@@ -52,9 +55,6 @@ block content
             mixin pill('oldtowns', 'Oldest Settlements')
             mixin pill('newtowns', 'Newest Settlements')
             mixin pill('bigtowns', 'Most Populated Settlements')
-            if developer
-              hr
-              mixin pill('active', 'Active Players')
 
       .rankings.col-md-9
 
