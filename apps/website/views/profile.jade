@@ -4,12 +4,19 @@ block content
   if is_developer
     .container
       .row
-        .col-md-12
+        .col-sm-9
+          div(role='navigation').visible-md-block.visible-lg-block
+            ul.nav.nav-pills
+              form(method='POST', action='/game/dev/possess')
+                input(type='hidden', name='_csrf', value=csrf)
+                input(type='hidden', name='target_name', value=character.name)
+                button.btn.btn-default(type='submit') Possess
+        .col-sm-3.text-right
           div(role='navigation').visible-md-block.visible-lg-block
             ul.nav.nav-pills
               form(method='POST', action='/game/dev/remove-player/#{character.slug}')
                 input(type='hidden', name='_csrf', value=csrf)
-                button.btn.btn-danger(type='submit') Delete Player
+                button.btn.btn-danger(type='submit') Delete
 
   .container
     .row
