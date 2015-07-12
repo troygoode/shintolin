@@ -1,4 +1,5 @@
 .map
+
   .location
     h1
       if center.tile.settlement_id
@@ -8,6 +9,10 @@
     h2
       a(href='/game/map') #{center.tile.region ? data.regions[center.tile.region].name : 'The Wilderness'}
       | , #{time.month} #{time.season} #{time.year}SR
+
+  .visible-xs
+    include flavor
+
   table
     for row in grid
       tr

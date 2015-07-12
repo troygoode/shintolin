@@ -5,11 +5,16 @@ block content
   .container.game
     include dazed
     .row
-      .col-sm-6
+      .col-sm-6.col-lg-5
         include map
-        include stats-bottom
-      .col-sm-6
+        .hidden-xs
+          include stats-bottom
+      .col-sm-6.col-lg-7
+        .hidden-xs
+          include flavor
         include actions
         .chat
           include chat-entry
           include chat
+        .visible-xs
+          include stats-bottom

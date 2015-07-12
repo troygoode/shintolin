@@ -1,59 +1,58 @@
 .flavor
-  .beigeoverlay
 
-    // description
+  // description
 
-    if center.terrain.describe
-      = center.terrain.describe(center.tile)
+  if center.terrain.describe
+    = center.terrain.describe(center.tile)
 
-    // people
+  // people
 
-    if center.people && center.people.length
-      |  Standing here
-      if center.people.length === 1
-        |  is 
-      else
-        |  are 
-      - var character_link = function(c){
-      -   if(c.settlement_id && character.settlement_id && c.settlement_id.toString() === character.settlement_id.toString()){
-      -     return "<a class='ally' href='/profile/" + c.slug + "'>" + c.name + "</a>";
-      -   }else{
-      -     return "<a class='neutral' href='/profile/" + c.slug + "'>" + c.name + "</a>";
-      -   }
-      - };
-      - var health = function(c){
-      -   if(c.hp >= c.hp_max) return '';
-      -   else if(c.hp <= 0) return ' [dazed]';
-      -   else if(character.skills.indexOf('triage') != -1) return ' (' + c.hp + '/' + c.hp_max + ')';
-      -   else return '';
-      - };
-      != describe_list(center.people.map(function(p){ return character_link(p) + health(p); }))
-      | . 
+  if center.people && center.people.length
+    |  Standing here
+    if center.people.length === 1
+      |  is 
+    else
+      |  are 
+    - var character_link = function(c){
+    -   if(c.settlement_id && character.settlement_id && c.settlement_id.toString() === character.settlement_id.toString()){
+    -     return "<a class='ally' href='/profile/" + c.slug + "'>" + c.name + "</a>";
+    -   }else{
+    -     return "<a class='neutral' href='/profile/" + c.slug + "'>" + c.name + "</a>";
+    -   }
+    - };
+    - var health = function(c){
+    -   if(c.hp >= c.hp_max) return '';
+    -   else if(c.hp <= 0) return ' [dazed]';
+    -   else if(character.skills.indexOf('triage') != -1) return ' (' + c.hp + '/' + c.hp_max + ')';
+    -   else return '';
+    - };
+    != describe_list(center.people.map(function(p){ return character_link(p) + health(p); }))
+    | . 
 
-    // items
+  // items
 
-    if center.tile.items.length && (center.building && _.contains(center.building.tags || [], 'visible_inventory'))
-      |  
-      span In the #{center.building.name.toLowerCase()} you see 
-        != describe_list(center.tile.items.map(function(i){ return '<strong>' + i.count + 'x ' + data.items[i.item].name + '</strong>'; }))
-        | .
-    else if center.tile.items.length && (center.terrain && _.contains(center.terrain.tags || [], 'visible_inventory'))
-      |  
-      span Nearby you see 
-        != describe_list(center.tile.items.map(function(i){ return '<strong>' + i.count + 'x ' + data.items[i.item].name + '</strong>'; }))
-        | .
+  if center.tile.items.length && (center.building && _.contains(center.building.tags || [], 'visible_inventory'))
+    |  
+    span In the #{center.building.name.toLowerCase()} you see 
+      != describe_list(center.tile.items.map(function(i){ return '<strong>' + i.count + 'x ' + data.items[i.item].name + '</strong>'; }))
+      | .
+  else if center.tile.items.length && (center.terrain && _.contains(center.terrain.tags || [], 'visible_inventory'))
+    |  
+    span Nearby you see 
+      != describe_list(center.tile.items.map(function(i){ return '<strong>' + i.count + 'x ' + data.items[i.item].name + '</strong>'; }))
+      | .
 
-    // writing
+  // writing
 
-    if center.tile.message && center.tile.message.trim().length
-      |  
-      if center.tile.z === 0
-        span Scratched upon the #{building.name.toLowerCase()}'s surface is a message which reads: 
-      else
-        span Scratched upon the walls of the #{building.name.toLowerCase()} is a message which reads: 
-      div.writing= center.tile.message.trim()
+  if center.tile.message && center.tile.message.trim().length
+    |  
+    if center.tile.z === 0
+      span Scratched upon the #{building.name.toLowerCase()}'s surface is a message which reads: 
+    else
+      span Scratched upon the walls of the #{building.name.toLowerCase()} is a message which reads: 
+    div.writing= center.tile.message.trim()
 
-    // error message
+  // error message
 
-    if query.error
-      .error=query.error
+  if query.error
+    .error=query.error

@@ -98,6 +98,9 @@ nav.navbar-inverse
 
 // MAP
 .map
+  text-align center
+  margin-bottom 1em
+
   .location
     background-color $bg_dark
     color $text_light
@@ -116,6 +119,64 @@ nav.navbar-inverse
       margin 0
       a
         color $text_light
+
+  .flavor
+    margin-bottom 1em
+
+  table
+    border 1px solid $bg_dark
+    margin 0 auto
+    td.map
+      width 74px
+      height @width
+      background-color transparent
+      background-size @width @width
+      background-repeat no-repeat
+      text-align center
+      > div
+        overflow hidden
+        max-height @width
+        min-height @width
+        padding-top 8px
+        line-height 1em
+        form
+          margin 0
+          padding 0
+        button
+          text-transform uppercase
+          min-width 30px
+          margin-bottom 3px
+          font-weight bold
+        .mapdata
+          display inline-block
+          padding 0 4px
+          background-color $bg_dark
+          color $text_light
+          font-size 11px
+      @media (min-width: 768px)
+        width 70px
+        height @width
+        background-size @width @width
+        > div
+          max-height @width
+          min-height @width
+      @media (min-width: 992px)
+        width 90px
+        height @width
+        background-size @width @width
+        > div
+          max-height @width
+          min-height @width
+
+// STATS (BOTTOM)
+
+.statsbox-bottom
+  padding 1em
+  clear right
+  dl
+    width 180px
+    dt
+      text-align left
 
 // ACTIONS
 
