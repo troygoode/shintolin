@@ -118,7 +118,7 @@ html
           .col-xs-12
             .release-notes
               h2: span Recently Released!
-              h3: span #{moment(latest_release_note.date).format('MMMM Do, YYYY')}
+              h3: a(href='/updates##{latest_release_note.date.getTime()}') #{moment(latest_release_note.date).format('MMMM Do, YYYY')}
               .note
                 | !{latest_release_note.html}
               p.text-center: a.btn.btn-default(href='/updates') Read Older Release Notes
