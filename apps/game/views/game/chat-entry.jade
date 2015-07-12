@@ -1,0 +1,24 @@
+.chat-entry.text-center
+  form(method='POST', action='/game/chat')
+    span.form
+      input(type='hidden', name='_csrf', value=csrf)
+      if locals.origin && locals.origin.length
+        input(type='hidden', name='origin', value=locals.origin)
+      .form-group
+        input.form-control(type='text', name='text', maxlength='255', placeholder='Communicate with your fellow players.', autofocus=(locals.origin === 'history'))
+        button.btn.btn-link(type='submit')
+          span.glyphicon.glyphicon-share-alt
+          span.sr-only Send
+    .legend
+      label Tip:
+      |  
+      -var result = Math.floor(Math.random() * 4);
+      case result
+        when 0
+          kbd /whisper @PLAYER pssst
+        when 1
+          kbd /shout howdy folks nearby
+        when 2
+          kbd /ooc oh hai all active players
+        when 3
+          kbd /emote wave hello

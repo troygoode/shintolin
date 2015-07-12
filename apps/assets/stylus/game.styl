@@ -19,10 +19,16 @@ body
   h1
     margin-left 0
 
-.navbar
+.navbar.navbar-inverse
   background-color $bg_light
   background-image none
   border-color $bg_dark
+  .navbar-brand
+    color #777
+  li
+    a
+      text-shadow none
+      color #777
   .active, .open
     a
       background-image none !important
@@ -182,6 +188,7 @@ input.action
       width 433px
       border none
       padding 8px 8px
+      float left
       &:disabled
         background-color $bg_light
     text-align center

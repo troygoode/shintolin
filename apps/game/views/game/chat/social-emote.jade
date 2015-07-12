@@ -3,7 +3,7 @@
     | You 
   else
     | You see 
-    a.neutral(href='/profile/#{msg.sender_slug}')= msg.sender_name
+    a.neutral(href='/profile/#{msg.sender_slug}') @#{msg.sender_name}
     |  
   | #{msg.text}.
   div.time= moment(msg.sent).fromNow()

@@ -1,28 +1,5 @@
-.gamebox.infobox.chat
-  if locals.center
-    .chat-entry.text-center
-      form(method='POST', action='/game/chat')
-        .form
-          input(type='hidden', name='_csrf', value=csrf)
-          input(type='text', name='text', maxlength='200', placeholder='Communicate with your fellow players.')
-          button.btn.btn-link(type='submit')
-            span.glyphicon.glyphicon-share-alt
-            span.sr-only Send
-        .legend
-          label Tip:
-          |  
-          -var result = Math.floor(Math.random() * 4);
-          case result
-            when 0
-              kbd /whisper @PLAYER pssst
-            when 1
-              kbd /shout howdy folks nearby
-            when 2
-              kbd /ooc oh hai all active players
-            when 3
-              kbd /emote wave hello
-
-  if messages.length
+if messages.length
+  .messages
     for msg in messages
       .message
         case msg.type
@@ -173,5 +150,5 @@
               a.neutral(href='/profile/#{msg.sender_id}')= msg.sender_name
               i  ??? (#{msg.type}) ??? 
               div.time= moment(msg.sent).fromNow()
-  unless locals.suppress_more_link
-    .more: a.btn.btn-link(href='/game/chat') Full Chat History
+unless locals.origin === 'history'
+  .more: a.btn.btn-link(href='/game/chat') Full Chat History

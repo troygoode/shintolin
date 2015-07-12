@@ -19,11 +19,11 @@ is_same_tile = (character1, character2) ->
 
 module.exports = (app) ->
   app.get '/chat', mw.chat_locals, (req, res, next) ->
-    page = parseInt(req.query.page ? 0)
-    return next('Invalid Page') unless page >= 0
+    page = parseInt(req.query.page ? 1)
+    return next('Invalid Page') unless page >= 1
     BPromise.resolve()
       .then ->
-        latest_chat_messages req.character, page * PAGE_SIZE, PAGE_SIZE
+        latest_chat_messages req.character, (page - 1) * PAGE_SIZE, PAGE_SIZE
       .then (messages) ->
         res.locals.moment = moment
         res.render 'chat',
@@ -31,7 +31,8 @@ module.exports = (app) ->
           messages: messages
           page: page
           page_size: PAGE_SIZE
-          suppress_more_link: true
+          origin: 'history'
+          error: req.query.error
       .catch next
 
   app.post '/chat', (req, res, next) ->
@@ -42,7 +43,7 @@ module.exports = (app) ->
     BPromise.resolve()
       .then ->
         return undefined unless volume is 'whisper'
-        [..., target_name, text] = text.match REGEX_WHISPER
+        [..., target_name, text] = text.match(REGEX_WHISPER) ? []
         throw 'Invalid Whisper' unless target_name?.length
         get_character_by_name target_name
       .then (target) ->
@@ -55,5 +56,8 @@ module.exports = (app) ->
         text = text.trim()
         say req.character, target, text, volume
       .then ->
-        res.redirect '/game'
+        if req.body.origin is 'history'
+          res.redirect '/game/chat'
+        else
+          res.redirect '/game'
       .catch next

@@ -1,0 +1,73 @@
+@require "../variables"
+
+body
+  padding-top 70px
+  margin-bottom 2em
+
+// NAV
+nav.navbar-inverse
+  background-image $gradient_dark
+  .navbar-brand
+    font 1.75em $font_logo
+    padding-top 10px
+    color $text_light
+  .navbar-nav
+    li
+      a
+        color $text_light
+    .dropdown-menu
+      background-color $bg_dark
+      li
+        &:hover
+          background-color $bg_light
+          a
+            color $text_dark
+        &.dropdown-header, &.dropdown-header:hover
+          background-color $bg_dark
+          color $text_light
+          text-transform uppercase
+          text-decoration underline
+          font-size 10px
+
+// CHAT
+
+.chat-nav
+  margin-bottom 1.5em
+.chat-history
+  .jumbotron
+    padding 1em 0
+    input[type=text]
+      display inline-block
+      width 23em
+    button
+      color $text_light
+    .legend
+      label
+        margin-right .5em
+  .messages
+    background-color white
+    border-radius .5em
+    margin-bottom 2em
+    padding 1em
+    .message
+      margin-bottom .5em
+      > div
+        padding .5em
+        border-radius .5em
+      .announcement
+        background-color $bg_dark
+        color $text_light
+      .social
+        background-color $bg_light
+      .social-shout
+        font-weight bold
+      .social-whisper, .social-emote
+        font-style italic
+      .social-ooc
+        .label
+          position relative
+          top -1px
+      .time
+        font-size 10px
+        font-weight normal
+        font-style normal

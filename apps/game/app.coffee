@@ -26,6 +26,8 @@ app.use middleware.debug.request
 app.use favicon "#{__dirname}/../assets/public/favicon.ico"
 app.get '/css/game.css', stylus
   entry: "#{__dirname}/../assets/stylus/game.styl"
+app.get '/css/game2.css', stylus
+  entry: "#{__dirname}/../assets/stylus/apps/game.styl"
 app.get '/css/tiles.css', stylus
   entry: "#{__dirname}/../assets/stylus/tiles.styl"
 app.use body_parser.urlencoded(extended: true)
@@ -62,7 +64,10 @@ route router for key, route of routes
 
 app.use (err, req, res, next) ->
   if typeof err is 'string'
-    res.redirect '/game?error=' + err
+    if req.body.origin is 'history'
+      res.redirect '/game/chat?error=' + err
+    else
+      res.redirect '/game?error=' + err
   else
     console.log err
     next err
