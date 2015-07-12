@@ -36,7 +36,7 @@ module.exports = (app) ->
       .catch next
 
   app.post '/chat', (req, res, next) ->
-    [..., volume, text] = (req.body.text ? '').match REGEX
+    [..., volume, text] = (req.body.text ? '').match(REGEX) ? []
     volume ?= 'say'
     volume = SHORTCUTS[volume] ? volume
 
