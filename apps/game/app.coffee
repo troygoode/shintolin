@@ -53,7 +53,7 @@ app.use middleware.time
 app.use middleware.expose_querystring
 app.use (req, res, next) ->
   res.locals.rounded = (num) ->
-    Math.floor(num * 10) / 10
+    Math.round(num * 10) / 10
   next()
 
 app.use middleware.debug 'shintolin:middleware', 'exit'

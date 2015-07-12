@@ -2,6 +2,8 @@
 
 async = require 'async'
 db = require '../../db'
+get_tile_by_coords = require '../../queries/get_tile_by_coords'
+calculate_recovery = require '../../queries/calculate_recovery'
 MAX_AP = 100
 
 fin = (err, count) ->
@@ -14,17 +16,23 @@ fin = (err, count) ->
 
 query =
   ap: {$lt: MAX_AP}
+
 db.characters.find(query).toArray (err, characters) ->
   return fin(err) if err?
-  async.each characters, (character, cb) ->
-    recover = character.recovery
-    if character.ap + recover > MAX_AP
-      recover = MAX_AP - character.ap
-    query =
-      _id: character._id
-    update =
-      $inc:
-        ap: recover
-    db.characters.update query, update, cb
+  async.eachSeries characters, (character, cb) ->
+    get_tile_by_coords character, (err, tile) ->
+      return fin(err) if err?
+
+      recover = calculate_recovery character, tile
+      if character.ap + recover > MAX_AP
+        recover = MAX_AP - character.ap
+
+      query =
+        _id: character._id
+      update =
+        $inc:
+          ap: recover
+      db.characters.update query, update, cb
+
   , (err) ->
     fin err, characters.length

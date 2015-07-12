@@ -7,6 +7,7 @@ queries = require '../../../queries'
 data = require '../../../data'
 mw = require '../middleware'
 MAX_WEIGHT = 70
+MAX_HUNGER = 12
 
 measure_weight = (weight) ->
   if weight is 0
@@ -209,6 +210,7 @@ module.exports = (app) ->
         developer_mode: req.session.developer
         possessor: req.session.possessor
         encumberance: measure_weight req.character.weight
+        recovery: queries.calculate_recovery req.character, req.tile
         max_weight: MAX_WEIGHT
 
       for row, i in locals.grid
