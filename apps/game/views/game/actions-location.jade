@@ -2,9 +2,9 @@ div
 
   if actions.build
     form.action(method='POST', action='/game/actions/build')
-      input(type='hidden', name='_csrf', value=csrf)
+      input.btn.btn-default(type='hidden', name='_csrf', value=csrf)
       mixin action_button('Build', 'Variable')
-      select(name='building', style='width: 10em', data-persist='building', data-action-focus='build')
+      select.form-control(name='building', style='width: 10em', data-persist='building', data-action-focus='build')
         for value, key in actions.build.buildings
           option(value=key)= value.label
 
@@ -32,7 +32,7 @@ div
     form.action(method='POST', action='/game/sow')
       input(type='hidden', name='_csrf', value=csrf)
       mixin action_button('Sow', 15)
-      select(name='item', style='width: 10em', data-persist='plantable', data-action-focus='sow')
+      select.form-control(name='item', style='width: 10em', data-persist='plantable', data-action-focus='sow')
         for item in data.items
           if _.contains(item.tags || [], 'plantable')
             option(value=item.id)= item.name
@@ -41,7 +41,7 @@ div
     form.action(method='POST', action='/game/water')
       input(type='hidden', name='_csrf', value=csrf)
       mixin action_button('Water Field')
-      select(name='item', style='width: 10em', data-persist='water', data-action-focus='water')
+      select.form-control(name='item', style='width: 10em', data-persist='water', data-action-focus='water')
         for citem in character.items
           - var item = data.items[citem.item];
           if _.contains(item.tags || [], 'water')
@@ -51,7 +51,7 @@ div
     form.action(method='POST', action='/game/harvest')
       input(type='hidden', name='_csrf', value=csrf)
       mixin action_button('Harvest', 16)
-      select(name='item', style='width: 10em', data-persist='harvest', data-action-focus='harvest')
+      select.form-control(name='item', style='width: 10em', data-persist='harvest', data-action-focus='harvest')
         for citem in character.items
           - var item = data.items[citem.item];
           if _.contains(item.tags || [], 'harvest')

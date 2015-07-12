@@ -114,6 +114,8 @@ nav.navbar-inverse
       a
         color $text_light
         text-decoration underline
+      .disabled
+        color ($bg_dark + 20%)
     h2
       font-size 1em
       margin 0
@@ -123,50 +125,58 @@ nav.navbar-inverse
   .flavor
     margin-bottom 1em
 
-  table
-    border 1px solid $bg_dark
-    margin 0 auto
-    td.map
-      width 74px
-      height @width
-      background-color transparent
-      background-size @width @width
-      background-repeat no-repeat
-      text-align center
-      > div
-        overflow hidden
-        max-height @width
-        min-height @width
-        padding-top 8px
-        line-height 1em
-        form
-          margin 0
-          padding 0
-        button
-          text-transform uppercase
-          min-width 30px
-          margin-bottom 3px
-          font-weight bold
-        .mapdata
-          display inline-block
-          padding 0 4px
-          background-color $bg_dark
-          color $text_light
-          font-size 11px
-      @media (min-width: 768px)
-        width 70px
+  .map-table
+    display inline-block
+    border 1px solid ($bg_dark + 65%)
+    border-radius 1em
+    overflow hidden
+    table
+      margin 0 auto
+      td.map
+        &.current
+          > div
+            box-shadow inset 0 0 5px 3px $bg_dark
+            border-radius 1em
+        width 74px
         height @width
+        background-color transparent
         background-size @width @width
+        background-repeat no-repeat
+        text-align center
         > div
+          overflow hidden
           max-height @width
           min-height @width
-      @media (min-width: 992px)
-        width 90px
-        height @width
-        background-size @width @width
-        > div
-          max-height @width
-          min-height @width
+          padding-top 8px
+          line-height 1em
+          form
+            margin 0
+            padding 0
+          button
+            text-transform uppercase
+            min-width 30px
+            margin-bottom 3px
+            font-weight bold
+          .mapdata
+            display inline-block
+            padding 0 4px
+            background-color $bg_dark
+            color $text_light
+            font-size 11px
+        @media (min-width: 768px)
+          width 70px
+          height @width
+          background-size @width @width
+          > div
+            max-height @width
+            min-height @width
+        @media (min-width: 992px)
+          width 90px
+          height @width
+          background-size @width @width
+          > div
+            max-height @width
+            min-height @width
 
 // STATS (BOTTOM)
 
@@ -178,6 +188,17 @@ nav.navbar-inverse
     dt
       text-align left
 
+// FLAVOR
+
+.flavor
+  text-align left
+  .writing
+    text-transform uppercase
+    font-weight bold
+    font-family monospace
+    text-align center
+    margin 5px 0 0 0
+
 // ACTIONS
 
 .actions
@@ -188,6 +209,20 @@ nav.navbar-inverse
     border-bottom 1px solid #ddd
     border-right 1px solid #ddd
     padding 1em
+    form.action
+      margin-bottom .5em
+      input[type=submit]
+        margin-right 6px
+      .form-control
+        display inline-block
+        width auto
+      select
+        max-width 180px
+      span
+        display inline-block
+        margin 0 6px
+    form.action:last-child
+      margin-bottom 0
 
 // CHAT
 
