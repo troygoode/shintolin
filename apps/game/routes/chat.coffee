@@ -47,9 +47,7 @@ module.exports = (app) ->
         throw 'Invalid Whisper' unless target_name?.length
         get_character_by_name target_name
       .then (target) ->
-        if target?
-          throw 'That player is too far away.' unless is_same_tile(target, req.character) # found elsewhere
-        else if volume is 'whisper'
+        if volume is 'whisper' and not target?
           throw 'No such player.' # no target found
 
         return unless text?.length
