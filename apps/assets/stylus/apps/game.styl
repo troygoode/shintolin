@@ -18,16 +18,31 @@ nav.navbar-inverse
     .dropdown-menu
       background-color $bg_dark
       li
+        a
+          color $text_light
+          @media (max-width: 767px)
+            color @color !important
         &:hover
           background-color $bg_light
+          color $text_dark
           a
-            color $text_dark
+            color @color
+          @media (max-width: 767px)
+            background-color @background-color !important
+            a
+              color @color !important
         &.dropdown-header, &.dropdown-header:hover
           background-color $bg_dark
           color $text_light
           text-transform uppercase
           text-decoration underline
           font-size 10px
+          @media (max-width: 767px)
+            background-color @background-color !important
+            color @color !important
+            text-transform @text-transform !important
+            text-decoration @text-decoration !important
+            font-size @font-size !important
 
 // CHAT
 
@@ -39,6 +54,12 @@ nav.navbar-inverse
     input[type=text]
       display inline-block
       width 22em
+      @media (min-width: 768px)
+        width 45em
+      @media (min-width: 992px)
+        width 62em
+      @media (min-width: 1200px)
+        width 78em
     button
       color $text_light
     .legend
