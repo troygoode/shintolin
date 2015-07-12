@@ -55,4 +55,5 @@
   // error message
 
   if query.error
-    .error=query.error
+    .alerts
+      .alert.alert-danger #{query.error}

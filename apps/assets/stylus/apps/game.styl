@@ -135,7 +135,7 @@ nav.navbar-inverse
       td.map
         &.current
           > div
-            box-shadow inset 0 0 5px 3px $bg_dark
+            box-shadow inset 0 0 6px 4px ($bg_dark + 5%)
             border-radius 1em
         width 74px
         height @width
@@ -198,6 +198,8 @@ nav.navbar-inverse
     font-family monospace
     text-align center
     margin 5px 0 0 0
+  .alerts
+    margin-top 1em
 
 // ACTIONS
 
@@ -235,7 +237,7 @@ nav.navbar-inverse
     .legend
       label
         margin-right .5em
-  .chat-history
+  &.chat-history
     .jumbotron
       padding 1em 0
       input[type=text]
@@ -245,7 +247,7 @@ nav.navbar-inverse
         @media (min-width: 992px)
           width 62em
         @media (min-width: 1200px)
-          width 78em
+          width 70em
       button
         color $text_light
   .messages
