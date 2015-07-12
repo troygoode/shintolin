@@ -20,7 +20,7 @@ div
         for weapon in weapons
           option(value=weapon.id) #{weapon.name} (#{Math.floor(weapon.hit_chance * 100)}%, #{weapon.damage} dmg)
 
-    if usables.length
+    if usables.length && center.people.length
       form.action(method='POST', action='/game/use')
         input(type='hidden', name='_csrf', value=csrf)
         mixin action_button('Use')

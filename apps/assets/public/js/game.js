@@ -50,30 +50,14 @@
       case 70: //f
         $(".map button[data-direction=enterexit]").trigger("click");
         break;
-
-//       case 80: //P
-//         if (!event.shiftKey) { break; }
-//         $("button[data-action=paint]").trigger("click");
-//         break;
-//       case 85: //U
-//         if (!event.shiftKey) { break; }
-//         $("button[data-action=use]").trigger("click");
-//         break;
-//       case 75: //K
-//         console.log(event);
-//         if (!event.shiftKey) { break; }
-//         $("button[data-action=attack]").trigger("click");
-//         break;
-//       case 76: //L
-//         if (!event.shiftKey) { break; }
-//         $("button[data-action=search]").trigger("click");
-//         break;
     }
   });
 
-  $.cookie.json = true;
+  var persistedSelections = {};
 
-  var persistedSelections = $.cookie("persisted_selections") || {};
+  if (window.sessionStorage) {
+    persistedSelections = JSON.parse(window.sessionStorage.getItem("shintolin_selections") || "{}");
+  }
 
   window.hydratePersistedSelections = function () {
     for (var key in persistedSelections) {
@@ -106,7 +90,9 @@
       var $selected = $select.children("option:selected");
       persistedSelections[$select.data("persist")] = $selected.val();
     });
-    $.cookie("persisted_selections", persistedSelections);
+    if (window.sessionStorage) {
+      window.sessionStorage.setItem("shintolin_selections", JSON.stringify(persistedSelections));
+    }
   });
 
   $(function () {
@@ -123,14 +109,6 @@
   }
   $(".actions a[data-toggle='tab']").on("shown.bs.tab", function (e) {
     $.cookie("action_tab_selected", e.target.hash);
-  });
-
-  var chatTabSelected = $.cookie("chat_tab_selected");
-  if (chatTabSelected) {
-    $("a[href='" + chatTabSelected + "']").tab("show");
-  }
-  $(".chat-tabs a[data-toggle='tab']").on("shown.bs.tab", function (e) {
-    $.cookie("chat_tab_selected", e.target.hash);
   });
 
 }());
