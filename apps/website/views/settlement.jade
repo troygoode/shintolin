@@ -6,140 +6,21 @@ block content
       .row
         .col-xs-12
           h1 #{settlement.name}
+          h2 #{settlement.motto}
           h2 Population #{settlement.members.length}
 
   .container
     .row
-      .col-md-12
+      .col-xs-12
 
-        if settlement.destroyed
-          p.destroyed This settlement was destroyed by <a href='/profiles/#{settlement.destroyer.slug}'>#{settlement.destroyer.name}</a> on #{moment(settlement.destroyed).format('MMMM Do YYYY')}.
+        if editable || is_developer
+          ul.nav.nav-tabs(role='tablist')
+            li.active(role='presentation'): a(href='#settlement', aria-controls='settlement', role='tab', data-toggle='tab') Settlement
+            li(role='presentation'): a(href='#edit-settlement', aria-controls='edit-settlement', role='tab', data-toggle='tab') Edit
 
-        table
-          tr
-            td(colspan='2')
-              .beigebox(style='font-style: italic; width: 35em')
-
-                if settlement.website_url.length
-                  div
-                    b Website:
-                    |  
-                    a(href='#{settlement.website_url}') #{settlement.website_url}
-                  hr
-
-                unless settlement.destroyed
-                  div
-                    b Signup link:
-                    |  
-                    a(href='http://www.shintolin.com/?settlement=#{settlement.slug}') http://www.shintolin.com/?settlement=#{settlement.slug}
-                  hr
-
-                if settlement.description.length
-                  | #{settlement.description}
-                else if region
-                  | A village located in #{region.name}.
-                else
-                  | A village located in the wilderness.
-
-            if editable
-              td(rowspan='3')
-                .beigebox(style='width: 28em')
-
-                  form(method='POST')
-                    input(type='hidden', name='_csrf', value=csrf)
-                    b Welcome, my #{settlement.leader_title}.
-                    hr
-                    | Edit description:
-                    br
-                    textarea(rows='5', cols='40', name='description')= settlement.description
-                    hr
-                    div
-                      | Edit name:
-                      br
-                      input.text(type='text', name='name', maxlength='32', style='width: 300px', value=settlement.name)
-                    div
-                      | Update image <i>(Enter image URL):</i>
-                      br
-                      input.text(type='text', name='image_url', maxlength='100', style='width: 300px', value=settlement.image_url)
-                      br
-                      i Images must be hosted on external sites. Offensive content will be removed.
-                    div
-                      | Edit motto:
-                      br
-                      input.text(type='text', name='motto', maxlength='100', style='width: 300px', value=settlement.motto)
-                    div
-                      | Edit Leader Title:
-                      br
-                      input.text(type='text', name='leader_title', maxlength='20', style='width: 300px', value=settlement.leader_title)
-                    div
-                      | Update website <i>(Enter website URL):</i>
-                      br
-                      input.text(type='text', name='website_url', maxlength='100', style='width: 300px', value=settlement.website_url)
-                    div
-                      div
-                        if settlement.open
-                          | #{settlement.name} is open to new characters.<br>Keep #{settlement.name} open?
-                        else
-                          | New characters are unable to join #{settlement.name}.<br>Open #{settlement.name} to new players?
-                      div
-                        label(for='open_true') Yes
-                        |  
-                        input#open_true(type='radio', name='open', value='true', checked=(settlement.open ? 'checked' : null))
-                        |  | 
-                        label(for='open_false') No
-                        |  
-                        input#open_false(type='radio', name='open', value='false', checked=(settlement.open ? null : 'checked'))
-                    hr
-                    input(type='submit', value='Submit')
-          tr
-            td
-              .beigebox
-                table
-                  tr
-                    td: b Region:
-                    if region
-                      td #{region.name}
-                    else
-                      td: i Unknown
-                  tr
-                    td: b #{settlement.leader_title}:
-                    if settlement.leader
-                      td: a(href='/profile/#{settlement.leader.slug}')= settlement.leader.name
-                    else
-                      td: i None
-                  tr
-                    td: b Population:
-                    td= settlement.members.length
-                  tr
-                    td: b Founded:
-                    td
-                      | #{moment(settlement.founded).format('MMMM Do YYYY')}
-                      |  by 
-                      a(href='/profile/#{settlement.founder.slug}')= settlement.founder.name
-                  tr
-                    td(colspan='2')
-                      hr
-                      b Inhabitants:
-                      if members.length
-                        ul
-                          for member in members
-                            li
-                              a.neutral(href='/profile/#{member.slug}')= member.name
-                              if member.leader
-                                |  (#{settlement.leader_title})
-                              if member.provisional
-                                |  (Provisional)
-                              else
-                                |  (#{member.votes} votes)
-                      else
-                        br
-                        i None
-                      if is_member
-                        form(method='POST', action='/game/leave')
-                          input(type='hidden', name='_csrf', value=csrf)
-                          input(type='submit', value='Leave Settlement', data-action='leave')
-            td
-              if settlement.image_url.length
-                img(style='max-width: 300px; max-height: 300px', src=settlement.image_url)
-              else
-                img(style='max-width: 300px; max-height: 300px', src='/images/p_huts_small.jpg')
+        .tab-content(class={'profile-read-only': (!editable && !is_developer)})
+          #settlement.tab-pane.active(role='tabpanel')
+            include ./settlement-view
+          if editable || is_developer
+            #edit-settlement.tab-pane(role='tabpanel')
+              include ./settlement-edit

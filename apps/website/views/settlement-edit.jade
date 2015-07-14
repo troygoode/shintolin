@@ -1,0 +1,44 @@
+form(method='POST')
+  input(type='hidden', name='_csrf', value=csrf)
+
+  .form-group
+    label(for='name') Settlement Name
+    input.form-control#name(type='text', name='name', maxlength='32', value=settlement.name)
+
+  .form-group
+    label(for='description') Description
+    textarea.form-control#description(name='description') #{settlement.description}
+
+  .form-group
+    label(for='image_url') Avatar URL
+    input.form-control#image_url(type='text', name='image_url', maxlength='255', value=settlement.image_url)
+    span#image_url_help.help-block Images must be hosted on external sites. Offensive content will be removed.
+
+  .form-group
+    label(for='motto') Motto
+    input.form-control#motto(type='text', name='motto', maxlength='128', value=settlement.motto)
+
+  .form-group
+    label(for='leader_title') Leader Title
+    input.form-control#leader_title(type='text', name='leader_title', maxlength='24', value=settlement.leader_title)
+
+  .form-group
+    label(for='website_url') Website URL
+    input.form-control#website_url(type='text', name='website_url', maxlength='255', value=settlement.website_url)
+
+  .form-group
+    if settlement.open
+      p <strong>#{settlement.name}</strong> is open to new characters. Keep #{settlement.name} open?
+    else
+      p.alert.alert-warning New characters are unable to join #{settlement.name}. Open #{settlement.name} to new players?
+    .radio
+      label
+        input#open_true(type='radio', name='open', value='true', checked=(settlement.open ? 'checked' : null))
+        |  Yes
+    .radio
+      label
+        input#open_false(type='radio', name='open', value='false', checked=(settlement.open ? null : 'checked'))
+        |  No
+
+  .buttons.text-center
+    button.btn.btn-default(type='submit') Save Changes

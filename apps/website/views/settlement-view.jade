@@ -1,0 +1,71 @@
+.row
+  .col-sm-6
+
+    unless settlement.destroyed || logged_in
+      .alert.alert-success
+        label Join #{settlement.name} today!
+        p: a(href='http://www.shintolin.com/?settlement=#{settlement.slug}') http://www.shintolin.com/?settlement=#{settlement.slug}
+
+    if settlement.destroyed
+      .alert.alert-danger This settlement was destroyed by <a href='/profiles/#{settlement.destroyer.slug}'>#{settlement.destroyer.name}</a> on #{moment(settlement.destroyed).format('MMMM Do, YYYY')}.
+
+    if settlement.description.length
+      p.profile-bio #{settlement.description}
+    else if region
+      p.profile-bio.empty A village located in #{region.name}.
+    else
+      p.profile-bio.empty A village located in the wilderness.
+
+
+    div
+      label Website
+      p: a(href='#{settlement.website_url}') #{settlement.website_url}
+
+    div
+      label Founded
+      p
+        | #{moment(settlement.founded).format('MMMM Do, YYYY')}
+        |  by 
+        a(href='/profile/#{settlement.founder.slug}') #{settlement.founder.name}
+        if region
+          |  in 
+          span #{region.name}
+
+    div
+      label
+        | Inhabitants
+        |  
+        span.badge.badge-default x#{settlement.members.length}
+      if members.length
+        ul.settlement-members
+          for member, i in members
+            li(class={alt: (i % 2 === 0)})
+              span.settlement-member
+                a(href='/profile/#{member.slug}') #{member.name}
+                if member.leader
+                  |  
+                  span.label.label-success #{settlement.leader_title}
+                if member.provisional
+                  |  
+                  span.label.label-warning Provisional
+              if (is_member || is_developer) && member.votes
+                span.settlement-votes
+                  if member.votes === 1
+                    span.badge.badge-default x#{member.votes} vote
+                  else
+                    span.badge.badge-default x#{member.votes} votes
+      else
+        p.empty None
+
+    if is_member
+      .text-center
+        br
+        form(method='POST', action='/game/leave')
+          input(type='hidden', name='_csrf', value=csrf)
+          button.btn.btn-danger(type='submit') Leave Settlement
+
+  .col-sm-6
+    if settlement.image_url.length
+      .profile-avatar: img(src=settlement.image_url)
+    else
+      .profile-avatar: img(src='/images/p_huts_small.jpg')

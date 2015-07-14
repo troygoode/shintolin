@@ -44,6 +44,8 @@ h2.page-title
 
 form
   margin-bottom 1.5em
+  textarea.form-control
+    height 9em
 
 // RANKINGS
 
@@ -73,3 +75,22 @@ form
   font-size 1.3em
   &.empty
     color ($bg_light - 50%)
+
+.settlement-members
+  list-style none
+  border 2px solid $bg_light
+  &, & li
+    margin 0
+    padding 0
+  li
+    padding .5em
+    &.alt
+      background-color $bg_light
+  .badge, .label
+    position relative
+    top -2px
+.settlement-member
+  display inline-block
+.settlement-votes
+  display inline-block
+  margin-left 1em
