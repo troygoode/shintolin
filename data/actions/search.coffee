@@ -24,13 +24,14 @@ roll_for_loot = (character, tile) ->
     .then ([item_type, total_odds]) ->
       return {item_type, total_odds}
 
-take_from_tile = (character, tile) ->
-  return {} unless tile?.items?.length
+take_from_tile = (character, tile, total_odds) ->
+  return {total_odds: total_odds} unless tile?.items?.length
   item = tile.items[Math.floor(Math.random() * tile.items.length)]
   count = Math.floor(Math.random() * (if item.count > 10 then 10 else item.count)) + 1
   item_type: item.item
   count: count
   abandoned: true
+  total_odds: total_odds
 
 module.exports = (character, tile) ->
   category: 'location'
@@ -44,7 +45,7 @@ module.exports = (character, tile) ->
         roll_for_loot character, tile
       .then (result) ->
         return result if result?.item_type?
-        take_from_tile character, tile
+        take_from_tile character, tile, result?.total_odds ? 0
       .then (result) ->
         if result?.item_type?
           item = items[result.item_type]
