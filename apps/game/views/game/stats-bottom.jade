@@ -22,13 +22,16 @@
     if character.items.length === 0
       p.empty Nothing.
     else
-      ul
+      dl
         - var sorted_items = _.sortBy(character.items, function(i){ return data.items[i.item].name});
         for item in sorted_items
           if item.count === 1
-            li 1x #{data.items[item.item].name}
+            dt(data-toggle='tooltip', title="1x #{data.items[item.item].name}") #{data.items[item.item].name}
+            dd 1
           else
-            li #{item.count}x #{data.items[item.item].plural}
+            dt(data-toggle='tooltip', title="#{item.count}x #{data.items[item.item].plural}") #{data.items[item.item].plural}
+            dd #{item.count}
+      .clearfix
       p: a.btn.btn-default(href="/game/inventory") Manage Inventory
 
   div
