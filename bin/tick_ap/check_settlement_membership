@@ -1,5 +1,7 @@
 #!/usr/bin/env coffee
 
+
+_ = require 'underscore'
 async = require 'async'
 db = require '../../db'
 commands = require '../../commands'
@@ -7,7 +9,8 @@ queries = require '../../queries'
 
 days_until_full_status = 1
 
-past = new Date()
+now = new Date()
+past = new Date(now.getTime())
 past.setDate past.getDate() - days_until_full_status
 
 matched = []
@@ -22,29 +25,29 @@ async.series [
       return cb(err) if err?
       matched = characters
       cb()
-  , (cb) ->
+  (cb) ->
     # update character records
+    return cb() unless matched?.length
     query =
-      settlement_joined: {$lte: past}
-      settlement_provisional: {$exists: true}
+      _id: {$in: _.pluck(matched, '_id')}
     update =
       $unset:
         settlement_provisional: true
     db.characters.update query, update, false, true, cb
-  , (cb) ->
+  (cb) ->
     # update settlement records
+    return cb() unless matched?.length
     query =
-      'members.joined': {$lte: past}
-      'members.provisional': {$exists: true}
+      'members.$._id': {$in: _.pluck(matched, '_id')}
     update =
       $unset:
         'members.$.provisional': true
     db.settlements.update query, update, false, true, cb
-  , (cb) ->
+  (cb) ->
     # notify
+    return cb() unless matched?.length
     async.forEach matched, (character, cb) ->
       queries.get_settlement character.settlement_id.toString(), (err, settlement) ->
-        console.log settlement.slug
         return cb(err) if err?
         message =
           settlement_id: settlement._id
