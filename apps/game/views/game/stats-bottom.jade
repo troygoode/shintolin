@@ -26,9 +26,9 @@
         - var sorted_items = _.sortBy(character.items, function(i){ return data.items[i.item].name});
         for item in sorted_items
           if item.count === 1
-            li 1 x #{data.items[item.item].name}
+            li 1x #{data.items[item.item].name}
           else
-            li #{item.count} x #{data.items[item.item].plural}
+            li #{item.count}x #{data.items[item.item].plural}
       p: a.btn.btn-default(href="/game/inventory") Manage Inventory
 
   div
