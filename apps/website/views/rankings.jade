@@ -1,209 +1,68 @@
 extends ./_page.jade
 
 block content
-  mixin pill(metric, label)
-    li(role='presentation', class={active: locals.metric == metric}): a(href='/rankings?metric=#{metric}')=label
+  mixin pill(metric, label, active)
+    li(role='presentation', class={active: active}): a(href='/rankings?metric=#{metric}')=label
+
+  .jumbotron
+    .container
+      .row
+        .col-xs-12
+          h1 Leaderboards
+          h2 #{time.month} #{time.season} #{time.year}SR &mdash; #{active_count} Active Players
 
   .container
     .row
-      .col-md-12
+      .col-sm-4.col-md-3
 
-        .jumbotron.page-header
-          h1 Leaderboards
-          p Year #{time.year}, #{time.month} #{time.season} &mdash; #{active_count} Active Players
-
-    .row
-      .col-md-3
-
-        div(role='navigation').dropdown.visible-xs-block.visible-sm-block
-          button#rankings-nav.btn.btn-default.dropdown-toggle(type='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='true')
-            | Select Leaderboard
+        .rankings-nav-xs(role='navigation').dropdown.visible-xs
+          button.btn.btn-default.dropdown-toggle(type='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='true')
+            | #{config.title}
             |  
             span.caret
           ul.dropdown-menu(aria-labelledby='rankings-nav')
-            if developer
-              mixin pill('active', 'Active Players')
-              li.divider(role='separator')
-            mixin pill('frags', 'Frags')
-            mixin pill('kills', 'Kills')
-            mixin pill('deaths', 'Deaths')
-            mixin pill('revives', 'Revives')
-            li.divider(role='separator')
-            mixin pill('younguns', 'Newest Players')
-            mixin pill('oldies', 'Oldest Players')
-            mixin pill('survival', 'Longest Surviving Players')
-            li.divider(role='separator')
-            mixin pill('oldtowns', 'Oldest Settlements')
-            mixin pill('newtowns', 'Newest Settlements')
-            mixin pill('bigtowns', 'Most Populated Settlements')
+            for r, key in rankings
+              if !r.developer_only || is_developer
+                mixin pill(key, r.title, config === r)
           hr
 
-        div(role='navigation').visible-md-block.visible-lg-block
+        .rankings-nav(role='navigation').hidden-xs
           ul.nav.nav-pills.nav-stacked
-            if developer
-              mixin pill('active', 'Active Players')
-              hr
-            mixin pill('frags', 'Frags')
-            mixin pill('kills', 'Kills')
-            mixin pill('deaths', 'Deaths')
-            mixin pill('revives', 'Revives')
-            hr
-            mixin pill('younguns', 'Newest Players')
-            mixin pill('oldies', 'Oldest Players')
-            mixin pill('survival', 'Longest Surviving Players')
-            hr
-            mixin pill('oldtowns', 'Oldest Settlements')
-            mixin pill('newtowns', 'Newest Settlements')
-            mixin pill('bigtowns', 'Most Populated Settlements')
+            for r, key in rankings
+              if !r.developer_only || is_developer
+                mixin pill(key, r.title, config === r)
 
-      .rankings.col-md-9
+      .col-sm-8.col-md-9
 
-        if locals.frags
-          p: i Frags measure not just the number of foes killed, but the quality of one's opponents. New players begin with one frag, and when a character is knocked out, the attacker takes half their frags (rounded up).
-          table
-            thead
-              tr
-                th: b Rank
-                th: b Name
-                th: b Frags
-            for c, i in frags
-              tr
-                td= i + 1
-                td: a(href='/profile/#{c.slug}')= c.name
-                td= c.frags
-
-        if locals.deaths
-          table
-            thead
-              tr
-                th: b Rank
-                th: b Name
-                th: b Deaths
-            for c, i in deaths
-              tr
-                td= i + 1
-                td: a(href='/profile/#{c.slug}')= c.name
-                td= c.deaths
-
-        if locals.kills
-          table
-            thead
-              tr
-                th: b Rank
-                th: b Name
-                th: b Kills
-            for c, i in kills
-              tr
-                td= i + 1
-                td: a(href='/profile/#{c.slug}')= c.name
-                td= c.kills
-
-        if locals.revives
-          table
-            thead
-              tr
-                th: b Rank
-                th: b Name
-                th: b Revives
-            for c, i in revives
-              tr
-                td= i + 1
-                td: a(href='/profile/#{c.slug}')= c.name
-                td= c.revives
-
-        if locals.younguns
-          table
-            thead
-              tr
-                th: b Rank
-                th: b Name
-                th: b Joined
-            for c, i in younguns
-              tr
-                td= i + 1
-                td: a(href='/profile/#{c.slug}')= c.name
-                td= moment(c.created).fromNow()
-
-        if locals.oldies
-          table
-            thead
-              tr
-                th: b Rank
-                th: b Name
-                th: b Joined
-            for c, i in oldies
-              tr
-                td= i + 1
-                td: a(href='/profile/#{c.slug}')= c.name
-                td= moment(c.created).fromNow()
-
-        if locals.survival
-          table
-            thead
-              tr
-                th: b Rank
-                th: b Name
-                th: b Alive Since
-            for c, i in survival
-              tr
-                td= i + 1
-                td: a(href='/profile/#{c.slug}')= c.name
-                td= moment(c.last_revived).fromNow()
-
-        if locals.oldtowns
-          table
-            thead
-              tr
-                th: b Rank
-                th: b Name
-                th: b Region
-                th: b Founded
-            for s, i in oldtowns
-              tr
-                td= i + 1
-                td: a(href='/settlements/#{s.slug}')= s.name
-                td= data.regions[s.region].name
-                td= moment(s.founded).fromNow()
-
-        if locals.newtowns
-          table
-            thead
-              tr
-                th: b Rank
-                th: b Name
-                th: b Region
-                th: b Founded
-            for s, i in newtowns
-              tr
-                td= i + 1
-                td: a(href='/settlements/#{s.slug}')= s.name
-                td= data.regions[s.region].name
-                td= moment(s.founded).fromNow()
-
-        if locals.bigtowns
-          table
-            thead
-              tr
-                th: b Rank
-                th: b Name
-                th: b Region
-                th: b Population
-            for s, i in bigtowns
-              tr
-                td= i + 1
-                td: a(href='/settlements/#{s.slug}')= s.name
-                td= data.regions[s.region].name
-                td= s.members.length
-
-        if locals.active
-          table
-            thead
-              tr
-                th: b Rank
-                th: b Name
-                th: b Last Active
-            for c, i in active
-              tr
-                td= i + 1
-                td: a(href='/profile/#{c.slug}')= c.name
-                td= moment(c.last_action).fromNow()
+        if config.title
+          h2.hidden-xs #{config.title}
+        if config.description
+          p.hidden-xs #{config.description}
+        table
+          thead
+            tr
+              if config.type === 'player'
+                th: b Player
+              else if config.type === 'settlement'
+                th: b Settlement
+              if !config.columns
+                th: b #{config.title}
+              else if _.isArray(config.columns)
+                for column in config.columns
+                  th: b #{column}
+              else
+                th: b #{config.columns}
+          for r, i in results
+            tr
+              td
+                span #{i + 1}.
+                |  
+                if config.type === 'player'
+                  a(href='/profile/#{r.object.slug}')= r.object.name
+                else if config.type === 'settlement'
+                  a(href='/settlements/#{r.object.slug}')= r.object.name
+              if config.columns && _.isArray(config.columns)
+                for column, i in config.columns
+                  td #{r.mapped[i]}
+              else
+                td #{r.mapped}

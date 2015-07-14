@@ -1,48 +1,9 @@
 @require "../variables"
+@require "../shared/nav"
 
 body
   padding-top 51px
   margin-bottom 2em
-
-// NAV
-nav.navbar-inverse
-  background-image $gradient_dark
-  .navbar-brand
-    font 1.75em $font_logo
-    padding-top 10px
-    color $text_light
-  .navbar-nav
-    li
-      a
-        color $text_light
-    .dropdown-menu
-      background-color $bg_dark
-      li
-        a
-          color $text_light
-          @media (max-width: 767px)
-            color @color !important
-        &:hover
-          background-color $bg_light
-          color $text_dark
-          a
-            color @color
-          @media (max-width: 767px)
-            background-color @background-color !important
-            a
-              color @color !important
-        &.dropdown-header, &.dropdown-header:hover
-          background-color $bg_dark
-          color $text_light
-          text-transform uppercase
-          text-decoration underline
-          font-size 10px
-          @media (max-width: 767px)
-            background-color @background-color !important
-            color @color !important
-            text-transform @text-transform !important
-            text-decoration @text-decoration !important
-            font-size @font-size !important
 
 // STATS (TOP)
 

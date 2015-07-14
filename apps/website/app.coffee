@@ -25,6 +25,8 @@ app.get '/css/default.css', stylus
   entry: "#{__dirname}/../assets/stylus/default.styl"
 app.get '/css/apps/website.css', stylus
   entry: "#{__dirname}/../assets/stylus/apps/website.styl"
+app.get '/css/apps/page.css', stylus
+  entry: "#{__dirname}/../assets/stylus/apps/page.styl"
 app.use express.static "#{__dirname}/../assets/public"
 
 app.use body_parser.urlencoded(extended: true)
