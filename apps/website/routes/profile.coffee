@@ -22,7 +22,7 @@ module.exports = (app) ->
       fail = (msg) ->
         res.redirect "/profile/#{character.slug}?msg=#{msg}"
 
-      return next('Unauthorized') unless character._id.toString() is req.session.character
+      return next('Unauthorized') unless character._id.toString() is req.session.character or req.session?.developer
       return fail('no_email') if req.body.email?.length and not /^.+@.+\..+$/.test(req.body.email)
       commands.update_profile character, req.body.bio, req.body.image_url, req.body.email, req.body.password, (err) ->
         if err

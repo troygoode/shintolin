@@ -51,7 +51,7 @@ module.exports = (app) ->
       return next(err) if err?
       return next() unless settlement?
       leader = req.session.character? and settlement.leader? and req.session.character is settlement.leader._id.toString()
-      return next('Unauthorized') unless leader
+      return next('Unauthorized') unless leader or req.session?.developer
       update =
         description: req.body.description
         name: req.body.name
