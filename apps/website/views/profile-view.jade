@@ -6,21 +6,19 @@
     else
       p.profile-bio.empty A rather non-descript individual.
 
-    hr
-
     if character.settlement_id
-      div
+      .profile-settlement
         label Settlement
         p
           if character.settlement_provisional
             span.label.label-warning Provisional Member
+          else if leader
+            span.label.label-success #{settlement.leader_title}
           else
             span.label.label-default Member
           |  of 
           a(href='/settlements/#{character.settlement_slug}') #{character.settlement_name}
           |  since #{moment(character.settlement_joined).fromNow()}.
-
-    hr
 
     .row
 

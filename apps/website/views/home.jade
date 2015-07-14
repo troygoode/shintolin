@@ -30,17 +30,17 @@ html
               div
                 table
                   tr
-                    td: label Active Players
+                    td: label: a(href='/rankings/frags') Active Players
                     td: span #{active_character_count}
                   tr
-                    td: label Settlements
+                    td: label: a(href='/rankings/bigtowns') Settlements
                     td: span #{settlement_count}
                   tr
                     td: label Map Size
                     td: span #{square_count}
                   if younguns && younguns.length > 0
                     tr
-                      td: label Newest Player
+                      td: label: a(href='/rankings/younguns') Newest Player
                       td: a(href='/profile/#{younguns[0].slug}') #{younguns[0].name}
         .row.hidden-md.hidden-lg
           .col-xs-12

@@ -2,17 +2,28 @@ moment = require 'moment'
 commands = require '../../../commands'
 queries = require '../../../queries'
 
+get_settlement = (character, cb) ->
+  if character?.settlement_id?
+    queries.get_settlement character.settlement_id, cb
+  else
+    cb()
+
 module.exports = (app) ->
 
   app.get '/profile/:character_slug', (req, res, next) ->
     queries.get_character_by_slug req.params.character_slug, (err, character) ->
       return next(err) if err?
       return next() unless character?
-      res.render 'profile',
-        message: req.query.msg
-        moment: moment
-        character: character
-        editable: character._id.toString() is req.session.character
+
+      get_settlement character, (err, settlement) ->
+        return next(err) if err?
+        res.render 'profile',
+          message: req.query.msg
+          moment: moment
+          character: character
+          settlement: settlement
+          leader: settlement?.leader? and settlement.leader._id.toString() is character._id.toString()
+          editable: character._id.toString() is req.session.character
 
   app.post '/profile/:character_slug', (req, res, next) ->
     queries.get_character_by_slug req.params.character_slug, (err, character) ->
