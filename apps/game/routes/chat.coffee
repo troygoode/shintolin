@@ -13,6 +13,7 @@ SHORTCUTS =
   t: 'whisper'
   tell: 'whisper'
   me: 'emote'
+  g: 'settlement'
 
 is_same_tile = (character1, character2) ->
   character1.x is character2.x and character1.y is character2.y and character1.z is character2.z
@@ -40,12 +41,18 @@ module.exports = (app) ->
     volume ?= 'say'
     volume = SHORTCUTS[volume] ? volume
 
+
     BPromise.resolve()
       .then ->
+        # validation: SETTLEMENT
+        throw 'You are not a member of a settlement.' if volume is 'settlement' and not req.character.settlement_id?
+      .then ->
+        # find target
         return undefined unless volume is 'whisper'
         [..., target_name, text] = text.match(REGEX_WHISPER) ? []
         throw 'Invalid Whisper' unless target_name?.length
         get_character_by_name target_name
+
       .then (target) ->
         if volume is 'whisper' and not target?
           throw 'No such player.' # no target found

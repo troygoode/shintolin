@@ -123,10 +123,20 @@ if messages.length
                 include chat/social-emote
               when 'ooc'
                 include chat/social-ooc
+              when 'settlement'
+                include chat/social-settlement
               when 'shout'
                 include chat/social-shout
               when 'whisper'
                 include chat/social-whisper
+              default
+                .social.social-unknown
+                  span.label.label-danger #{msg.volume}
+                  |  
+                  a.neutral(href='/profile/#{msg.sender_slug}') @#{msg.sender_name}
+                  | : 
+                  span "#{msg.text}".
+                  div.time= moment(msg.sent).fromNow()
           when 'sow'
             include chat/sow
           when 'storm_damage_building_exterior'

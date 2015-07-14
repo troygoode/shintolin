@@ -6,6 +6,7 @@ send_message = require './send_message'
 send_message_all = require './send_message_all'
 send_message_coords = require './send_message_coords'
 send_message_nearby = require './send_message_nearby'
+send_message_settlement = require './send_message_settlement'
 
 whisper = (character, target, msg, cb) ->
   if target?
@@ -42,6 +43,12 @@ shout = (character, target, msg, cb) ->
 say = (character, target, msg, cb) ->
   send_message_nearby 'social', character, null, msg, cb
 
+settlement = (character, target, msg, cb) ->
+  return cb('You are not in a settlement.') unless character.settlement_id?
+  queries.get_settlement character.settlement_id, (err, settlement) ->
+    return cb(err) if err?
+    send_message_settlement 'social', character, settlement, null, msg, cb
+
 module.exports = (character, target, text = '', volume, cb) ->
   text = text.trim()
   return cb() unless text.length
@@ -76,6 +83,13 @@ module.exports = (character, target, text = '', volume, cb) ->
           charge_ap character, 0, cb
         (cb) ->
           ooc character, target, msg, cb
+      ], cb
+    when 'settlement'
+      async.series [
+        (cb) ->
+          charge_ap character, 0, cb
+        (cb) ->
+          settlement character, target, msg, cb
       ], cb
     when 'say', 'emote'
       async.series [

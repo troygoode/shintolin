@@ -12,13 +12,23 @@
     .legend
       label Tip:
       |  
-      -var result = Math.floor(Math.random() * 4);
+      -var result = Math.floor(Math.random() * 9);
       case result
         when 0
           kbd /whisper @PLAYER pssst
         when 1
-          kbd /shout howdy folks nearby
+          kbd /w @PLAYER pssst
         when 2
-          kbd /ooc oh hai all active players
+          kbd /t @PLAYER pssst
         when 3
+          kbd /shout howdy folks nearby
+        when 4
+          kbd /ooc oh hai all active players
+        when 5
           kbd /emote wave hello
+        when 6
+          kbd /me wave hello
+        when 7
+          kbd /settlement oh hai fellow settlement members
+        when 8
+          kbd /g oh hai fellow settlement members
