@@ -1,0 +1,49 @@
+.row
+
+  .col-md-4
+    h2.page-title Edit Profile
+    form(method='POST', autocomplete='off')
+      input(type='hidden', name='_csrf', value=csrf)
+
+      .form-group
+        label(for='bio') Character Description
+        textarea.form-control#bio(name='bio') #{character.bio}
+
+      .form-group
+        label(for='image_url') Avatar URL
+        input.form-control#image_url(type='text', name='image_url', maxlength='100', value=character.image_url, aria-describedby='image_url_help')
+        span#image_url_help.help-block Images must be hosted on external sites. Offensive content will be removed.
+
+      .buttons
+        button.btn.btn-default(type='submit') Save Changes
+
+  .col-md-4
+    h2.page-title Change Email
+    form(method='POST', autocomplete='off')
+      input(type='hidden', name='_csrf', value=csrf)
+
+      if message == 'email_taken'
+        .alert.alert-danger E-mail is already in use
+
+      .form-group
+        label(for='email') New Email Address
+        input.form-control#email(type='email', name='email', maxlength='255', value=character.email)
+
+      .buttons
+        button.btn.btn-default(type='submit') Update Email
+
+  .col-md-4
+    h2.page-title Change Password
+    form(method='POST', autocomplete='off')
+      input(type='hidden', name='_csrf', value=csrf)
+      // hack to turn off autocomplete: http://stackoverflow.com/a/23234498/5047
+      div
+        input(type='text', style='display:none')
+        input(type='password', style='display:none')
+
+      .form-group
+        label(for='password') New Password
+        input.form-control#password(type='password', name='password', maxlength='64')
+
+      .buttons
+        button.btn.btn-default(type='submit') Update Password

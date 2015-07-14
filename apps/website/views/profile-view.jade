@@ -1,0 +1,50 @@
+.row
+  .col-sm-6.col-md-7.col-lg-8
+
+    if character.bio.length
+      p.profile-bio #{character.bio}
+    else
+      p.profile-bio.empty A rather non-descript individual.
+
+    hr
+
+    if character.settlement_id
+      div
+        label Settlement
+        p
+          if character.settlement_provisional
+            span.label.label-warning Provisional Member
+          else
+            span.label.label-default Member
+          |  of 
+          a(href='/settlements/#{character.settlement_slug}') #{character.settlement_name}
+          |  since #{moment(character.settlement_joined).fromNow()}.
+
+    hr
+
+    .row
+
+      .col-sm-6
+
+        div
+          label Level
+          p #{character.skills.length + 1}
+
+        div
+          label Frags
+          p #{character.frags}
+
+        div
+          label Kills/Deaths
+          p #{character.kills}/#{character.deaths}
+
+        div
+          label Revives
+          p #{character.revives}
+
+      .col-sm-6
+        mixin profile_date(character.created, 'Joined')
+        mixin profile_date(character.last_revived, 'Alive Since')
+
+  .col-sm-6.col-md-5.col-lg-4.hidden-xs
+    .profile-avatar: img(alt='portrait of #{character.name}', src=character.image_url || '/images/cave_art.jpg')

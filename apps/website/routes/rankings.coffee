@@ -90,11 +90,13 @@ rankings =
     fn: queries.rankings.bigtowns
 
 module.exports = (router) ->
-  router.get '/rankings', (req, res, next) ->
+  router.get '/rankings/:metric?', (req, res, next) ->
+    res.redirect('/rankings/frags') unless req.params.metric?.length
+
     queries.active_characters (err, active_count) ->
       return next(err) if err?
 
-      config = rankings[req.query.metric]
+      config = rankings[req.params.metric]
       return next('Invalid Metric') unless config?
       return next('Developers Only') if config.developer_only and not req.session?.developer
 

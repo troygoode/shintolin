@@ -1,15 +1,14 @@
 extends ./_page.jade
 
 block content
+  .jumbotron
+    .container
+      .row
+        .col-xs-12
+          h1 #{settlement.name}
+          h2 Population #{settlement.members.length}
+
   .container
-    .row
-      .col-md-12
-
-        .jumbotron.page-header
-          h1.header= settlement.name
-          if settlement.motto.length
-            h3.header: i= settlement.motto
-
     .row
       .col-md-12
 

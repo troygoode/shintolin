@@ -1,124 +1,55 @@
 extends ./_page.jade
 
+mixin profile_date(date, label)
+  div
+    label #{label}
+    p(title='#{moment(date).format("MMM Do, YYYY H:mm A")}') #{moment(date).fromNow()}
+
 block content
-  if is_developer
+  .jumbotron
     .container
       .row
-        .col-sm-10
-          div(role='navigation').visible-md-block.visible-lg-block
-            ul.nav.nav-pills
-              li
+        .col-xs-12
+          h1 #{character.name}
+          if character.settlement_id
+            h2
+              | of
+              |  
+              a(href='/settlements/#{character.settlement_slug}') #{character.settlement_name}
+
+  .container
+    .row
+      .col-xs-12
+
+        if editable || is_developer
+          ul.nav.nav-tabs(role='tablist')
+            li.active(role='presentation'): a(href='#profile', aria-controls='profile', role='tab', data-toggle='tab') Profile
+            li(role='presentation'): a(href='#edit-profile', aria-controls='edit-profile', role='tab', data-toggle='tab') Edit
+            if is_developer
+              li(role='presentation'): a(href='#moderation', aria-controls='moderation', role='tab', data-toggle='tab') Moderation
+
+        .tab-content(class={'profile-read-only': (!editable && !is_developer)})
+          #profile.tab-pane.active(role='tabpanel')
+            include ./profile-view
+          if editable || is_developer
+            #edit-profile.tab-pane(role='tabpanel')
+              include ./profile-edit
+          if is_developer
+            #moderation.tab-pane(role='tabpanel')
+              h2.page-title Moderation Tools
+              if is_developer
+                div
+                  label Played For
+                  p #{moment.duration(moment(character.last_action).diff(character.created)).humanize()}
+                mixin profile_date(character.last_action, 'Last Active')
                 form(method='POST', action='/game/dev/possess')
                   input(type='hidden', name='_csrf', value=csrf)
                   input(type='hidden', name='target_name', value=character.name)
                   button.btn.btn-default(type='submit') Possess
-              li
                 form(method='POST', action='/game/dev/teleport-to-character')
                   input(type='hidden', name='_csrf', value=csrf)
                   input(type='hidden', name='target_name', value=character.name)
                   button.btn.btn-default(type='submit') Teleport To
-        .col-sm-2.text-right
-          div(role='navigation').visible-md-block.visible-lg-block
-            ul.nav.nav-pills
-              li
                 form(method='POST', action='/game/dev/remove-player/#{character.slug}')
                   input(type='hidden', name='_csrf', value=csrf)
                   button.btn.btn-danger(type='submit') Delete
-
-  .container
-    .row
-      .col-md-12
-
-        .jumbotron.page-header
-          h1.header= character.name
-
-    .row
-      .col-md-12
-
-        table
-          tr
-            td(colspan='2')
-              if character.bio.length
-                .beigebox(style='font-style: italic; width: 35em')= character.bio
-              else
-                .beigebox(style='font-style: italic; width: 35em') A rather non-descript individual.
-            if editable
-              td(rowspan='2')
-                .beigebox(style='width: 25em')
-                  form(method='POST', autocomplete='off')
-                    input(type='hidden', name='_csrf', value=csrf)
-                    // hack to turn off autocomplete: http://stackoverflow.com/a/23234498/5047
-                    div
-                      input(type='text', style='display:none')
-                      input(type='password', style='display:none')
-
-                    div: label Edit description:
-                    div: textarea(rows='7', cols='36', name='bio')= character.bio
-                    hr
-
-                    div: label Update image <i>(Enter image URL):</i>
-                    div: input.text(type='text', name='image_url', maxlength='100', style='width: 300px', value=character.image_url)
-                    div: i Images must be hosted on external sites. Offensive content will be removed.
-                    hr
-
-                    if message == 'email_taken'
-                      div: b E-mail is already in use
-                    div: label Change your email:
-                    div: input.text(type='email', name='email', maxlength='255', value=character.email)
-                    hr
-
-                    div: label Change your password:
-                    div: input.text(type='password', name='password', maxlength='64')
-                    hr
-
-                    input(type='submit', value='Submit')
-          tr
-            td
-              .beigebox
-                table.profile-stats
-                  if character.donated
-                    tr: td(colspan='2') <b><i>Donated!</i></b>
-                  if character.settlement_id
-                    tr
-                      td: b Settlement:
-                      td
-                        div
-                          a.neutral(href='/settlements/#{character.settlement_slug}')= character.settlement_name
-                          if character.settlement_provisional
-                            |  
-                            i (Provisional)
-                        if editable
-                          form(method='POST', action='/game/leave')
-                            input(type='hidden', name='_csrf', value=csrf)
-                            input(type='submit', value='Leave Settlement', data-action='leave')
-                  tr
-                    td: b Level:
-                    td= character.skills.length + 1
-                  mixin profile_date(date, label)
-                    tr
-                      td: b #{label}
-                      td(title='#{moment(date).format("MMM Do, YYYY H:mm A")}')= moment(date).fromNow()
-                  if is_developer
-                    tr
-                      td: b Played for:
-                      td #{moment.duration(moment(character.last_action).diff(character.created)).humanize()}
-                    mixin profile_date(character.last_action, 'Last active:')
-                  mixin profile_date(character.created, 'Played since:')
-                  mixin profile_date(character.last_revived, 'Alive since:')
-                  tr
-                    td: b Frags:
-                    td= character.frags
-                  tr
-                    td: b Kills:
-                    td= character.kills
-                  tr
-                    td: b Deaths:
-                    td= character.deaths
-                  tr
-                    td: b Revives:
-                    td= character.revives
-            td
-              if character.image_url.length
-                img(style='max-width: 300px; max-height: 300px;', alt='portrait of #{character.name}', src=character.image_url)
-              else
-                img(style='max-width: 300px; max-height: 300px;', alt='portrait of #{character.name}', src='/images/cave_art.jpg')

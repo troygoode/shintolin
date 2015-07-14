@@ -2,7 +2,7 @@ extends ./_page.jade
 
 block content
   mixin pill(metric, label, active)
-    li(role='presentation', class={active: active}): a(href='/rankings?metric=#{metric}')=label
+    li(role='presentation', class={active: active}): a(href='/rankings/#{metric}')=label
 
   .jumbotron
     .container
@@ -35,7 +35,7 @@ block content
       .col-sm-8.col-md-9
 
         if config.title
-          h2.hidden-xs #{config.title}
+          h2.page-title.hidden-xs #{config.title}
         if config.description
           p.hidden-xs #{config.description}
         table
