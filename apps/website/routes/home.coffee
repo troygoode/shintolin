@@ -35,17 +35,29 @@ module.exports = (app) ->
       return next(err) if err?
       active_settlements = settlements.filter (s) ->
         not s.destroyed?
+      open_settlements = active_settlements.filter (s) ->
+        s.open
+
+      selected_settlement = null
+      if req.query.settlement
+        # ?settlement=$SLUG
+        selected_settlement = _.find open_settlements, (s) ->
+          s.slug is req.query.settlement
+      if not selected_settlement and open_settlements.length
+        # random settlement
+        selected_settlement = open_settlements[Math.floor(Math.random() * open_settlements.length)]
+
       res.render 'home',
         message: req.query.msg
         square_count: square_count
         settlement_count: active_settlements.length
-        settlements: active_settlements.filter (s) ->
-          s.open
+        settlements: open_settlements
         younguns: younguns
         server_time: new Date()
         latest_release_note: updates[0]
         moment: moment
         active_character_count: active_character_count
+        selected_settlement: selected_settlement
 
   app.get '/updates', (req, res, next) ->
     res.render 'updates',

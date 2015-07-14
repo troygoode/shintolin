@@ -108,7 +108,7 @@ html
                   select.form-control#settlement(name='settlement')
                     option(value='') None (Wanderer)
                     for settlement in settlements
-                      option(value=settlement._id)= settlement.name
+                      option(value=settlement._id, selected=(selected_settlement && selected_settlement === settlement))= settlement.name
               .buttons.text-center
                 button.btn.btn-default(type='submit') Play Now!
 
