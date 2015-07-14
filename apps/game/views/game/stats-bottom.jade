@@ -1,18 +1,47 @@
 .statsbox-bottom
-  dl
-    dt Level
-    dd #{character.skills.length + 1}
 
-    dt Warrior XP
-    dd #{character.xp_warrior}
-    dt Crafter XP
-    dd #{character.xp_crafter}
-    dt Herbalist XP
-    dd #{character.xp_herbalist}
-    dt Wanderer XP
-    dd #{character.xp_wanderer}
+  div
+    h2
+      span.title Experience
+      |  
+      span.label.label-default Level #{character.skills.length + 1}
+    dl
+      dt Warrior XP
+      dd #{with_commas(character.xp_warrior)}
+      dt Crafter XP
+      dd #{with_commas(character.xp_crafter)}
+      dt Herbalist XP
+      dd #{with_commas(character.xp_herbalist)}
+      dt Wanderer XP
+      dd #{with_commas(character.xp_wanderer)}
+    .clearfix
+    p: a.btn.btn-default(href="/game/skills") Manage Skills
 
-    dt Frags
-    dd #{character.frags}
+  div
+    h2: span.title Inventory
+    if character.items.length === 0
+      p.empty Nothing.
+    else
+      ul
+        - var sorted_items = _.sortBy(character.items, function(i){ return data.items[i.item].name});
+        for item in sorted_items
+          if item.count === 1
+            li 1 x #{data.items[item.item].name}
+          else
+            li #{item.count} x #{data.items[item.item].plural}
+      p: a.btn.btn-default(href="/game/inventory") Manage Inventory
 
-  .clearfix
+  div
+    h2: span.title Stats
+    dl
+      dt Frags
+      dd #{character.frags}
+      dt Kills
+      dd #{character.kills}
+      dt Deaths
+      dd #{character.deaths}
+      dt Revives
+      dd #{character.revives}
+    .clearfix
+    p: a.btn.btn-default(href="/profile/#{character.slug}") View Profile
+
