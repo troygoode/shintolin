@@ -1,5 +1,5 @@
 .row
-  .col-sm-6
+  .col-sm-6.col-md-7.col-lg-8
 
     unless settlement.destroyed || logged_in
       .alert.alert-success
@@ -64,7 +64,7 @@
           input(type='hidden', name='_csrf', value=csrf)
           button.btn.btn-danger(type='submit') Leave Settlement
 
-  .col-sm-6
+  .col-sm-6.col-md-5.col-lg-4.hidden-xs
     if settlement.image_url.length
       .profile-avatar: img(src=settlement.image_url)
     else
