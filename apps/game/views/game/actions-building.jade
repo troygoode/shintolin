@@ -1,5 +1,5 @@
 div
-  if building && (building.hp || building.hp_max)
+  if building && center.tile.z === 0 && (building.hp || building.hp_max)
     p
       strong #{(building.text || {}).hp || 'HP'}:
       |  
