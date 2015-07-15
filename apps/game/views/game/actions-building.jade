@@ -10,8 +10,8 @@ div
         for value, key in actions.build.buildings
           option(value=key)= value.label
 
-  if building && center.tile.z === 0 && (building.hp || building.hp_max)
-    - var building_hp_current = center.tile.hp || 0;
+  if building && (building.hp || building.hp_max)
+    - var building_hp_current = exterior ? exterior.hp || 0 : center.tile.hp || 0;
     - var building_hp_max = building.hp_max || building.hp || 0;
     - var pct = Math.floor(rounded(building_hp_current)/rounded(building_hp_max) * 100);
     - if (pct > 100) { pct = 100; }

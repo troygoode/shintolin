@@ -40,6 +40,10 @@ get_center = (tiles, character) ->
     terrain: config.default_terrain
     people: []
 
+get_exterior = (tile, cb) ->
+  return cb() unless tile.z isnt 0
+  queries.get_tile_by_coords {x: tile.x, y: tile.y, z: 0}, cb
+
 build_grid = (tiles, center) ->
   rows = []
   for y in [center.y - 2 .. center.y + 2]
@@ -158,15 +162,17 @@ module.exports = (app) ->
     res.locals.moment = moment
     async.parallel [
       (cb) ->
+        get_exterior req.tile, cb
+      (cb) ->
         queries.tiles_in_square_around req.character, 3, cb
-      , (cb) ->
+      (cb) ->
         queries.latest_chat_messages req.character, 0, 25, cb
-      , (cb) ->
+      (cb) ->
         if req.tile.building is 'totem'
           queries.get_settlement req.tile.settlement_id.toString(), cb
         else
           cb null, null
-    ], (err, [tiles, messages, settlement]) ->
+    ], (err, [exterior, tiles, messages, settlement]) ->
       return next(err) if err?
       center = get_center tiles, req.character
       weapons = []
@@ -211,6 +217,7 @@ module.exports = (app) ->
         possessor: req.session.possessor
         encumberance: measure_weight req.character.weight
         recovery: queries.calculate_recovery req.character, req.tile
+        exterior: exterior
         max_weight: MAX_WEIGHT
 
       for row, i in locals.grid
