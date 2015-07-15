@@ -1,15 +1,22 @@
 config = require './config'
 ms_in_a_day = 1000 * 60 * 60 * 24
 
-calculate_year = (now) ->
+calculate_year_exact = (now) ->
   origin = new Date(Date.UTC(2009, 2, 28))
   ms = now.getTime() - origin.getTime()
   real_life_days = Math.ceil(ms / ms_in_a_day)
   real_life_days / 12 # 3 days for each of 4 seasons
 
+calculate_year = (now) ->
+  year = calculate_year_exact now
+  Math.floor year
+
+calculate_month_exact = (now) ->
+  year = calculate_year_exact now
+  Math.floor((year - Math.floor(year)) * 12)
+
 calculate_month = (now) ->
-  year = calculate_year now
-  temp = Math.floor((year - Math.floor(year)) * 12)
+  temp = calculate_month_exact now
   switch temp
     when 0, 3, 6, 9
       'Early'
@@ -19,19 +26,19 @@ calculate_month = (now) ->
       'Late'
 
 calculate_season = (now) ->
-  year = calculate_year now
-  temp = (year - Math.floor(year)) * 12
-  if temp <= 3
-    'Spring'
-  else if temp <= 6
-    'Summer'
-  else if temp <= 9
-    'Autumn'
-  else
-    'Winter'
+  temp = calculate_month_exact now
+  switch temp
+    when 0, 1, 2
+      'Spring'
+    when 3, 4, 5
+      'Summer'
+    when 6, 7, 8
+      'Autumn'
+    when 9, 10, 11
+      'Winter'
 
 calculate_date = (now) ->
-  "#{Math.floor(calculate_year now)}, #{calculate_month now} #{calculate_season now}"
+  "#{calculate_year now}, #{calculate_month now} #{calculate_season now}"
 
 module.exports = (now) ->
   now ?= config.now()
