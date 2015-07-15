@@ -1,13 +1,5 @@
 div
 
-  if actions.build
-    form.action(method='POST', action='/game/actions/build')
-      input.btn.btn-default(type='hidden', name='_csrf', value=csrf)
-      mixin action_button('Build', 'Variable')
-      select.form-control(name='building', style='width: 10em', data-persist='building', data-action-focus='build')
-        for value, key in actions.build.buildings
-          option(value=key)= value.label
-
   if actions.chop
     form.action(method='POST', action='/game/actions/chop')
       input(type='hidden', name='_csrf', value=csrf)

@@ -1,11 +1,25 @@
 div
-  if building && center.tile.z === 0 && (building.hp || building.hp_max)
-    p
-      strong #{(building.text || {}).hp || 'HP'}:
-      |  
-      span #{center.tile.hp}/#{(building.hp_max || building.hp)}
-
   -var hasAction = false;
+
+  if actions.build
+    - hasAction = true;
+    form.action(method='POST', action='/game/actions/build')
+      input.btn.btn-default(type='hidden', name='_csrf', value=csrf)
+      mixin action_button('Build', 'Variable')
+      select.form-control(name='building', style='width: 10em', data-persist='building', data-action-focus='build')
+        for value, key in actions.build.buildings
+          option(value=key)= value.label
+
+  if building && center.tile.z === 0 && (building.hp || building.hp_max)
+    - var building_hp_current = center.tile.hp || 0;
+    - var building_hp_max = building.hp_max || building.hp || 0;
+    - var pct = Math.floor(rounded(building_hp_current)/rounded(building_hp_max) * 100);
+    - if (pct > 100) { pct = 100; }
+    .progress.building
+      .progress-bar.progress-bar-danger(role='progressbar', aria-valuenow=rounded(building_hp_current), aria-valuemin='0', aria-valuemax=rounded(building_hp_max), style='width: #{pct}%;')
+        .content
+          strong #{(building.text || {}).hp || 'HP'}:
+          |  #{building_hp_current}/#{building_hp_max}
 
   if actions.write
     - hasAction = true;
@@ -18,7 +32,7 @@ div
     - hasAction = true;
     form.action(method='POST', action='/game/repair')
       input(type='hidden', name='_csrf', value=csrf)
-      input(type='submit', value=building.text && building.text.repair && building.text.repair.button ? building.text.repair.button : 'Repair', data-action='repair')
+      input.btn.btn-default.btn-sm(type='submit', value=building.text && building.text.repair && building.text.repair.button ? building.text.repair.button : 'Repair', data-action='repair')
 
   if actions.give && character.items.length
     - hasAction = true;
