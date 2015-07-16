@@ -1,4 +1,5 @@
 .action
+  -var weapon = data.items[msg.weapon];
   if msg.damage
     |  You 
     case data.items[msg.weapon].weapon_class
@@ -45,7 +46,10 @@
       | the #{data.creatures[msg.target_creature].name}
     else
       a(href='/profile/#{msg.target_slug}')= msg.target_name
-    |  with a #{data.items[msg.weapon].name}
+    |  with 
+    unless weapon.text && weapon.text.suppress_indefinite_article
+      |  a 
+    |  #{weapon.name} 
     |  and missed. 
 
   if msg.response === 'miss'

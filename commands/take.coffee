@@ -41,10 +41,11 @@ module.exports = (character, tile, takes, cb) ->
   items_to_take = []
   items_to_take.push item: key, count: value for key, value of takes.items
 
-  for item in items_to_take
+  for takeable in items_to_take
+    item = data.items[takeable.item]
     item_in_inventory = _.find character.items, (i) ->
-      i.item is item.item
-    return cb("You don't have enough #{item.item} to do that.") unless item_in_inventory?.count >= item.count
+      i.item is item.id
+    return cb("You don't have enough #{item.plural} to do that.") unless item_in_inventory?.count >= takeable.count
 
   if takes.season?
     season = time().season

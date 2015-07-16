@@ -18,3 +18,6 @@ module.exports =
     dmg += 1 if attacker.skills.indexOf('unarmed_2') isnt -1
     dmg += 1 if attacker.skills.indexOf('unarmed_4') isnt -1
     dmg
+
+  text:
+    suppress_indefinite_article: true
