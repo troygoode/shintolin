@@ -4,20 +4,21 @@ block content
   if is_developer
     .container
       .row
-        .col-md-12
-          .gamebox
-            ul
-              if building && center.tile.z === 0
-                li
-                  dt Building Health:
-                  dd #{center.tile.hp}/#{building.hp_max ? building.hp_max : building.hp}
-              li: a.buttonlink(href='/game/dev/replenish-ap') Replenish AP
-              li: a.buttonlink(href='/game/dev/replenish-hp') Replenish HP
-              li: a.buttonlink(href='/manage/map') Admin
+        .col-xs-12
+          br
+          ul
+            li: a.btn.btn-default(href='/game/dev/replenish-ap') Replenish AP
+            li: a.btn.btn-default(href='/game/dev/replenish-hp') Replenish HP
+            li: a.btn.btn-default(href='/manage/map') Admin
+            li Searches: #{center.searches || 0}
+            li Location: #{center.tile.x},#{center.tile.y},#{center.tile.z} (#{center.tile.terrain})
 
-            form(method='POST', action='/game/dev/paint')
-              input(type='hidden', name='_csrf', value=csrf)
-              select(name='terrain', style='width: 10em', data-persist='dev-paint-terrain', data-action-focus='paint')
+          form(method='POST', action='/game/dev/paint')
+            h2 Paint Tile
+            input(type='hidden', name='_csrf', value=csrf)
+            .form-group
+              label Terrain
+              select.form-control(name='terrain', style='width: 10em', data-persist='dev-paint-terrain', data-action-focus='paint')
                 if center.terrain.id === config.default_terrain
                   option(value=center.terrain.id)= center.terrain.id
                 for terrain in data.terrains
@@ -26,75 +27,97 @@ block content
                       option(value=terrain.id, selected)= terrain.id
                     else
                       option(value=terrain.id)= terrain.id
-              select(name='region', style='width: 10em', data-persist='dev-paint-region')
+            .form-group
+              label Region
+              select.form-control(name='region', style='width: 10em', data-persist='dev-paint-region')
                 option(value='') (No Region)
                 for region in data.regions
                   if center.tile.region === region.id
                     option(value=region.id, selected)= region.name
                   else
                     option(value=region.id)= region.name
-              input(type='submit', value='Paint', data-action='paint')
+            input.btn.btn-default(type='submit', value='Paint', data-action='paint')
 
-            form(method='POST', action='/game/dev/possess')
+          form(method='POST', action='/game/dev/possess')
+            h2 Possess
+            input(type='hidden', name='_csrf', value=csrf)
+            .form-group
+              label Target
+              input.form-control(type='text', name='target_name')
+            input.btn.btn-default(type='submit', value='Possess', data-action='possess')
+
+          if possessor
+            form(method='POST', action='/game/dev/unpossess')
+              h2 Unpossess
               input(type='hidden', name='_csrf', value=csrf)
-              input(type='text', name='target_name')
-              input(type='submit', value='Possess', data-action='possess')
+              input.btn.btn-default(type='submit', value='Unpossess', data-action='unpossess')
 
-            if possessor
-              form(method='POST', action='/game/dev/unpossess')
-                input(type='hidden', name='_csrf', value=csrf)
-                input(type='submit', value='Unpossess', data-action='unpossess')
-
-            if building && center.tile.z === 0
-              form(method='POST', action='/game/dev/destroy')
-                input(type='hidden', name='_csrf', value=csrf)
-                input(type='submit', value='Destroy', data-action='destroy')
-
-            form(method='POST', action='/game/dev/materialize')
+          if building && center.tile.z === 0
+            form(method='POST', action='/game/dev/destroy')
+              h2 Destroy Building
               input(type='hidden', name='_csrf', value=csrf)
-              input(type='submit', value='Materialize', data-action='materialize')
-              select(name='item', style='width: 10em', data-persist='item', data-action-focus='materialize')
+              input.btn.btn-default(type='submit', value='Destroy', data-action='destroy')
+
+          form(method='POST', action='/game/dev/materialize')
+            h2 Materialize
+            input(type='hidden', name='_csrf', value=csrf)
+            input.btn.btn-default(type='submit', value='Materialize', data-action='materialize')
+            .form-group
+              label Item
+              select.form-control(name='item', style='width: 10em', data-persist='item', data-action-focus='materialize')
                 for i in _.sortBy(data.items, 'name')
                   option(value=i.id)= i.name
-              select(name='quantity', data-persist='materialize-quantity', data-action-focus='materialize')
+            .form-group
+              label Quantity
+              select.form-control(name='quantity', data-persist='materialize-quantity', data-action-focus='materialize')
                 for i in _.range(100)
                   option(value=i + 1)= i + 1
 
-            form(method='POST', action='/game/dev/spawn')
-              input(type='hidden', name='_csrf', value=csrf)
-              input(type='submit', value='Spawn', data-action='spawn')
-              select(name='creature', style='width: 10em', data-persist='creature', data-action-focus='spawn')
+          form(method='POST', action='/game/dev/spawn')
+            h2 Spawn Creature
+            input(type='hidden', name='_csrf', value=csrf)
+            .form-group
+              label Creature
+              select.form-control(name='creature', style='width: 10em', data-persist='creature', data-action-focus='spawn')
                 for c in data.creatures
                   option(value=c.id)= c.name
+            input.btn.btn-default(type='submit', value='Spawn', data-action='spawn')
 
-            form(method='POST', action='/game/dev/announce')
-              input(type='hidden', name='_csrf', value=csrf)
-              input(type='text', name='text')
-              input(type='submit', value='Announce', data-action='dev-announce')
+          form(method='POST', action='/game/dev/announce')
+            h2 Announce
+            input(type='hidden', name='_csrf', value=csrf)
+            .form-group
+              label Message
+              input.form-control(type='text', name='text')
+            input.btn.btn-default(type='submit', value='Announce', data-action='dev-announce')
 
-            form(method='POST', action='/game/dev/teleport-to-coords')
-              input(type='hidden', name='_csrf', value=csrf)
+          form(method='POST', action='/game/dev/teleport-to-coords')
+            h2 Teleport
+            input(type='hidden', name='_csrf', value=csrf)
+            .form-group
               label X
-              input(type='number', name='x', value=center.tile.x)
+              input.form-control(type='number', name='x', value=center.tile.x)
+            .form-group
               label Y
-              input(type='number', name='y', value=center.tile.y)
-              input(type='submit', value='Teleport', data-action='move_to_coords')
+              input.form-control(type='number', name='y', value=center.tile.y)
+            input.btn.btn-default(type='submit', value='Teleport', data-action='move_to_coords')
 
-            form(method='POST', action='/game/dev/teleport-to-character')
-              input(type='hidden', name='_csrf', value=csrf)
+          form(method='POST', action='/game/dev/teleport-to-character')
+            h2 Teleport
+            input(type='hidden', name='_csrf', value=csrf)
+            .form-group
               label Character
-              input(type='text', name='target_name')
-              input(type='submit', value='Teleport', data-action='move_to_coords')
+              input.form-control(type='text', name='target_name')
+            input.btn.btn-default(type='submit', value='Teleport', data-action='move_to_coords')
 
-            form(method='POST', action='/game/dev/teleport-to-random-tile')
-              input(type='hidden', name='_csrf', value=csrf)
-              input(type='submit', value='Teleport (Random Tile)', data-action='move_to_random_tile')
+          form(method='POST', action='/game/dev/teleport-to-random-tile')
+            h2 Teleport
+            input(type='hidden', name='_csrf', value=csrf)
+            input.btn.btn-default(type='submit', value='Teleport (Random Tile)', data-action='move_to_random_tile')
 
-            form(method='POST', action='/game/dev/teleport-to-coords')
-              input(type='hidden', name='_csrf', value=csrf)
-              input(type='hidden', name='x', value='-67')
-              input(type='hidden', name='y', value='-31')
-              input(type='submit', value="Teleport (God's Glade)", data-action='move_to_gods_glade')
-
-            p Searches: #{center.searches}
-            p Location: #{center.tile.x},#{center.tile.y},#{center.tile.z} (#{center.tile.terrain})
+          form(method='POST', action='/game/dev/teleport-to-coords')
+            h2 Teleport
+            input(type='hidden', name='_csrf', value=csrf)
+            input(type='hidden', name='x', value='-67')
+            input(type='hidden', name='y', value='-31')
+            input.btn.btn-default(type='submit', value="Teleport (God's Glade)", data-action='move_to_gods_glade')

@@ -1,6 +1,7 @@
 extends ./_layout.jade
 
 mixin render_skill(skill, buy_cost, buyable, available_xp, rank, parent)
+  - var at_max = character.skills.length >= maximum_skills;
   - var bought = character.skills.indexOf(skill.skill.id) !== -1;
   - var sellable = _.intersection(character.skills, _.pluck(skill.children, 'id')).length === 0;
   - var li_class = {purchased: bought, 'not-purchasable': !buyable};
@@ -16,11 +17,16 @@ mixin render_skill(skill, buy_cost, buyable, available_xp, rank, parent)
             input.btn.btn-danger.btn-sm(type='submit', value='Unlearn')
       else if buyable
         if buy_cost <= available_xp
-          form(method='POST', action='/game/skills/buy/#{skill.skill.id}')
-            input(type='hidden', name='_csrf', value=csrf)
-            input.btn.btn-default.btn-sm(type='submit', value='Learn')
+          if at_max
+            .buttons
+              input.btn.btn-default.btn-sm.disabled(type='submit', disabled='disabled', value='At Skill Cap')
+          else
+            form(method='POST', action='/game/skills/buy/#{skill.skill.id}')
+              input(type='hidden', name='_csrf', value=csrf)
+              input.btn.btn-default.btn-sm(type='submit', value='Learn')
         else
-          input.btn.btn-default.btn-sm.disabled(type='submit', disabled='disabled', value='Insufficient XP')
+          .buttons
+            input.btn.btn-default.btn-sm.disabled(type='submit', disabled='disabled', value='Insufficient XP')
       else if parent
         p.requirement Requires #{parent.skill.name}.
     if skill.children
@@ -36,11 +42,15 @@ mixin branch(branch)
   - if (pct > 100) { pct = 100; }
   h2 #{branch.name}
   h3 Level #{level + 1}
+
   .progress
     .progress-bar.progress-bar-default(role='progressbar', aria-valuenow=xp, aria-valuemin='0', aria-valuemax=cost, style='width: #{pct}%;')
       .content
         strong #{xp} XP
-  p.cost Your next skill costs #{cost} XP to learn.
+
+  unless character.skills.length >= maximum_skills
+    p.cost Your next skill costs #{cost} XP to learn.
+
   ul.skills.rank-0
     for skill in branch.skills
       mixin render_skill(skill, cost, true, xp, 0, null)
