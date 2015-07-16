@@ -5,9 +5,10 @@
     | themself
   else
     a.neutral(href='/profile/#{msg.target_slug}')= msg.target_name
-  |  healing #{msg.amount} HP. 
-  if msg.remaining > 0
-    | #{msg.remaining} HP remains unhealed. 
-  else
-    | No HP remains unhealed. 
+  |  healing #{msg.amount} HP.
+  if _.contains(character.skills, 'triage')
+    if msg.remaining > 0
+      |  #{msg.remaining} HP remains unhealed. 
+    else
+      |  No HP remains unhealed. 
   div.time= moment(msg.sent).fromNow()
