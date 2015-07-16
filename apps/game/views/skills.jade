@@ -38,7 +38,7 @@ mixin branch(branch)
     .progress-bar.progress-bar-default(role='progressbar', aria-valuenow=xp, aria-valuemin='0', aria-valuemax=cost, style='width: #{pct}%;')
       .content
         strong #{xp} XP
-  p.cost Your next skill costs #{cost}XP to learn.
+  p.cost Your next skill costs #{cost} XP to learn.
   ul.skills.rank-0
     for skill in branch.skills
       mixin render_skill(skill, cost, true, xp, 0)
