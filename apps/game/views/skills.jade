@@ -1,6 +1,6 @@
 extends ./_layout.jade
 
-mixin render_skill(skill, buy_cost, buyable, available_xp, rank)
+mixin render_skill(skill, buy_cost, buyable, available_xp, rank, parent)
   - var bought = character.skills.indexOf(skill.skill.id) !== -1;
   - var sellable = _.intersection(character.skills, _.pluck(skill.children, 'id')).length === 0;
   - var li_class = {purchased: bought, 'not-purchasable': !buyable};
@@ -21,10 +21,12 @@ mixin render_skill(skill, buy_cost, buyable, available_xp, rank)
             input.btn.btn-default.btn-sm(type='submit', value='Learn')
         else
           input.btn.btn-default.btn-sm.disabled(type='submit', disabled='disabled', value='Insufficient XP')
+      else if parent
+        p.requirement Requires #{parent.skill.name}.
     if skill.children
       ul.skills
         for child in skill.children
-          mixin render_skill(child, buy_cost, bought, available_xp, rank + 1)
+          mixin render_skill(child, buy_cost, bought, available_xp, rank + 1, skill)
 
 mixin branch(branch)
   - var level = character['level_' + branch.id];
@@ -41,7 +43,7 @@ mixin branch(branch)
   p.cost Your next skill costs #{cost} XP to learn.
   ul.skills.rank-0
     for skill in branch.skills
-      mixin render_skill(skill, cost, true, xp, 0)
+      mixin render_skill(skill, cost, true, xp, 0, null)
 
 block content
   .container.skills-page

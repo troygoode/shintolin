@@ -317,12 +317,11 @@ body
     font-size 11px
 
   ul.skills
-    margin-top 1em
-    padding-left 1em
     &.rank-0
-      padding-left 0
+      margin-top 1em
+    padding-left 0
     .skill
-      margin-bottom 1em
+      margin-top 1em
       list-style none
       .content
         border 1px solid $border_dark
@@ -330,6 +329,9 @@ body
         padding .5em
         p
           font-size 11px
+        p.requirement
+          color red
+          font-weight bold
         input.disabled
           color #333
       &.purchased
@@ -338,6 +340,7 @@ body
           color $text_light
       &.not-purchasable
         .content
+          border none
           opacity .5
       form
         text-align center
