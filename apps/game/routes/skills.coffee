@@ -26,5 +26,4 @@ module.exports = (app) ->
       _nav: 'skills'
       tree: skill_tree
       character: req.character
-      can_buy: true
       maximum_skills: config.maximum_level - 1

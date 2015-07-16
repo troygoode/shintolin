@@ -289,3 +289,55 @@ body
       margin-bottom 0
     .messages
       margin-bottom 0
+
+// SKILLS
+
+.skills-page
+  margin-top 1em
+
+  h2
+    font 1.75em $font_logo
+    margin 0
+  h3
+    font-size 1em
+    margin 0 0 1em 0
+
+  .progress
+    position relative
+    width 100%
+    background-color #333
+    background-image none
+    .content
+      position absolute
+      top 0
+      left 0
+      width @width
+      text-align center
+  p.cost
+    font-size 11px
+
+  ul.skills
+    margin-top 1em
+    padding-left 1em
+    &.rank-0
+      padding-left 0
+    .skill
+      margin-bottom 1em
+      list-style none
+      .content
+        border 1px solid $border_dark
+        border-radius .5em
+        padding .5em
+        p
+          font-size 11px
+        input.disabled
+          color #ddd
+      &.purchased
+        > .content
+          background-color $bg_dark
+          color $text_light
+      &.not-purchasable
+        .content
+          opacity .5
+      form
+        text-align center

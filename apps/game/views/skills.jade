@@ -1,53 +1,65 @@
 extends ./_layout.jade
 
+mixin render_skill(skill, buy_cost, buyable, available_xp, rank)
+  - var bought = character.skills.indexOf(skill.skill.id) !== -1;
+  - var sellable = _.intersection(character.skills, _.pluck(skill.children, 'id')).length === 0;
+  - var li_class = {purchased: bought, 'not-purchasable': !buyable};
+  - li_class['rank-' + rank] = true;
+  li.skill(class=li_class)
+    .content
+      label #{skill.skill.name}
+      p #{skill.skill.description}
+      if bought
+        if sellable
+          form(method='POST', action='/game/skills/sell/#{skill.skill.id}')
+            input(type='hidden', name='_csrf', value=csrf)
+            input.btn.btn-danger.btn-sm(type='submit', value='Unlearn')
+      else if buyable
+        if buy_cost <= available_xp
+          form(method='POST', action='/game/skills/buy/#{skill.skill.id}')
+            input(type='hidden', name='_csrf', value=csrf)
+            input.btn.btn-default.btn-sm(type='submit', value='Learn')
+        else
+          input.btn.btn-default.btn-sm.disabled(type='submit', disabled='disabled', value='Buy: #{buy_cost}xp')
+    if skill.children
+      ul.skills
+        for child in skill.children
+          mixin render_skill(child, buy_cost, bought, available_xp, rank + 1)
+
+mixin branch(branch)
+  - var level = character['level_' + branch.id];
+  - var xp = character['xp_' + branch.id];
+  - var cost = (level + 2) * 30;
+  - var pct = Math.floor(xp/cost * 100);
+  - if (pct > 100) { pct = 100; }
+  h2 #{branch.name}
+  h3 Level #{level + 1}
+  .progress
+    .progress-bar.progress-bar-default(role='progressbar', aria-valuenow=xp, aria-valuemin='0', aria-valuemax=cost, style='width: #{pct}%;')
+      .content
+        strong #{xp} XP
+  p.cost Your next skill costs #{cost}XP to learn.
+  ul.skills.rank-0
+    for skill in branch.skills
+      mixin render_skill(skill, cost, true, xp, 0)
+
 block content
-  .container
+  .container.skills-page
     .row
-      .col-md-12
-        mixin render_skill(skill, buy_cost, buyable, available_xp)
-          - var bought = character.skills.indexOf(skill.skill.id) !== -1;
-          - var sellable = _.intersection(character.skills, _.pluck(skill.children, 'id')).length === 0;
-          li
-            if bought
-              b.bought= skill.skill.name
-            else
-              b.unbought= skill.skill.name
-            |  - 
-            i= skill.skill.description
-            |  
-            if bought
-              if sellable
-                form(method='POST', action='/game/skills/sell/#{skill.skill.id}', style='display: inline')
-                  input(type='hidden', name='_csrf', value=csrf)
-                  input(type='submit', value='Sell')
-            else if can_buy && buyable
-              if buy_cost <= available_xp
-                form(method='POST', action='/game/skills/buy/#{skill.skill.id}', style='display: inline')
-                  input(type='hidden', name='_csrf', value=csrf)
-                  input(type='submit', value='Buy: #{buy_cost}xp')
-              else
-                input.disabled(type='submit', disabled='disabled', value='Buy: #{buy_cost}xp')
-            if skill.children
-              ul
-                for child in skill.children
-                  mixin render_skill(child, buy_cost, bought, available_xp)
-        mixin branch(branch)
-          - var level = character['level_' + branch.id];
-          - var xp = character['xp_' + branch.id];
-          h2 Level #{level} #{branch.name}
-          if xp === 1
-            | You have #{xp} #{branch.name} experience point left to spend.
-          else
-            | You have #{xp} #{branch.name} experience points left to spend.
-          br
-          ul
-            for skill in branch.skills
-              mixin render_skill(skill, (level + 2) * 30, true, xp)
+      .col-xs-12
+        .progress
+          - var pct = Math.floor(character.skills.length/maximum_skills * 100);
+          - if (pct > 100) { pct = 100; }
+          .progress-bar.progress-bar-default(role='progressbar', aria-valuenow=character.skills.length, aria-valuemin='0', aria-valuemax=maximum_skills, style='width: #{pct}%;')
+            .content
+              strong #{character.skills.length} of #{maximum_skills} Skills Learned
 
-        p You are level #{character.level}. You have learned #{character.skills.length} out of a maximum #{maximum_skills} skills.
-        hr
-
+    .row
+      .col-md-3
         mixin branch(tree.wanderer)
+      .col-md-3
         mixin branch(tree.herbalist)
+      .col-md-3
         mixin branch(tree.crafter)
+      .col-md-3
         mixin branch(tree.warrior)
