@@ -20,7 +20,7 @@ mixin render_skill(skill, buy_cost, buyable, available_xp, rank)
             input(type='hidden', name='_csrf', value=csrf)
             input.btn.btn-default.btn-sm(type='submit', value='Learn')
         else
-          input.btn.btn-default.btn-sm.disabled(type='submit', disabled='disabled', value='Buy: #{buy_cost}xp')
+          input.btn.btn-default.btn-sm.disabled(type='submit', disabled='disabled', value='Learn')
     if skill.children
       ul.skills
         for child in skill.children
