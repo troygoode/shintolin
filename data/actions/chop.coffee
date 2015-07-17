@@ -10,6 +10,7 @@ module.exports = (character, tile) ->
 
   category: 'location'
   ap: ap
+  charge_ap: false #done via recipe instead
 
   execute: ->
     BPromise.resolve()

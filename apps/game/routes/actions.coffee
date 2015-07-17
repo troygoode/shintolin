@@ -12,7 +12,7 @@ module.exports = (app) ->
       .then ->
         action.execute(req.body, req, res, next)
       .then ->
-        charge_ap(req.character, action.ap) if action.ap?
+        charge_ap(req.character, action.ap) if action.ap? and action.charge_ap isnt false
       .then ->
         res.redirect '/game'
       .catch (err) ->
