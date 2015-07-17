@@ -1,6 +1,6 @@
 .action
   a.neutral(href='/profile/#{msg.sender_slug}')= msg.sender_name
-  |  uses #{data.items[msg.item].name} on 
+  |  uses a #{data.items[msg.item].name} on 
   if msg.sender_slug === msg.target_slug
     | themself
   else
