@@ -37,19 +37,21 @@ block content
           if is_developer
             #moderation.tab-pane(role='tabpanel')
               h2.page-title Moderation Tools
-              if is_developer
-                div
-                  label Played For
-                  p #{moment.duration(moment(character.last_action).diff(character.created)).humanize()}
-                mixin profile_date(character.last_action, 'Last Active')
-                form(method='POST', action='/game/dev/possess')
-                  input(type='hidden', name='_csrf', value=csrf)
-                  input(type='hidden', name='target_name', value=character.name)
-                  button.btn.btn-default(type='submit') Possess
-                form(method='POST', action='/game/dev/teleport-to-character')
-                  input(type='hidden', name='_csrf', value=csrf)
-                  input(type='hidden', name='target_name', value=character.name)
-                  button.btn.btn-default(type='submit') Teleport To
-                form(method='POST', action='/game/dev/remove-player/#{character.slug}')
-                  input(type='hidden', name='_csrf', value=csrf)
-                  button.btn.btn-danger(type='submit') Delete
+              div
+                label Email Address
+                p: a(href="mailto:#{character.email}") #{character.email}
+              div
+                label Played For
+                p #{moment.duration(moment(character.last_action).diff(character.created)).humanize()}
+              mixin profile_date(character.last_action, 'Last Active')
+              form(method='POST', action='/game/dev/possess')
+                input(type='hidden', name='_csrf', value=csrf)
+                input(type='hidden', name='target_name', value=character.name)
+                button.btn.btn-default(type='submit') Possess
+              form(method='POST', action='/game/dev/teleport-to-character')
+                input(type='hidden', name='_csrf', value=csrf)
+                input(type='hidden', name='target_name', value=character.name)
+                button.btn.btn-default(type='submit') Teleport To
+              form(method='POST', action='/game/dev/remove-player/#{character.slug}')
+                input(type='hidden', name='_csrf', value=csrf)
+                button.btn.btn-danger(type='submit') Delete
