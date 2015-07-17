@@ -7,19 +7,19 @@ rankings =
   active:
     developer_only: true
     type: 'player'
-    title: 'Inctive Players'
-    columns: 'Last Active'
-    map: (c) ->
-      moment(c.last_action).fromNow()
-    fn: queries.rankings.inactive
-  inactive:
-    developer_only: true
-    type: 'player'
     title: 'Active Players'
     columns: 'Last Active'
     map: (c) ->
       moment(c.last_action).fromNow()
     fn: queries.rankings.active
+  inactive:
+    developer_only: true
+    type: 'player'
+    title: 'Inactive Players'
+    columns: 'Last Active'
+    map: (c) ->
+      moment(c.last_action).fromNow()
+    fn: queries.rankings.inactive
   frags:
     type: 'player'
     title: 'Frags'
