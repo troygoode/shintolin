@@ -61,6 +61,7 @@ module.exports = (app) ->
             item: req.item.id
             quantity: quantity
             building: req.tile.building
+          commands.send_message_nearby 'give_nearby', req.character, req.character, msg, cb
         else
           msg =
             item: req.item.id
@@ -68,7 +69,7 @@ module.exports = (app) ->
             target_id: req.target._id
             target_name: req.target.name
             target_slug: req.target.slug
-        commands.send_message_nearby 'give_nearby', req.character, [req.character, req.target], msg, cb
+          commands.send_message_nearby 'give_nearby', req.character, [req.character, req.target], msg, cb
     ], (err) ->
       return next(err) if err?
       res.redirect '/game'

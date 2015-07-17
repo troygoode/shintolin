@@ -4,7 +4,10 @@ db = require '../db'
 
 module.exports = (type, sender, recipients, blacklist = [], message = {}, cb) ->
   return cb() unless recipients.length
+  unless _.isArray(blacklist)
+    blacklist = [blacklist]
   now = new Date()
+
   async.forEach recipients, (recipient, cb) ->
     blacklisted = _.some blacklist, (a) ->
       a?._id.toString() is recipient?._id.toString()
