@@ -14,6 +14,7 @@ module.exports =
 
   build: (character, tile) ->
     takes:
+      developer: true # don't build these yet; I might change them
       ap: 50
       building: 'hut'
       skill: 'divine_inspiration'
