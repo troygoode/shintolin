@@ -2,6 +2,7 @@ module.exports =
   name: 'Cottage Foundation'
   size: 'small'
   hp: 30
+  upgradeable_to: 'cottage'
 
   build: (character, tile) ->
     takes:

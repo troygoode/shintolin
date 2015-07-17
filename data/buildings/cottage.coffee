@@ -1,13 +1,16 @@
+MAX_OCCUPANCY = 4
+
 module.exports =
   name: 'Cottage'
-  size: 'large'
+  size: 'small'
   hp: 70
   interior: '_interior_cottage'
   upgrade: true
   actions: ['write']
+  max_occupancy: MAX_OCCUPANCY
 
   recovery: (character, tile) ->
-    if tile.z is 1
+    if tile.z is 1 and tile.people?.length <= MAX_OCCUPANCY
       1
     else
       0

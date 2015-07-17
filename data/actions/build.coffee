@@ -10,8 +10,10 @@ update_characters = BPromise.promisify(characters.update, characters)
 BASE_RECOVERY = config.ap_per_hour
 
 module.exports = (character, tile) ->
+  button_text = 'Build'
   buildings = {}
-  for key, building of data.buildings
+
+  add_recipe = (key, building) ->
     recipe = building.build character, tile
     if not recipe.takes?.developer or character.developer
       if recipe.takes?.items?
@@ -27,8 +29,18 @@ module.exports = (character, tile) ->
         label: label
         object: building
 
+  current_building = if tile.building? then data.buildings[tile.building]
+  if current_building?.upgradeable_to?
+    button_text = 'Upgrade'
+    add_recipe current_building.upgradeable_to, data.buildings[current_building.upgradeable_to]
+  else
+    for key, building of data.buildings
+      add_recipe key, building
+
   category: 'location'
   buildings: buildings
+  text:
+    submit: button_text
 
   execute: (body, req, res, next) ->
     BPromise.resolve()

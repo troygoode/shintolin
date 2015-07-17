@@ -1,14 +1,13 @@
 module.exports =
   name: 'Stockpile'
-  size: 'small'
-  hp: 10
+  size: 'tiny'
+  hp: 8
   actions: ['take', 'give', 'write']
   tags: ['visible_inventory']
 
   build: (character, tile) ->
     takes:
       ap: 10
-      settlement: true
       items:
         stone: 8
     gives:
@@ -23,9 +22,9 @@ module.exports =
       items:
         stone: 1
     gives:
-      tile_hp: 5
+      tile_hp: 1
       xp:
-        wanderer: 3
+        wanderer: 1
 
   text:
     built: 'You stake out a stockpile on the ground.'

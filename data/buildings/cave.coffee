@@ -1,6 +1,6 @@
 module.exports =
   name: 'Cave'
-  size: 'small'
+  size: 'tiny'
   exterior: '_exterior_cave'
   interior: '_interior_cave'
   invulnerable: true

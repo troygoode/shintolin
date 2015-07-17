@@ -52,5 +52,13 @@ div
           for c in center.people
             option(value=c._id)= c.name
 
+    if actions.kick_out && actions.kick_out.show
+      form.action(method='POST', action='/game/actions/kick_out')
+        input(type='hidden', name='_csrf', value=csrf)
+        mixin action_button('Kick Out', actions.kick_out.ap)
+        select.form-control(name='target', data-persist='target')
+          for c in actions.kick_out.people
+            option(value=c._id)= c.name
+
   else
     p.empty No targets.

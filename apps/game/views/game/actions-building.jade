@@ -1,25 +1,36 @@
 div
   -var hasAction = false;
 
-  if actions.build
-    - hasAction = true;
-    form.action(method='POST', action='/game/actions/build')
-      input.btn.btn-default(type='hidden', name='_csrf', value=csrf)
-      mixin action_button('Build', 'Variable')
-      select.form-control(name='building', style='width: 10em', data-persist='building', data-action-focus='build')
-        for value, key in actions.build.buildings
-          option(value=key)= value.label
-
   if building && (building.hp || building.hp_max)
     - var building_hp_current = exterior ? exterior.hp || 0 : center.tile.hp || 0;
     - var building_hp_max = building.hp_max || building.hp || 0;
     - var pct = Math.floor(rounded(building_hp_current)/rounded(building_hp_max) * 100);
     - if (pct > 100) { pct = 100; }
-    .progress.building
+    .progress.building-hp
       .progress-bar.progress-bar-danger(role='progressbar', aria-valuenow=rounded(building_hp_current), aria-valuemin='0', aria-valuemax=rounded(building_hp_max), style='width: #{pct}%;')
         .content
           strong #{(building.text || {}).hp || 'HP'}:
           |  #{building_hp_current}/#{building_hp_max}
+
+  if center.tile.z === 1 && building && building.max_occupancy
+    - var pct = Math.floor(center.tile.people.length/building.max_occupancy * 100);
+    - if (pct > 100) { pct = 100; }
+    .progress.building-occupancy
+      .progress-bar(role='progressbar', aria-valuenow=center.tile.people.length, aria-valuemin='0', aria-valuemax=building.max_occupancy, style='width: #{pct}%;', class={'progress-bar-warning': (center.tile.people.length > building.max_occupancy), 'progress-bar-default': (center.tile.people.length <= building.max_occupancy)})
+        .content
+          if center.tile.people.length > building.max_occupancy
+            strong Maximum Occupancy Exceeded
+          else
+            strong Maximum Occupancy: #{building.max_occupancy}
+
+  if actions.build
+    - hasAction = true;
+    form.action(method='POST', action='/game/actions/build')
+      input.btn.btn-default(type='hidden', name='_csrf', value=csrf)
+      mixin action_button(actions.build.text.submit, 'Variable')
+      select.form-control(name='building', style='width: 10em', data-persist='building', data-action-focus='build')
+        for value, key in actions.build.buildings
+          option(value=key)= value.label
 
   if actions.write
     - hasAction = true;
@@ -47,6 +58,7 @@ div
         select.form-control(name='quantity')
           for i in range
             option(value=i + 1)= i + 1
+        |  
       select.form-control(name='item', style='width: 10em', data-persist='item', data-action-focus='give')
         for item in character.items
           option(value=item.item)= data.items[item.item].name
@@ -64,6 +76,7 @@ div
         select.form-control(name='quantity')
           for i in range
             option(value=i + 1)= i + 1
+        |  
       select.form-control(name='tile_item', style='width: 10em', data-persist='item', data-action-focus='take')
         for item in center.tile.items
           option(value=item.item)= data.items[item.item].name

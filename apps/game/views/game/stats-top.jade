@@ -16,5 +16,5 @@ mixin progress(label, current, max, colorClass, title, content)
       .col-sm-12
         mixin progress('HP', character.hp, character.hp_max, 'progress-bar-danger')
         mixin progress('AP', character.ap, 100, 'progress-bar-success', '+' + rounded(recovery) + ' AP/hour')
-        mixin progress('Hunger', (12 - character.hunger), 12, 'progress-bar-warning', '-' + rounded(2.0 * ((12 - character.hunger) / 12)) + ' AP/hr')
+        mixin progress('Hunger', (12 - character.hunger), 12, 'progress-bar-warning', rounded(hunger_debuff) + ' AP/hr')
         mixin progress('Weight', character.weight, max_weight, 'progress-bar-default', undefined, encumberance)

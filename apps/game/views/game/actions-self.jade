@@ -22,3 +22,22 @@ div
           for item in recipe.items
             | , #{item.count} x #{data.items[item.item].name}
           | )
+
+  form.action(method='POST', action='/game/drop')
+    input(type='hidden', name='_csrf', value=csrf)
+    mixin action_button('Drop')
+    - var max = _.max(_.pluck(character.items, 'count'));
+    if max === 1
+      input(type='hidden', name='count', value=1)
+    else
+      - var range = _.range(max);
+      select.form-control(name='count', style='width: 10em')
+        for i in range
+          option(value=i + 1)= i + 1
+      |  
+    select.form-control(name='item', style='width: 10em')
+      for item in sorted_items
+        if item.count === 1
+          option(value=item.item)= data.items[item.item].name
+        else
+          option(value=item.item)= data.items[item.item].plural

@@ -1,12 +1,15 @@
+MAX_OCCUPANCY = 2
+
 module.exports =
   name: 'Hut'
-  size: 'small'
+  size: 'tiny'
   hp: 30
   interior: '_interior_hut'
   actions: ['write']
+  max_occupancy: MAX_OCCUPANCY
 
   recovery: (character, tile) ->
-    if tile.z is 1
+    if tile.z is 1 and tile.people?.length <= MAX_OCCUPANCY
       .5
     else
       0
@@ -14,6 +17,7 @@ module.exports =
   build: (character, tile) ->
     takes:
       ap: 40
+      skill: 'construction'
       items:
         stick: 20
         staff: 5

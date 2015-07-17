@@ -119,10 +119,13 @@ body
             font-weight bold
           .mapdata
             display inline-block
-            padding 0 4px
+            padding 1px 4px
             background-color $bg_dark
+            border-radius 3px
             color $text_light
             font-size 11px
+            overflow hidden
+            max-width (@width - 8px)
         @media (min-width: 768px)
           width 70px
           height @width
@@ -208,9 +211,11 @@ body
       margin .5em 0
       text-align center
       color #ccc
-  .progress.building
+  .progress.building-hp, .progress.building-occupancy
     position relative
     width 100%
+    background-image none
+    background-color #333
     .content
       position absolute
       top 0

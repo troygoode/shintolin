@@ -81,6 +81,12 @@ if messages.length
             include chat/join_nearby
           when 'kicked'
             include chat/kicked
+          when 'kick_out'
+            include chat/kick_out
+          when 'kick_out_nearby'
+            include chat/kick_out_nearby
+          when 'kicked_out'
+            include chat/kicked_out
           when 'learned'
             include chat/learned
           when 'left'

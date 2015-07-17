@@ -5,7 +5,7 @@ commands = require '../../../commands'
 
 module.exports = (app) ->
   app.post '/drop', (req, res, next) ->
-    return res.redirect '/game/inventory' unless req.item?
+    return res.redirect '/game' unless req.item?
     count = parseInt(req.body.count ? 1)
 
     async.series [
@@ -17,4 +17,4 @@ module.exports = (app) ->
         commands.send_message 'drop', req.character, req.character, {item: req.item.id, quantity: count}, cb
     ], (err) ->
       return next(err) if err?
-      res.redirect '/game/inventory'
+      res.redirect '/game'

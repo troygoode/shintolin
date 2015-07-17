@@ -61,7 +61,6 @@ block content
           form(method='POST', action='/game/dev/materialize')
             h2 Materialize
             input(type='hidden', name='_csrf', value=csrf)
-            input.btn.btn-default(type='submit', value='Materialize', data-action='materialize')
             .form-group
               label Item
               select.form-control(name='item', style='width: 10em', data-persist='item', data-action-focus='materialize')
@@ -72,6 +71,7 @@ block content
               select.form-control(name='quantity', data-persist='materialize-quantity', data-action-focus='materialize')
                 for i in _.range(100)
                   option(value=i + 1)= i + 1
+            input.btn.btn-default(type='submit', value='Materialize', data-action='materialize')
 
           form(method='POST', action='/game/dev/spawn')
             h2 Spawn Creature

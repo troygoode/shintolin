@@ -216,6 +216,7 @@ module.exports = (app) ->
         developer_mode: req.session.developer
         possessor: req.session.possessor
         encumberance: measure_weight req.character.weight
+        hunger_debuff: queries.calculate_hunger_debuff req.character, req.tile
         recovery: queries.calculate_recovery req.character, req.tile
         exterior: exterior
         max_weight: MAX_WEIGHT

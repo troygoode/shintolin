@@ -1,6 +1,6 @@
 mixin tile_td(tile)
+  - var is_center = center && tile.tile._id && tile.tile._id.toString() === center.tile._id.toString();
   td.map(class='tile-#{tile.style} #{is_center ? "current" : null}')
-    - var is_center = center && tile.tile._id && tile.tile._id.toString() === center.tile._id.toString();
     div
       if tile.direction && center.tile.z === 0
         form(method='post', action='/game/move/' + tile.direction)

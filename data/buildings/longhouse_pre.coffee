@@ -2,6 +2,7 @@ module.exports =
   name: 'Longhouse Foundation'
   size: 'large'
   hp: 30
+  upgradeable_to: 'longhouse'
 
   build: (character, tile) ->
     takes:

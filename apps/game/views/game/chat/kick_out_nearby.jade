@@ -1,0 +1,6 @@
+.action
+  | <a href='/profile/#{msg.sender_slug}'>#{msg.sender_name}</a> 
+  | kicked 
+  | <a href='/profile/#{msg.target_slug}'>#{msg.target_name}</a> 
+  | out of the #{data.buildings[msg.building].name}.
+  div.time= moment(msg.sent).fromNow()
