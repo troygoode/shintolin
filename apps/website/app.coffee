@@ -1,3 +1,5 @@
+require "babel/register"
+
 express = require 'express'
 favicon = require 'express-favicon'
 errorhandler = require 'errorhandler'
