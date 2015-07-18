@@ -1,5 +1,7 @@
 #!/usr/bin/env coffee
 
+require 'babel/register'
+
 async = require 'async'
 queries = require '../../queries'
 db = require '../../db'
