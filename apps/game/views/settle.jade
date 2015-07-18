@@ -1,27 +1,25 @@
 extends ./_layout.jade
 
 block content
+  .jumbotron
+    .container
+      .row
+        .col-xs-12
+          h1 Create New Settlement
+
   .container
     .row
-      .col-md-12
-        h1.header Create New Settlement
-        img(src='/images/p_huts_small.jpg', width='501', alt='three stone age huts', style='margin-left: auto; margin-right: auto;')
-        br
-        br
+      .col-xs-12
+        div: img(src='/images/p_huts_small.jpg', width='501', alt='three stone age huts', style='margin-left: auto; margin-right: auto;')
+    .row
+      .col-xs-12
         if settlements > 0
-          .beigebox(style='margin-left: 40px; width: 400px')
-            p There are already #{settlements} settlements near here; there must be no other totem poles within a #{settlement_radius}-tile radius to build a new totem.
+          p There are already #{settlements} settlements near here; there must be no other totem poles within a #{settlement_radius}-tile radius to build a new totem.
         else if huts < minimum_huts
-          .beigebox(style='margin-left: 40px; width: 400px')
-            p There are only #{huts} huts near here; there must be at least #{minimum_huts} huts within a #{hut_radius}-tile radius.
+          p There are only #{huts} huts near here; there must be at least #{minimum_huts} huts within a #{hut_radius}-tile radius.
         else
-          .beigebox(style='margin-left: 40px; width: 400px')
-            p This looks like a fine spot to build a settlement. Please choose a name for your new community.
-          .beigebox(style='margin-left: 40px; width: 400px')
-            form(method='POST')
-              input(type='hidden', name='_csrf', value=csrf)
-              input.text(type='text', name='name', style='font-size: 110%; margin-left: 20px', maxlength='32')
-              input(type='submit', value='Settle!', style='font-size: 110%')
-        br
-        hr
-        a.buttonlink(href='/game') Return
+          p This looks like a fine spot to build a settlement. Please choose a name for your new community.
+          form(method='POST')
+            input(type='hidden', name='_csrf', value=csrf)
+            input.text(type='text', name='name', style='font-size: 110%; margin-left: 20px', maxlength='32')
+            input(type='submit', value='Settle!', style='font-size: 110%')
