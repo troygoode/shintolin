@@ -108,6 +108,10 @@ visit_tile = (tile, center, character) ->
       retval.direction = 's'
     else if tile.x is center.x + 1 and tile.y is center.y + 1
       retval.direction = 'se'
+    else if tile.x is center.x and tile.y is center.y and center.z is 0 and building?.interior?
+      retval.direction = 'in'
+    else if tile.x is center.x and tile.y is center.y and center.z is 1
+      retval.direction = 'out'
     retval.cost = queries.cost_to_enter character, center, tile
   retval
 
