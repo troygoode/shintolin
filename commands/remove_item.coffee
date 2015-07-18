@@ -11,7 +11,7 @@ db.register_index db.tiles,
 module.exports = (target, item, count, cb) ->
   current_count = _.max (target.items ? []).filter((i) -> i.item is item.id).map((i) -> i.count)
   count = parseInt count
-  return cb("Not carrying that many #{item.name}.") if count > current_count
+  return cb("Not carrying that many #{item.plural}.") if count > current_count
 
   if current_count is 1 or current_count is count
     query =

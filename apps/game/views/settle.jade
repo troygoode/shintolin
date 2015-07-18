@@ -1,25 +1,38 @@
 extends ./_layout.jade
 
 block content
-  .jumbotron
+  .jumbotron.settle
     .container
       .row
         .col-xs-12
-          h1 Create New Settlement
+          h1 Found a Settlement
 
   .container
     .row
-      .col-xs-12
-        div: img(src='/images/p_huts_small.jpg', width='501', alt='three stone age huts', style='margin-left: auto; margin-right: auto;')
-    .row
-      .col-xs-12
-        if settlements > 0
-          p There are already #{settlements} settlements near here; there must be no other totem poles within a #{settlement_radius}-tile radius to build a new totem.
-        else if huts < minimum_huts
-          p There are only #{huts} huts near here; there must be at least #{minimum_huts} huts within a #{hut_radius}-tile radius.
-        else
-          p This looks like a fine spot to build a settlement. Please choose a name for your new community.
-          form(method='POST')
-            input(type='hidden', name='_csrf', value=csrf)
-            input.text(type='text', name='name', style='font-size: 110%; margin-left: 20px', maxlength='32')
-            input(type='submit', value='Settle!', style='font-size: 110%')
+      .col-xs-12.text-center
+        .settle-message
+          // SETTLEMENTS
+          if settlements > 0
+            if settlements === 1
+              p.alert.alert-danger There is already a settlement near here; there must be no other totem poles within a radius of #{settlement_radius} tiles to build a new totem. The settlement is #{Math.floor(settlement_distances[0].distance)} tiles away.
+            else if settlements > 1
+              p.alert.alert-danger There are already #{settlements} settlements near here; there must be no other totem poles within a radius of #{settlement_radius} tiles to build a new totem. The nearest settlement is #{Math.floor(settlement_distances[0].distance)} tiles away.
+
+          // HUTS
+          if huts === 0
+            p.alert.alert-danger There are no huts near here; there must be at least #{minimum_huts} huts within a radius of #{hut_radius} tiles.
+          else if huts < minimum_huts
+            p.alert.alert-danger There are only #{huts} huts near here; there must be at least #{minimum_huts} huts within a radius of #{hut_radius} tiles.
+
+          // FORM
+          if settlements === 0 && huts >= minimum_huts
+            p This looks like a fine spot to build a settlement. Please choose a name for your new community.
+            form(method='POST')
+              input(type='hidden', name='_csrf', value=csrf)
+              .form-group
+                label(for='name') Settlement Name
+                input.form-control#name(type='text', name='name', maxlength='32')
+              .buttons
+                input.btn.btn-default(type='submit', value='Settle!', style='font-size: 110%')
+          else
+            div: img(src='/images/p_huts_small.jpg', alt='three stone age huts')

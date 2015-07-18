@@ -4,7 +4,7 @@ data = require '../../../data'
 mw = require '../middleware'
 commands = require '../../../commands'
 queries = require '../../../queries'
-settlement_radius = 11
+settlement_radius = 10
 minimum_huts = 3
 hut_radius = 2
 settlement_name_format = /^\w+(\s\w+)*$/
@@ -15,13 +15,16 @@ module.exports = (app) ->
     async.parallel [
       (cb) ->
         queries.buildings_in_radius req.tile, settlement_radius, data.buildings.totem, cb
-      , (cb) ->
+      (cb) ->
         queries.buildings_in_radius req.tile, hut_radius, data.buildings.hut, cb
-    ], (err, [totems, huts]) ->
+      (cb) ->
+        queries.distance_to_closest_totem req.tile, settlement_radius, cb
+    ], (err, [totems, huts, distances]) ->
       return next(err) if err?
       res.render 'settle',
         settlements: totems
         settlement_radius: settlement_radius
+        settlement_distances: distances
         huts: huts
         hut_radius: hut_radius
         minimum_huts: minimum_huts

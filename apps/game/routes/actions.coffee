@@ -15,6 +15,7 @@ module.exports = (app) ->
         charge_ap(req.character, action.ap) if action.ap? and action.charge_ap isnt false
       .then ->
         res.redirect '/game'
+      .cancellable()
       .catch (err) ->
         if typeof err is 'string'
           next err

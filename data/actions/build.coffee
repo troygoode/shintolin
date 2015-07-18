@@ -43,7 +43,7 @@ module.exports = (character, tile) ->
     submit: button_text
 
   execute: (body, req, res, next) ->
-    BPromise.resolve()
+    promise = BPromise.resolve()
       .then ->
 
         throw 'You cannot build a building inside a building.' if tile.z isnt 0 #Xyzzy shenanigans!
@@ -57,7 +57,9 @@ module.exports = (character, tile) ->
         throw 'You cannot build that here.' unless terrain.buildable.indexOf(building.size) isnt -1
 
         # special handling for totems and other devices
-        return building.build_handler(req, res, next) if building.build_handler?
+        if building.build_handler?
+          building.build_handler(req, res, next)
+          return promise.cancel()
 
         if tile.settlement_id? and (
           not character.settlement_id? or
@@ -96,3 +98,7 @@ module.exports = (character, tile) ->
                 gives: io.gives
                 takes: io.takes
                 broken: broken_items
+      .catch BPromise.CancellationError, (err) ->
+        console.log err
+        return
+    return promise
