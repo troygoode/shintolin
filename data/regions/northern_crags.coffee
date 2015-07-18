@@ -1,5 +1,5 @@
 module.exports =
-  name: 'Nothern Crags'
+  name: 'Northern Crags'
   spawn: ->
     boar: 2
     wolf: 2
