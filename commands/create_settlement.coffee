@@ -43,6 +43,7 @@ module.exports = (founder, hq, name, cb) ->
         slug: _str.slugify name
         name: name
         motto: ''
+        open: false
         description: ''
         website_url: ''
         image_url: ''
