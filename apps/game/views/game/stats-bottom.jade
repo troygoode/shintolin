@@ -1,6 +1,22 @@
 .statsbox-bottom
 
   div
+    h2: span.title Inventory
+    if character.items.length === 0
+      p.empty Nothing.
+    else
+      dl
+        - var sorted_items = _.sortBy(character.items, function(i){ return data.items[i.item].name});
+        for item in sorted_items
+          if item.count === 1
+            dt(data-toggle='tooltip', title="1x #{data.items[item.item].name}") #{data.items[item.item].name}
+            dd 1
+          else
+            dt(data-toggle='tooltip', title="#{item.count}x #{data.items[item.item].plural}") #{data.items[item.item].plural}
+            dd #{item.count}
+      .clearfix
+
+  div
     h2
       span.title Experience
       |  
@@ -16,22 +32,6 @@
       dd #{with_commas(character.xp_wanderer)}
     .clearfix
     p: a.btn.btn-default(href="/game/skills") Manage Skills
-
-  div
-    h2: span.title Inventory
-    if character.items.length === 0
-      p.empty Nothing.
-    else
-      dl
-        - var sorted_items = _.sortBy(character.items, function(i){ return data.items[i.item].name});
-        for item in sorted_items
-          if item.count === 1
-            dt(data-toggle='tooltip', title="1x #{data.items[item.item].name}") #{data.items[item.item].name}
-            dd 1
-          else
-            dt(data-toggle='tooltip', title="#{item.count}x #{data.items[item.item].plural}") #{data.items[item.item].plural}
-            dd #{item.count}
-      .clearfix
 
   div
     h2: span.title Stats

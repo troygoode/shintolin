@@ -1,22 +1,23 @@
 extends ./_page.jade
 
 block content
+  .jumbotron
+    .container
+      .row
+        .col-xs-12
+            h1.header Release Notes
+
   .container
     .row
-      .col-md-12
-
-        .jumbotron.page-header
-          h1.header Release Notes
-
-    .row
-      .col-md-12
+      .col-xs-12
 
         .news
           for update, i in updates
-            div: a(id=update.date.getTime())
-            br
-            hr
-            br
             div
-              h4: a(href="/updates##{update.date.getTime()}") #{moment(update.date).format('MMMM Do, YYYY')}
-              | !{update.html}
+              div: a(id=update.date.getTime())
+              br
+              br
+              br
+              div
+                h4: a(href="/updates##{update.date.getTime()}") #{moment(update.date).format('MMMM Do, YYYY')}
+                | !{update.html}
