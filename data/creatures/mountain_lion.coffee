@@ -15,10 +15,10 @@ module.exports =
   loot: (attacker, target, tile, weapon) ->
     if _.contains(attacker.skills, 'butchering')
       pelt_lion: 1
-      meat_raw: 8
+      meat_raw: 10
     else
       pelt_lion: 1
-      meat_raw: 10
+      meat_raw: 8
 
   is_habitable: (terrain, tile) ->
     _.contains(terrain.tags, 'open') or _.contains(terrain.tags, 'hill')

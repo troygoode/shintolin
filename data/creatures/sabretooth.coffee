@@ -16,11 +16,11 @@ module.exports =
     if _.contains(attacker.skills, 'butchering')
       pelt: 1
       sabre_tooth: 2
-      meat_raw: 10
+      meat_raw: 13
     else
       pelt: 1
       sabre_tooth: 2
-      meat_raw: 13
+      meat_raw: 10
 
   is_habitable: (terrain, tile) ->
     _.contains(terrain.tags, 'trees')

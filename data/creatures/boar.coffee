@@ -17,7 +17,7 @@ module.exports =
   loot: (attacker, target, tile, weapon) ->
     if _.contains(attacker.skills, 'butchering')
       pelt: 1
-      meat_raw: 5
+      meat_raw: 4
     else
       pelt: 1
       meat_raw: 3
