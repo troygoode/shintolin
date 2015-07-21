@@ -11,7 +11,8 @@ module.exports = (character, tile) ->
     if building.upgradeable_to?
       actions.push 'build'
 
-  actions.push 'search'
+  unless tile.building?
+    actions.push 'search'
 
   if tile.z isnt 0
     actions.push 'kick_out'

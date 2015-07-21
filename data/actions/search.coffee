@@ -12,15 +12,16 @@ roll_for_loot = (character, tile) ->
   terrain = terrains[tile.terrain]
   BPromise.resolve()
     .then ->
-      increment_search tile
-    .then ->
-      tile.searches ?= 1
+      tile.searches ?= 0
       search_odds = terrain.search_odds(character, tile)
       for key, odds of search_odds
         item = items[key]
         if item.modify_search_odds?
           search_odds[key] = item.modify_search_odds odds
       process_loot_table search_odds
+    .tap ([item_type]) ->
+      return unless item_type?
+      increment_search tile
     .then ([item_type, total_odds]) ->
       return {item_type, total_odds}
 

@@ -10,7 +10,7 @@ block content
             li: a.btn.btn-default(href='/game/dev/replenish-ap') Replenish AP
             li: a.btn.btn-default(href='/game/dev/replenish-hp') Replenish HP
             li: a.btn.btn-default(href='/manage/map') Admin
-            li Searches: #{center.searches || 0}
+            li Searches: #{center.tile.searches || 0}
             li Location: #{center.tile.x},#{center.tile.y},#{center.tile.z} (#{center.tile.terrain})
 
           form(method='POST', action='/game/dev/paint')
