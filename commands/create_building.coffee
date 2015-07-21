@@ -34,6 +34,10 @@ module.exports = (outside_tile, building, cb) ->
             $set:
               building: building.id
               terrain: building.interior
+          if outside_tile?.settlement_id
+            update.$set.settlement_id = outside_tile.settlement_id
+            update.$set.settlement_name = outside_tile.settlement_name
+            update.$set.settlement_slug = outside_tile.settlement_slug
           db.tiles.update query, update, cb
         if inside_tile?
           update_tile null, inside_tile
