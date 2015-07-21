@@ -20,7 +20,7 @@ module.exports = (character, tile, takes, cb) ->
     return cb('You must do this within a settlement.')
 
   if takes.building? and takes.building isnt tile.building
-    return cb("You must be in the presence of a #{takes.building} to do that.")
+    return cb("You must be in the presence of a #{data.buildings[takes.building].name} to do that.")
 
   if takes.skill?
     skills = if _.isArray(takes.skill) then takes.skill else [takes.skill]
