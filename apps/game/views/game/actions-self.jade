@@ -1,13 +1,12 @@
 div
 
-  if usables.length
-    form.action(method='POST', action='/game/use')
+  if actions.use_self
+    form.action(method='POST', action='/game/actions/use_self')
       input(type='hidden', name='_csrf', value=csrf)
       mixin action_button('Use')
       select.form-control(name='item', style='width: 10em', data-persist='usable-item', data-action-focus='use')
-        for usable in usables
+        for usable in actions.use_self.usables
           option(value=usable.id)= usable.name
-      input(type='hidden', name='target', value='self')
 
   form.action(method='POST', action='/game/craft')
     input(type='hidden', name='_csrf', value=csrf)

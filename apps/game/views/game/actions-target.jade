@@ -20,16 +20,16 @@ div
         for weapon in weapons
           option(value=weapon.id) #{weapon.name} (#{Math.floor(weapon.hit_chance * 100)}%, #{weapon.damage} dmg)
 
-    if usables.length && center.people.length
-      form.action(method='POST', action='/game/use')
+    if actions.use
+      form.action(method='POST', action='/game/actions/use')
         input(type='hidden', name='_csrf', value=csrf)
         mixin action_button('Use')
         select.form-control(name='item', data-persist='usable-item', data-action-focus='use')
-          for usable in usables
+          for usable in actions.use.usables
             option(value=usable.id)= usable.name
         span  on 
         select.form-control(name='target', data-persist='target')
-          for c in center.people
+          for c in actions.use.targets
             option(value=c._id)= c.name
 
     if center.people.length && character.items.length

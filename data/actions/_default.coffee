@@ -22,4 +22,8 @@ module.exports = (character, tile) ->
   if tile.z isnt 0
     actions.push 'kick_out'
 
+  # USE / USE (SELF)
+  actions.push 'use'
+  actions.push 'use_self'
+
   actions
