@@ -16,10 +16,10 @@
     else
       p.profile-bio.empty A village located in the wilderness.
 
-
-    div
-      label Website
-      p: a(href='#{settlement.website_url}') #{settlement.website_url}
+    if settlement.website_url && settlement.website_url.length
+      div
+        label Website
+        p: a(href='#{settlement.website_url}') #{settlement.website_url}
 
     div
       label Founded
