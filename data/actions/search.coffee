@@ -1,14 +1,16 @@
 _ = require 'underscore'
 BPromise = require 'bluebird'
 {items, terrains} = require '../'
+db = require '../../db'
 process_loot_table = BPromise.promisify(require('../../queries').process_loot_table)
 send_message = BPromise.promisify(require('../../commands').send_message)
 increment_search = BPromise.promisify(require('../../commands').increment_search)
 give_items = BPromise.promisify(require('../../commands').give.items)
 give_xp = BPromise.promisify(require('../../commands').give.xp)
 remove_item = BPromise.promisify(require('../../commands').remove_item)
+update_tile = BPromise.promisify(db.tiles.update, db.tiles)
 
-roll_for_loot = (character, tile) ->
+roll_for_loot = (character, tile, suppress_increment) ->
   terrain = terrains[tile.terrain]
   BPromise.resolve()
     .then ->
@@ -20,7 +22,7 @@ roll_for_loot = (character, tile) ->
           search_odds[key] = item.modify_search_odds odds
       process_loot_table search_odds
     .tap ([item_type]) ->
-      return unless item_type?
+      return if suppress_increment or not item_type?
       increment_search tile
     .then ([item_type, total_odds]) ->
       return {item_type, total_odds}
@@ -49,14 +51,29 @@ module.exports = (character, tile) ->
         take_from_tile character, tile, result?.total_odds ? 0
       .then (result) ->
         if result?.item_type?
+          # item found
           item = items[result.item_type]
           count = result.count ? 1
           BPromise.resolve()
+
             .then ->
               if result.abandoned
                 remove_item tile, item, count
+
             .then ->
               give_items character, null, {item: item.id, count: count}
+
+            .then ->
+              # shrink terrain?
+              return if result.abandoned
+              tile.searches = (tile.searches ? 0) + 1
+              roll_for_loot(character, tile, true)
+                .then (preview_result) ->
+                  return if preview_result.total_odds > 0
+                  new_terrain = terrain.shrink?(tile)
+                  if new_terrain?
+                    update_tile {_id: tile._id}, {$set: {terrain: new_terrain}}
+
             .then ->
               msg =
                 item: item.id
@@ -65,9 +82,11 @@ module.exports = (character, tile) ->
               if _.contains character.skills, 'foraging'
                 msg.total_odds = result.total_odds
               send_message 'search', character, character, msg
+
             .then ->
               give_xp character, tile, {wanderer: 1}
         else
+          # nothing was found
           msg = {}
           if _.contains character.skills, 'foraging'
             msg.total_odds = result.total_odds
