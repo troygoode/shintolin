@@ -1,8 +1,7 @@
-_ = require 'underscore'
 time = require '../../time'
 
 module.exports =
-  style: 'forest'
+  style: 'lightforest'
 
   tags: ['trees']
   buildable: ['tiny', 'small']
@@ -11,25 +10,19 @@ module.exports =
   describe: (tile) ->
     switch time().season
       when 'Spring'
-        'You are in a forest. Shafts of sunlight shine through the trees.'
+        'You are walking though an open woodland.'
       when 'Summer'
-        'You are in a forest. The leafy tree cover overhead provides some shade from the hot sun.'
+        'You are walking though an open woodland.'
       when 'Autumn'
-        'You are in a forest, walking through a thick carpet of orange and brown leaves.'
+        'You are walking though an open woodland, the leaves turning golden and brown with autumn.'
       when 'Winter'
-        'You are in a forest. The bare branches of the trees are stark against the winter sky.'
+        'You are walking though an open woodland. The tree branches are bare.'
 
   search_odds: (character, tile) ->
     stick: .25
     chestnut: .15
     bark: .10
     staff: .08
-
-  cost_to_enter: (character, tile_from, tile_to) ->
-    if _.contains character.skills, 'forest_walk'
-      0
-    else
-      1
 
   grow: (tile) ->
     odds = switch time().season

@@ -1,27 +1,23 @@
 time = require '../../time'
 
 module.exports =
-  style: 'grass'
+  style: 'dirt'
 
-  tags: ['trail', 'trees']
-  buildable: ['tiny', 'small']
-  actions: ['dig']
+  tags: ['trail', 'open']
 
   describe: (tile) ->
     switch time().season
       when 'Spring'
-        'You are walking through a verdant grassland. Some small flowers are starting to grow here.'
+        'You are standing on bare dirt; the muddy ground here has seen the passage of many feet.'
       when 'Summer'
-        'You are walking through a verdant grassland, with many dandelions and other flowers. Crickets are chirping in the long grass.'
+        'You are standing on bare dirt; the dusty ground here has seen the passage of many feet.'
       when 'Autumn'
-        'You are walking through a grassland. The cold weather is beginning to turn the grass brown.'
+        'You are standing on bare dirt; the muddy ground here has seen the passage of many feet.'
       when 'Winter'
-        'You are walking through a grassland. Frost has hardened the ground, and there is little sign of life.'
+        'You are standing on bare dirt; the frozen ground here has seen the passage of many feet.'
 
-  search_odds: (character, tile) ->
-    thyme: .18
-    wheat: .06
-    onion: .03
+  cost_to_enter: ->
+    -.5
 
   grow: (tile) ->
     odds = switch time().season
@@ -29,6 +25,3 @@ module.exports =
         .10
     return null unless odds > 0
     return 'forest_pine_1' if Math.random() < odds
-
-  dig_odds: (character, tile) ->
-    onion: .25

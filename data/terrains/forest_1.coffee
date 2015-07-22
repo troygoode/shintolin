@@ -1,36 +1,34 @@
 time = require '../../time'
 
 module.exports =
-  style: 'lightforest'
+  style: 'grass'
 
-  tags: ['trees']
+  tags: ['trail', 'trees']
   buildable: ['tiny', 'small']
-  actions: ['chop']
+  actions: ['dig']
 
   describe: (tile) ->
     switch time().season
       when 'Spring'
-        'You are walking though an open woodland.'
+        'You are walking through a verdant grassland. Some small flowers are starting to grow here.'
       when 'Summer'
-        'You are walking though an open woodland.'
+        'You are walking through a verdant grassland, with many dandelions and other flowers. Crickets are chirping in the long grass.'
       when 'Autumn'
-        'You are walking though an open woodland, the leaves turning golden and brown with autumn.'
+        'You are walking through a grassland. The cold weather is beginning to turn the grass brown.'
       when 'Winter'
-        'You are walking though an open woodland. The tree branches are bare.'
+        'You are walking through a grassland. Frost has hardened the ground, and there is little sign of life.'
 
   search_odds: (character, tile) ->
-    stick: .25
-    chestnut: .15
-    bark: .10
-    staff: .08
+    thyme: .18
+    wheat: .06
+    onion: .03
 
   grow: (tile) ->
     odds = switch time().season
       when 'Spring'
-        .15
-      when 'Summer'
-        .30
+        .10
     return null unless odds > 0
     return 'forest_2' if Math.random() < odds
-  shrink: (tile) ->
-    'forest_0'
+
+  dig_odds: (character, tile) ->
+    onion: .25

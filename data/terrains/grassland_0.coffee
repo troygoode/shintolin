@@ -24,4 +24,4 @@ module.exports =
       when 'Spring'
         .10
     return null unless odds > 0
-    return 'forest_1' if Math.random() < odds
+    return 'grassland_1' if Math.random() < odds

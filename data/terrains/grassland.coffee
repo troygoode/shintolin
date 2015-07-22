@@ -1,3 +1,5 @@
+# THIS TERRAIN ONLY EXISTS FOR BACKWARDS COMPATIBILITY
+
 time = require '../../time'
 
 module.exports =

@@ -2,7 +2,7 @@ _ = require 'underscore'
 time = require '../../time'
 
 module.exports =
-  style: 'denseforest'
+  style: 'forest'
 
   tags: ['trees']
   buildable: ['tiny', 'small']
@@ -10,12 +10,14 @@ module.exports =
 
   describe: (tile) ->
     switch time().season
+      when 'Spring'
+        'You are in an evergreen forest. Tall pine trees tower above you.'
       when 'Summer'
-        'You are in an evergreen forest. Sunlight barely penetrates the thick tangle of pine branches overhead.'
+        'You are in an evergreen forest. Shafts of sunlight shine through the tall pine trees.'
+      when 'Autumn'
+        'You are in an evergreen forest. Pine cones crunch underfoot.'
       when 'Winter'
-        'You are in a dense pine forest. Snow hangs heavy on the branches of the trees.'
-      else
-        'You are walking through a dense evergreen forest, your journey hampered by a thick wall of pine branches.'
+        'You are in a pine forest. Snow hangs heavy on the branches of the trees.'
 
   search_odds: (character, tile) ->
     stick: .25
@@ -23,9 +25,17 @@ module.exports =
 
   cost_to_enter: (character, tile_from, tile_to) ->
     if _.contains character.skills, 'forest_walk'
-      1
+      0
     else
-      2
+      1
 
+  grow: (tile) ->
+    odds = switch time().season
+      when 'Spring'
+        .25
+      when 'Summer'
+        .40
+    return null unless odds > 0
+    return 'forest_pine_4' if Math.random() < odds
   shrink: (tile) ->
     'forest_pine_2'
