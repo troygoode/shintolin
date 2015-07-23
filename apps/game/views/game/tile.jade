@@ -10,17 +10,21 @@ mixin tile_td(tile, redirect)
           input(type='hidden', name='_csrf', value=csrf)
           if redirect
             input(type='hidden', name='redirect', value=redirect)
-          button.btn.btn-default.btn-xs(type='submit', value='Enter', data-direction='enterexit', data-toggle='tooltip', data-placement='top', title='#{tile.cost} AP')
+          button.btn.btn-default.btn-xs(type='submit', value='Enter', data-direction='enterexit')
             span.glyphicon.glyphicon-log-in
             span.sr-only Enter
+            if tile.cost !== 1
+              span.cost  (#{tile.cost} AP)
       else if tile.direction === 'out'
         form(method='post', action='/game/move/exit')
           input(type='hidden', name='_csrf', value=csrf)
           if redirect
             input(type='hidden', name='redirect', value=redirect)
-          button.btn.btn-default.btn-xs(type='submit', value='Exit', data-direction='enterexit', data-toggle='tooltip', data-placement='top', title='#{tile.cost} AP')
+          button.btn.btn-default.btn-xs(type='submit', value='Exit', data-direction='enterexit')
             span.glyphicon.glyphicon-log-out
             span.sr-only Exit
+            if tile.cost !== 1
+              span.cost  (#{tile.cost} AP)
       else if tile.direction && center.tile.z === 0
         form(method='post', action='/game/move/' + tile.direction)
           input(type='hidden', name='_csrf', value=csrf)
@@ -29,7 +33,10 @@ mixin tile_td(tile, redirect)
           if tile.terrain.blocked || tile.cost === null
             input.movebutton(type='submit', data-direction='#{tile.direction}', style='display:none;')
           else
-            button.btn.btn-default.btn-xs(type='submit', data-direction=tile.direction, data-toggle='tooltip', data-placement='top', title='#{tile.cost} AP') #{tile.direction}
+            button.btn.btn-default.btn-xs(type='submit', data-direction=tile.direction)
+              span #{tile.direction}
+              if tile.cost !== 1
+                span.cost  (#{tile.cost} AP)
 
       // BUILDING EXIT/ENTER
       if tile.tile.building

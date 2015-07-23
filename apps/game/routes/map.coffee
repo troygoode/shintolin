@@ -88,6 +88,10 @@ visit_tile = (tile, center, character) ->
   retval
 
 module.exports = (app) ->
+  app.get '/terrains', (req, res) ->
+    res.render 'terrains',
+      terrains: data.terrains
+
   app.get '/map', (req, res, next) ->
     queries.tiles_in_square_around req.character, 5, (err, tiles) ->
       return next(err) if err?

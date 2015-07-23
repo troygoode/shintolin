@@ -1,0 +1,16 @@
+extends ./_layout.jade
+
+include ./game/tile
+
+block content
+  .container
+    .row
+      .col-xs-12
+
+        table.terrains
+          for terrain in terrains
+            - var style = terrain.style.length ? terrain.style : terrain.style();
+            tr
+              td.terrain_id #{terrain.id}
+              td.image(class='tile-#{style}') tile-#{style}
+              td.bgcolor(class='tile-#{style}') tile-#{style}
