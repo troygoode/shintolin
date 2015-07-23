@@ -19,6 +19,7 @@ module.exports =
     takes:
       ap: 50
       building: 'cottage_pre'
+      settlement: true
       skill: 'construction'
       tools: ['stone_carpentry']
       items:

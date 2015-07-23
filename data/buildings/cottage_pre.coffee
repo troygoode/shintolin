@@ -7,6 +7,7 @@ module.exports =
   build: (character, tile) ->
     takes:
       ap: 50
+      settlement: true
       skill: 'masonry'
       tools: ['masonry_tools']
       items:
