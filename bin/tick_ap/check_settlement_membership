@@ -39,7 +39,7 @@ async.series [
     # update settlement records
     return cb() unless matched?.length
     query =
-      'members.$._id': {$in: _.pluck(matched, '_id')}
+      'members._id': {$in: _.pluck(matched, '_id')}
     update =
       $unset:
         'members.$.provisional': true
