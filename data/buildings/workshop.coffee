@@ -5,6 +5,7 @@ module.exports =
   interior: '_interior_workshop'
   upgrade: true
   actions: ['write']
+  upgradeable_to: 'stonemasonry'
 
   build: (character, tile) ->
     takes:

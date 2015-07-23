@@ -1,3 +1,4 @@
+_ = require 'underscore'
 BPromise = require 'bluebird'
 config = require '../../config'
 craft = BPromise.promisify(require '../../commands/craft')
@@ -32,10 +33,12 @@ module.exports = (character, tile) ->
   current_building = if tile.building? then data.buildings[tile.building]
   if current_building?.upgradeable_to?
     button_text = 'Upgrade'
-    add_recipe current_building.upgradeable_to, data.buildings[current_building.upgradeable_to]
+    for key in (if _.isArray(current_building.upgradeable_to) then current_building.upgradeable_to else [current_building.upgradeable_to])
+      add_recipe key, data.buildings[key]
   else
     for key, building of data.buildings
-      add_recipe key, building
+      unless building.upgrade
+        add_recipe key, building
 
   category: 'location'
   buildings: buildings

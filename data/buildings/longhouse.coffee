@@ -8,6 +8,7 @@ module.exports =
   upgrade: true
   actions: ['write']
   max_occupancy: MAX_OCCUPANCY
+  upgradeable_to: ['bakery', 'hospital', 'workshop']
 
   recovery: (character, tile) ->
     if tile.z is 1 and tile.people?.length <= MAX_OCCUPANCY

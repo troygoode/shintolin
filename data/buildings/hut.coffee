@@ -7,6 +7,7 @@ module.exports =
   interior: '_interior_hut'
   actions: ['write']
   max_occupancy: MAX_OCCUPANCY
+  upgradeable_to: ['shrine_fertility', 'shrine_hunter']
 
   recovery: (character, tile) ->
     if tile.z is 1 and tile.people?.length <= MAX_OCCUPANCY
