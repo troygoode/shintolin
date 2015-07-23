@@ -1,0 +1,22 @@
+#!/usr/bin/env coffee
+
+require 'babel/register'
+
+db = require '../../db'
+UPSERT = {YES: true, NO: false}
+MULTI = {YES: true, NO: false}
+
+fail = (err) ->
+  console.error err
+  process.exit 1
+
+query =
+  creature:
+    $exists: false
+update =
+  $set:
+    frags: 1
+
+db.characters.update query, update, UPSERT.NO, MULTI.YES, (err) ->
+  return fail(err) if err?
+  process.exit 0
