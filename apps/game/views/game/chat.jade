@@ -4,9 +4,7 @@ if messages.length
       .message
         case msg.type
           when 'announcement'
-            .announcement
-              div <strong>[Official]</strong> #{msg.text}
-              div.time #{moment(msg.sent).fromNow()} <i>via</i> <u>Shintolin Staff</u>
+            include chat/announce
           when 'attack'
             include chat/attack
           when 'attacked'
