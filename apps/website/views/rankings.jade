@@ -72,7 +72,10 @@ block content
                     |  
                     .label.label-danger Dazed
                 else if config.type === 'settlement'
-                  a(href='/settlements/#{r.object.slug}') <strong>#{r.object.name}</strong>
+                  if r.object.slug
+                    a(href='/settlements/#{r.object.slug}') <strong>#{r.object.name}</strong>
+                  else
+                    span #{r.object.name}
               if config.columns && _.isArray(config.columns)
                 for column, i in config.columns
                   td #{r.mapped[i]}

@@ -30,7 +30,7 @@ module.exports = (app) ->
       , (cb) ->
         queries.rankings.younguns cb
       , (cb) ->
-        queries.active_characters cb
+        queries.count_active_characters cb
     ], (err, [square_count, settlements, younguns, active_character_count]) ->
       return next(err) if err?
       active_settlements = settlements.filter (s) ->

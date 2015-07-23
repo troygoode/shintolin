@@ -1,7 +1,10 @@
 _ = require 'underscore'
+BPromise = require 'bluebird'
 moment = require 'moment'
 data = require '../../../data'
 queries = require '../../../queries'
+count_active_characters = BPromise.promisify(queries.count_active_characters)
+count_total_characters = BPromise.promisify(queries.count_total_characters)
 
 rankings =
   active:
@@ -92,30 +95,43 @@ rankings =
     columns: ['Region', 'Population']
     map: (s) ->
       [
-        data.regions[s.region].name
-        s.members.length
+        if s.region then data.regions[s.region].name else ''
+        s.count ? s.members.length
       ]
+    post_process: ({results, total_players}) ->
+      incorporated = 0
+      for s in results
+        incorporated += s.members.length
+      results.push
+        name: 'Unincorporated'
+        count: total_players - incorporated
     fn: queries.rankings.bigtowns
 
 module.exports = (router) ->
   router.get '/rankings/:metric?', (req, res, next) ->
     return res.redirect('/rankings/frags') unless req.params.metric?.length
+    config = rankings[req.params.metric]
 
-    queries.active_characters (err, active_count) ->
-      return next(err) if err?
-
-      config = rankings[req.params.metric]
-      return next('Invalid Metric') unless config?
-      return next('Developers Only') if config.developer_only and not req.session?.developer
-
-      config.fn (err, results) ->
-        return next(err) if err?
+    BPromise.resolve()
+      .then ->
+        throw 'Invalid Metric' unless config?
+        throw 'Developers Only' if config.developer_only and not req.session?.developer
+      .then ->
+        BPromise.props
+          results: BPromise.promisify(config.fn)()
+          active_players: count_active_characters()
+          total_players: count_total_characters()
+      .tap (value) ->
+        if config.post_process
+          config.post_process value
+      .then ({results, active_players}) ->
         res.render 'rankings',
           _: _
-          active_count: active_count
+          active_count: active_players
           rankings: rankings
           config: config
           data: data
           results: (results ? []).map (r) ->
             object: r
             mapped: config.map r
+      .catch next
