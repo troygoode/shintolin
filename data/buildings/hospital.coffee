@@ -1,5 +1,5 @@
 _ = require 'underscore'
-MAX_OCCUPANCY = 6
+MAX_OCCUPANCY = 8
 
 module.exports =
   name: 'Hospital'
@@ -14,10 +14,12 @@ module.exports =
     return 0 unless tile.z isnt 0
     return 0 unless tile.people?.length <= MAX_OCCUPANCY
     return 0 unless tile.settlement_id?.toString() is character.settlement_id?.toString()
-    if _.contains(character.skills, 'medicine') or character.hp <= 0
+    if character.hp <= 0
+      1
+    else if _.contains(character.skills, 'medicine')
       1
     else
-      0
+      .5
 
   build: (character, tile) ->
     takes:

@@ -1,21 +1,25 @@
+MAX_OCCUPANCY = 1
+
 module.exports =
   name: 'Hunter\'s Shrine'
   size: 'small'
   hp: 50
   interior: '_interior_shrine_hunter'
   upgrade: true
+  max_occupancy: MAX_OCCUPANCY
   actions: ['write']
 
   recovery: (character, tile) ->
     return 0 unless character.hp > 0
     return 0 unless tile.z isnt 0
     return 0 unless tile.people?.length <= MAX_OCCUPANCY
-    1
+    .5
 
   build: (character, tile) ->
     takes:
       developer: true # don't build these yet; I might change them
       ap: 50
+      settlement: true
       building: 'hut'
       skill: 'divine_inspiration'
       items:
