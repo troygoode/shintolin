@@ -58,7 +58,13 @@ block content
                 span #{i + 1}.
                 |  
                 if config.type === 'player'
-                  a(href='/profile/#{r.object.slug}')= r.object.name
+                  - var badge = data.badges[r.object.title];
+                  if badge && badge.title_placement === 'prefix'
+                    a(href='/profile/#{r.object.slug}') #{badge.title}#{r.object.name}
+                  else if badge
+                    a(href='/profile/#{r.object.slug}') #{r.object.name}#{badge.title}
+                  else
+                    a(href='/profile/#{r.object.slug}') #{r.object.name}
                 else if config.type === 'settlement'
                   a(href='/settlements/#{r.object.slug}')= r.object.name
               if config.columns && _.isArray(config.columns)

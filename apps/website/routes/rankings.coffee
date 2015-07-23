@@ -99,7 +99,7 @@ rankings =
 
 module.exports = (router) ->
   router.get '/rankings/:metric?', (req, res, next) ->
-    res.redirect('/rankings/frags') unless req.params.metric?.length
+    return res.redirect('/rankings/frags') unless req.params.metric?.length
 
     queries.active_characters (err, active_count) ->
       return next(err) if err?
@@ -115,6 +115,7 @@ module.exports = (router) ->
           active_count: active_count
           rankings: rankings
           config: config
+          data: data
           results: (results ? []).map (r) ->
             object: r
             mapped: config.map r
