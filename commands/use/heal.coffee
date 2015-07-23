@@ -61,7 +61,11 @@ notify_nearby = (healer, target, item, amount, remaining, cb) ->
   , cb
 
 module.exports = (healer, target, item, tile, cb) ->
-  return cb('Your target is already at full health.') unless target.hp < target.hp_max
+  if target.hp >= target.hp_max
+    if target._id.toString() is healer._id.toString()
+      return cb('You are already at full health.')
+    else
+      return cb('Your target is already at full health.')
   return cb('You cannot heal a dazed target without reviving them first.') unless target.hp > 0
 
   get_amount_to_heal = null
