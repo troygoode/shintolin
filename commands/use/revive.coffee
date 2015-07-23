@@ -14,26 +14,28 @@ alter_healer_revives = (character, cb) ->
       revives: 1
   db.characters.update query, update, cb
 
-alter_target_hp = (character, amount, cb) ->
+alter_target = (character, healer, amount, cb) ->
   async.parallel [
     (cb) ->
       query =
         _id: character._id
       update =
         $set:
-          hp: character.hp + amount
-          last_revived: new Date()
+          revivable:
+            when: new Date()
+            hp: amount
+            healer:
+              _id: healer._id
+              name: healer.name
+              slug: healer.slug
       db.characters.update query, update, cb
     (cb) ->
       query =
-        x: character.x
-        y: character.y
-        z: character.z
         'people._id': character._id
       update =
         $set:
-          'people.$.hp': character.hp + amount
-      db.tiles.update query, update, cb
+          'people.$.revivable': true
+      db.tiles.update query, update, false, true, cb
   ], cb
 
 notify_user = (healer, target, item, amount, cb) ->
@@ -63,6 +65,7 @@ notify_nearby = (healer, target, item, amount, cb) ->
 module.exports = (healer, target, item, tile, cb) ->
   return cb('You cannot revive yourself.') unless healer._id.toString() isnt target._id.toString()
   return cb('Your target is not dazed.') unless target.hp <= 0
+  return cb('Your target is already recovering.') if target.revivable?
 
   get_amount_to_heal = null
   if typeof item.amount_to_heal is 'function'
@@ -82,7 +85,7 @@ module.exports = (healer, target, item, tile, cb) ->
       (cb) ->
         alter_healer_revives healer, cb
       (cb) ->
-        alter_target_hp target, amount_to_heal, cb
+        alter_target target, healer, amount_to_heal, cb
       (cb) ->
         give.xp healer, tile, {herbalist: Math.round(amount_to_heal / 2) + 1}, cb
       (cb) ->

@@ -26,4 +26,8 @@ module.exports = (character, tile) ->
   actions.push 'use'
   actions.push 'use_self'
 
+  # REVIVE (SELF)
+  if character.revivable?
+    actions.push 'revive_self'
+
   actions

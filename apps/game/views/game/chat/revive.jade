@@ -1,5 +1,3 @@
 .action
-  | You use #{data.items[msg.item].name} on 
-  | <a href='/profile/#{msg.target_slug}'>#{msg.target_name}</a>
-  | , reviving them from their daze and healing #{msg.amount} HP. 
+  div You use #{data.items[msg.item].name} on <a href='/profile/#{msg.target_slug}'>#{msg.target_name}</a>. Their daze begins to subside.
   div.time= moment(msg.sent).fromNow()

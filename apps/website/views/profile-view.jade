@@ -54,7 +54,10 @@
         else
           div
             label Alive Since
-            p: span.label.label-danger Dazed
+            if character.revivable
+              p: span.label.label-warning Recovering
+            else
+              p: span.label.label-danger Dazed
 
   .col-sm-6.col-md-5.col-lg-4.hidden-xs
     .profile-avatar: img(alt='portrait of #{character.name}', src=character.image_url || '/images/cave_art.jpg')

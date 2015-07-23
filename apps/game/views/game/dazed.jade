@@ -9,7 +9,7 @@ if character.hp <= 0
           if actions.revive_self
             form.text-center(method='POST', action='/game/actions/revive_self')
               input(type='hidden', name='_csrf', value=csrf)
-              button.btn.btn-default(type='submit', data-toggle='tooltip', title=actions.revive_self.ap + ' AP') Recover from dazing with #{actions.revive_self.starting_hp} HP.
+              button.btn.btn-default(type='submit', data-toggle='tooltip', title=actions.revive_self.ap + ' AP') Recover from your daze with #{actions.revive_self.starting_hp} HP.
 
           if actions.settlement_join
             form.text-center(method='POST', action='/game/actions/settlement_join')
