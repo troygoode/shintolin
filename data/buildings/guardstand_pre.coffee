@@ -2,10 +2,12 @@ module.exports =
   name: 'Guardstand Foundation'
   size: 'large'
   hp: 40
+  upgradeable_to: 'guardstand'
 
   build: (character, tile) ->
     takes:
       ap: 50
+      developer: true
       settlement: true
       skill: 'masonry'
       tools: ['masonry_tools']

@@ -1,12 +1,16 @@
 config = require '../config'
 data = require '../data'
 hunger_debuff = require './calculate_hunger_debuff'
+MINIMUM_RECOVERY = 1
 
 module.exports = (character, tile) ->
   recovery = config.ap_per_hour
 
-  # hunger debuff
-  recovery += hunger_debuff character, tile
+  if character.hp <= 0
+    recovery = MINIMUM_RECOVERY
+  else
+    # hunger debuff
+    recovery += hunger_debuff character, tile
 
   # terrain bonus
   if tile?
@@ -24,5 +28,5 @@ module.exports = (character, tile) ->
     if building.recovery?
       recovery += building.recovery(character, tile)
 
-  recovery = 1 if recovery < 1 #minimum recovery
+  recovery = MINIMUM_RECOVERY if recovery < MINIMUM_RECOVERY #minimum recovery
   return recovery

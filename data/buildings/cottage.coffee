@@ -10,10 +10,10 @@ module.exports =
   max_occupancy: MAX_OCCUPANCY
 
   recovery: (character, tile) ->
-    if tile.z is 1 and tile.people?.length <= MAX_OCCUPANCY
-      1
-    else
-      0
+    return 0 unless character.hp > 0
+    return 0 unless tile.z isnt 0
+    return 0 unless tile.people?.length <= MAX_OCCUPANCY
+    1
 
   build: (character, tile) ->
     takes:
@@ -32,6 +32,7 @@ module.exports =
     return null unless tile.hp < max
     takes:
       ap: 10
+      skill: 'construction'
       items:
         timber: 3
     gives:

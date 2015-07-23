@@ -1,6 +1,10 @@
 .action
-  a.neutral(href='/profile/#{msg.sender_slug}')= msg.sender_name
-  |  uses #{data.items[msg.item].name} on 
-  | <a href='/profile/#{msg.target_slug}'>#{msg.target_name}</a>
-  | , reviving them from their daze and healing #{msg.amount} HP. 
+  if msg.sender_id.toString() === msg.target_id.toString()
+    a.neutral(href='/profile/#{msg.sender_slug}')= msg.sender_name
+    |  revives themselves, healing #{msg.amount} HP. 
+  else
+    a.neutral(href='/profile/#{msg.sender_slug}')= msg.sender_name
+    |  uses #{data.items[msg.item].name} on 
+    | <a href='/profile/#{msg.target_slug}'>#{msg.target_name}</a>
+    | , reviving them from their daze and healing #{msg.amount} HP. 
   div.time= moment(msg.sent).fromNow()

@@ -23,6 +23,7 @@ module.exports =
     return null unless tile.hp < max
     takes:
       ap: 10
+      skill: 'masonry'
       items:
         stone_block: 2
     gives:

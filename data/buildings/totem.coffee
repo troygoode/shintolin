@@ -5,7 +5,7 @@ module.exports =
   size: 'small'
   hp: 30
   tags: ['no_storm_damage']
-  actions: ['join', 'promote', 'evict']
+  actions: ['promote', 'evict', 'settlement_join']
 
   build_handler: (req, res, next) ->
     if _.contains req.character.skills, 'settling'

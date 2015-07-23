@@ -3,10 +3,12 @@ module.exports =
   size: 'large'
   hp: 40
   exterior: '_exterior_gate_open'
+  upgradeable_to: 'gate'
 
   build: (character, tile) ->
     takes:
       ap: 50
+      developer: true
       settlement: true
       skill: 'masonry'
       tools: ['masonry_tools']

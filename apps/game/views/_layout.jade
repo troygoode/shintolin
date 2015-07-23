@@ -44,8 +44,14 @@ html(lang='en')
           ul.nav.navbar-nav.navbar-right
             li.dropdown
               a.dropdown-toggle(href='#', data-toggle='dropdown', role='button', aria-haspopup='true', aria-expanded='false')
-                if character.settlement_id
-                  | #{character.name} of #{character.settlement_name}
+                if character.title && character.title.length
+                  - var badge = data.badges[character.title];
+                  if badge.title_placement === 'prefix'
+                    | #{badge.title}#{character.name}
+                  else
+                    | #{character.name}#{badge.title}
+                else if character.settlement_id
+                  | #{character.name} from #{character.settlement_name}
                 else
                   | #{character.name}
                 |  
@@ -53,7 +59,7 @@ html(lang='en')
               ul.dropdown-menu
                 li: a(href='/profile/#{character.slug}') Your Profile
                 if character.settlement_id
-                  li: a(href='/settlements/#{character.settlement_slug}') Your Settlement
+                  li: a(href='/settlements/#{character.settlement_slug}') #{character.settlement_name}'s Profile
                 if is_developer
                   li: a(href='/game/dev') Developer Tools
                 li: a(href='/logout') Log Out

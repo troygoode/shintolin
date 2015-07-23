@@ -5,6 +5,7 @@ module.exports =
   hp_max: 30
 
   recovery: (character, tile) ->
+    return 0 unless character.hp > 0
     .3
 
   build: (character, tile) ->

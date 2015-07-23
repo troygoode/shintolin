@@ -22,7 +22,7 @@
     - };
     - var health = function(c){
     -   if(c.hp >= c.hp_max) return '';
-    -   else if(c.hp <= 0) return ' [dazed]';
+    -   else if(c.hp <= 0) return ' <span class="label label-danger">dazed</span>';
     -   else if(character.skills.indexOf('triage') != -1) return ' (' + c.hp + '/' + c.hp_max + ')';
     -   else return '';
     - };

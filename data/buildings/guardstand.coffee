@@ -9,10 +9,11 @@ module.exports =
   tags: ['reduced_storm_damage']
 
   recovery: (character, tile) ->
-    if tile.z is 1
-      .5
-    else
-      0
+    return 0 unless character.hp > 0
+    return 0 unless tile.z isnt 0
+    return 0 unless tile.people?.length <= MAX_OCCUPANCY
+    return 0 unless tile.settlement_id?.toString() is character.settlement_id?.toString()
+    .5
 
   build: (character, tile) ->
     takes:
@@ -32,6 +33,7 @@ module.exports =
     return null unless tile.hp < max
     takes:
       ap: 5
+      skill: 'construction'
       items:
         stone_block: 1
     gives:

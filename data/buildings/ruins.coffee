@@ -7,10 +7,9 @@ module.exports =
   tags: ['no_storm_damage']
 
   recovery: (character, tile) ->
-    if tile.z is 1
-      .3
-    else
-      0
+    return 0 unless character.hp > 0
+    return 0 unless tile.z isnt 0
+    .3
 
   build: (character, tile) ->
     takes:

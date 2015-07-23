@@ -26,7 +26,7 @@ div
   if actions.build
     - hasAction = true;
     form.action(method='POST', action='/game/actions/build')
-      input.btn.btn-default(type='hidden', name='_csrf', value=csrf)
+      input(type='hidden', name='_csrf', value=csrf)
       mixin action_button(actions.build.text.submit, 'Variable')
       select.form-control(name='building', style='width: 10em', data-persist='building', data-action-focus='build')
         for value, key in actions.build.buildings
@@ -119,11 +119,11 @@ div
     if my_member_record.voting_for
       | Current Vote: <a href='/profile/#{my_member_record.voting_for.slug}'>#{my_member_record.voting_for.name}</a>
 
-  if center.tile.settlement_id && center.building && center.building.id === 'totem' && (!character.settlement_id || center.tile.settlement_id.toString() !== character.settlement_id.toString())
+  if actions.settlement_join
     - hasAction = true;
-    form.action(method='POST', action='/game/join')
+    form.action(method='POST', action='/game/actions/settlement_join')
       input(type='hidden', name='_csrf', value=csrf)
-      mixin action_button('Join Settlement', 25)
+      mixin action_button('Join Settlement', actions.settlement_join.ap)
 
   if !hasAction
     p.empty No building actions.

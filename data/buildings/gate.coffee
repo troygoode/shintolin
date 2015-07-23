@@ -13,7 +13,7 @@ module.exports =
     '_exterior_gate_closed'
 
   recovery: (character, tile) ->
-    -100000000
+    -100000000 # guarantee minimum AP recovery (1AP/tick)
 
   build: (character, tile) ->
     takes:
@@ -33,6 +33,7 @@ module.exports =
     return null unless tile.hp < max
     takes:
       ap: 20
+      skill: 'construction'
       items:
         timber: 8
     gives:

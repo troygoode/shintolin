@@ -7,10 +7,10 @@ module.exports =
   actions: ['write']
 
   recovery: (character, tile) ->
-    if tile.z is 1
-      1
-    else
-      0
+    return 0 unless character.hp > 0
+    return 0 unless tile.z isnt 0
+    return 0 unless tile.people?.length <= MAX_OCCUPANCY
+    1
 
   build: (character, tile) ->
     takes:
@@ -38,6 +38,7 @@ module.exports =
     return null unless tile.hp < max
     takes:
       ap: 10
+      skill: 'divine_inspiration'
       items:
         timber: 4
         pelt: 1

@@ -25,6 +25,7 @@ module.exports =
     return null unless tile.hp < max
     takes:
       ap: 10
+      skill: 'artisanship'
       items:
         timber: 2
     gives:

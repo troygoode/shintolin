@@ -1,4 +1,7 @@
 .action
-  a.neutral(href='/profile/#{msg.sender_slug}')= msg.sender_name
-  |  uses #{data.items[msg.item].name} on you, reviving you from your daze and healing #{msg.amount} HP. 
+  if msg.sender_id.toString() === character._id.toString()
+    | You revive yourself and heal #{msg.amount} HP. 
+  else
+    a.neutral(href='/profile/#{msg.sender_slug}')= msg.sender_name
+    |  uses #{data.items[msg.item].name} on you, reviving you from your daze and healing #{msg.amount} HP. 
   div.time= moment(msg.sent).fromNow()

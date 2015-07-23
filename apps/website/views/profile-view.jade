@@ -49,7 +49,12 @@
 
       .col-sm-6
         mixin profile_date(character.created, 'Joined')
-        mixin profile_date(character.last_revived, 'Alive Since')
+        if character.hp > 0
+          mixin profile_date(character.last_revived, 'Alive Since')
+        else
+          div
+            label Alive Since
+            p: span.label.label-danger Dazed
 
   .col-sm-6.col-md-5.col-lg-4.hidden-xs
     .profile-avatar: img(alt='portrait of #{character.name}', src=character.image_url || '/images/cave_art.jpg')

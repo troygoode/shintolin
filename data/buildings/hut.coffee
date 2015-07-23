@@ -10,10 +10,10 @@ module.exports =
   upgradeable_to: ['shrine_fertility', 'shrine_hunter']
 
   recovery: (character, tile) ->
-    if tile.z is 1 and tile.people?.length <= MAX_OCCUPANCY
-      .5
-    else
-      0
+    return 0 unless character.hp > 0
+    return 0 unless tile.z isnt 0
+    return 0 unless tile.people?.length <= MAX_OCCUPANCY
+    .5
 
   build: (character, tile) ->
     takes:

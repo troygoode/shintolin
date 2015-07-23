@@ -10,11 +10,12 @@ module.exports =
   tags: ['reduced_storm_damage']
 
   recovery: (character, tile) ->
-    -100000000
+    -100000000 # guarantee mininum recovery (1AP/tick)
 
   build: (character, tile) ->
     takes:
       ap: 50
+      developer: true
       settlement: true
       skill: 'masonry'
       tools: ['masonry_tools']
@@ -29,6 +30,7 @@ module.exports =
     return null unless tile.hp < max
     takes:
       ap: 5
+      skill: 'masonry'
       items:
         stone_block: 1
     gives:
