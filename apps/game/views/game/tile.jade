@@ -13,8 +13,6 @@ mixin tile_td(tile, redirect)
           button.btn.btn-default.btn-xs(type='submit', value='Enter', data-direction='enterexit')
             span.glyphicon.glyphicon-log-in
             span.sr-only Enter
-            if tile.cost !== 1
-              span.cost  (#{tile.cost} AP)
       else if tile.direction === 'out'
         form(method='post', action='/game/move/exit')
           input(type='hidden', name='_csrf', value=csrf)
@@ -23,8 +21,6 @@ mixin tile_td(tile, redirect)
           button.btn.btn-default.btn-xs(type='submit', value='Exit', data-direction='enterexit')
             span.glyphicon.glyphicon-log-out
             span.sr-only Exit
-            if tile.cost !== 1
-              span.cost  (#{tile.cost} AP)
       else if tile.direction && center.tile.z === 0
         form(method='post', action='/game/move/' + tile.direction)
           input(type='hidden', name='_csrf', value=csrf)
