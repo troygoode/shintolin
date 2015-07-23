@@ -38,7 +38,7 @@ block content
           h2.page-title.hidden-xs #{config.title}
         if config.description
           p.hidden-xs #{config.description}
-        table
+        table.rankings
           thead
             tr
               if config.type === 'player'
@@ -60,13 +60,16 @@ block content
                 if config.type === 'player'
                   - var badge = data.badges[r.object.title];
                   if badge && badge.title_placement === 'prefix'
-                    a(href='/profile/#{r.object.slug}') #{badge.title}#{r.object.name}
+                    a(href='/profile/#{r.object.slug}') #{badge.title}<strong>#{r.object.name}</strong>
                   else if badge
-                    a(href='/profile/#{r.object.slug}') #{r.object.name}#{badge.title}
+                    a(href='/profile/#{r.object.slug}') <strong>#{r.object.name}</strong>#{badge.title}
                   else
-                    a(href='/profile/#{r.object.slug}') #{r.object.name}
+                    a(href='/profile/#{r.object.slug}') <strong>#{r.object.name}</strong>
+                  if r.object.hp === 0
+                    |  
+                    .label.label-danger Dazed
                 else if config.type === 'settlement'
-                  a(href='/settlements/#{r.object.slug}')= r.object.name
+                  a(href='/settlements/#{r.object.slug}') <strong>#{r.object.name}</strong>
               if config.columns && _.isArray(config.columns)
                 for column, i in config.columns
                   td #{r.mapped[i]}
