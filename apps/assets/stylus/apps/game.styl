@@ -98,54 +98,96 @@ body
     overflow hidden
     table
       margin 0 auto
-      td.map
-        &.current
-          > div
-            box-shadow inset 0 0 6px 4px ($bg_dark + 5%)
-            border-radius 1em
-        width 70px
-        height @width
-        background-color transparent
-        background-size @width @width
-        background-repeat no-repeat
-        text-align center
-        > div
-          overflow hidden
-          max-height @width
-          min-height @width
-          padding-top 8px
-          line-height 1em
-          form
-            margin 0
-            padding 0
-          button
-            text-transform uppercase
-            min-width 30px
-            margin-bottom 3px
-            font-weight bold
-          .mapdata
-            display inline-block
-            padding 1px 4px
-            background-color $bg_dark
-            border-radius 3px
-            color $text_light
-            font-size 11px
-            overflow hidden
-            max-width (@width - 8px)
-        @media (min-width: 768px)
+      &.season-spring
+        td.map
+          background-color yellow
+          > .terrain
+            background-image none !important
+            opacity .9
+      &.season-summer
+        td.map
+          > .terrain
+            background-image none !important
+      &.season-autumn
+        td.map
+          background-color brown
+          > .terrain
+            background-image none !important
+            opacity .8
+      &.season-winter
+        td.map
+          background-color white
+          > .terrain
+            background-image none !important
+            opacity .7
+      tr:last-child
+        td.map
+          border-bottom none
+      tr
+        td.map
+          position relative
+          border-right 1px solid #999
+          border-bottom 1px solid #999
           width 70px
           height @width
           background-size @width @width
-          > div
+          background-repeat no-repeat
+          text-align center
+          &:last-child
+            border-right none
+          &.current
+            > .content
+              box-shadow inset 0 0 6px 4px ($bg_dark + 5%)
+          > .terrain
+            position absolute
+            z-index 0
+            top 0
+            left 0
+            width 100%
+            height 100%
+          > .content
+            position absolute
+            top 0
+            left 0
+            width 100%
+            height 100%
+            z-index 1
+            overflow hidden
             max-height @width
             min-height @width
-        @media (min-width: 992px)
-          width 90px
-          height @width
-          background-size @width @width
-          > div
-            max-height @width
-            min-height @width
+            padding-top 8px
+            line-height 1em
+            form
+              margin 0
+              padding 0
+            button
+              text-transform uppercase
+              min-width 30px
+              margin-bottom 3px
+              font-weight bold
+            .mapdata
+              display inline-block
+              padding 1px 4px
+              background-color $bg_dark
+              border-radius 3px
+              color $text_light
+              font-size 11px
+              overflow hidden
+              max-width (@width - 8px)
+          @media (min-width: 768px)
+            width 70px
+            height @width
+            background-size @width @width
+            > .content
+              max-height @width
+              min-height @width
+          @media (min-width: 992px)
+            width 90px
+            height @width
+            background-size @width @width
+            > .content
+              max-height @width
+              min-height @width
 
 // STATS (BOTTOM)
 

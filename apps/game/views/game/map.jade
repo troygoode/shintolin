@@ -15,7 +15,7 @@
     include flavor
 
   .map-table
-    table
+    table(class='season-#{time.season.toLowerCase()}')
       for row in grid
         tr
           for tile in row

@@ -6,9 +6,10 @@ block content
   .container
     .row
       .col-xs-12
+        br
         .map
           .map-table.large.text-center
-            table
+            table(class='season-#{time.season.toLowerCase()}')
               for row in grid
                 tr
                   for tile in row

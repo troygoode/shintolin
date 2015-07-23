@@ -1,7 +1,8 @@
 mixin tile_td(tile, redirect)
   - var is_center = center && tile.tile._id && tile.tile._id.toString() === center.tile._id.toString();
-  td.map(class='tile-#{tile.style} #{is_center ? "current" : null}')
-    div
+  td.map(class={current: is_center})
+    .terrain(class='tile-#{tile.style}')
+    .content
 
       // DIRECTIONAL MOVE
       if tile.direction === 'in'
