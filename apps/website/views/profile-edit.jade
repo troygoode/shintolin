@@ -14,6 +14,17 @@
         input.form-control#image_url(type='text', name='image_url', maxlength='100', value=character.image_url, aria-describedby='image_url_help')
         span#image_url_help.help-block Images must be hosted on external sites. Offensive content will be removed.
 
+      .form-group
+        label(for='title') Title
+        select.form-control#title(name='title')
+          option(value='', selected=(!character.title)) None
+          for badge, key in titles
+            option(value=key, selected=(key === character.title))
+              if badge.title_placement === 'prefix'
+                | #{badge.title}#{character.name}
+              else
+                | #{character.name}#{badge.title}
+
       .buttons
         button.btn.btn-default(type='submit') Save Changes
 

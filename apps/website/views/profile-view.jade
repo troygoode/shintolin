@@ -20,6 +20,13 @@
           a(href='/settlements/#{character.settlement_slug}') #{character.settlement_name}
           |  since #{moment(character.settlement_joined).fromNow()}.
 
+    if !_.isEmpty(character.badges)
+      .profile-badges
+        label Badges
+        div
+          for date_granted, badge_id in character.badges
+            span.label.label-default #{data.badges[badge_id].name}
+
     .row
 
       .col-sm-6

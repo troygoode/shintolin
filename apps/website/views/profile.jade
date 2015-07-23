@@ -10,10 +10,17 @@ block content
     .container
       .row
         .col-xs-12
-          h1 #{character.name}
+          h1
+            - var title = data.badges[character.title];
+            if title && title.title_placement === 'prefix'
+              | #{data.badges[character.title].title}#{character.name}
+            else if title && (!title.title_placement || title.title_placement === 'suffix')
+              | #{character.name}#{data.badges[character.title].title}
+            else
+              | #{character.name}
           if character.settlement_id
             h2
-              | of
+              | from
               |  
               a(href='/settlements/#{character.settlement_slug}') #{character.settlement_name}
 

@@ -1,4 +1,6 @@
+_ = require 'underscore'
 moment = require 'moment'
+data = require '../../../data'
 commands = require '../../../commands'
 queries = require '../../../queries'
 
@@ -15,15 +17,24 @@ module.exports = (app) ->
       return next(err) if err?
       return next() unless character?
 
+      titles = {}
+      for key of (character.badges ? {})
+        badge = data.badges[key]
+        if badge?.title
+          titles[key] = badge
+
       get_settlement character, (err, settlement) ->
         return next(err) if err?
         res.render 'profile',
+          _: _
           message: req.query.msg
+          data: data
           moment: moment
           character: character
           settlement: settlement
           leader: settlement?.leader? and settlement.leader._id.toString() is character._id.toString()
           editable: character._id.toString() is req.session.character
+          titles: titles
 
   app.post '/profile/:character_slug', (req, res, next) ->
     queries.get_character_by_slug req.params.character_slug, (err, character) ->
@@ -35,7 +46,7 @@ module.exports = (app) ->
 
       return next('Unauthorized') unless character._id.toString() is req.session.character or req.session?.developer
       return fail('no_email') if req.body.email?.length and not /^.+@.+\..+$/.test(req.body.email)
-      commands.update_profile character, req.body.bio, req.body.image_url, req.body.email, req.body.password, (err) ->
+      commands.update_profile character, req.body.bio, req.body.image_url, req.body.title, req.body.email, req.body.password, (err) ->
         if err
           switch err
             when 'EMAIL_TAKEN' then fail('email_taken')

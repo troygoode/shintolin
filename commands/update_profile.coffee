@@ -3,7 +3,8 @@ db = require '../db'
 hash_password = require './hash_password'
 get_character_by_email = require '../queries/get_character_by_email'
 
-module.exports = (character, bio, image_url, email, password, cb) ->
+module.exports = (character, bio, image_url, title_id, email, password, cb) ->
+  return cb('Invalid Title') if title_id?.length and not character.badges[title_id]
   async.series [
     (cb) ->
       return cb() unless email?.length and email isnt character.email
@@ -19,6 +20,12 @@ module.exports = (character, bio, image_url, email, password, cb) ->
         $set:
           bio: bio ? ''
           image_url: image_url ? ''
+
+      if title_id?.length
+        update.$set.title = title_id
+      else
+        update.$unset =
+          title: true
 
       if email?.length
         update.$set.email = email
