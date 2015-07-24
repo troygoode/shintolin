@@ -4,7 +4,9 @@
     | yourself
   else
     | <a href='/profile/#{msg.target_slug}'>#{msg.target_name}</a>
-  | , healing #{msg.amount} HP.
+  | , healing 
+  span.heal #{msg.amount} HP
+  | .
   if _.contains(character.skills, 'triage')
     if msg.remaining > 0
       |  #{msg.remaining} HP remains unhealed. 

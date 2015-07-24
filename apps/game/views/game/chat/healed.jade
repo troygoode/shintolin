@@ -1,6 +1,8 @@
 .action
   a.neutral(href='/profile/#{msg.sender_slug}')= msg.sender_name
-  |  uses #{data.items[msg.item].name} on you, healing #{msg.amount} HP. 
+  |  uses #{data.items[msg.item].name} on you, healing 
+  span.heal #{msg.amount} HP
+  | . 
   if msg.remaining > 0
     | #{msg.remaining} HP remains unhealed. 
   else
