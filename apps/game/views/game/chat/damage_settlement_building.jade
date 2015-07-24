@@ -12,7 +12,11 @@ if msg.hit
         | attacked
     |  the #{data.buildings[msg.building].name}
     |  in <a href='/settlements/#{msg.settlement_slug}'>#{msg.settlement_name}</a> 
-    |  with a #{data.items[msg.weapon].name} for #{msg.damage} damage
+    |  with 
+    |  a 
+    |  #{data.items[msg.weapon].name} for 
+    span.damage #{msg.damage} HP
+    |  damage
     if msg.destroyed
       | , destroying it! 
     else
@@ -33,5 +37,7 @@ else
       default
         | attacked
     |  the #{data.buildings[msg.building].name}
-    |  with a #{data.items[msg.weapon].name} and missed. 
+    |  with a #{data.items[msg.weapon].name} and 
+    span.missed missed
+    | . 
     div.time= moment(msg.sent).fromNow()

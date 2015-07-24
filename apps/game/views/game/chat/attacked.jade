@@ -11,9 +11,13 @@ if msg.damage
         | stabbed
       default
         | attacked
-    |  you with a #{data.items[msg.weapon].name} for #{msg.damage} hp damage
+    |  you with a #{data.items[msg.weapon].name} for 
+    span.damage #{msg.damage} HP
+    |  damage
     if msg.kill
-      |  and knocked you out! 
+      |  and 
+      span.knockout knocked you out
+      | ! 
       if msg.frags === 1
         | They also stole a frag from you. 
       else if msg.frags
@@ -38,5 +42,7 @@ else
         | stabbed
       default
         | attacked
-    |  you with a #{data.items[msg.weapon].name} and missed. 
+    |  you with a #{data.items[msg.weapon].name} and 
+    span.missed missed
+    | . 
     div.time= moment(msg.sent).fromNow()

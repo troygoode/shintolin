@@ -15,11 +15,15 @@
     else
       a(href='/profile/#{msg.target_slug}')= msg.target_name
     |  with a #{data.items[msg.weapon].name}
-    |  for #{msg.damage} hp damage
+    |  for 
+    span.damage #{msg.damage} HP
+    |  damage
     if msg.kill && msg.target_creature
       | , killing it! 
     else if msg.kill
-      | , knocking them out! 
+      | , 
+      span.knockout knocking them out
+      | ! 
       if msg.kicked_from_settlement
         | They are now no longer a provisional resident of <a href='/settlements/#{msg.settlement_slug}'>#{msg.settlement_name}</a>! 
     else
@@ -42,15 +46,25 @@
     else
       a(href='/profile/#{msg.target_slug}')= msg.target_name
     |  with a #{data.items[msg.weapon].name}
-    |  and missed. 
+    |  and 
+    span.missed missed
+    | . 
 
   if msg.response === 'miss'
-    |  The #{data.creatures[msg.target_creature].name} attacked them back and missed. 
+    |  The #{data.creatures[msg.target_creature].name} attacked them back and 
+    span.missed missed
+    | . 
   else if msg.response === 'hit'
     if msg.response_kill
-      |  The #{data.creatures[msg.target_creature].name} attacked them back and hit for #{msg.response_damage} damage, knocking them out! 
+      |  The #{data.creatures[msg.target_creature].name} attacked them back and hit for 
+      span.damage #{msg.response_damage} HP
+      |  damage, 
+      span.knockout knocking them out
+      | ! 
     else
-      |  The #{data.creatures[msg.target_creature].name} attacked them back and hit for #{msg.response_damage} damage! 
+      |  The #{data.creatures[msg.target_creature].name} attacked them back and hit for 
+      span.damage #{msg.response_damage} HP
+      |  damage! 
   else if msg.response === 'flee'
     |  The #{data.creatures[msg.target_creature].name} fled the area. 
 

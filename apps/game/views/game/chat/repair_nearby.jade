@@ -2,7 +2,11 @@
   - var building = data.buildings[msg.building];
   | <a href='/profile/#{msg.sender_slug}'>#{msg.sender_name}</a>
   if building.text && building.text.repair && building.text.repair.success_nearby
-    |  #{building.text.repair.success_nearby}. 
+    |  
+    span.heal #{building.text.repair.success_nearby}
+    | . 
   else
-    |  repaired the #{building.name}. 
+    |  repaired the #{building.name} for 
+    span.heal #{msg.gives.tile_hp} HP
+    | . 
   div.time= moment(msg.sent).fromNow()

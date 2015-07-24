@@ -14,12 +14,12 @@ div
     select.form-control(name='recipe', style='width: 10em', data-persist='recipe', data-action-focus='craft')
       for recipe in recipes
         option(value=recipe.id) #{describe_gives(recipe.gives)}
-          |  (#{recipe.ap}ap
+          |  (#{recipe.ap} AP
           if recipe.tools
             for item in recipe.tools
               | , #{data.items[item].name}
           for item in recipe.items
-            | , #{item.count} x #{data.items[item.item].name}
+            | , #{item.count}x #{data.items[item.item].name}
           | )
 
   if sorted_items && sorted_items.length

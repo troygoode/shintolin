@@ -125,8 +125,8 @@ visit_usable = (item, character, tile) ->
   id: item.id
   name: item.name
 
-visit_recipe = (recipe, character, tile) ->
-  io = recipe.craft character, tile
+visit_recipe = (recipe, action, character, tile) ->
+  io = recipe[action] character, tile
   takes = io.takes
   items = []
   items.push {item: key, count: value} for key, value of takes.items
@@ -134,6 +134,7 @@ visit_recipe = (recipe, character, tile) ->
   name: recipe.name
   gives: io.gives
   ap: takes.ap
+  hp: gives?.tile_hp
   items: items
   tools: takes.tools
 
@@ -195,7 +196,7 @@ module.exports = (app) ->
         recipes = []
         for key, recipe of data.items
           if recipe.craft?
-            recipes.push visit_recipe(recipe, req.character, center)
+            recipes.push visit_recipe(recipe, 'craft', req.character, center)
         recipes
       build_buildings = ->
         visit_building(building, req.character, center) for key, building of data.buildings
@@ -223,6 +224,7 @@ module.exports = (app) ->
         hunger_debuff: queries.calculate_hunger_debuff req.character, req.tile
         recovery: queries.calculate_recovery req.character, req.tile
         exterior: exterior
+        visit_recipe: visit_recipe
         max_weight: MAX_WEIGHT
 
       for row, i in locals.grid

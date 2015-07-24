@@ -1,7 +1,10 @@
 .action
   if msg.sender_id.toString() === character._id.toString()
-    | You revive yourself and heal #{msg.amount} HP. 
+    | You revive yourself and heal 
+    span.heal #{msg.amount} HP
+    | . 
   else
     a.neutral(href='/profile/#{msg.sender_slug}')= msg.sender_name
-    |  uses #{data.items[msg.item].name} on you. You feel your daze begin to subside.
+    |  uses #{data.items[msg.item].name} on you. 
+    span.revive You feel your daze begin to subside.
   div.time= moment(msg.sent).fromNow()

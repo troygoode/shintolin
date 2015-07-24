@@ -1,9 +1,13 @@
 .action
   - var building = data.buildings[msg.building];
   if building.text && building.text.repair && building.text.repair.success_you
-    | You #{building.text.repair.success_you}. 
+    | You 
+    span.heal #{building.text.repair.success_you}
+    | . 
   else
-    | You repaired the #{building.name}. 
+    | You repaired the #{building.name} for 
+    span.heal #{msg.gives.tile_hp} HP
+    | . 
   if msg.broken && msg.broken.length
     for broken_item in msg.broken
       | Your cherished #{data.items[broken_item].name} breaks! 

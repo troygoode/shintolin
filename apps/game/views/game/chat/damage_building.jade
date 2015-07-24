@@ -11,9 +11,13 @@ if msg.hit
       default
         | attacked
     |  the #{data.buildings[msg.building].name}
-    |  with a #{data.items[msg.weapon].name} for #{msg.damage} damage
+    |  with a #{data.items[msg.weapon].name} for 
+    span.damage #{msg.damage} HP
+    |  damage
     if msg.destroyed
-      | , destroying it! 
+      | , 
+      span.knockout destroying it
+      | ! 
     else
       | . 
     if msg.broken
@@ -32,5 +36,7 @@ else
       default
         | attacked
     |  the #{data.buildings[msg.building].name}
-    |  with a #{data.items[msg.weapon].name} and missed. 
+    |  with a #{data.items[msg.weapon].name} and 
+    span.missed missed
+    | . 
     div.time= moment(msg.sent).fromNow()
