@@ -6,12 +6,47 @@ block content
       .row
         .col-xs-12
           br
-          ul
-            li: a.btn.btn-default(href='/game/dev/replenish-ap') Replenish AP
-            li: a.btn.btn-default(href='/game/dev/replenish-hp') Replenish HP
-            li: a.btn.btn-default(href='/manage/map') Admin
-            li Searches: #{center.tile.searches || 0}
-            li Location: #{center.tile.x},#{center.tile.y},#{center.tile.z} (#{center.tile.terrain}) {#{center.tile._id.toString()}}
+
+          div.text-center
+            ul.dev-buttons
+              if character.ap < 100
+                li: a.btn.btn-default(href='/game/dev/replenish-ap') Add #{Math.ceil(100-character.ap)} AP
+              if character.hp < 50
+                li: a.btn.btn-default(href='/game/dev/replenish-hp') Add #{Math.ceil(50-character.hp)} HP
+              if character.hp > 0
+                li: a.btn.btn-default(href='/game/dev/daze') Daze
+              li: a.btn.btn-default(href='/manage/map') Map Editor
+
+          p.text-center #{center.tile.x},#{center.tile.y},#{center.tile.z} (#{center.tile.terrain}) {#{center.tile._id.toString()}}
+
+          if possessor
+            form(method='POST', action='/game/dev/unpossess')
+              h2 Unpossess
+              input(type='hidden', name='_csrf', value=csrf)
+              input.btn.btn-default(type='submit', value='Unpossess', data-action='unpossess')
+
+          form.confirmable(method='POST', action='/game/dev/announce')
+            h2 Announce
+            input(type='hidden', name='_csrf', value=csrf)
+            .form-group
+              label Message
+              input.form-control(type='text', name='text')
+            input.btn.btn-warning(type='submit', value='Announce', data-action='dev-announce')
+
+          form(method='POST', action='/game/dev/materialize')
+            h2 Materialize
+            input(type='hidden', name='_csrf', value=csrf)
+            .form-group
+              label Item
+              select.form-control(name='item', style='width: 10em', data-persist='item', data-action-focus='materialize')
+                for i in _.sortBy(data.items, 'name')
+                  option(value=i.id)= i.name
+            .form-group
+              label Quantity
+              select.form-control(name='quantity', data-persist='materialize-quantity', data-action-focus='materialize')
+                for i in _.range(100)
+                  option(value=i + 1)= i + 1
+            input.btn.btn-default(type='submit', value='Materialize', data-action='materialize')
 
           form(method='POST', action='/game/dev/paint')
             h2 Paint Tile
@@ -38,41 +73,6 @@ block content
                     option(value=region.id)= region.name
             input.btn.btn-default(type='submit', value='Paint', data-action='paint')
 
-          form(method='POST', action='/game/dev/possess')
-            h2 Possess
-            input(type='hidden', name='_csrf', value=csrf)
-            .form-group
-              label Target
-              input.form-control(type='text', name='target_name')
-            input.btn.btn-default(type='submit', value='Possess', data-action='possess')
-
-          if possessor
-            form(method='POST', action='/game/dev/unpossess')
-              h2 Unpossess
-              input(type='hidden', name='_csrf', value=csrf)
-              input.btn.btn-default(type='submit', value='Unpossess', data-action='unpossess')
-
-          if building && center.tile.z === 0
-            form(method='POST', action='/game/dev/destroy')
-              h2 Destroy Building
-              input(type='hidden', name='_csrf', value=csrf)
-              input.btn.btn-default(type='submit', value='Destroy', data-action='destroy')
-
-          form(method='POST', action='/game/dev/materialize')
-            h2 Materialize
-            input(type='hidden', name='_csrf', value=csrf)
-            .form-group
-              label Item
-              select.form-control(name='item', style='width: 10em', data-persist='item', data-action-focus='materialize')
-                for i in _.sortBy(data.items, 'name')
-                  option(value=i.id)= i.name
-            .form-group
-              label Quantity
-              select.form-control(name='quantity', data-persist='materialize-quantity', data-action-focus='materialize')
-                for i in _.range(100)
-                  option(value=i + 1)= i + 1
-            input.btn.btn-default(type='submit', value='Materialize', data-action='materialize')
-
           form(method='POST', action='/game/dev/spawn')
             h2 Spawn Creature
             input(type='hidden', name='_csrf', value=csrf)
@@ -83,14 +83,6 @@ block content
                   option(value=c.id)= c.name
             input.btn.btn-default(type='submit', value='Spawn', data-action='spawn')
 
-          form(method='POST', action='/game/dev/announce')
-            h2 Announce
-            input(type='hidden', name='_csrf', value=csrf)
-            .form-group
-              label Message
-              input.form-control(type='text', name='text')
-            input.btn.btn-default(type='submit', value='Announce', data-action='dev-announce')
-
           form(method='POST', action='/game/dev/teleport-to-coords')
             h2 Teleport
             input(type='hidden', name='_csrf', value=csrf)
@@ -100,14 +92,6 @@ block content
             .form-group
               label Y
               input.form-control(type='number', name='y', value=center.tile.y)
-            input.btn.btn-default(type='submit', value='Teleport', data-action='move_to_coords')
-
-          form(method='POST', action='/game/dev/teleport-to-character')
-            h2 Teleport
-            input(type='hidden', name='_csrf', value=csrf)
-            .form-group
-              label Character
-              input.form-control(type='text', name='target_name')
             input.btn.btn-default(type='submit', value='Teleport', data-action='move_to_coords')
 
           form(method='POST', action='/game/dev/teleport-to-random-tile')
@@ -121,3 +105,10 @@ block content
             input(type='hidden', name='x', value='-67')
             input(type='hidden', name='y', value='-31')
             input.btn.btn-default(type='submit', value="Teleport (God's Glade)", data-action='move_to_gods_glade')
+
+          if building && center.tile.z === 0
+            form.confirmable(method='POST', action='/game/dev/destroy')
+              h2 Destroy Building
+              p #{center.tile.building}
+              input(type='hidden', name='_csrf', value=csrf)
+              input.btn.btn-danger(type='submit', value='Destroy', data-action='destroy')

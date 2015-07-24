@@ -11,9 +11,10 @@
       default
         | attacked 
     if msg.target_creature
-      | the #{data.creatures[msg.target_creature].name}
+      | the 
+      span.target #{data.creatures[msg.target_creature].name}
     else
-      a(href='/profile/#{msg.target_slug}')= msg.target_name
+      a.target(href='/profile/#{msg.target_slug}')= msg.target_name
     |  with a #{data.items[msg.weapon].name}
     |  for 
     span.damage #{msg.damage} HP
@@ -42,30 +43,39 @@
       default
         | attacked 
     if msg.target_creature
-      | the #{data.creatures[msg.target_creature].name}
+      | the 
+      span.target #{data.creatures[msg.target_creature].name}
     else
-      a(href='/profile/#{msg.target_slug}')= msg.target_name
+      a.target(href='/profile/#{msg.target_slug}')= msg.target_name
     |  with a #{data.items[msg.weapon].name}
     |  and 
     span.missed missed
     | . 
 
   if msg.response === 'miss'
-    |  The #{data.creatures[msg.target_creature].name} attacked them back and 
+    |  The 
+    span.target #{data.creatures[msg.target_creature].name}
+    |  attacked them back and 
     span.missed missed
     | . 
   else if msg.response === 'hit'
     if msg.response_kill
-      |  The #{data.creatures[msg.target_creature].name} attacked them back and hit for 
+      |  The 
+      span.target #{data.creatures[msg.target_creature].name}
+      |  attacked them back and hit for 
       span.damage #{msg.response_damage} HP
       |  damage, 
       span.knockout knocking them out
       | ! 
     else
-      |  The #{data.creatures[msg.target_creature].name} attacked them back and hit for 
+      |  The 
+      span.target #{data.creatures[msg.target_creature].name}
+      |  attacked them back and hit for 
       span.damage #{msg.response_damage} HP
       |  damage! 
   else if msg.response === 'flee'
-    |  The #{data.creatures[msg.target_creature].name} fled the area. 
+    |  The 
+    span.target #{data.creatures[msg.target_creature].name}
+    |  fled the area. 
 
   div.time= moment(msg.sent).fromNow()

@@ -113,7 +113,7 @@ body
           background-color brown
           > .terrain
             background-image none !important
-            opacity .8
+            opacity .7
       &.season-winter
         td.map
           background-color white
@@ -307,6 +307,10 @@ body
         padding .5em
         border-radius .5em
       .action
+        span.target
+          color black
+          border-bottom 1px dotted #000
+          text-transform lowercase
         span.damage, span.knockout
           color red
           font-weight bold
@@ -445,3 +449,14 @@ table.terrains
       text-align right
     &.bgcolor
       background-image none !important
+
+// DEV
+
+ul.dev-buttons
+  padding 0
+  list-style-type none
+  li
+    display inline-block
+    margin-right 1em
+    &:last-child
+      margin-right 0

@@ -10,7 +10,8 @@ if msg.hit
         | stabbing
       default
         | attacking
-    |  the #{data.buildings[msg.building].name}
+    |  the 
+    span.target #{data.buildings[msg.building].name}
     |  with a #{data.items[msg.weapon].name} for 
     span.damage #{msg.damage} HP
     |  damage
@@ -33,7 +34,8 @@ else
         | stabbing
       default
         | attacking
-    |  the #{data.buildings[msg.building].name}
+    |  the 
+    span.target #{data.buildings[msg.building].name}
     |  with a #{data.items[msg.weapon].name} and 
     span.missed missed
     | . 

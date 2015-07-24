@@ -54,6 +54,18 @@ module.exports = (app) ->
     update =
       $set:
         hp: 50
+      $unset:
+        revivable: true
+    db.characters.update query, update, (err) ->
+      return next(err) if err?
+      res.redirect '/game/dev'
+
+  app.get '/dev/daze', developers_only, (req, res, next) ->
+    query =
+      _id: req.character._id
+    update =
+      $set:
+        hp: 0
     db.characters.update query, update, (err) ->
       return next(err) if err?
       res.redirect '/game/dev'

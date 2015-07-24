@@ -12,9 +12,10 @@
       default
         | attacked 
     if msg.target_creature
-      | the #{data.creatures[msg.target_creature].name}
+      | the 
+      span.target #{data.creatures[msg.target_creature].name}
     else
-      a(href='/profile/#{msg.target_slug}')= msg.target_name
+      a.target(href='/profile/#{msg.target_slug}')= msg.target_name
     |  with a #{data.items[msg.weapon].name}
     |  for 
     span.damage #{msg.damage} HP
@@ -47,9 +48,10 @@
       default
         | attacked 
     if msg.target_creature
-      | the #{data.creatures[msg.target_creature].name}
+      | the 
+      span.target #{data.creatures[msg.target_creature].name}
     else
-      a(href='/profile/#{msg.target_slug}')= msg.target_name
+      a.target(href='/profile/#{msg.target_slug}')= msg.target_name
     |  with 
     unless weapon.text && weapon.text.suppress_indefinite_article
       |  a 
@@ -59,22 +61,30 @@
     | . 
 
   if msg.response === 'miss'
-    |  The #{data.creatures[msg.target_creature].name} attacked you back and 
+    |  The 
+    span.target #{data.creatures[msg.target_creature].name}
+    |  attacked you back and 
     span.missed missed
     | . 
   else if msg.response === 'hit'
     if msg.response_kill
-      |  The #{data.creatures[msg.target_creature].name} attacked you back and hit you for 
+      |  The 
+      span.target #{data.creatures[msg.target_creature].name}
+      |  attacked you back and hit you for 
       span.damage #{msg.response_damage} HP
       |  damage, 
       span.knockout knocking you out
       | ! 
     else
-      |  The #{data.creatures[msg.target_creature].name} attacked you back and hit you for 
-      span.damange #{msg.response_damage} HP
+      |  The 
+      span.target #{data.creatures[msg.target_creature].name}
+      |  attacked you back and hit you for 
+      span.damage #{msg.response_damage} HP
       |  damage! 
   else if msg.response === 'flee'
-    |  The #{data.creatures[msg.target_creature].name} fled the area. 
+    |  The 
+    span.target #{data.creatures[msg.target_creature].name}
+    |  fled the area. 
 
   if msg.loot
     |  You looted #{describe_list(object_to_array(msg.loot).map(function(i){ return i.value + 'x ' + data.items[i.key].plural; }))}. 
