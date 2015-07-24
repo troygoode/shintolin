@@ -103,23 +103,35 @@ body
           background-color yellow
           > .terrain
             background-image none !important
-            opacity .9
+            opacity .7
+          &.no-season
+            > .terrain
+              opacity 1
       &.season-summer
         td.map
           > .terrain
             background-image none !important
+          &.no-season
+            > .terrain
+              opacity 1
       &.season-autumn
         td.map
           background-color brown
           > .terrain
             background-image none !important
             opacity .7
+          &.no-season
+            > .terrain
+              opacity 1
       &.season-winter
         td.map
           background-color white
           > .terrain
             background-image none !important
             opacity .7
+          &.no-season
+            > .terrain
+              opacity 1
       tr:last-child
         td.map
           border-bottom none

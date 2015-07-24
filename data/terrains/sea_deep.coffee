@@ -4,6 +4,7 @@ time = require '../../time'
 module.exports =
   style: 'ocean'
   block_spawning: true
+  no_season: true
 
   tags: ['saltwater', 'deep']
   actions: ['fill']

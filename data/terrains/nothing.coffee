@@ -1,3 +1,4 @@
 module.exports =
-  style: 'wall'
+  style: 'nothing'
   blocked: true
+  no_season: true

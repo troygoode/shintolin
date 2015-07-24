@@ -1,6 +1,6 @@
 mixin tile_td(tile, redirect)
   - var is_center = center && tile.tile._id && tile.tile._id.toString() === center.tile._id.toString();
-  td.map(class={current: is_center})
+  td.map(class={current: is_center, "no-season": tile.terrain.no_season})
     .terrain(class='tile-#{tile.style}')
     .content
 
