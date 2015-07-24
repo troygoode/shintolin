@@ -111,4 +111,10 @@
     $.cookie("action_tab_selected", e.target.hash);
   });
 
+  $("form.confirmable").submit(function (ev) {
+    if (!window.confirm('Are you sure?')) {
+      ev.preventDefault();
+    }
+  });
+
 }());

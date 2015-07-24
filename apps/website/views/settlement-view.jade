@@ -60,7 +60,7 @@
     if is_member
       .text-center
         br
-        form(method='POST', action='/game/leave')
+        form.confirmable(method='POST', action='/game/leave')
           input(type='hidden', name='_csrf', value=csrf)
           button.btn.btn-danger(type='submit') Leave Settlement
 

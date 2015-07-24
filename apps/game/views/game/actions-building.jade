@@ -101,7 +101,7 @@ div
 
   if settlement && actions.evict && settlement.leader && settlement.leader._id.toString() === character._id.toString()
     - hasAction = true;
-    form.action(method='POST', action='/game/evict')
+    form.confirmable.action(method='POST', action='/game/evict')
       input(type='hidden', name='_csrf', value=csrf)
       mixin action_button('Evict', 0)
       select.form-control(name='character', style='width: 10em', data-persist='member', data-action-focus='evict')
@@ -128,13 +128,13 @@ div
 
   if actions.settlement_join
     - hasAction = true;
-    form.action(method='POST', action='/game/actions/settlement_join')
+    form.confirmable.action(method='POST', action='/game/actions/settlement_join')
       input(type='hidden', name='_csrf', value=csrf)
       mixin action_button('Join Settlement', actions.settlement_join.ap)
 
   if actions.write
     - hasAction = true;
-    form.action(method='POST', action='/game/write')
+    form.confirmable.action(method='POST', action='/game/write')
       input(type='hidden', name='_csrf', value=csrf)
       mixin action_button('Write', 3)
       input.form-control(type='text', name='message', maxlength='32', value=center.tile.message)
