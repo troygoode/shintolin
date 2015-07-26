@@ -33,11 +33,13 @@ module.exports = (founder, hq, name, cb) ->
           hp: hq_building.hp
           hq: true
       db.tiles.update query, update, cb
-    , (cb) ->
+    (cb) ->
       # get all coords
-      coords = queries.coords_in_circle_around hq, radius
+      coords = queries.coords_in_circle_around(hq, radius).map (c) ->
+        c.z = 0
+        c
       cb()
-    , (cb) ->
+    (cb) ->
       # insert settlement
       s =
         slug: _str.slugify name
@@ -98,7 +100,7 @@ module.exports = (founder, hq, name, cb) ->
         queries.get_tile_by_coords coord, (err, tile) ->
           return cb(err) if err?
           return update_tile(tile, cb) if tile?
-          return cb() unless coord.z is 0 # don't create underground tiles automatically
+          return cb() unless coord.z isnt 1 # don't create underground tiles automatically
           create_tile coord, undefined, undefined, (err, tile) ->
             return cb(err) if err?
             update_tile tile, cb
