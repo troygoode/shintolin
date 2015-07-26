@@ -106,6 +106,16 @@ block content
             input(type='hidden', name='y', value='-31')
             input.btn.btn-default(type='submit', value="Teleport (God's Glade)", data-action='move_to_gods_glade')
 
+          if settlements.length
+            form(method='POST', action='/game/dev/teleport-to-coords')
+              h2 Teleport
+              input(type='hidden', name='_csrf', value=csrf)
+              .form-group
+                select.form-control(name='coords')
+                  for s in settlements
+                    option(value='#{s.x},#{s.y},0') #{s.name}
+              input.btn.btn-default(type='submit', value="Teleport (Settlement)", data-action='move_to_settlement')
+
           if building && center.tile.z === 0
             form.confirmable(method='POST', action='/game/dev/destroy')
               h2 Destroy Building

@@ -13,17 +13,20 @@ developers_only = (req, res, next) ->
 
 module.exports = (app) ->
 
-  app.get '/dev', (req, res, next) ->
-    res.render 'dev',
-      config: config
-      building: if req.tile.building then data.buildings[req.tile.building] else undefined
-      center:
-        terrain: data.terrains[req.tile.terrain]
-        tile: req.tile
-        people: req.tile.people?.filter (p) ->
-          not p.creature? and p._id.toString() isnt req.character._id.toString()
-      data: data
-      possessor: req.session.possessor
+  app.get '/dev', developers_only, (req, res, next) ->
+    queries.all_settlements (err, settlements) ->
+      return next(err) if err?
+      res.render 'dev',
+        config: config
+        building: if req.tile.building then data.buildings[req.tile.building] else undefined
+        center:
+          terrain: data.terrains[req.tile.terrain]
+          tile: req.tile
+          people: req.tile.people?.filter (p) ->
+            not p.creature? and p._id.toString() isnt req.character._id.toString()
+        data: data
+        settlements: settlements
+        possessor: req.session.possessor
 
   app.get '/dev/replenish-ap', developers_only, (req, res, next) ->
     query =
@@ -76,9 +79,17 @@ module.exports = (app) ->
       res.redirect '/game/dev'
 
   app.post '/dev/teleport-to-coords', developers_only, (req, res, next) ->
-    commands.teleport req.character, req.tile, {x: parseInt(req.body.x), y: parseInt(req.body.y), z: 0}, (err) ->
+    if req.body.coords?.length
+      [x, y, z] = req.body.coords.split(',')
+    else if req.body.x?.length and req.body.y?.length
+      x = req.body.x
+      y = req.body.y
+      z = 0
+    else
+      return next('Invalid Coords')
+    commands.teleport req.character, req.tile, {x: parseInt(x), y: parseInt(y), z: parseInt(z ? 0)}, (err) ->
       return next(err) if err?
-      res.redirect '/game/dev'
+      res.redirect '/game'
 
   app.post '/dev/teleport-to-character', developers_only, (req, res, next) ->
     return next('Invalid target.') unless req.body.target_name?
@@ -95,7 +106,7 @@ module.exports = (app) ->
       return next('NO_RANDOM_TILE_RETURNED') unless tile?._id?
       commands.teleport req.character, req.tile, tile, (err) ->
         return next(err) if err?
-        res.redirect '/game/dev'
+        res.redirect '/game'
 
   app.post '/dev/spawn', developers_only, (req, res, next) ->
     creature = data.creatures[req.body.creature]
