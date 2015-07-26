@@ -5,11 +5,11 @@ module.exports =
 
   attacked: (attacker, target, tile, weapon) ->
     roll = Math.random()
-    if roll < .80
-      'flee'
-    else if roll < .90
+    if roll < .10
       accuracy: 1
       damage: 1
+    else if roll < .90
+      'flee'
     else
       null
 
