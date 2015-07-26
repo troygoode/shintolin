@@ -37,11 +37,11 @@ module.exports = (app) ->
     async.parallel [
       (cb) ->
         queries.squares cb
-      , (cb) ->
+      (cb) ->
         queries.all_settlements cb
-      , (cb) ->
+      (cb) ->
         queries.rankings.younguns cb
-      , (cb) ->
+      (cb) ->
         queries.count_active_characters cb
     ], (err, [square_count, settlements, younguns, active_character_count]) ->
       return next(err) if err?
@@ -56,9 +56,7 @@ module.exports = (app) ->
         selected_settlement = _.find open_settlements, (s) ->
           s.slug is req.query.settlement
       if not selected_settlement and open_settlements.length
-        # random (weighted) settlement
         selected_settlement = get_open_settlement open_settlements
-        #selected_settlement = open_settlements[Math.floor(Math.random() * open_settlements.length)]
 
       res.render 'home',
         message: req.query.msg
