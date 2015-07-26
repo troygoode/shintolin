@@ -54,7 +54,15 @@ form
   button
     width 100%
 .rankings
+  border-color #333
+  thead, tfoot
+    th, td
+      border-color @border-color
+      background-color @border-color
+      color $text_light
+      font-weight bold
   td
+    border-color @border-color
     .label
       position relative
       top -2px

@@ -82,9 +82,10 @@ block content
               else
                 td #{r.mapped}
           if locals.developer_total
-            tr
-              td.empty(colspan=(_.isArray(config.columns) ? config.columns.length : 1))
-              td.total #{developer_total}
+            tfoot
+              tr
+                td.total-spacer(colspan=(_.isArray(config.columns) ? config.columns.length : 1)) Total
+                td.total #{developer_total}
           if !results.length
             tr
               td.empty(colspan=(1 + (_.isArray(config.columns) ? config.columns.length : 1)))
