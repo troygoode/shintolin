@@ -148,3 +148,9 @@ module.exports = (app) ->
     commands.give.items req.character, null, {item: req.body.item, count: parseInt(req.body.quantity ? 1)}, (err) ->
       return next(err) if err?
       res.redirect '/game/dev'
+
+  app.post '/dev/construct', developers_only, (req, res, next) ->
+    return next('Invalid building.') unless req.body.building?.length and data.buildings[req.body.building]?
+    commands.create_building req.tile, data.buildings[req.body.building], (err) ->
+      return next(err) if err?
+      res.redirect '/game'

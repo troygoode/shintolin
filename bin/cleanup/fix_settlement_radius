@@ -1,0 +1,76 @@
+#!/usr/bin/env coffee
+
+require 'babel/register'
+Bluebird = require 'bluebird'
+
+SETTLEMENT_SLUG = process.argv[2]
+RADIUS = 5
+UPSERT =
+  NO: false
+  YES: true
+MULTI =
+  NO: false
+  YES: true
+
+commands = require '../../commands'
+create_tile = Bluebird.promisify(commands.create_tile)
+
+queries = require '../../queries'
+coords_in_radius = queries.coords_in_circle_around
+get_settlement_by_slug = Bluebird.promisify(queries.get_settlement_by_slug)
+get_tile_by_coords = Bluebird.promisify(queries.get_tile_by_coords)
+
+db = require '../../db'
+update_tiles = Bluebird.promisify(db.tiles.update, db.tiles)
+
+process_settlement = (settlement) ->
+  throw 'Invalid Settlement' unless settlement?
+  center =
+    x: settlement.x
+    y: settlement.y
+    z: 0
+  coords_exterior = coords_in_radius(center, RADIUS).map (c) ->
+    c.z = 0
+    c
+  coords_interior = coords_in_radius(center, RADIUS).map (c) ->
+    c.z = 1
+    c
+  Bluebird.resolve(coords_exterior.concat(coords_interior)).map (coord) ->
+    process_coord settlement, coord
+  , concurrency: 1
+
+get_or_create_tile = (coords, should_create) ->
+  Bluebird.resolve()
+    .then ->
+      get_tile_by_coords coords
+    .then (tile) ->
+      return tile if tile?
+      return null unless should_create
+      console.log "CREATE: #{coords.x},#{coords.y},#{coords.z}"
+      create_tile coords, undefined, undefined
+
+process_coord = (settlement, coords) ->
+  Bluebird.resolve()
+    .then ->
+      get_or_create_tile coords, coords.z isnt 1 # don't create inside tiles automatically
+    .then (tile) ->
+      return unless tile?
+      query =
+        _id: tile._id
+      update =
+        $set:
+          settlement_id: settlement._id
+          settlement_name: settlement.name
+          settlement_slug: settlement.slug
+      console.log "UPDATE: #{coords.x},#{coords.y},#{coords.z}"
+      update_tiles query, update, UPSERT.NO, MULTI.YES
+
+Bluebird.resolve()
+  .then ->
+    get_settlement_by_slug(SETTLEMENT_SLUG)
+  .then process_settlement
+  .then ->
+    process.exit 0
+  .catch (err) ->
+    console.error err
+    process.exit 1

@@ -21,16 +21,24 @@ get_tile = (coords, cb) ->
   queries.get_tile_by_coords clean_coords(coords), cb
 
 get_from = (character, from, cb) ->
+  fallback = (cb) ->
+    (err, tile) ->
+      return cb(err) if err?
+      cb null,
+        x: character.x
+        y: character.y
+        z: character.z
   if from?._id?
     cb null, from
   else if from?
-    get_tile from, cb
+    console.log from
+    get_tile from, fallback(cb)
   else
     get_tile
       x: character.x
       y: character.y
       z: character.z
-    , cb
+    , fallback(cb)
 
 module.exports = (character, from, to, cb) ->
   now = new Date()

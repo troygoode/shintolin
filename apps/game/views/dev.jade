@@ -48,6 +48,16 @@ block content
                   option(value=i + 1)= i + 1
             input.btn.btn-default(type='submit', value='Materialize', data-action='materialize')
 
+          form(method='POST', action='/game/dev/construct')
+            h2 Construct
+            input(type='hidden', name='_csrf', value=csrf)
+            .form-group
+              label Building
+              select.form-control(name='building', style='width: 10em', data-persist='building', data-action-focus='dev-construct')
+                for b in _.sortBy(data.buildings, 'name')
+                  option(value=b.id)= b.name
+            input.btn.btn-default(type='submit', value='Construct', data-action='dev-construct')
+
           form(method='POST', action='/game/dev/paint')
             h2 Paint Tile
             input(type='hidden', name='_csrf', value=csrf)

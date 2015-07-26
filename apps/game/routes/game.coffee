@@ -41,7 +41,7 @@ get_center = (tiles, character) ->
     people: []
 
 get_exterior = (tile, cb) ->
-  return cb() unless tile.z isnt 0
+  return cb() unless tile? and tile.z isnt 0
   queries.get_tile_by_coords {x: tile.x, y: tile.y, z: 0}, cb
 
 build_grid = (tiles, center) ->
@@ -69,14 +69,14 @@ build_grid = (tiles, center) ->
   rows
 
 resolve_terrain = (character, tile) ->
-  building = data.buildings[tile.building] if tile.building?
-  terrain = if tile.z is 0 and building?.exterior? then building.exterior else tile.terrain
+  building = data.buildings[tile.building] if tile?.building?
+  terrain = if tile?.z is 0 and building?.exterior? then building.exterior else (tile?.terrain ? config.default_terrain)
   if _.isFunction terrain
     terrain = terrain character, tile
   data.terrains[terrain]
 
 visit_tile = (tile, center, character) ->
-  building = data.buildings[tile.building] if tile.building?
+  building = data.buildings[tile.building] if tile?.building?
   terrain = resolve_terrain character, tile
   retval =
     tile: tile
@@ -150,7 +150,7 @@ visit_building = (building, character, tile) ->
   tools: takes.tools
 
 repair = (character, tile) ->
-  return null unless tile.building?
+  return null unless tile?.building?
   building = data.buildings[tile.building]
   return null unless building.repair?
   building.repair character, tile
@@ -173,8 +173,8 @@ module.exports = (app) ->
       (cb) ->
         queries.latest_chat_messages req.character, 0, 25, cb
       (cb) ->
-        if req.tile.building is 'totem'
-          queries.get_settlement req.tile.settlement_id.toString(), cb
+        if req.tile?.building is 'totem'
+          queries.get_settlement req.tile?.settlement_id.toString(), cb
         else
           cb null, null
     ], (err, [exterior, tiles, messages, settlement]) ->
@@ -200,7 +200,7 @@ module.exports = (app) ->
         recipes
       build_buildings = ->
         visit_building(building, req.character, center) for key, building of data.buildings
-      building = if req.tile.building? then data.buildings[req.tile.building] else null
+      building = if req.tile?.building? then data.buildings[req.tile.building] else null
       terrain = resolve_terrain req.character, req.tile
       locals =
         _nav: 'game'
