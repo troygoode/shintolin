@@ -21,6 +21,8 @@ module.exports =
 
   search_odds: (character, tile) ->
     stick: .25
+    chestnut: .07
+    bark: .05
     staff: .08
 
   cost_to_enter: (character, tile_from, tile_to) ->
