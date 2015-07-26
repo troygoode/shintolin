@@ -81,3 +81,14 @@ block content
                   td #{r.mapped[i]}
               else
                 td #{r.mapped}
+          if locals.developer_total
+            tr
+              td.empty(colspan=(_.isArray(config.columns) ? config.columns.length : 1))
+              td.total #{developer_total}
+          if !results.length
+            tr
+              td.empty(colspan=(1 + (_.isArray(config.columns) ? config.columns.length : 1)))
+                if config.type === 'player'
+                  .text-center No matching players found.
+                else
+                  .text-center No matching settlements found.

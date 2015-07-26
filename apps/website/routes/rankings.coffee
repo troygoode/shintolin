@@ -11,17 +11,23 @@ rankings =
     developer_only: true
     type: 'player'
     title: 'Active Players'
-    columns: 'Last Active'
+    columns: ['Last Active', 'Played For']
     map: (c) ->
-      moment(c.last_action).fromNow()
+      [
+        moment(c.last_action).fromNow()
+        moment.duration(moment(c.last_action).diff(c.created)).humanize()
+      ]
     fn: queries.rankings.active
   inactive:
     developer_only: true
     type: 'player'
     title: 'Inactive Players'
-    columns: 'Last Active'
+    columns: ['Last Active', 'Played For']
     map: (c) ->
-      moment(c.last_action).fromNow()
+      [
+        moment(c.last_action).fromNow()
+        moment.duration(moment(c.last_action).diff(c.created)).humanize()
+      ]
     fn: queries.rankings.inactive
   frags:
     type: 'player'
@@ -94,6 +100,7 @@ rankings =
     title: 'Most Populated Settlements'
     columns: ['Region', 'Population']
     map: (s) ->
+      return s.mapped unless s._id?
       [
         if s.region then data.regions[s.region].name else ''
         s.count ? s.members.length
@@ -102,9 +109,17 @@ rankings =
       incorporated = 0
       for s in results
         incorporated += s.members.length
+      unincorporated = total_players - incorporated
       results.push
         name: 'Unincorporated'
-        count: total_players - incorporated
+        mapped: [
+          ''
+          unincorporated
+        ]
+      results.developer_total = results.reduce (total, r) ->
+        return total unless r._id?
+        total + r.members.length
+      , unincorporated
     fn: queries.rankings.bigtowns
 
 module.exports = (router) ->
@@ -134,4 +149,5 @@ module.exports = (router) ->
           results: (results ? []).map (r) ->
             object: r
             mapped: config.map r
+          developer_total: if req.session?.developer then results.developer_total else undefined
       .catch next
