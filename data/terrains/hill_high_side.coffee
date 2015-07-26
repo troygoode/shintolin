@@ -1,5 +1,6 @@
 _ = require 'underscore'
 time = require '../../time'
+define_loot_table = require '../../queries/loot_table_define'
 
 module.exports =
   style: 'hill3_side'
@@ -18,8 +19,10 @@ module.exports =
         'You are on the side of a hill, at high elevation. A cold wind is blowing.'
 
   search_odds: (character, tile) ->
-    flint: .25
-    stone: .10
+    define_loot_table character, tile,
+      items:
+        flint: .25
+        stone: .10
 
   altitude: 3
   cost_to_enter: (character, tile_from, tile_to, terrain_from, terrain_to) ->

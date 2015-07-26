@@ -1,4 +1,5 @@
 time = require '../../time'
+define_loot_table = require '../../queries/loot_table_define'
 
 module.exports =
   style: 'grass'
@@ -19,9 +20,11 @@ module.exports =
         'You are walking through a grassland. Frost has hardened the ground, and there is little sign of life.'
 
   search_odds: (character, tile) ->
-    thyme: .18
-    wheat: .06
-    onion: .03
+    define_loot_table character, tile,
+      items:
+        thyme: .18
+        wheat: .06
+        onion: .03
 
   grow: (tile) ->
     odds = switch time().season
@@ -31,4 +34,6 @@ module.exports =
     return 'forest_2' if Math.random() < odds
 
   dig_odds: (character, tile) ->
-    onion: .25
+    define_loot_table character, tile,
+      items:
+        onion: .25

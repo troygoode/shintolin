@@ -1,4 +1,5 @@
 time = require '../../time'
+define_loot_table = require '../../queries/loot_table_define'
 
 module.exports =
   style: 'lightgrey'
@@ -18,6 +19,8 @@ module.exports =
         'This area is almost devoid of vegetation, with many rocks scattered around. A cold wind howls through the desolate landscape.'
 
   search_odds: (character, tile) ->
-    flint: .15
-    huckleberry: .15
-    stone: .10
+    define_loot_table character, tile,
+      items:
+        flint: .15
+        huckleberry: .15
+        stone: .10

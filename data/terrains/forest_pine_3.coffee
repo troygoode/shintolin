@@ -1,5 +1,6 @@
 _ = require 'underscore'
 time = require '../../time'
+define_loot_table = require '../../queries/loot_table_define'
 
 module.exports =
   style: 'forest'
@@ -20,10 +21,12 @@ module.exports =
         'You are in a pine forest. Snow hangs heavy on the branches of the trees.'
 
   search_odds: (character, tile) ->
-    stick: .25
-    chestnut: .07
-    bark: .05
-    staff: .08
+    define_loot_table character, tile,
+      items:
+        stick: .25
+        chestnut: .07
+        bark: .05
+        staff: .08
 
   cost_to_enter: (character, tile_from, tile_to) ->
     if _.contains character.skills, 'forest_walk'

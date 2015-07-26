@@ -16,9 +16,9 @@ div
       mixin action_button('Fill')
 
   if actions.dig
-    form.action(method='POST', action='/game/dig')
+    form.action(method='POST', action='/game/actions/dig')
       input(type='hidden', name='_csrf', value=csrf)
-      mixin action_button('Dig', 2)
+      mixin action_button('Dig', actions.dig.ap)
 
   if actions.sow
     form.action(method='POST', action='/game/sow')

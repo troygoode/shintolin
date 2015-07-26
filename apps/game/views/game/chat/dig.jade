@@ -1,6 +1,8 @@
 if msg.found
   .action
-    | Digging a hole, you find a #{data.items[msg.found].name}! 
+    | Digging a hole, you find a 
+    strong #{data.items[msg.found].name}
+    | ! 
     if msg.broken
       | Your cherished #{data.items[msg.broken_item].name} breaks! You throw away the useless pieces in disgust.
     div.time= moment(msg.sent).fromNow()

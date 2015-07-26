@@ -1,4 +1,5 @@
 time = require '../../time'
+define_loot_table = require '../../queries/loot_table_define'
 
 module.exports =
   style: 'lightforest'
@@ -19,10 +20,12 @@ module.exports =
         'You are walking though an open woodland. The tree branches are bare.'
 
   search_odds: (character, tile) ->
-    stick: .25
-    chestnut: .15
-    bark: .10
-    staff: .08
+    define_loot_table character, tile,
+      items:
+        stick: .25
+        chestnut: .15
+        bark: .10
+        staff: .08
 
   grow: (tile) ->
     odds = switch time().season
