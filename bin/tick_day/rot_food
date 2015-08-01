@@ -11,7 +11,7 @@ FOOD_ROT_CHANCE = .04
 
 binomial = (trials, probability) ->
   successes = 0
-  for i in [0..trials]
+  for i in [0...trials]
     successes++ if Math.random() < probability
   successes
 
