@@ -4,6 +4,7 @@ moment = require 'moment'
 data = require '../../../data'
 queries = require '../../../queries'
 count_active_characters = Bluebird.promisify(queries.count_active_characters)
+count_active_unincorporated_characters = Bluebird.promisify(queries.count_active_unincorporated_characters)
 count_total_characters = Bluebird.promisify(queries.count_total_characters)
 all_active_members = Bluebird.promisify(queries.all_active_members)
 
@@ -117,25 +118,21 @@ rankings =
         if s.region then data.regions[s.region].name else ''
         s.count ? s.members.length
       ]
-    post_process: ({results, active_players}) ->
+    post_process: ({results, active_unincorporated_players}) ->
       Bluebird.resolve()
         .then ->
           filter_town_pop(results)
         .then (results2) ->
-          incorporated = 0
-          for s in results2
-            incorporated += s.members.length
-          unincorporated = active_players - incorporated
           results.push
             name: 'Unincorporated'
             mapped: [
               ''
-              unincorporated
+              active_unincorporated_players
             ]
           results.developer_total = results.reduce (total, r) ->
             return total unless r._id?
             total + r.members.length
-          , unincorporated
+          , active_unincorporated_players
     fn: queries.rankings.bigtowns
 
 module.exports = (router) ->
@@ -151,6 +148,7 @@ module.exports = (router) ->
         Bluebird.props
           results: Bluebird.promisify(config.fn)()
           active_players: count_active_characters()
+          active_unincorporated_players: count_active_unincorporated_characters()
           total_players: count_total_characters()
       .tap (value) ->
         if config.post_process
