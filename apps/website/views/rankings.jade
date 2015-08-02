@@ -72,8 +72,15 @@ block content
                     |  
                     .label.label-danger Dazed
                 else if config.type === 'settlement'
-                  if r.object.slug
+                  if r.object.slug && r.object.open
+                    a(href='/settlements/#{r.object.slug}')
+                      strong #{r.object.name}
+                    |  
+                    .label.label-success Open
+                  else if r.object.slug
                     a(href='/settlements/#{r.object.slug}') <strong>#{r.object.name}</strong>
+                    |  
+                    .label.label-danger Private
                   else
                     span #{r.object.name}
               if config.columns && _.isArray(config.columns)
