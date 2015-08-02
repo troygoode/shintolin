@@ -23,7 +23,7 @@ block content
             form(method='POST', action='/game/dev/unpossess')
               h2 Unpossess
               input(type='hidden', name='_csrf', value=csrf)
-              input.btn.btn-default(type='submit', value='Unpossess', data-action='unpossess')
+              input.btn.btn-success(type='submit', value='Unpossess', data-action='unpossess')
 
           form.confirmable(method='POST', action='/game/dev/announce')
             h2 Announce

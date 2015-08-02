@@ -23,6 +23,14 @@ form(method='POST')
     input.form-control#leader_title(type='text', name='leader_title', maxlength='24', value=settlement.leader_title)
 
   .form-group
+    label(for='member_title') Member Title
+    input.form-control#member_title(type='text', name='member_title', maxlength='24', value=settlement.member_title)
+
+  .form-group
+    label(for='provisional_title') Provisional Member Title
+    input.form-control#provisional_title(type='text', name='provisional_title', maxlength='24', value=settlement.provisional_title)
+
+  .form-group
     label(for='website_url') Website URL
     input.form-control#website_url(type='text', name='website_url', maxlength='255', value=settlement.website_url)
 

@@ -1,7 +1,7 @@
 async = require 'async'
 db = require '../db'
 queries = require '../queries'
-remove_from_settlement = './remove_from_settlement'
+remove_from_settlement = require './remove_from_settlement'
 send_message = require './send_message'
 send_message_settlement = require './send_message_settlement'
 

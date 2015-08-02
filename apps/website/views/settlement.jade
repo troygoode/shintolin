@@ -15,9 +15,9 @@ block content
         if editable || is_developer
           ul.nav.nav-tabs(role='tablist')
             li.active(role='presentation'): a(href='#settlement', aria-controls='settlement', role='tab', data-toggle='tab') Settlement
-            li(role='presentation'): a(href='#edit-settlement', aria-controls='edit-settlement', role='tab', data-toggle='tab') Edit
+            li(role='presentation'): a(href='#edit-settlement', aria-controls='edit-settlement', role='tab', data-toggle='tab') Edit Profile
             if is_developer
-              li(role='presentation'): a(href='#moderation', aria-controls='moderation', role='tab', data-toggle='tab') Moderation
+              li(role='presentation'): a(href='#developer', aria-controls='developer', role='tab', data-toggle='tab') Developer Tools
 
         .tab-content(class={'profile-read-only': (!editable && !is_developer)})
           #settlement.tab-pane.active(role='tabpanel')
@@ -26,8 +26,8 @@ block content
             #edit-settlement.tab-pane(role='tabpanel')
               include ./settlement-edit
           if is_developer
-            #moderation.tab-pane(role='tabpanel')
-              h2.page-title Moderation Tools
+            #developer.tab-pane(role='tabpanel')
+              h2.page-title Developer Tools
               hr
 
               form(method='POST', action='/game/dev/teleport-to-coords')

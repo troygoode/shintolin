@@ -31,9 +31,9 @@ block content
         if editable || is_developer
           ul.nav.nav-tabs(role='tablist')
             li.active(role='presentation'): a(href='#profile', aria-controls='profile', role='tab', data-toggle='tab') Profile
-            li(role='presentation'): a(href='#edit-profile', aria-controls='edit-profile', role='tab', data-toggle='tab') Edit
+            li(role='presentation'): a(href='#edit-profile', aria-controls='edit-profile', role='tab', data-toggle='tab') Edit Profile
             if is_developer
-              li(role='presentation'): a(href='#moderation', aria-controls='moderation', role='tab', data-toggle='tab') Moderation
+              li(role='presentation'): a(href='#developer', aria-controls='developer', role='tab', data-toggle='tab') Developer Tools
 
         .tab-content(class={'profile-read-only': (!editable && !is_developer)})
           #profile.tab-pane.active(role='tabpanel')
@@ -42,8 +42,8 @@ block content
             #edit-profile.tab-pane(role='tabpanel')
               include ./profile-edit
           if is_developer
-            #moderation.tab-pane(role='tabpanel')
-              h2.page-title Moderation Tools
+            #developer.tab-pane(role='tabpanel')
+              h2.page-title Developer Tools
               div
                 label Email Address
                 p: a(href="mailto:#{character.email}") #{character.email}

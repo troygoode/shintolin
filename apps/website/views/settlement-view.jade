@@ -40,20 +40,44 @@
         ul.settlement-members
           for member, i in members
             li(class={alt: (i % 2 === 0)})
+              if is_member && !is_provisional
+                if member.provisional || (your_vote && member._id.toString() === your_vote._id.toString())
+                  button.btn.btn-default.btn-xs(disabled=true) Vote For
+                  |  
+                else
+                  form.inline-block(method='POST', action='/settlements/#{settlement.slug}/vote')
+                    input(type='hidden', name='_csrf', value=csrf)
+                    input(type='hidden', name='target_id', value=member._id.toString())
+                    button.btn.btn-success.btn-xs(type='submit') Vote For
+                  |  
               span.settlement-member
                 a(href='/profile/#{member.slug}') #{member.name}
-                if member.leader
-                  |  
-                  span.label.label-success #{settlement.leader_title}
                 if member.provisional
                   |  
-                  span.label.label-warning Provisional
+                  span.label.label-warning #{settlement.provisional_title || 'Provisional Member'}
+                else if member.leader
+                  |  
+                  span.label.label-success #{settlement.leader_title || 'Leader'}
+                else
+                  |  
+                  span.label.label-default #{settlement.member_title || 'Member'}
               if (is_member || is_developer) && member.votes
                 span.settlement-votes
                   if member.votes === 1
                     span.badge.badge-default x#{member.votes} vote
                   else
                     span.badge.badge-default x#{member.votes} votes
+              if member.provisional && is_leader
+                |  
+                form.inline-block(method='POST', action='/settlements/#{settlement.slug}/promote')
+                  input(type='hidden', name='_csrf', value=csrf)
+                  input(type='hidden', name='target_id', value=member._id.toString())
+                  button.btn.btn-success.btn-xs(type='submit') Promote
+                |  
+                form.inline-block(method='POST', action='/settlements/#{settlement.slug}/evict')
+                  input(type='hidden', name='_csrf', value=csrf)
+                  input(type='hidden', name='target_id', value=member._id.toString())
+                  button.btn.btn-danger.btn-xs(type='submit') Evict
       else
         p.empty None
 

@@ -13,7 +13,9 @@ module.exports = (settlement, new_values, cb) ->
   return cb('Settlement name too long.') unless new_values.name.length <= 32
   return cb('Image URL too long.') if new_values.image_url?.length > 100
   return cb('Motto too long.') if new_values.motto?.length > 100
-  return cb('Leader Title too long.') if new_values.leader_title?.length > 20
+  return cb('Leader Title too long.') if new_values.leader_title?.length > 24
+  return cb('Member Title too long.') if new_values.member_title?.length > 24
+  return cb('Provisional Member Title too long.') if new_values.provisional_title?.length > 24
   return cb('Website URL too long.') if new_values.website_url?.length > 100
 
   async.series [
@@ -27,6 +29,8 @@ module.exports = (settlement, new_values, cb) ->
           image_url: new_values.image_url ? ''
           motto: new_values.motto ? ''
           leader_title: new_values.leader_title ? ''
+          member_title: new_values.member_title ? ''
+          provisional_title: new_values.provisional_title ? ''
           website_url: new_values.website_url ? ''
           open: new_values.open
       db.settlements.update query, update, cb

@@ -11,11 +11,11 @@
         label Settlement
         p
           if character.settlement_provisional
-            span.label.label-warning Provisional Member
+            span.label.label-warning #{settlement.provisional_title || 'Provisional Member'}
           else if leader
-            span.label.label-success #{settlement.leader_title}
+            span.label.label-success #{settlement.leader_title || 'Leader'}
           else
-            span.label.label-default Member
+            span.label.label-default #{settlement.member_title || 'Member'}
           |  of 
           a(href='/settlements/#{character.settlement_slug}') #{character.settlement_name}
           |  since #{moment(character.settlement_joined).fromNow()}.

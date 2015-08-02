@@ -88,44 +88,6 @@ div
         for item in center.tile.items
           option(value=item.item)= data.items[item.item].name
 
-  if settlement && actions.promote && settlement.leader && settlement.leader._id.toString() === character._id.toString()
-    - hasAction = true;
-    form.action(method='POST', action='/game/promote')
-      input(type='hidden', name='_csrf', value=csrf)
-      mixin action_button('Promote', 0)
-      select.form-control(name='character', style='width: 10em', data-persist='member', data-action-focus='promote')
-        option(value='') no-one
-        for m in settlement.members
-          if m.provisional
-            option(value=m._id)= m.name
-
-  if settlement && actions.evict && settlement.leader && settlement.leader._id.toString() === character._id.toString()
-    - hasAction = true;
-    form.confirmable.action(method='POST', action='/game/evict')
-      input(type='hidden', name='_csrf', value=csrf)
-      mixin action_button('Evict', 0)
-      select.form-control(name='character', style='width: 10em', data-persist='member', data-action-focus='evict')
-        option(value='') no-one
-        for m in (evictables || [])
-          option(value=m._id)= m.name
-
-  if settlement && character.settlement_id && settlement._id.toString() === character.settlement_id.toString()
-    - hasAction = true;
-    - var my_member_record = _.find(settlement.members, function(m){ return m._id.toString() === character._id.toString(); });
-    - var candidates = settlement.members.filter(function(m){ return !m.provisional; });
-    form.action(method='POST', action='/game/vote')
-      input(type='hidden', name='_csrf', value=csrf)
-      mixin action_button('Vote For', 0)
-      select.form-control(name='character', style='width: 10em')
-        option(value='') no-one
-        for c in candidates
-          if my_member_record.voting_for && my_member_record.voting_for._id.toString() === c._id.toString()
-            option(value=c._id, selected='selected')= c.name
-          else
-            option(value=c._id)= c.name
-    if my_member_record.voting_for
-      | Current Vote: <a href='/profile/#{my_member_record.voting_for.slug}'>#{my_member_record.voting_for.name}</a>
-
   if actions.settlement_join
     - hasAction = true;
     form.confirmable.action(method='POST', action='/game/actions/settlement_join')
