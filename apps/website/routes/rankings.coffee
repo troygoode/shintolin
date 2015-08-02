@@ -1,10 +1,22 @@
 _ = require 'underscore'
-BPromise = require 'bluebird'
+Bluebird = require 'bluebird'
 moment = require 'moment'
 data = require '../../../data'
 queries = require '../../../queries'
-count_active_characters = BPromise.promisify(queries.count_active_characters)
-count_total_characters = BPromise.promisify(queries.count_total_characters)
+count_active_characters = Bluebird.promisify(queries.count_active_characters)
+count_total_characters = Bluebird.promisify(queries.count_total_characters)
+all_active_members = Bluebird.promisify(queries.all_active_members)
+
+filter_town_pop = (results) ->
+  Bluebird.resolve(results)
+    .map (settlement) ->
+      all_active_members(settlement)
+        .then (active_members) ->
+          settlement.members = settlement.members.filter (m) ->
+            return true if settlement.leader? and settlement.leader._id.toString() is m._id.toString()
+            _.some active_members, (am) ->
+              am._id.toString() is m._id.toString()
+          settlement
 
 rankings =
   active:
@@ -106,20 +118,24 @@ rankings =
         s.count ? s.members.length
       ]
     post_process: ({results, total_players}) ->
-      incorporated = 0
-      for s in results
-        incorporated += s.members.length
-      unincorporated = total_players - incorporated
-      results.push
-        name: 'Unincorporated'
-        mapped: [
-          ''
-          unincorporated
-        ]
-      results.developer_total = results.reduce (total, r) ->
-        return total unless r._id?
-        total + r.members.length
-      , unincorporated
+      Bluebird.resolve()
+        .then ->
+          filter_town_pop(results)
+        .then (results) ->
+          incorporated = 0
+          for s in results
+            incorporated += s.members.length
+          unincorporated = total_players - incorporated
+          results.push
+            name: 'Unincorporated'
+            mapped: [
+              ''
+              unincorporated
+            ]
+          results.developer_total = results.reduce (total, r) ->
+            return total unless r._id?
+            total + r.members.length
+          , unincorporated
     fn: queries.rankings.bigtowns
 
 module.exports = (router) ->
@@ -127,13 +143,13 @@ module.exports = (router) ->
     return res.redirect('/rankings/frags') unless req.params.metric?.length
     config = rankings[req.params.metric]
 
-    BPromise.resolve()
+    Bluebird.resolve()
       .then ->
         throw 'Invalid Metric' unless config?
         throw 'Developers Only' if config.developer_only and not req.session?.developer
       .then ->
-        BPromise.props
-          results: BPromise.promisify(config.fn)()
+        Bluebird.props
+          results: Bluebird.promisify(config.fn)()
           active_players: count_active_characters()
           total_players: count_total_characters()
       .tap (value) ->
