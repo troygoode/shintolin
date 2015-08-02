@@ -8,6 +8,8 @@ days_until_full_status = 1
 
 get_settlement_by_slug = Bluebird.promisify queries.get_settlement_by_slug
 get_character = Bluebird.promisify queries.get_character
+all_active_members = Bluebird.promisify queries.all_active_members
+update_settlement_profile = Bluebird.promisify commands.update_settlement_profile
 vote_for = Bluebird.promisify commands.vote_for
 evict = Bluebird.promisify commands.evict
 promote = Bluebird.promisify commands.promote
@@ -43,6 +45,13 @@ is_provisional = (settlement, character_id) ->
     member._id.toString() is character_id
   match && match.provisional
 
+filter_inactive_members = ([settlement, active_members]) ->
+  settlement.members = settlement.members.filter (m) ->
+    return true if settlement.leader? and settlement.leader._id.toString() is m._id.toString()
+    _.some active_members, (am) ->
+      am._id.toString() is m._id.toString()
+  settlement
+
 load_target = (req) ->
   () ->
     Bluebird.resolve()
@@ -61,41 +70,52 @@ load_target = (req) ->
 module.exports = (app) ->
 
   app.get '/settlements/:settlement_slug', (req, res, next) ->
-    queries.get_settlement_by_slug req.params.settlement_slug, (err, settlement) ->
-      return next(err) if err?
-      return next() unless settlement?
-      res.render 'settlement',
-        moment: moment
-        is_leader: req.session.character? and settlement.leader? and req.session.character is settlement.leader._id.toString()
-        is_member: is_member settlement, req.session.character
-        is_provisional: is_provisional settlement, req.session.character
-        your_vote: _.find(settlement.members, (m) ->
-          req.session.character? and m._id.toString() is req.session.character
-        )?.voting_for
-        settlement: settlement
-        region: if settlement.region?.length then data.regions[settlement.region] else null
-        members: settlement.members.map (m) -> visit_member settlement, m
-        editable: req.session.character? and settlement.leader? and req.session.character is settlement.leader._id.toString()
+    Bluebird.resolve()
+      .then ->
+        get_settlement_by_slug(req.params.settlement_slug)
+          .then (settlement) ->
+            all_active_members(settlement)
+              .then (members) ->
+                [settlement, members]
+      .then filter_inactive_members
+      .then (settlement) ->
+        return next() unless settlement?
+        res.render 'settlement',
+          moment: moment
+          is_leader: req.session.character? and settlement.leader? and req.session.character is settlement.leader._id.toString()
+          is_member: is_member settlement, req.session.character
+          is_provisional: is_provisional settlement, req.session.character
+          your_vote: _.find(settlement.members, (m) ->
+            req.session.character? and m._id.toString() is req.session.character
+          )?.voting_for
+          settlement: settlement
+          region: if settlement.region?.length then data.regions[settlement.region] else null
+          members: settlement.members.map (m) -> visit_member settlement, m
+          editable: req.session.character? and settlement.leader? and req.session.character is settlement.leader._id.toString()
+      .catch next
 
   app.post '/settlements/:settlement_slug', (req, res, next) ->
-    queries.get_settlement_by_slug req.params.settlement_slug, (err, settlement) ->
-      return next(err) if err?
-      return next() unless settlement?
-      leader = req.session.character? and settlement.leader? and req.session.character is settlement.leader._id.toString()
-      return next('Unauthorized') unless leader or req.session?.developer
-      update =
-        description: req.body.description
-        name: req.body.name
-        image_url: req.body.image_url
-        motto: req.body.motto
-        leader_title: req.body.leader_title
-        member_title: req.body.member_title
-        provisional_title: req.body.provisional_title
-        website_url: req.body.website_url
-        open: req.body.open is 'true'
-      commands.update_settlement_profile settlement, update, (err) ->
-        return next(err) if err?
-        res.redirect "/settlements/#{settlement.slug}"
+    Bluebird.resolve()
+      .then ->
+        get_settlement_by_slug req.params.settlement_slug
+      .then (settlement) ->
+        throw 'Invalid Settlement' unless settlement?
+        leader = req.session.character? and settlement.leader? and req.session.character is settlement.leader._id.toString()
+        throw 'Unauthorized' unless leader or req.session?.developer
+        update =
+          description: req.body.description
+          name: req.body.name
+          image_url: req.body.image_url
+          motto: req.body.motto
+          leader_title: req.body.leader_title
+          member_title: req.body.member_title
+          provisional_title: req.body.provisional_title
+          website_url: req.body.website_url
+          open: req.body.open is 'true'
+        update_settlement_profile(settlement, update)
+          .then ->
+            res.redirect "/settlements/#{settlement.slug}"
+      .catch next
 
   app.post '/settlements/:settlement_slug/vote', (req, res, next) ->
     Bluebird.resolve()
