@@ -93,7 +93,7 @@ block content
                   td #{r.mapped[i]}
               else
                 td #{r.mapped}
-          if locals.developer_total
+          if locals.developer_total !== undefined
             tfoot
               tr
                 td.total-spacer(colspan=(_.isArray(config.columns) ? config.columns.length : 1)) Total

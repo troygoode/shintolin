@@ -117,15 +117,15 @@ rankings =
         if s.region then data.regions[s.region].name else ''
         s.count ? s.members.length
       ]
-    post_process: ({results, total_players}) ->
+    post_process: ({results, active_players}) ->
       Bluebird.resolve()
         .then ->
           filter_town_pop(results)
-        .then (results) ->
+        .then (results2) ->
           incorporated = 0
-          for s in results
+          for s in results2
             incorporated += s.members.length
-          unincorporated = total_players - incorporated
+          unincorporated = active_players - incorporated
           results.push
             name: 'Unincorporated'
             mapped: [
