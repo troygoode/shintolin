@@ -129,10 +129,6 @@ rankings =
               ''
               active_unincorporated_players
             ]
-          results.developer_total = results.reduce (total, r) ->
-            return total unless r._id?
-            total + r.members.length
-          , active_unincorporated_players
     fn: queries.rankings.bigtowns
 
 module.exports = (router) ->
@@ -153,15 +149,15 @@ module.exports = (router) ->
       .tap (value) ->
         if config.post_process
           config.post_process value
-      .then ({results, active_players}) ->
+      .then ({results, active_players, total_players}) ->
         res.render 'rankings',
           _: _
           active_count: active_players
+          total_count: total_players
           rankings: rankings
           config: config
           data: data
           results: (results ? []).map (r) ->
             object: r
             mapped: config.map r
-          developer_total: if req.session?.developer then results.developer_total else undefined
       .catch next

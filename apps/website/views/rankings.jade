@@ -10,6 +10,8 @@ block content
         .col-xs-12
           h1 Leaderboards
           h2 #{time.month} #{time.season} #{time.year}SR &mdash; #{active_count} Active Players
+            if is_developer
+              |  (#{total_count} Total)
 
   .container
     .row
@@ -93,11 +95,6 @@ block content
                   td #{r.mapped[i]}
               else
                 td #{r.mapped}
-          if locals.developer_total !== undefined
-            tfoot
-              tr
-                td.total-spacer(colspan=(_.isArray(config.columns) ? config.columns.length : 1)) Total
-                td.total #{developer_total}
           if !results.length
             tr
               td.empty(colspan=(1 + (_.isArray(config.columns) ? config.columns.length : 1)))
