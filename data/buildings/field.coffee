@@ -1,24 +1,26 @@
 BPromise = require 'bluebird'
 time = require '../../time'
+STARTING_HP = 4
+MAX_OVERUSE = 24
 
 module.exports =
   name: 'Field'
   size: 'small'
-  hp: 4
+  hp: STARTING_HP
   hp_max: 200
 
   actions: (character, tile) ->
     BPromise.resolve switch time().season
       when 'Spring', 'Summer'
-        if tile.hp <= 4
-          ['sow']
-        else if not tile.watered
-          ['water']
+        if tile.hp <= STARTING_HP
+          ['field_sow']
+        else
+          ['field_water']
       when 'Autumn'
-        ['harvest']
+        ['field_harvest']
 
   exterior: (character, tile) ->
-    if tile.hp <= 4
+    if tile.hp <= STARTING_HP
       'dirt'
     else
       '_exterior_field'
@@ -27,7 +29,7 @@ module.exports =
     validate: (cb) ->
       if time().season isnt 'Spring'
         cb('Fields can only be prepared in the spring.')
-      else if tile.overuse > 24
+      else if tile.overuse > MAX_OVERUSE
         cb('This land has been overfarmed; no crops can be grown here until the land recovers.')
       else
         cb()

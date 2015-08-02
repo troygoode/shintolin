@@ -4,3 +4,7 @@ module.exports =
   weight: 10
 
   tags: ['water']
+
+  actions:
+    field_water:
+      gives: 'pot'

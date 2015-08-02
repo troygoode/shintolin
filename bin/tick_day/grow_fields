@@ -5,22 +5,26 @@ require 'babel/register'
 _ = require 'underscore'
 async = require 'async'
 db = require '../../db'
+data = require '../../data'
 commands = require '../../commands'
+field = data.buildings.field
+
+DEFAULT_HP_GROWTH = 3
+WATERED_MULTIPLIER = 3
+OVERGROWTH_DECREASE = .5
 
 async.series [
   (cb) ->
     query =
       building: 'field'
       hp:
-        $gte: 5
-        $lt: 200
+        $gt: field.hp
+        $lt: field.hp_max
     db.tiles.find(query).toArray (err, tiles) ->
       return cb(err) if err?
       async.each tiles, (tile, cb) ->
-        growth = tile.hp - 5
-        growth = (growth * 3.5) + 3
-        growth = (growth * 2) if tile.watered
-        growth = 200 - tile.hp if tile.hp + growth > 200
+        growth = if tile.watered then (DEFAULT_HP_GROWTH * WATERED_MULTIPLIER) else DEFAULT_HP_GROWTH
+        growth = field.hp_max - tile.hp if tile.hp + growth > field.hp_max
         query =
           _id: tile._id
         update =
@@ -34,7 +38,7 @@ async.series [
         $gt: 0
     update =
       $inc:
-        overuse: -.5
+        overuse: 0 - OVERGROWTH_DECREASE
     db.tiles.update query, update, false, true, cb
   (cb) ->
     update =

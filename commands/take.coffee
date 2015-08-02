@@ -48,10 +48,9 @@ module.exports = (character, tile, takes, cb) ->
     return cb("You don't have enough #{item.plural} to do that.") unless item_in_inventory?.count >= takeable.count
 
   if takes.season?
-    season = time().season
+    season = time().season.toLowerCase()
     seasons = if _.isArray(takes.season) then takes.season else [takes.season]
-    for _season in seasons
-      return cb("You must wait until #{seasons.join(' or ')} before you can do that.") unless season.toLowerCase() is _season.toLowerCase()
+    return cb("You must wait until #{seasons.join(' or ')} before you can do that.") unless seasons.indexOf(season) isnt -1
 
   if takes.terrain_tag?
     terrain = data.terrains[tile.terrain]

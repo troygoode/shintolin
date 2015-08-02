@@ -6,6 +6,7 @@ Bluebird = require 'bluebird'
 data = require '../../data'
 db = require '../../db'
 commands = require '../../commands'
+get_building_and_terrain = require '../../queries/get_building_and_terrain'
 take = Bluebird.promisify commands.take
 ITEM_DECAY_CHANCE = .2
 
@@ -16,8 +17,9 @@ binomial = (trials, probability) ->
   successes
 
 immune_to_decay = (tile) ->
-  building = data.buildings[tile.building]
-  return true if (building?.actions ? []).indexOf('take') isnt -1
+  {building, terrain} = get_building_and_terrain null, tile
+  return true if (building?.tags ? []).indexOf('inventory_doesnt_decay') isnt -1
+  return true if (terrain?.tags ? []).indexOf('inventory_doesnt_decay') isnt -1
   false
 
 handle_tile = (tile) ->

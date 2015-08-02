@@ -3,7 +3,7 @@ time = require '../../time'
 module.exports =
   name: 'handful of wheat'
   plural: 'handfuls of wheat'
-  tags: ['usable', 'food']
+  tags: ['usable', 'food', 'plantable']
   weight: 1
 
   modify_search_odds: (odds) ->

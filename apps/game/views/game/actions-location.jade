@@ -20,34 +20,29 @@ div
       input(type='hidden', name='_csrf', value=csrf)
       mixin action_button('Dig', actions.dig.ap)
 
-  if actions.sow
-    form.action(method='POST', action='/game/sow')
+  if actions.field_sow
+    form.action(method='POST', action='/game/actions/field_sow')
       input(type='hidden', name='_csrf', value=csrf)
-      mixin action_button('Sow', 15)
+      mixin action_button('Sow', actions.field_sow.ap)
       select.form-control(name='item', style='width: 10em', data-persist='plantable', data-action-focus='sow')
-        for item in data.items
-          if _.contains(item.tags || [], 'plantable')
-            option(value=item.id)= item.name
+        for count, item in actions.field_sow.plantables
+          option(value=item) #{count}x #{data.items[item].name}
 
-  if actions.water
-    form.action(method='POST', action='/game/water')
+  if actions.field_water
+    form.action(method='POST', action='/game/actions/field_water')
       input(type='hidden', name='_csrf', value=csrf)
-      mixin action_button('Water Field')
+      mixin action_button('Water Field', actions.field_water.ap)
       select.form-control(name='item', style='width: 10em', data-persist='water', data-action-focus='water')
-        for citem in character.items
-          - var item = data.items[citem.item];
-          if _.contains(item.tags || [], 'water')
-            option(value=item.id)= item.name
+        for item in actions.field_water.waterables
+          option(value=item) #{data.items[item].name}
 
-  if actions.harvest
-    form.action(method='POST', action='/game/harvest')
+  if actions.field_harvest
+    form.action(method='POST', action='/game/actions/field_harvest')
       input(type='hidden', name='_csrf', value=csrf)
-      mixin action_button('Harvest', 16)
+      mixin action_button('Harvest', actions.field_harvest.ap)
       select.form-control(name='item', style='width: 10em', data-persist='harvest', data-action-focus='harvest')
-        for citem in character.items
-          - var item = data.items[citem.item];
-          if _.contains(item.tags || [], 'harvest')
-            option(value=item.id)= item.name
+        for item in actions.field_harvest.harvestables
+          option(value=item) #{data.items[item].name}
 
   if actions.search
     form.action(method='POST', action='/game/actions/search')
