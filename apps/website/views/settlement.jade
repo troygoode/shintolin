@@ -16,6 +16,8 @@ block content
           ul.nav.nav-tabs(role='tablist')
             li.active(role='presentation'): a(href='#settlement', aria-controls='settlement', role='tab', data-toggle='tab') Settlement
             li(role='presentation'): a(href='#edit-settlement', aria-controls='edit-settlement', role='tab', data-toggle='tab') Edit
+            if is_developer
+              li(role='presentation'): a(href='#moderation', aria-controls='moderation', role='tab', data-toggle='tab') Moderation
 
         .tab-content(class={'profile-read-only': (!editable && !is_developer)})
           #settlement.tab-pane.active(role='tabpanel')
@@ -23,3 +25,14 @@ block content
           if editable || is_developer
             #edit-settlement.tab-pane(role='tabpanel')
               include ./settlement-edit
+          if is_developer
+            #moderation.tab-pane(role='tabpanel')
+              h2.page-title Moderation Tools
+              hr
+
+              form(method='POST', action='/game/dev/teleport-to-coords')
+                input(type='hidden', name='_csrf', value=csrf)
+                input(type='hidden', name='x', value=settlement.x)
+                input(type='hidden', name='y', value=settlement.y)
+                input(type='hidden', name='z', value=0)
+                button.btn.btn-default(type='submit') Teleport To
