@@ -10,6 +10,6 @@ module.exports = (cb) ->
     email:
       $exists: true
     last_action:
-      $gt: moment().subtract(24, 'hours')._d
+      $gt: moment().subtract(5, 'days')._d
 
   db.characters.find(query).sort(last_action: -1).toArray cb

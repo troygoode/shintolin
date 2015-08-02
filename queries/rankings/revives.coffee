@@ -10,5 +10,5 @@ module.exports = (cb) ->
     creature: {$exists: false}
     revives: {$gt: 0}
     last_action:
-      $gt: moment().subtract(24, 'hours')._d
+      $gt: moment().subtract(5, 'days')._d
   db.characters.find(query).sort({ revives: -1, frags: -1, created: 1 }).limit(10).toArray cb
