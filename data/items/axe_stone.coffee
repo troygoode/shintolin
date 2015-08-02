@@ -7,7 +7,7 @@ module.exports =
   weapon_class: 'slash'
   break_odds: .02
   accuracy: (attacker, target, tile) ->
-    chance = .20
+    chance = .60
     chance += .10 if attacker.skills.indexOf('axe_2') isnt -1
     chance += .10 if attacker.skills.indexOf('axe_4') isnt -1
     chance

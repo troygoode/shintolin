@@ -1,3 +1,3 @@
 module.exports =
   name: 'Skilled Spear'
-  description: 'Spears hit with +10% accuracy.'
+  description: 'Spears hit with +25% accuracy.'
