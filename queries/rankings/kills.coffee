@@ -1,3 +1,4 @@
+moment = require 'moment'
 db = require '../../db'
 
 db.register_index db.characters,
