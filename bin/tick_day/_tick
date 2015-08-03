@@ -11,5 +11,6 @@ cd ./bin/tick_day
 ./rot_food
 ./storms
 ./decay_dropped_items
+./hunger
 
 echo "### TICK: DAY (END) ###"
