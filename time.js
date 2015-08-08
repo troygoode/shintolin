@@ -5,7 +5,7 @@ import config from './config';
 const msInADay = 1000 * 60 * 60 * 24;
 
 const calculateYearExact = (now) => {
-  const origin = new Date(Date.UTC(2009, 2, 28));
+  const origin = new Date(Date.UTC(2009, 2, 16));
   const ms = now.getTime() - origin.getTime();
   const realLifeDays = Math.ceil(ms / msInADay);
   return realLifeDays / 12; // 3 days for each of 4 seasons
