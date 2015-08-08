@@ -2,7 +2,7 @@ Bluebird = require 'bluebird'
 {items} = require '../'
 craft = Bluebird.promisify(require('../../commands').craft)
 send_message = Bluebird.promisify(require('../../commands').send_message)
-can_take = Bluebird.promisify(require('../../queries').can_take)
+can_take = require('../../queries').can_take
 ACTION = 'craft'
 
 visit_recipe = (recipe, action, character, tile) ->
@@ -10,7 +10,9 @@ visit_recipe = (recipe, action, character, tile) ->
   takes_items = []
   takes_items.push {item: key, count: value} for key, value of io.takes.items
 
-  retval = 
+  can_take_response = can_take character, tile, io.takes
+
+  retval =
     id: recipe.id
     name: recipe.name
     gives: io.gives
@@ -19,6 +21,7 @@ visit_recipe = (recipe, action, character, tile) ->
     items: takes_items
     tools: io.takes.tools
     hp: gives?.tile_hp
+    craftable: can_take_response.craftable
   retval[action] = recipe[action]
   retval
 

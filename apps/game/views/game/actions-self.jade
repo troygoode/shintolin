@@ -14,7 +14,12 @@ div
       mixin action_button('Craft', 'Variable')
       select.form-control(name='recipe', style='width: 10em', data-persist='recipe', data-action-focus='craft')
         for recipe in actions.craft.recipes
-          option(value=recipe.id) #{describe_gives(recipe.gives)}
+          option(value=recipe.id)
+            if recipe.craftable
+              | ✅ 
+            else
+              | ❌ 
+            | #{describe_gives(recipe.gives)}
             |  (#{recipe.ap} AP
             if recipe.tools
               for item in recipe.tools
