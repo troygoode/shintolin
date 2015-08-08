@@ -126,7 +126,7 @@ rankings =
           results = _.sortBy results, (r) ->
             (r.members?.length ? 0) * -1
           results.push
-            name: 'Unincorporated'
+            name: 'Unsettled'
             mapped: [
               ''
               active_unincorporated_players
