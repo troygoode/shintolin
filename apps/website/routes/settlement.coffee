@@ -13,6 +13,7 @@ update_settlement_profile = Bluebird.promisify commands.update_settlement_profil
 vote_for = Bluebird.promisify commands.vote_for
 evict = Bluebird.promisify commands.evict
 promote = Bluebird.promisify commands.promote
+leave = Bluebird.promisify commands.leave_settlement
 
 count_votes = (settlement, member) ->
   votes = 0
@@ -52,20 +53,34 @@ filter_inactive_members = ([settlement, active_members]) ->
       am._id.toString() is m._id.toString()
   settlement
 
-load_target = (req) ->
+load_settlement = (req, options = {}) ->
   () ->
     Bluebird.resolve()
       .then ->
-        Bluebird.all [
-          get_settlement_by_slug req.params.settlement_slug
-          get_character req.session.character
-          get_character req.body.target_id
-        ]
+        promises = []
+        promises.push get_settlement_by_slug req.params.settlement_slug
+        promises.push get_character req.session.character
+        if options.target
+          promises.push get_character req.body.target_id
+        Bluebird.all promises
       .tap ([settlement, you, target]) ->
+        # settlement
         throw 'Invalid Settlement' unless settlement?
+
+        # you
         throw 'Unauthorized' unless you? and you.settlement_id?.toString() is settlement._id.toString()
-        throw 'Unauthorized' if you.settlement_provisional
-        throw 'Invalid Target' unless target? and target.settlement_id?.toString() is settlement._id.toString()
+        unless options.allow_provisional
+          throw 'Unauthorized' if you.settlement_provisional
+        if options.leader_only
+          throw 'Unauthorized' unless settlement.leader? and settlement.leader._id.toString() is you._id.toString()
+
+        # target
+        if options.target
+          throw 'Invalid Target' unless target? and target.settlement_id?.toString() is settlement._id.toString()
+        if options.provisional_targets_only
+          throw 'Invalid Target' unless target.settlement_provisional
+        if options.nonprovisional_targets_only
+          throw 'Invalid Target' if target.settlement_provisional
 
 module.exports = (app) ->
 
@@ -119,9 +134,8 @@ module.exports = (app) ->
 
   app.post '/settlements/:settlement_slug/vote', (req, res, next) ->
     Bluebird.resolve()
-      .then load_target(req)
+      .then load_settlement(req, target: true, nonprovisional_targets_only: true)
       .tap ([settlement, you, target]) ->
-        throw 'Invalid Target' if target.settlement_provisional
         vote_for settlement, you, target
       .then ([settlement]) ->
         res.redirect "/settlements/#{settlement.slug}"
@@ -129,10 +143,8 @@ module.exports = (app) ->
 
   app.post '/settlements/:settlement_slug/evict', (req, res, next) ->
     Bluebird.resolve()
-      .then load_target(req)
+      .then load_settlement(req, target: true, leader_only: true, provisional_targets_only: true)
       .tap ([settlement, you, target]) ->
-        throw 'Unauthorized' unless settlement.leader? and settlement.leader._id.toString() is you._id.toString()
-        throw 'Invalid Target' unless target.settlement_provisional
         evict target
       .then ([settlement]) ->
         res.redirect "/settlements/#{settlement.slug}"
@@ -140,11 +152,18 @@ module.exports = (app) ->
 
   app.post '/settlements/:settlement_slug/promote', (req, res, next) ->
     Bluebird.resolve()
-      .then load_target(req)
+      .then load_settlement(req, target: true, leader_only: true, provisional_targets_only: true)
       .tap ([settlement, you, target]) ->
-        throw 'Unauthorized' unless settlement.leader? and settlement.leader._id.toString() is you._id.toString()
-        throw 'Invalid Target' unless target.settlement_provisional
         promote target
+      .then ([settlement]) ->
+        res.redirect "/settlements/#{settlement.slug}"
+      .catch next
+
+  app.post '/settlements/:settlement_slug/leave', (req, res, next) ->
+    Bluebird.resolve()
+      .then load_settlement(req, allow_provisional: true)
+      .tap ([settlement, you]) ->
+        leave you, settlement
       .then ([settlement]) ->
         res.redirect "/settlements/#{settlement.slug}"
       .catch next
