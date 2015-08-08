@@ -18,6 +18,7 @@
 {"id": "crafter", "name": "Crafter"}
   milling
   hafting
+    carver
     carpentry
       artisanship
         divine_inspiration

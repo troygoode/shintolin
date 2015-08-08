@@ -17,6 +17,12 @@ module.exports = (character, tile, takes) ->
   if takes.developer
     return fail('Developers Only', hard: true) unless character.developer
 
+  if takes.skill?
+    skills = if _.isArray(takes.skill) then takes.skill else [takes.skill]
+    unmet_skills = _.difference(skills, character.skills ? [])
+    if unmet_skills.length
+      return fail("You must have the skill #{unmet_skills.join(',')} to do that.", hard: true)
+
   if takes.ap?
     return fail('Insufficient AP') unless character.ap >= takes.ap
 
@@ -25,12 +31,6 @@ module.exports = (character, tile, takes) ->
 
   if takes.building? and takes.building isnt tile.building
     return fail("You must be in the presence of a #{data.buildings[takes.building].name} to do that.")
-
-  if takes.skill?
-    skills = if _.isArray(takes.skill) then takes.skill else [takes.skill]
-    unmet_skills = _.difference(skills, character.skills ? [])
-    if unmet_skills.length
-      return fail("You must have the skill #{unmet_skills.join(',')} to do that.", hard: true)
 
   if takes.tools?
     for tool in takes.tools

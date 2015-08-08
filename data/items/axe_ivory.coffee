@@ -20,7 +20,7 @@ module.exports =
   craft: (character, tile) ->
     takes:
       ap: 15
-      skill: 'hafting'
+      skill: 'carver'
       tools: ['stone']
       items:
         ivory_tusk: 1

@@ -8,6 +8,7 @@ module.exports =
       ap: 50
       settlement: true
       tools: ['masonry_tools']
+      skill: 'masonry'
       items:
         stone_block: 7
     gives:
@@ -20,6 +21,7 @@ module.exports =
     takes:
       ap: 15
       tools: ['masonry_tools']
+      skill: 'masonry'
       items:
         stone_block: 1
     gives:

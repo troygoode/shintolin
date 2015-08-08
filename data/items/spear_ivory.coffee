@@ -21,7 +21,7 @@ module.exports =
     takes:
       ap: 15
       tools: ['stone']
-      skill: 'hafting'
+      skill: 'carver'
       items:
         ivory_tusk: 1
         staff: 1

@@ -1,3 +1,3 @@
 module.exports =
-  name: 'Basic Shin-Jitsu'
+  name: 'Basic Brawling'
   description: 'Fists hit with +15% accuracy.'

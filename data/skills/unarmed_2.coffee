@@ -1,3 +1,3 @@
 module.exports =
-  name: 'Skilled Shin-Jitsu'
+  name: 'Skilled Brawling'
   description: 'Fists do +1 damage.'

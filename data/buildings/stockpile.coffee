@@ -8,6 +8,7 @@ module.exports =
   build: (character, tile) ->
     takes:
       ap: 10
+      skill: 'trailblazing'
       items:
         stone: 8
     gives:
@@ -19,6 +20,7 @@ module.exports =
     return null unless tile.hp < max
     takes:
       ap: 5
+      skill: 'trailblazing'
       items:
         stone: 1
     gives:
