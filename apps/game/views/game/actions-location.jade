@@ -6,14 +6,14 @@ div
       mixin action_button('Chop Tree', actions.chop.ap, 'chop')
 
   if actions.quarry
-    form.action(method='POST', action='/game/quarry')
+    form.action(method='POST', action='/game/actions/quarry')
       input(type='hidden', name='_csrf', value=csrf)
-      mixin action_button('Quarry', 4)
+      mixin action_button('Quarry', actions.quarry.ap)
 
   if actions.fill
-    form.action(method='POST', action='/game/fill-pot')
+    form.action(method='POST', action='/game/actions/fill')
       input(type='hidden', name='_csrf', value=csrf)
-      mixin action_button('Fill')
+      mixin action_button('Fill', actions.fill.ap)
 
   if actions.dig
     form.action(method='POST', action='/game/actions/dig')

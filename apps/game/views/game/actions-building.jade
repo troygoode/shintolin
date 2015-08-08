@@ -83,10 +83,10 @@ div
 
   if actions.write
     - hasAction = true;
-    form.confirmable.action(method='POST', action='/game/write')
+    form.confirmable.action(method='POST', action='/game/actions/write')
       input(type='hidden', name='_csrf', value=csrf)
-      mixin action_button('Write', 3)
-      input.form-control(type='text', name='message', maxlength='32', value=center.tile.message)
+      mixin action_button('Write', actions.write.ap)
+      input.form-control(type='text', name='message', maxlength='32', value=actions.write.message)
 
   if !hasAction
     p.empty No building actions.
