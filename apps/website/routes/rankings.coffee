@@ -123,6 +123,8 @@ rankings =
         .then ->
           filter_town_pop(results)
         .then (results2) ->
+          _.sortBy results, (r) ->
+            r.members?.length ? 0
           results.push
             name: 'Unincorporated'
             mapped: [
