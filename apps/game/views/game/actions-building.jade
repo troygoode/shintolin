@@ -23,6 +23,15 @@ div
           else
             strong Maximum Occupancy: #{building.max_occupancy}
 
+  form.action(method='POST', action='/game/attack')
+    input(type='hidden', name='_csrf', value=csrf)
+    input(type='hidden', name='target', value='building')
+    mixin action_button('Attack')
+    span with 
+    select.form-control(name='item', data-persist='weapon')
+      for weapon in weapons
+        option(value=weapon.id) #{weapon.name} (#{Math.floor(weapon.hit_chance * 100)}%, #{weapon.damage} dmg)
+
   if actions.build
     - hasAction = true;
     form.action(method='POST', action='/game/actions/build')
@@ -43,7 +52,7 @@ div
     - hasAction = true;
     form.action(method='POST', action='/game/actions/give_building')
       input(type='hidden', name='_csrf', value=csrf)
-      mixin action_button('Give')
+      mixin action_button('Give', 'Variable')
       if actions.give_building.max_count === 1
         input(type='hidden', name='quantity', value=1)
       else
@@ -56,22 +65,21 @@ div
         for label, key in actions.give_building.giveables
           option(value=key) #{label}
 
-  if actions.take && center.tile.items.length
-    form.action(method='POST', action='/game/take')
+  if actions.take_building
+    form.action(method='POST', action='/game/actions/take_building')
       input(type='hidden', name='_csrf', value=csrf)
-      mixin action_button('Take')
-      - var max = _.max(_.pluck(center.tile.items, 'count'));
-      if max === 1
+      mixin action_button('Take', 'Variable')
+      if actions.take_building.max_count  === 1
         input(type='hidden', name='quantity', value=1)
       else
-        - var range = _.range(max);
+        - var range = _.range(actions.take_building.max_count);
         select.form-control(name='quantity')
           for i in range
-            option(value=i + 1)= i + 1
+            option(value=i + 1) #{i + 1}x
         |  
-      select.form-control(name='tile_item', style='width: 10em', data-persist='item', data-action-focus='take')
-        for item in center.tile.items
-          option(value=item.item)= data.items[item.item].name
+      select.form-control(name='item', style='width: 10em', data-persist='item', data-action-focus='take')
+        for label, key in actions.take_building.takeables
+          option(value=key) #{label}
 
   if actions.settlement_join
     - hasAction = true;

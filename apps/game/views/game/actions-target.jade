@@ -1,5 +1,5 @@
 div
-  if center.people.length || center.creatures.length || center.building
+  if center.people.length || center.creatures.length
 
     form.action(method='POST', action='/game/attack')
       input(type='hidden', name='_csrf', value=csrf)
@@ -13,8 +13,6 @@ div
             option(value=c._id) #{c.creature.name} #{c.hp}/#{c.hp_max}
           else
             option(value=c._id)= c.creature.name
-        if center.building && !center.building.invulnerable
-          option(value='building')= center.building.name
       span  with 
       select.form-control(name='item', data-persist='weapon')
         for weapon in weapons
@@ -48,10 +46,10 @@ div
             option(value=key) #{label}
         span  to 
         select.form-control(name='target', data-persist='target')
-          for c in center.people
+          for c in actions.give_player.targets
             option(value=c._id)= c.name
 
-    if actions.kick_out && actions.kick_out.show
+    if actions.kick_out
       form.action(method='POST', action='/game/actions/kick_out')
         input(type='hidden', name='_csrf', value=csrf)
         mixin action_button('Kick Out', actions.kick_out.ap)

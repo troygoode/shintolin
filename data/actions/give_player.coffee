@@ -14,6 +14,10 @@ by_name = (ic) ->
   item.name
 
 module.exports = (character, tile) ->
+  targets = (tile?.people ? []).filter (t) ->
+    t._id.toString() isnt character._id.toString()
+  return false unless targets.length
+
   giveables = {}
   for ic in _.sortBy(character.items, by_name)
     item = items[ic.item]
@@ -27,6 +31,7 @@ module.exports = (character, tile) ->
   category: 'target'
   max_count: _.max(_.pluck(character.items, 'count'))
   giveables: giveables
+  targets: targets
 
   execute: (body) ->
     item = items[body.item]

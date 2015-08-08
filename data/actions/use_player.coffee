@@ -7,6 +7,7 @@ use = require '../../commands/use'
 module.exports = (character, tile) ->
   targets = (tile?.people ? []).filter (t) ->
     t._id.toString() isnt character._id.toString()
+  return false unless targets.length
 
   usables = character.items
     .filter((i) ->
@@ -17,8 +18,7 @@ module.exports = (character, tile) ->
       id: item.id
       name: item.name
     )
-
-  return false unless usables.length and targets.length
+  return false unless usables.length
 
   category: 'self'
   ap: 1

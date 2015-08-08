@@ -7,10 +7,10 @@ send_message_nearby = BPromise.promisify(require '../../commands/send_message_ne
 module.exports = (character, tile) ->
   dazed = (tile?.people ? []).filter (p) ->
     p.hp <= 0
+  return false unless tile.z is 1 and dazed.length
 
   category: 'target'
   ap: 5
-  show: tile.z is 1 and dazed.length
   people: dazed
 
   execute: (body, req) ->
