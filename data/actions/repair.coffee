@@ -26,6 +26,7 @@ module.exports = (character, tile) ->
   building = buildings[tile.building]
   return false unless building?.repair?
   io = building.repair character, tile
+  return false unless io?
   ap = io.takes?.ap ? 1
   description = describe_recipe character, tile, building
   return false if description is false

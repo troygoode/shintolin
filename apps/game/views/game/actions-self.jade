@@ -28,22 +28,18 @@ div
               | , #{item.count}x #{data.items[item.item].name}
             | )
 
-  if sorted_items && sorted_items.length
-    form.action(method='POST', action='/game/drop')
+  if actions.drop
+    form.action(method='POST', action='/game/actions/drop')
       input(type='hidden', name='_csrf', value=csrf)
-      mixin action_button('Drop')
-      - var max = _.max(_.pluck(character.items, 'count'));
-      if max === 1
+      mixin action_button('Drop', 'Variable')
+      if actions.drop.max_count === 1
         input(type='hidden', name='count', value=1)
       else
-        - var range = _.range(max);
+        - var range = _.range(actions.drop.max_count);
         select.form-control(name='count', style='width: 10em')
           for i in range
-            option(value=i + 1)= i + 1
+            option(value=i + 1) #{i + 1}x
         |  
       select.form-control(name='item', style='width: 10em')
-        for item in sorted_items
-          if item.count === 1
-            option(value=item.item)= data.items[item.item].name
-          else
-            option(value=item.item)= data.items[item.item].plural
+        for label, key in actions.drop.droppables
+          option(value=key) #{label}

@@ -3,6 +3,7 @@ Bluebird = require 'bluebird'
 {items} = require '../'
 write = Bluebird.promisify(require('../../commands').write)
 send_message = Bluebird.promisify(require('../../commands').send_message)
+send_message_nearby = Bluebird.promisify(require('../../commands').send_message_nearby)
 
 module.exports = (character, tile) ->
   item = _.find character.items ? [], (item) ->

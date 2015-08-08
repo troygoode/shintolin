@@ -39,6 +39,9 @@ module.exports = (character, tile) ->
       # CRAFT
       actions.push 'craft'
 
+      # CRAFT
+      actions.push 'drop'
+
       # REVIVE (SELF)
       if character.revivable?
         actions.push 'revive_self'

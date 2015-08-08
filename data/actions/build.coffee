@@ -50,6 +50,8 @@ module.exports = (character, tile) ->
       unless building.upgrade
         add_recipe key, building
 
+  return false if _.isEmpty(buildings)
+
   category: 'location'
   buildings: buildings
   text:
