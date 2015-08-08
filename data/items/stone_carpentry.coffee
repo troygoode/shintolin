@@ -13,6 +13,7 @@ module.exports =
       items:
         axe_hand: 4
         stick: 4
+      tags: ['carpentry:ap-reduction']
     gives:
       items:
         stone_carpentry: 1

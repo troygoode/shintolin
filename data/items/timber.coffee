@@ -10,6 +10,7 @@ module.exports =
       skill: 'carpentry'
       items:
         log: 1
+      tags: ['carpentry:ap-reduction']
     gives:
       items:
         timber: 3
