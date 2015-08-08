@@ -23,7 +23,7 @@ module.exports = (character, tile) ->
       else
         droppables[item.id] = "#{item.name} (#{ic.count}x total)"
 
-  category: 'location'
+  category: 'self'
   droppables: droppables
   max_count: _.max(_.pluck(character.items, 'count'))
 

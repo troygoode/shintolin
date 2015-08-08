@@ -43,3 +43,6 @@ div
       select.form-control(name='item', style='width: 10em')
         for label, key in actions.drop.droppables
           option(value=key) #{label}
+
+  if !action_counts.self
+    p.empty No self actions.

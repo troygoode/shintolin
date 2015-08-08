@@ -48,3 +48,6 @@ div
     form.action(method='POST', action='/game/actions/search')
       input(type='hidden', name='_csrf', value=csrf)
       mixin action_button('Search')
+
+  if !action_counts.location
+    p.empty No location actions.

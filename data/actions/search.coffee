@@ -1,6 +1,6 @@
 _ = require 'underscore'
 BPromise = require 'bluebird'
-{items, terrains} = require '../'
+{items, terrains, buildings} = require '../'
 db = require '../../db'
 process_loot_table = BPromise.promisify(require('../../queries').process_loot_table)
 send_message = BPromise.promisify(require('../../commands').send_message)
@@ -9,6 +9,15 @@ give_items = BPromise.promisify(require('../../commands').give.items)
 give_xp = BPromise.promisify(require('../../commands').give.xp)
 remove_item = BPromise.promisify(require('../../commands').remove_item)
 update_tile = BPromise.promisify(db.tiles.update, db.tiles)
+config = require '../../config'
+
+resolve_terrain = (character, tile) ->
+  building = buildings[tile.building] if tile?.building?
+  terrain = if tile?.z is 0 and building?.exterior? then building.exterior else (tile?.terrain ? config.default_terrain)
+  if _.isFunction terrain
+    terrain = terrain character, tile
+  terrain: terrains[terrain]
+  building: building
 
 roll_for_loot = (character, tile, suppress_increment) ->
   terrain = terrains[tile.terrain]
@@ -37,11 +46,14 @@ take_from_tile = (character, tile, total_odds) ->
   total_odds: total_odds
 
 module.exports = (character, tile) ->
+  {terrain, building} = resolve_terrain character, tile
+  tags = (terrain?.tags ? []).concat(building?.tags ? [])
+  return false if tags.indexOf('visible_inventory') isnt -1
+
   category: 'location'
   ap: 1
 
   execute: ->
-    terrain = terrains[tile.terrain]
     return send_message('search', character, character, unsearchable: true) unless terrain.search_odds?
     BPromise.resolve()
       .then ->

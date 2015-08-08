@@ -8,6 +8,13 @@ mw = require '../middleware'
 MAX_WEIGHT = 70
 MAX_HUNGER = 12
 
+action_counts = (actions) ->
+  retval = _.chain(actions)
+    .groupBy('category')
+    .mapObject((arr) -> arr.length)
+    .value()
+  retval
+
 measure_weight = (weight) ->
   if weight is 0
     'None'
@@ -143,6 +150,7 @@ module.exports = (app) ->
         hunger_debuff: queries.calculate_hunger_debuff req.character, req.tile
         recovery: queries.calculate_recovery req.character, req.tile
         exterior: exterior
+        action_counts: action_counts(req.actions)
         max_weight: MAX_WEIGHT
 
       for row, i in locals.grid

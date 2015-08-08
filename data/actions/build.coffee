@@ -12,6 +12,10 @@ update_characters = BPromise.promisify(characters.update, characters)
 BASE_RECOVERY = config.ap_per_hour
 
 module.exports = (character, tile) ->
+  return false unless tile?
+  current_building = if tile.building? then data.buildings[tile.building]
+  return false unless (tile.z is 0 and not current_building?) or (tile.z is 0 and current_building? and current_building.upgradeable_to?)
+
   button_text = 'Build'
   buildings = {}
 
@@ -40,7 +44,6 @@ module.exports = (character, tile) ->
       label: label
       object: building
 
-  current_building = if tile.building? then data.buildings[tile.building]
   if current_building?.upgradeable_to?
     button_text = 'Upgrade'
     for key in (if _.isArray(current_building.upgradeable_to) then current_building.upgradeable_to else [current_building.upgradeable_to])
@@ -52,7 +55,7 @@ module.exports = (character, tile) ->
 
   return false if _.isEmpty(buildings)
 
-  category: 'location'
+  category: 'building'
   buildings: buildings
   text:
     submit: button_text

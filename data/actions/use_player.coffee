@@ -20,7 +20,7 @@ module.exports = (character, tile) ->
     )
   return false unless usables.length
 
-  category: 'self'
+  category: 'target'
   ap: 1
   usables: usables
   targets: targets

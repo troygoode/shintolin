@@ -22,7 +22,7 @@ module.exports = (character, tile) ->
         giveables[item.id] = "#{item.name} (#{ic.count}x total)"
   return false if _.isEmpty(giveables)
 
-  category: 'location'
+  category: 'building'
   max_count: _.max(_.pluck(character.items, 'count'))
   giveables: giveables
 

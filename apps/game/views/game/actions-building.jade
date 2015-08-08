@@ -1,5 +1,4 @@
 div
-  -var hasAction = false;
 
   if building && (building.hp || building.hp_max)
     - var building_hp_current = exterior ? exterior.hp || 0 : center.tile.hp || 0;
@@ -24,7 +23,6 @@ div
             strong Maximum Occupancy: #{building.max_occupancy}
 
   if actions.build
-    - hasAction = true;
     form.action(method='POST', action='/game/actions/build')
       input(type='hidden', name='_csrf', value=csrf)
       mixin action_button(actions.build.text.submit, 'Variable')
@@ -33,14 +31,12 @@ div
           option(value=key)= value.label
 
   if actions.repair
-    - hasAction = true;
     form.action(method='POST', action='/game/actions/repair')
       input(type='hidden', name='_csrf', value=csrf)
       input.btn.btn-default.btn-sm(type='submit', value=actions.repair.text.button, data-action='repair', data-toggle='tooltip', data-placement='left', title="#{actions.repair.ap} AP")
       |  #{actions.repair.text.description}
 
   if actions.attack_building
-    - hasAction = true;
     form.action(method='POST', action='/game/actions/attack_building')
       input(type='hidden', name='_csrf', value=csrf)
       mixin action_button('Attack', actions.attack_building.ap)
@@ -50,7 +46,6 @@ div
           option(value=key) #{label}
 
   if actions.give_building
-    - hasAction = true;
     form.action(method='POST', action='/game/actions/give_building')
       input(type='hidden', name='_csrf', value=csrf)
       mixin action_button('Give', 'Variable')
@@ -83,17 +78,15 @@ div
           option(value=key) #{label}
 
   if actions.settlement_join
-    - hasAction = true;
     form.confirmable.action(method='POST', action='/game/actions/settlement_join')
       input(type='hidden', name='_csrf', value=csrf)
       mixin action_button('Join Settlement', actions.settlement_join.ap)
 
   if actions.write
-    - hasAction = true;
     form.confirmable.action(method='POST', action='/game/actions/write')
       input(type='hidden', name='_csrf', value=csrf)
       mixin action_button('Write', actions.write.ap)
       input.form-control(type='text', name='message', maxlength='32', value=actions.write.message)
 
-  if !hasAction
+  if !action_counts.building
     p.empty No building actions.

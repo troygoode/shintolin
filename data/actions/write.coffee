@@ -11,7 +11,7 @@ module.exports = (character, tile) ->
     item.count >= 1 and _.contains type.tags ? [], 'write'
   return false unless item?
 
-  category: 'location'
+  category: 'building'
   ap: 3
   message: tile.message
 

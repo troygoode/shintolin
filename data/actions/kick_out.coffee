@@ -5,9 +5,11 @@ send_message = BPromise.promisify(require '../../commands/send_message')
 send_message_nearby = BPromise.promisify(require '../../commands/send_message_nearby')
 
 module.exports = (character, tile) ->
+  return false unless tile? and tile.z is 1
+
   dazed = (tile?.people ? []).filter (p) ->
     p.hp <= 0
-  return false unless tile.z is 1 and dazed.length
+  return false unless dazed.length
 
   category: 'target'
   ap: 5
