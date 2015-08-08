@@ -1,6 +1,6 @@
 module.exports =
   name: 'Carpentry'
-  description: 'Craft timber, sickles, spades, and stone carpentry tools; crafting those items costs less AP when in a workshop.'
+  description: 'Craft hoes, sickles, spades, stone carpentry tools, and timber; crafting those items costs less AP when in a workshop.'
 
   actions:
     craft: (character, tile, gives, takes) ->

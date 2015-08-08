@@ -10,7 +10,7 @@ module.exports =
       ap: 20
       skill: 'trailblazing'
       terrain_tag: 'trail'
-      tools: ['digging_stick']
+      tools: ['axe_hand']
     gives:
       xp:
         wanderer: 12

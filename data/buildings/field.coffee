@@ -35,7 +35,7 @@ module.exports =
         cb()
     takes:
       ap: 30
-      tools: ['digging_stick']
+      tools: ['hoe']
       skill: 'agriculture'
     gives:
       xp:
