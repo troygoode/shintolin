@@ -1,5 +1,3 @@
-#TODO allow importing maps safely (only overwrite default terrain; only overwrite no-regions with specificed regions)
-
 _ = require 'underscore'
 async = require 'async'
 config = require '../../../config'

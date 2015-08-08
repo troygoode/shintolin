@@ -9,8 +9,6 @@ send_message_nearby = require './send_message_nearby'
 send_message_settlement = require './send_message_settlement'
 send_message_coords = require './send_message_coords'
 
-#TODO: validate that weapon can be used to attack buildings (must be slash???)
-
 format_msg = (ctx) ->
   if ctx.hit
     hit: true
