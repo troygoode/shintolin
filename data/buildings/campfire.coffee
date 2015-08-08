@@ -1,21 +1,21 @@
 module.exports =
   name: 'Campfire'
   size: 'small'
-  hp: 10
+  hp: 25
   hp_max: 30
 
   recovery: (character, tile) ->
     return 0 unless character.hp > 0
-    .3
+    .5
 
   build: (character, tile) ->
     takes:
-      ap: 10
+      ap: 3
       items:
-        stick: 10
+        stick: 4
     gives:
       xp:
-        wanderer: 5
+        wanderer: 3
 
   repair: (character, tile) ->
     max = @hp_max ? @hp
@@ -25,7 +25,7 @@ module.exports =
       items:
         stick: 1
     gives:
-      tile_hp: 1
+      tile_hp: 5
       xp:
         wanderer: 1
 
