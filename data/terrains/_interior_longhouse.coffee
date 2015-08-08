@@ -1,7 +1,7 @@
 module.exports =
   style: 'dirt'
   hidden: true
-  actions: ['take', 'give']
+  actions: ['take_building', 'give_building']
   tags: ['visible_inventory', 'inventory_doesnt_decay']
 
   describe: (tile) ->

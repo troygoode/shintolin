@@ -2,7 +2,7 @@ module.exports =
   name: 'Stockpile'
   size: 'tiny'
   hp: 8
-  actions: ['take', 'give', 'write']
+  actions: ['take_building', 'give_building', 'write']
   tags: ['visible_inventory', 'inventory_doesnt_decay']
 
   build: (character, tile) ->

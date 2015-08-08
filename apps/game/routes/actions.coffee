@@ -7,6 +7,7 @@ module.exports = (app) ->
     action = req.actions[req.params.action_key]
     BPromise.resolve()
       .then ->
+        throw 'Invalid Action' unless action?.execute?
         throw 'You cannot do that while dazed.' if req.character.hp is 0 and not action.allow_while_dazed
         throw 'You don\'t have enough AP.' if action.ap? and req.character.ap < action.ap
       .then ->

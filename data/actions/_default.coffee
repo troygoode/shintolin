@@ -32,15 +32,18 @@ module.exports = (character, tile) ->
       unless _.contains(actions, 'take')
         actions.push 'search'
 
-      # USE / USE (SELF)
-      actions.push 'use'
+      # USE (OTHER PLAYERS) & USE (SELF)
+      actions.push 'use_player'
       actions.push 'use_self'
 
       # CRAFT
       actions.push 'craft'
 
-      # CRAFT
+      # DROP
       actions.push 'drop'
+
+      # GIVE (OTHER PLAYERS)
+      actions.push 'give_player'
 
       # REVIVE (SELF)
       if character.revivable?

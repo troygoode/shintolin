@@ -20,33 +20,32 @@ div
         for weapon in weapons
           option(value=weapon.id) #{weapon.name} (#{Math.floor(weapon.hit_chance * 100)}%, #{weapon.damage} dmg)
 
-    if actions.use
-      form.action(method='POST', action='/game/actions/use')
+    if actions.use_player
+      form.action(method='POST', action='/game/actions/use_player')
         input(type='hidden', name='_csrf', value=csrf)
         mixin action_button('Use')
         select.form-control(name='item', data-persist='usable-item', data-action-focus='use')
-          for usable in actions.use.usables
+          for usable in actions.use_player.usables
             option(value=usable.id)= usable.name
         span  on 
         select.form-control(name='target', data-persist='target')
-          for c in actions.use.targets
+          for c in actions.use_player.targets
             option(value=c._id)= c.name
 
-    if center.people.length && character.items.length
-      form.action(method='POST', action='/game/give')
+    if actions.give_player
+      form.action(method='POST', action='/game/actions/give_player')
         input(type='hidden', name='_csrf', value=csrf)
-        mixin action_button('Give')
-        - var max = _.max(_.pluck(character.items, 'count'));
-        if max === 1
+        mixin action_button('Give', 'Variable')
+        if actions.give_player.max_count === 1
           input(type='hidden', name='quantity', value=1)
         else
-          - var range = _.range(max);
+          - var range = _.range(actions.give_player.max_count);
           select.form-control(name='quantity')
             for i in range
               option(value=i + 1) #{i + 1}x
         select.form-control(name='item', data-persist='item', data-action-focus='give')
-          for item in character.items
-            option(value=item.item)= data.items[item.item].name
+          for label, key in actions.give_player.giveables
+            option(value=key) #{label}
         span  to 
         select.form-control(name='target', data-persist='target')
           for c in center.people

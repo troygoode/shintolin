@@ -1,19 +1,19 @@
 _ = require 'underscore'
 Bluebird = require 'bluebird'
-data = require '../data'
+{terrains, buildings} = require '../data'
 
 module.exports = (character, tile) ->
 
   get_terrain_actions = ->
     # Terrain Actions
-    terrain = if tile?.terrain then data.terrains[tile.terrain] else null
+    terrain = if tile?.terrain then terrains[tile.terrain] else null
     if terrain?.actions? and _.isFunction terrain.actions
       terrain.actions(character, tile)
     else if terrain?.actions?
       terrain.actions
 
   get_building_actions = ->
-    building = if tile?.building then data.buildings[tile.building] else null
+    building = if tile?.building then buildings[tile.building] else null
     if building?.actions? and _.isFunction building.actions
       building.actions(character, tile)
     else if building?.actions?

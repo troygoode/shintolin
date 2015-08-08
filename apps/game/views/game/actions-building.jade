@@ -39,24 +39,22 @@ div
       input.btn.btn-default.btn-sm(type='submit', value=actions.repair.text.button, data-action='repair', data-toggle='tooltip', data-placement='left', title="#{actions.repair.ap} AP")
       |  #{actions.repair.text.description}
 
-  if actions.give && character.items.length
+  if actions.give_building
     - hasAction = true;
-    form.action(method='POST', action='/game/give')
+    form.action(method='POST', action='/game/actions/give_building')
       input(type='hidden', name='_csrf', value=csrf)
       mixin action_button('Give')
-      - var max = _.max(_.pluck(character.items, 'count'));
-      if max === 1
+      if actions.give_building.max_count === 1
         input(type='hidden', name='quantity', value=1)
       else
-        - var range = _.range(max);
+        - var range = _.range(actions.give_building.max_count);
         select.form-control(name='quantity')
           for i in range
-            option(value=i + 1)= i + 1
+            option(value=i + 1) #{i + 1}x
         |  
       select.form-control(name='item', style='width: 10em', data-persist='item', data-action-focus='give')
-        for item in character.items
-          option(value=item.item)= data.items[item.item].name
-      input(type='hidden', name='target', value='building')
+        for label, key in actions.give_building.giveables
+          option(value=key) #{label}
 
   if actions.take && center.tile.items.length
     form.action(method='POST', action='/game/take')

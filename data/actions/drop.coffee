@@ -17,10 +17,11 @@ module.exports = (character, tile) ->
   droppables = {}
   for ic in _.chain(character.items).sortBy(by_name).sortBy(by_weight).value()
     item = items[ic.item]
-    if ic.count > 1
-      droppables[item.id] = "#{item.plural} (#{ic.count}x total)"
-    else
-      droppables[item.id] = "#{item.name} (#{ic.count}x total)"
+    unless item.nodrop or item.intrinsic
+      if ic.count > 1
+        droppables[item.id] = "#{item.plural} (#{ic.count}x total)"
+      else
+        droppables[item.id] = "#{item.name} (#{ic.count}x total)"
 
   category: 'location'
   droppables: droppables
@@ -33,6 +34,8 @@ module.exports = (character, tile) ->
     Bluebird.resolve()
       .then ->
         throw 'Invalid Item' unless item?
+        throw 'Invalid Item' if item.nodrop or item.intrinsic
+
         recipe =
           takes:
             ap: count
