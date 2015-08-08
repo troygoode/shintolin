@@ -123,14 +123,15 @@ rankings =
         .then ->
           filter_town_pop(results)
         .then (results2) ->
-          _.sortBy results, (r) ->
-            r.members?.length ? 0
+          results = _.sortBy results, (r) ->
+            (r.members?.length ? 0) * -1
           results.push
             name: 'Unincorporated'
             mapped: [
               ''
               active_unincorporated_players
             ]
+          results: results
     fn: queries.rankings.bigtowns
 
 module.exports = (router) ->
@@ -150,7 +151,10 @@ module.exports = (router) ->
           total_players: count_total_characters()
       .tap (value) ->
         if config.post_process
-          config.post_process value
+          config.post_process(value)
+            .then ({results}) ->
+              if results?
+                value.results = results
       .then ({results, active_players, total_players}) ->
         res.render 'rankings',
           _: _
