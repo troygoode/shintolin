@@ -11,6 +11,8 @@ queries = require '../../queries'
 process_loot_table = Bluebird.promisify(queries.process_loot_table)
 
 module.exports = (character, tile) ->
+  return false unless _.contains character.skills, 'foraging'
+
   category: 'location'
   ap: 2
   charge_ap: false # done via recipe instead
@@ -32,7 +34,7 @@ module.exports = (character, tile) ->
         recipe =
           takes:
             ap: 2
-            tools: ['digging_stick']
+            tools: ['spade']
         if found_item_type?
           recipe.gives =
             items: {}
