@@ -5,8 +5,9 @@ craft = BPromise.promisify(require '../../commands/craft')
 create_building = BPromise.promisify(require '../../commands/create_building')
 send_message = BPromise.promisify(require '../../commands/send_message')
 send_message_nearby = BPromise.promisify(require '../../commands/send_message_nearby')
-characters = require("../../db").characters
+characters = require('../../db').characters
 data = require '../'
+can_take = require '../../queries/can_take'
 update_characters = BPromise.promisify(characters.update, characters)
 BASE_RECOVERY = config.ap_per_hour
 
@@ -16,19 +17,27 @@ module.exports = (character, tile) ->
 
   add_recipe = (key, building) ->
     recipe = building.build character, tile
-    if not recipe.takes?.developer or character.developer
-      if recipe.takes?.items?
-        label = "#{building.name} (#{recipe.takes.ap ? 0}AP"
-        for item, count of recipe.takes.items
-          label += ", #{count}x #{data.items[item].name}"
-        label += ")"
-      else if recipe.takes?.ap
-        label = "#{building.name} (#{recipe.takes.ap}AP)"
-      else
-        label = building.name
-      buildings[key] =
-        label: label
-        object: building
+    can_take_response = can_take character, tile, recipe.takes
+    return if can_take_response.craftable is false and can_take_response.hard is true
+
+    label = ""
+    if can_take_response.craftable
+      label += "✅ "
+    else
+      label += "❌ "
+
+    label += building.name
+
+    if recipe.takes?.items?
+      label += " (#{recipe.takes.ap ? 0} AP"
+      for item, count of recipe.takes.items
+        label += ", #{count}x #{data.items[item].name}"
+      label += ")"
+    else if recipe.takes?.ap
+      label += " (#{recipe.takes.ap} AP)"
+    buildings[key] =
+      label: label
+      object: building
 
   current_building = if tile.building? then data.buildings[tile.building]
   if current_building?.upgradeable_to?

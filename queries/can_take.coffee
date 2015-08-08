@@ -12,6 +12,11 @@ module.exports = (character, tile, takes) ->
   items_to_take = []
   broken = []
 
+  return fail('Invalid Recipe') unless takes?
+
+  if takes.developer
+    return fail('Developers Only', hard: true) unless character.developer
+
   if takes.ap?
     return fail('Insufficient AP') unless character.ap >= takes.ap
 
