@@ -17,6 +17,7 @@ module.exports = (character, tile) ->
 
   add_recipe = (key, building) ->
     recipe = building.build character, tile
+    return if recipe?.takes?.developer
     can_take_response = can_take character, tile, recipe.takes
     return if can_take_response.craftable is false and can_take_response.hard is true
 

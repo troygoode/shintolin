@@ -7,6 +7,7 @@ ACTION = 'craft'
 
 visit_recipe = (recipe, action, character, tile) ->
   io = recipe[action] character, tile
+  return null if io?.takes?.developer
 
   # visit skills
   for skill_key in character.skills ? []
