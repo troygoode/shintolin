@@ -1,22 +1,17 @@
 div
   if center.people.length || center.creatures.length
 
-    form.action(method='POST', action='/game/attack')
-      input(type='hidden', name='_csrf', value=csrf)
-      mixin action_button('Attack')
-      select.form-control(name='target', data-persist='target', data-action-focus='attack')
-        option(value='') no-one
-        for c in center.people
-          option(value=c._id)= c.name
-        for c in center.creatures
-          if character.developer
-            option(value=c._id) #{c.creature.name} #{c.hp}/#{c.hp_max}
-          else
-            option(value=c._id)= c.creature.name
-      span  with 
-      select.form-control(name='item', data-persist='weapon')
-        for weapon in weapons
-          option(value=weapon.id) #{weapon.name} (#{Math.floor(weapon.hit_chance * 100)}%, #{weapon.damage} dmg)
+    if actions.attack_player
+      form.action(method='POST', action='/game/actions/attack_player')
+        input(type='hidden', name='_csrf', value=csrf)
+        mixin action_button('Attack', actions.attack_player.ap)
+        select.form-control(name='target', data-persist='target', data-action-focus='attack')
+          for label, key in actions.attack_player.targets
+            option(value=key) #{label}
+        span  with 
+        select.form-control(name='item', data-persist='weapon')
+          for label, key in actions.attack_player.weapons
+            option(value=key) #{label}
 
     if actions.use_player
       form.action(method='POST', action='/game/actions/use_player')

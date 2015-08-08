@@ -34,7 +34,7 @@ module.exports = (character, tile) ->
   category: 'building'
   ap: ap
   text:
-    button: 'Repair'
+    button: building.text?.repair?.button ? 'Repair'
     description: description
 
   execute: ->

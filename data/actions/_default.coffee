@@ -32,6 +32,10 @@ module.exports = (character, tile) ->
       unless _.contains(actions, 'take')
         actions.push 'search'
 
+      # ATTACK (OTHER PLAYERS) & ATTACK (BUILDING)
+      actions.push 'attack_building'
+      actions.push 'attack_player'
+
       # USE (OTHER PLAYERS) & USE (SELF)
       actions.push 'use_player'
       actions.push 'use_self'

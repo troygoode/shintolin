@@ -23,15 +23,6 @@ div
           else
             strong Maximum Occupancy: #{building.max_occupancy}
 
-  form.action(method='POST', action='/game/attack')
-    input(type='hidden', name='_csrf', value=csrf)
-    input(type='hidden', name='target', value='building')
-    mixin action_button('Attack')
-    span with 
-    select.form-control(name='item', data-persist='weapon')
-      for weapon in weapons
-        option(value=weapon.id) #{weapon.name} (#{Math.floor(weapon.hit_chance * 100)}%, #{weapon.damage} dmg)
-
   if actions.build
     - hasAction = true;
     form.action(method='POST', action='/game/actions/build')
@@ -47,6 +38,16 @@ div
       input(type='hidden', name='_csrf', value=csrf)
       input.btn.btn-default.btn-sm(type='submit', value=actions.repair.text.button, data-action='repair', data-toggle='tooltip', data-placement='left', title="#{actions.repair.ap} AP")
       |  #{actions.repair.text.description}
+
+  if actions.attack_building
+    - hasAction = true;
+    form.action(method='POST', action='/game/actions/attack_building')
+      input(type='hidden', name='_csrf', value=csrf)
+      mixin action_button('Attack', actions.attack_building.ap)
+      span with 
+      select.form-control(name='item', data-persist='weapon')
+        for label, key in actions.attack_building.weapons
+          option(value=key) #{label}
 
   if actions.give_building
     - hasAction = true;
