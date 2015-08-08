@@ -11,7 +11,7 @@ settlement_name_format = /^\w+(\s\w+)*$/
 
 module.exports = (app) ->
 
-  app.get '/settle', mw.not_dazed, (req, res, next) ->
+  app.get '/settle', (req, res, next) ->
     async.parallel [
       (cb) ->
         queries.buildings_in_radius req.tile, settlement_radius, data.buildings.totem, cb
@@ -29,7 +29,7 @@ module.exports = (app) ->
         hut_radius: hut_radius
         minimum_huts: minimum_huts
 
-  app.post '/settle', mw.not_dazed, (req, res, next) ->
+  app.post '/settle', (req, res, next) ->
     async.parallel [
       (cb) ->
         queries.buildings_in_radius req.tile, settlement_radius, data.buildings.totem, cb
@@ -37,6 +37,7 @@ module.exports = (app) ->
         queries.buildings_in_radius req.tile, hut_radius, data.buildings.hut, cb
     ], (err, [totems, huts]) ->
       return next(err) if err?
+      return next('You cannot do that while dazed.') unless req.character.hp >= 1
       return next('You must provide a name for your new settlement.') unless req.body.name?.length
       return next('Settlement name not long enough.') unless req.body.name.length >= 2
       return next('Settlement name too long.') unless req.body.name.length <= 32

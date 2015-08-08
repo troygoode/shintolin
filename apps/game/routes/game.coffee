@@ -1,7 +1,6 @@
 _ = require 'underscore'
 async = require 'async'
 moment = require 'moment'
-debug = require('debug')('shintolin:game')
 config = require '../../../config'
 queries = require '../../../queries'
 data = require '../../../data'
@@ -107,22 +106,11 @@ visit_tile = (tile, center, character) ->
     retval.cost = queries.cost_to_enter character, center, tile
   retval
 
-visit_weapon = (weapon, character, tile) ->
-  id: weapon.id
-  name: weapon.name
-  hit_chance: weapon.accuracy(character, null, tile)
-  damage: weapon.damage(character, null, tile)
-
 module.exports = (app) ->
   app.get '/', mw.chat_locals, mw.available_actions(), (req, res, next) ->
-    debug 'enter'
     locals = {}
-    render = (err) ->
-      return next(err) if err?
-      debug "render (#{new Date().getTime()})"
-      res.render 'game/index', locals
-
     res.locals.moment = moment
+
     async.parallel [
       (cb) ->
         get_exterior req.tile, cb
@@ -138,13 +126,6 @@ module.exports = (app) ->
     ], (err, [exterior, tiles, messages, settlement]) ->
       return next(err) if err?
       center = get_center tiles, req.character
-      weapons = []
-      weapons = req.character.items.filter (i) ->
-        type = data.items[i.item]
-        i.count > 0 and type.tags? and type.tags.indexOf('weapon') isnt -1
-      weapons = weapons.map (i) ->
-        visit_weapon data.items[i.item], req.character, center
-      weapons.unshift visit_weapon data.items.fist, req.character, center
       building = if req.tile?.building? then data.buildings[req.tile.building] else null
       terrain = resolve_terrain req.character, req.tile
       locals =
@@ -157,9 +138,7 @@ module.exports = (app) ->
         messages: messages
         time: req.time
         data: data
-        weapons: weapons
         settlement: settlement
-        developer_mode: req.session.developer
         encumberance: measure_weight req.character.weight
         hunger_debuff: queries.calculate_hunger_debuff req.character, req.tile
         recovery: queries.calculate_recovery req.character, req.tile
@@ -171,7 +150,4 @@ module.exports = (app) ->
           locals.grid[i][j] = visit_tile tile, locals.center, locals.character
       locals.center = visit_tile locals.center, undefined, locals.character
 
-      locals.dbg =
-        center: center
-
-      render()
+      res.render 'game/index', locals

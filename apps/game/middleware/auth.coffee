@@ -1,4 +1,29 @@
+Bluebird = require 'bluebird'
+get_character = Bluebird.promisify(require '../../../queries/get_character')
+get_tile_by_coords = Bluebird.promisify(require '../../../queries/get_tile_by_coords')
+
 module.exports = (req, res, next) ->
+  return res.redirect '/?msg=auth' unless req.session?.character?.length
   res.locals.is_developer = req.session?.developer is true
-  return next() if req.session.character?.length
-  res.redirect '/?msg=auth'
+
+  Bluebird.resolve()
+    .then ->
+      get_character req.session.character
+
+    .then (character) ->
+      return unless character?
+      req.character = character
+      res.locals.character = character
+      get_tile_by_coords x: character.x, y: character.y, z: character.z
+
+    .then (tile) ->
+      return unless tile?
+      req.tile = tile
+      res.locals.tile = tile
+
+    .then ->
+      if req.character?
+        next()
+      else
+        res.redirect('/logout') #probably a db reset
+    .catch next

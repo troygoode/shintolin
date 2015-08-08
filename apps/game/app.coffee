@@ -44,11 +44,6 @@ app.use middleware.track_hits
 
 app.use csurf()
 app.use middleware.csrf
-app.use middleware.debug 'shintolin:middleware', 'autoloaders enter'
-app.use middleware.load_character
-app.use middleware.load_tile
-app.use auto_loader for key, auto_loader of middleware.auto_loaders
-app.use middleware.debug 'shintolin:middleware', 'autoloaders exit'
 app.use middleware.time
 app.use middleware.expose_querystring
 app.use (req, res, next) ->
