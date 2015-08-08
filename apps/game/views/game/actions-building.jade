@@ -32,25 +32,12 @@ div
         for value, key in actions.build.buildings
           option(value=key)= value.label
 
-  if repair
+  if actions.repair
     - hasAction = true;
-    form.action(method='POST', action='/game/repair')
-      - var recipe = visit_recipe(data.buildings[center.tile.building], 'repair', character, center.tile);
+    form.action(method='POST', action='/game/actions/repair')
       input(type='hidden', name='_csrf', value=csrf)
-      input.btn.btn-default.btn-sm(type='submit', value=building.text && building.text.repair && building.text.repair.button ? building.text.repair.button : 'Repair' + (recipe && recipe.hp ? ' ' + recipe.hp + ' HP' : ''), data-action='repair', data-toggle='tooltip', data-placement='left', title='#{recipe && recipe.ap ? recipe.ap : "Variable"} AP')
-      if recipe.tools
-        each item, index in recipe.tools
-          if index !== 0
-            | , 
-          | #{data.items[item].name}
-      if recipe.items && recipe.items.length
-        if recipe.tools
-          |  
-        each item, index in recipe.items
-          if index !== 0
-            | , 
-          | #{item.count}x #{data.items[item.item].name}
-
+      input.btn.btn-default.btn-sm(type='submit', value=actions.repair.text.button, data-action='repair', data-toggle='tooltip', data-placement='left', title="#{actions.repair.ap} AP")
+      |  #{actions.repair.text.description}
 
   if actions.give && character.items.length
     - hasAction = true;

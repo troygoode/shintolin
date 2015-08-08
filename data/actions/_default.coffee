@@ -25,6 +25,9 @@ module.exports = (character, tile) ->
         if tile.z isnt 0
           actions.push 'kick_out'
 
+        if tile.building?
+          actions.push 'repair'
+
       # SEARCH
       unless _.contains(actions, 'take')
         actions.push 'search'

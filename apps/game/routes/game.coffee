@@ -23,14 +23,6 @@ measure_weight = (weight) ->
   else
     'Encumbered'
 
-fetch_evictables = (settlement, cb) ->
-  async.map settlement.members, (member, cb) ->
-    queries.get_character member._id, cb
-  , (err, characters) ->
-    return cb(err) if err?
-    cb null, _.filter characters, (c) ->
-      c.hp <= 0 or c.settlement_provisional
-
 get_center = (tiles, character) ->
   tile = _.find tiles, (t) -> t.x is character.x and t.y is character.y
   tile ?
@@ -121,40 +113,6 @@ visit_weapon = (weapon, character, tile) ->
   hit_chance: weapon.accuracy(character, null, tile)
   damage: weapon.damage(character, null, tile)
 
-visit_usable = (item, character, tile) ->
-  id: item.id
-  name: item.name
-
-visit_recipe = (recipe, action, character, tile) ->
-  io = recipe[action] character, tile
-  takes = io.takes
-  items = []
-  items.push {item: key, count: value} for key, value of takes.items
-  id: recipe.id
-  name: recipe.name
-  gives: io.gives
-  ap: takes.ap
-  hp: gives?.tile_hp
-  items: items
-  tools: takes.tools
-
-visit_building = (building, character, tile) ->
-  io = building.build character, tile
-  takes = io.takes
-  items = []
-  items.push {item: key, count: value} for key, value of takes.items
-  id: building.id
-  name: building.name
-  ap: takes.ap
-  items: items
-  tools: takes.tools
-
-repair = (character, tile) ->
-  return null unless tile?.building?
-  building = data.buildings[tile.building]
-  return null unless building.repair?
-  building.repair character, tile
-
 module.exports = (app) ->
   app.get '/', mw.chat_locals, mw.available_actions(), (req, res, next) ->
     debug 'enter'
@@ -187,19 +145,6 @@ module.exports = (app) ->
       weapons = weapons.map (i) ->
         visit_weapon data.items[i.item], req.character, center
       weapons.unshift visit_weapon data.items.fist, req.character, center
-      usables = req.character.items.filter (i) ->
-        type = data.items[i.item]
-        i.count > 0 and type.tags? and type.tags.indexOf('usable') isnt -1
-      usables = usables.map (i) ->
-        visit_usable data.items[i.item], req.character, center
-      build_recipes = ->
-        recipes = []
-        for key, recipe of data.items
-          if recipe.craft?
-            recipes.push visit_recipe(recipe, 'craft', req.character, center)
-        recipes
-      build_buildings = ->
-        visit_building(building, req.character, center) for key, building of data.buildings
       building = if req.tile?.building? then data.buildings[req.tile.building] else null
       terrain = resolve_terrain req.character, req.tile
       locals =
@@ -213,18 +158,12 @@ module.exports = (app) ->
         time: req.time
         data: data
         weapons: weapons
-        usables: usables
         settlement: settlement
-        recipes: build_recipes()
-        buildings: build_buildings()
-        repair: repair req.character, req.tile
         developer_mode: req.session.developer
-        possessor: req.session.possessor
         encumberance: measure_weight req.character.weight
         hunger_debuff: queries.calculate_hunger_debuff req.character, req.tile
         recovery: queries.calculate_recovery req.character, req.tile
         exterior: exterior
-        visit_recipe: visit_recipe
         max_weight: MAX_WEIGHT
 
       for row, i in locals.grid
@@ -235,9 +174,4 @@ module.exports = (app) ->
       locals.dbg =
         center: center
 
-      if _.contains(req.actions, 'evict') and settlement?.leader?._id.toString() is req.character._id.toString()
-        fetch_evictables settlement, (err, evictables) ->
-          locals.evictables = evictables
-          render err
-      else
-        render()
+      render()
