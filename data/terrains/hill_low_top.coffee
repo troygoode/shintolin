@@ -28,10 +28,10 @@ module.exports =
   altitude: 1
   cost_to_enter: (character, tile_from, tile_to, terrain_from, terrain_to) ->
     from_altitude = terrain_from.altitude ? 0
-    mountaineer = _.contains character.skills, 'mountaineer'
+    mountaineer = _.contains character.skills, 'mountaineering'
     if from_altitude >= @altitude
       0
     else if mountaineer
-      2
+      1
     else
       ((@altitude - from_altitude) * 2) - 1
