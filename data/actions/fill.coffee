@@ -1,8 +1,8 @@
 _ = require 'underscore'
 Bluebird = require 'bluebird'
 {items} = require '../'
-craft = BPromise.promisify(require('../../commands').craft)
-send_message = BPromise.promisify(require('../../commands').send_message)
+craft = Bluebird.promisify(require('../../commands').craft)
+send_message = Bluebird.promisify(require('../../commands').send_message)
 
 module.exports = (character, tile) ->
   category: 'location'

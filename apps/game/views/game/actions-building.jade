@@ -28,7 +28,7 @@ div
     form.action(method='POST', action='/game/actions/build')
       input(type='hidden', name='_csrf', value=csrf)
       mixin action_button(actions.build.text.submit, 'Variable')
-      select.form-control(name='building', style='width: 10em', data-persist='building', data-action-focus='build')
+      select.form-control(name='building', style='width: 16em; max-width: 16em;', data-persist='building', data-action-focus='build')
         for value, key in actions.build.buildings
           option(value=key)= value.label
 
