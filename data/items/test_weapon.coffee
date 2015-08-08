@@ -1,7 +1,7 @@
 module.exports =
   name: 'hammer of the gods'
   plural: 'hammers of the gods'
-  tags: ['weapon']
+  tags: ['weapon', 'attack:building']
   weight: 1
   nodrop: true
 

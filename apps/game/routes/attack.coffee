@@ -27,6 +27,7 @@ module.exports = (app) ->
     if req.target is 'building'
       return next('There is no building to attack.') unless req.tile.building?
       return next('You cannot attack a building from within it.') unless req.character.z is 0
+      return next('That weapon cannot damage a building.') unless _.contains req.item.tags, 'attack:building'
       buildings_to_destroy_first req, (err, number) ->
         return next(err) if err?
         return next("There are still #{number} large buildings in the vicinity. You must destroy all the buildings in the area before you can attack the #{req.tile.building}.") if number > 0

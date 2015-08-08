@@ -1,7 +1,7 @@
 module.exports =
   name: 'ivory axe'
   plural: 'ivory axes'
-  tags: ['weapon', 'axe', 'chop']
+  tags: ['weapon', 'axe', 'chop', 'attack:building']
   weight: 8
 
   weapon_class: 'slash'

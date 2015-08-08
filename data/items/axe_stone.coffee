@@ -1,7 +1,7 @@
 module.exports =
   name: 'stone axe'
   plural: 'stone axes'
-  tags: ['weapon', 'axe', 'chop']
+  tags: ['weapon', 'axe', 'chop', 'attack:building']
   weight: 3
 
   weapon_class: 'slash'
