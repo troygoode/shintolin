@@ -28,8 +28,9 @@ module.exports = (character, tile) ->
   return false if _.isEmpty(targets)
 
   weapons = {}
-  character.items.unshift item: 'fist', count: 1
-  for ic in _.chain(character.items).sortBy(by_name).sortBy(by_efficacy(character, tile)).value()
+  citems = character.items.slice(0)
+  citems.unshift item: 'fist', count: 1
+  for ic in _.chain(citems).sortBy(by_name).sortBy(by_efficacy(character, tile)).value()
     item = items[ic.item]
     if _.contains item?.tags, 'weapon'
       acc = item.accuracy character, null, tile
