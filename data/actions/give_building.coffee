@@ -44,8 +44,8 @@ module.exports = (character, tile) ->
       .then ->
         give_items null, tile, {item: item, count: quantity}
 
-      .then ->
-        charge_ap character, quantity
+      # .then ->
+      #   charge_ap character, quantity
 
       .then ->
         send_message 'give', character, character,

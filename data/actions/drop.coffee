@@ -38,7 +38,6 @@ module.exports = (character, tile) ->
 
         recipe =
           takes:
-            ap: count
             items: {}
         recipe.takes.items[item.id] = count
         take character, tile, recipe.takes
