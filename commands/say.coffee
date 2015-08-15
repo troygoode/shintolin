@@ -1,7 +1,6 @@
 async = require 'async'
 db = require '../db'
 queries = require '../queries'
-charge_ap = require './charge_ap'
 send_message = require './send_message'
 send_message_all = require './send_message_all'
 send_message_coords = require './send_message_coords'
@@ -64,39 +63,14 @@ module.exports = (character, target, text = '', volume, cb) ->
       msg.target_id = target._id
       msg.target_name = target.name
       msg.target_slug = target.slug
-      async.series [
-        (cb) ->
-          charge_ap character, 0, cb
-        (cb) ->
-          whisper character, target, msg, cb
-      ], cb
+      whisper character, target, msg, cb
     when 'shout'
-      async.series [
-        (cb) ->
-          charge_ap character, 0, cb
-        (cb) ->
-          shout character, target, msg, cb
-      ], cb
+      shout character, target, msg, cb
     when 'ooc'
-      async.series [
-        (cb) ->
-          charge_ap character, 0, cb
-        (cb) ->
-          ooc character, target, msg, cb
-      ], cb
+      ooc character, target, msg, cb
     when 'settlement'
-      async.series [
-        (cb) ->
-          charge_ap character, 0, cb
-        (cb) ->
-          settlement character, target, msg, cb
-      ], cb
+      settlement character, target, msg, cb
     when 'say', 'emote'
-      async.series [
-        (cb) ->
-          charge_ap character, 0, cb
-        (cb) ->
-          say character, target, msg, cb
-      ], cb
+      say character, target, msg, cb
     else
       cb 'Unknown Chat Volume'

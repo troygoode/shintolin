@@ -3,7 +3,7 @@ queries = require '../queries'
 
 module.exports = (character, ap, cb) ->
   if ap > character.ap
-    cb 'Unsufficient Action Points'
+    cb 'Insufficient AP'
   else
     query =
       _id: character._id
