@@ -1,0 +1,28 @@
+#!/usr/bin/env coffee
+
+require 'babel/register'
+
+{chat_messages, characters} = require('../../db').promisified
+
+query =
+  volume: 'settlement'
+  settlement_id: {$exists: false}
+
+chat_messages.find(query)
+  .map (message) ->
+    characters.get(_id: message.sender_id)
+      .then (sender) ->
+        query =
+          _id: message._id
+        update =
+          $set:
+            settlement_id: sender.settlement_id
+            settlement_name: sender.settlement_name
+            settlement_slug: sender.settlement_slug
+        chat_messages.update query, update
+
+  .then ->
+    process.exit 0
+  .catch (err) ->
+    console.error err
+    process.exit 1

@@ -9,6 +9,7 @@ days_until_full_status = 1
 get_settlement_by_slug = Bluebird.promisify queries.get_settlement_by_slug
 get_character = Bluebird.promisify queries.get_character
 all_active_members = Bluebird.promisify queries.all_active_members
+settlement_chat = Bluebird.promisify queries.latest_settlement_chat_messages
 update_settlement_profile = Bluebird.promisify commands.update_settlement_profile
 vote_for = Bluebird.promisify commands.vote_for
 evict = Bluebird.promisify commands.evict
@@ -85,6 +86,10 @@ load_settlement = (req, options = {}) ->
 module.exports = (app) ->
 
   app.get '/settlements/:settlement_slug', (req, res, next) ->
+    find_chat_messages = (settlement, start, count) ->
+      return Bluebird.resolve([]) unless req.session?.developer
+      settlement_chat(settlement, 0, 10)
+
     Bluebird.resolve()
       .then ->
         get_settlement_by_slug(req.params.settlement_slug)
@@ -92,21 +97,25 @@ module.exports = (app) ->
             all_active_members(settlement)
               .then (members) ->
                 [settlement, members]
-      .then filter_inactive_members
+              .then filter_inactive_members
       .then (settlement) ->
         return next() unless settlement?
-        res.render 'settlement',
-          moment: moment
-          is_leader: req.session.character? and settlement.leader? and req.session.character is settlement.leader._id.toString()
-          is_member: is_member settlement, req.session.character
-          is_provisional: is_provisional settlement, req.session.character
-          your_vote: _.find(settlement.members, (m) ->
-            req.session.character? and m._id.toString() is req.session.character
-          )?.voting_for
-          settlement: settlement
-          region: if settlement.region?.length then data.regions[settlement.region] else null
-          members: settlement.members.map (m) -> visit_member settlement, m
-          editable: req.session.character? and settlement.leader? and req.session.character is settlement.leader._id.toString()
+        find_chat_messages(settlement, 0, 10)
+          .then (chat_messages) ->
+            res.render 'settlement',
+              moment: moment
+              is_leader: req.session.character? and settlement.leader? and req.session.character is settlement.leader._id.toString()
+              is_member: is_member settlement, req.session.character
+              is_provisional: is_provisional settlement, req.session.character
+              your_vote: _.find(settlement.members, (m) ->
+                req.session.character? and m._id.toString() is req.session.character
+              )?.voting_for
+              settlement: settlement
+              region: if settlement.region?.length then data.regions[settlement.region] else null
+              members: settlement.members.map (m) -> visit_member settlement, m
+              editable: req.session.character? and settlement.leader? and req.session.character is settlement.leader._id.toString()
+              messages: chat_messages
+              origin: 'settlement'
       .catch next
 
   app.post '/settlements/:settlement_slug', (req, res, next) ->

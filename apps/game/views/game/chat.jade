@@ -164,6 +164,6 @@ if messages.length
               a.neutral(href='/profile/#{msg.sender_id}')= msg.sender_name
               i  ??? (#{msg.type}) ??? 
               div.time= moment(msg.sent).fromNow()
-    unless locals.origin === 'history'
+    unless locals.origin === 'history' || locals.origin === 'settlement'
       .more.text-center
         a.btn.btn-default(href='/game/chat?page=2') More

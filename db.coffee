@@ -8,6 +8,7 @@ indexes = []
 
 promisify_collection = (collection) ->
   pupdate = Bluebird.promisify collection.update, collection
+  pget = Bluebird.promisify collection.findOne, collection
 
   update: (query, command, options = {}) ->
     UPSERT = options.upsert ? false
@@ -18,6 +19,8 @@ promisify_collection = (collection) ->
     if options.transform?
       cursor = options.transform(cursor)
     Bluebird.promisify(cursor.toArray, cursor)()
+  get: (query) ->
+    pget query
 
 module.exports =
   ObjectId: (id) ->
@@ -35,6 +38,8 @@ module.exports =
   hits: db.collection 'hits'
 
   promisified:
+    characters: promisify_collection(db.collection 'characters')
+    chat_messages: promisify_collection(db.collection 'chat_messages')
     tiles: promisify_collection(db.collection 'tiles')
 
   register_index: (collection, index, options) ->

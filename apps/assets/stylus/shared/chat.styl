@@ -1,0 +1,92 @@
+// CHAT
+
+.chat-nav
+  margin-bottom 1.5em
+.chat
+  .chat-entry
+    input[type=text]
+      display inline-block
+    .legend
+      label
+        margin-right .5em
+  &.chat-history
+    .jumbotron
+      padding 1em 0
+      input[type=text]
+        width 20em
+        @media (min-width: 768px)
+          width 45em
+        @media (min-width: 992px)
+          width 62em
+        @media (min-width: 1200px)
+          width 70em
+      button
+        color $text_light
+  .messages
+    background-color white
+    border-radius .5em
+    margin-bottom 2em
+    padding 1em
+    .message
+      margin-bottom .5em
+      > div
+        padding .5em
+        border-radius .5em
+      .action
+        span.target
+          color black
+          border-bottom 1px dotted #000
+          text-transform lowercase
+        span.damage, span.knockout
+          color red
+          font-weight bold
+        span.heal, span.revive
+          color #1bc05a
+          font-weight bold
+        span.missed
+          color black
+          font-weight bold
+          font-style italic
+      .announcement
+        background-color $bg_dark
+        color $text_light
+        a
+          color $text_light
+          text-decoration underline
+        hr
+          margin .5em 0
+      .social
+        background-color $bg_light
+        overflow hidden
+        text-overflow ellipsis
+      .social-shout
+        font-weight bold
+      .social-whisper, .social-emote
+        font-style italic
+      .social-ooc
+        .label
+          position relative
+          top -1px
+      .time
+        font-size 10px
+        font-weight normal
+        font-style normal
+.game
+  .chat
+    background-color white
+    border-radius .5em
+    form
+      padding 1em 1em 0 1em
+      .form-group
+        margin-bottom 6px
+        input[type=text]
+          width 19.5em
+          @media (min-width: 768px)
+            width 19.5em
+          @media (min-width: 992px)
+            width 27em
+          @media (min-width: 1200px)
+            width 34em
+      margin-bottom 0
+    .messages
+      margin-bottom 0

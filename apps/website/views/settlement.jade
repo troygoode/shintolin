@@ -18,6 +18,8 @@ block content
             li(role='presentation'): a(href='#edit-settlement', aria-controls='edit-settlement', role='tab', data-toggle='tab') Edit Profile
             if is_developer
               li(role='presentation'): a(href='#developer', aria-controls='developer', role='tab', data-toggle='tab') Developer Tools
+            if is_developer
+              li(role='presentation'): a(href='#chat', aria-controls='chat', role='tab', data-toggle='tab') Recent Chat
 
         .tab-content(class={'profile-read-only': (!editable && !is_developer)})
           #settlement.tab-pane.active(role='tabpanel')
@@ -36,3 +38,8 @@ block content
                 input(type='hidden', name='y', value=settlement.y)
                 input(type='hidden', name='z', value=0)
                 button.btn.btn-default(type='submit') Teleport To
+          if is_developer
+            #chat.tab-pane(role='tabpanel')
+              h2.page-title Recent Chat
+              .chat.chat-history
+                include ../../game/views/game/chat
