@@ -61,7 +61,7 @@ module.exports = (character, tile) ->
         throw 'Invalid Weapon' unless _.contains item?.tags, 'weapon'
         inventory_item = _.find character.items, (i) ->
           i.item is item.id
-        throw "You don\'t have a #{item.name}." unless inventory_item?
+        throw "You don\'t have a #{item.name}." unless inventory_item? or item.intrinsic
         throw 'That weapon cannot damage a building.' unless _.contains item.tags, 'attack:building'
         buildings_to_destroy_first tile
 

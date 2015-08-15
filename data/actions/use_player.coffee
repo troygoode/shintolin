@@ -6,7 +6,7 @@ use = require '../../commands/use'
 
 module.exports = (character, tile) ->
   targets = (tile?.people ? []).filter (t) ->
-    t._id.toString() isnt character._id.toString()
+    t._id.toString() isnt character._id.toString() and not t.creature?
   return false unless targets.length
 
   usables = character.items
