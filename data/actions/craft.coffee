@@ -55,7 +55,7 @@ module.exports = (character, tile) ->
 
           .then ->
             throw 'Invalid Recipe' unless recipe?[ACTION]?
-            craft character, tile, recipe, ACTION
+            craft character, tile, recipe, null
 
           .then ([io, broken_items]) ->
             send_message 'craft', character, character,
