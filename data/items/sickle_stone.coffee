@@ -1,7 +1,7 @@
 module.exports =
   name: 'stone sickle'
   plural: 'stone sickles'
-  tags: ['weapon', 'sickle', 'harvest', 'harvest+']
+  tags: ['sickle', 'harvest', 'harvest+']
   weight: 2
   break_odds: .02
 

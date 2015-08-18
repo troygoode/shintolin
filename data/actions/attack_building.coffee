@@ -26,6 +26,7 @@ by_efficacy = (character, tile) ->
   (ic) ->
     item = items[ic.item]
     return unless _.contains item?.tags, 'weapon'
+    return unless item.accuracy? and item.damage?
     acc = item.accuracy character, null, tile
     dmg = item.damage character, null, tile
     (acc * dmg) * -1
