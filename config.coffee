@@ -1,5 +1,7 @@
 marked = require 'marked'
 
+require('dotenv').config()
+
 marked.setOptions
   gfm: true
   tables: true
