@@ -5,35 +5,36 @@ require 'babel/register'
 db = require '../../db'
 db.connect().then ->
 
-  async = require 'async'
+  Bluebird = require 'bluebird'
   data = require '../../data'
 
-  fail = (err) ->
-    console.error err
-    process.exit 1
+  Bluebird.resolve()
 
-  query =
-    settlement_id: {$exists: true}
-    building: {$exists: true}
-    z: 0
+    .then ->
+      QUERY =
+        settlement_id: {$exists: true}
+        building: {$exists: true}
+        z: 0
+      db.tiles().find(QUERY).toArray()
 
-  db.tiles().find(query).toArray (err, tiles) ->
-    return fail(err) if err?
-    async.eachSeries tiles, (tile, cb) ->
+    .each (tile) ->
       building = data.buildings[tile.building]
-      return cb() unless building.interior?
+      return unless building.interior?
 
-      query2 =
+      QUERY =
         x: tile.x
         y: tile.y
         z: 1
-      update =
+      UPDATE =
         $set:
           settlement_id: tile.settlement_id
           settlement_name: tile.settlement_name
           settlement_slug: tile.settlement_slug
-      db.tiles().updateOne query2, update, cb
-      cb()
-    , (err) ->
-      return fail(err) if err?
+      db.tiles().updateOne QUERY, UPDATE
+
+    .then ->
+      process.exit 1
+
+    .catch (err) ->
+      console.error err
       process.exit 0

@@ -84,12 +84,15 @@ block content
                       a(href='/profile/#{r.object.leader.slug}') #{r.object.leader.name}
                   else
                     span #{r.object.name}
-                  if r.object.slug && r.object.open
+                  if r.object.destroyed
+                    |  
+                    .label.label-danger Destroyed
+                  else if r.object.slug && r.object.open
                     |  
                     .label.label-success Open
                   else if r.object.slug
                     |  
-                    .label.label-danger Private
+                    .label.label-warning Private
               if config.columns && _.isArray(config.columns)
                 for column, i in config.columns
                   td #{r.mapped[i]}

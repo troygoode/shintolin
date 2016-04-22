@@ -1,5 +1,7 @@
 BPromise = require 'bluebird'
 db = require '../../db'
+{terrains} = require '../'
+_ = require 'underscore'
 
 DEFAULT_STARTING_HP = 10
 DEFAULT_AP_COST = 24
@@ -17,6 +19,8 @@ module.exports = (character, tile) ->
   else
     return false unless tile.z isnt 0
     return false unless character.settlement_id?.toString() is tile.settlement_id?.toString()
+    t = terrains[tile.terrain]
+    return false unless _.contains(t.actions ? [], 'revive_self')
     ap_cost = DEFAULT_AP_COST
     starting_hp = DEFAULT_STARTING_HP
 

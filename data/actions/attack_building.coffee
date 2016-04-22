@@ -19,6 +19,10 @@ buildings_to_destroy_first = (target) ->
         return false unless t.building?
         return false if t.hq
         return false if t._id.toString() is target._id.toString()
+
+        b = buildings[t.building]
+        return false if b.invulnerable
+
         big_buildings.indexOf(t.building) isnt -1
       matching.length
 
@@ -67,5 +71,5 @@ module.exports = (character, tile) ->
         buildings_to_destroy_first tile
 
       .then (number_to_destroy) ->
-        throw "There are still #{number} large buildings in the vicinity. You must destroy all the buildings in the area before you can attack the #{tile.building}." if number_to_destroy > 0
+        throw "There are still #{number_to_destroy} large buildings in the vicinity. You must destroy all the buildings in the area before you can attack the #{tile.building}." if number_to_destroy > 0
         damage_building character, tile, item

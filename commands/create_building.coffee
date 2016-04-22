@@ -28,8 +28,7 @@ module.exports = (outside_tile, building, cb) ->
         return cb(err) if err?
         update_tile = (err, inside_tile) ->
           return cb(err) if err?
-          query =
-            _id: inside_tile._id
+          query = coords
           update =
             $set:
               building: building.id

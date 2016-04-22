@@ -7,7 +7,7 @@ module.exports =
   hp: 50
   interior: '_interior_hospital'
   upgrade: true
-  actions: ['write', 'revive_self']
+  actions: ['write']
   max_occupancy: MAX_OCCUPANCY
 
   recovery: (character, tile) ->
