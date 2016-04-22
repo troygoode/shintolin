@@ -18,7 +18,7 @@ module.exports = (character, cb) ->
         update =
           $unset:
             settlement_provisional: true
-        db.characters.update query, update, cb
+        db.characters().updateOne query, update, cb
       (cb) ->
         # update settlement records
         query =
@@ -27,7 +27,7 @@ module.exports = (character, cb) ->
         update =
           $unset:
             'members.$.provisional': true
-        db.settlements.update query, update, cb
+        db.settlements().updateOne query, update, cb
       (cb) ->
         # notify
         message =

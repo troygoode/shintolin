@@ -12,4 +12,4 @@ module.exports = (character, ap, cb) ->
         ap: 0 - ap
       $set:
         last_action: new Date()
-    db.characters.update query, update, cb
+    db.characters().updateOne query, update, cb

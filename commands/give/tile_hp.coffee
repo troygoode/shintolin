@@ -20,4 +20,4 @@ module.exports = (character, tile, msg, cb) ->
   update =
     $inc:
       hp: bound_increase(msg, tile.hp, (building.hp_max ? building.hp))
-  db.tiles.update query, update, cb
+  db.tiles().updateOne query, update, cb

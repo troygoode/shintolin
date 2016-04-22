@@ -6,4 +6,4 @@ db.register_index db.characters,
 module.exports = (name, cb) ->
   query =
     name: new RegExp("^#{name}$", 'i')
-  db.characters.findOne query, cb
+  db.characters().findOne query, cb

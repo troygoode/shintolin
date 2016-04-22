@@ -1,4 +1,4 @@
-#!/usr/bin/env coffee
+#!/usr/bin/env node_modules/coffee-script/bin/coffee
 
 require 'babel/register'
 
@@ -17,7 +17,7 @@ fin = (err) ->
 
 query =
   creature: {$exists: true}
-db.characters.find(query).toArray (err, creatures) ->
+db.characters().find(query).toArray (err, creatures) ->
   return fin(err) if err?
   async.each creatures, (creature, cb) ->
     commands.move_creature creature, cb

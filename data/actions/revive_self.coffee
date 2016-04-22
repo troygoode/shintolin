@@ -1,14 +1,15 @@
 BPromise = require 'bluebird'
 db = require '../../db'
-update_characters = BPromise.promisify(db.characters.update, db.characters)
-update_tiles = BPromise.promisify(db.tiles.update, db.tiles)
-send_message = BPromise.promisify(require '../../commands/send_message')
-send_message_nearby = BPromise.promisify(require '../../commands/send_message_nearby')
 
 DEFAULT_STARTING_HP = 10
 DEFAULT_AP_COST = 24
 
 module.exports = (character, tile) ->
+  update_characters = BPromise.promisify(db.characters().update, db.characters())
+  update_tiles = BPromise.promisify(db.tiles().update, db.tiles())
+  send_message = BPromise.promisify(require '../../commands/send_message')
+  send_message_nearby = BPromise.promisify(require '../../commands/send_message_nearby')
+
   return false unless character.hp is 0
   if character.revivable?
     ap_cost = 0
@@ -46,7 +47,7 @@ module.exports = (character, tile) ->
             'people.$.hp': starting_hp
           $unset:
             'people.$.revivable': true
-        update_tiles query, update, false, true
+        update_tiles query, update
 
       .then ->
         send_message 'revived', character, character,

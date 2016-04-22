@@ -12,7 +12,7 @@ alter_healer_revives = (character, cb) ->
   update =
     $inc:
       revives: 1
-  db.characters.update query, update, cb
+  db.characters().updateOne query, update, cb
 
 alter_target = (character, healer, amount, cb) ->
   async.parallel [
@@ -28,14 +28,14 @@ alter_target = (character, healer, amount, cb) ->
               _id: healer._id
               name: healer.name
               slug: healer.slug
-      db.characters.update query, update, cb
+      db.characters().updateOne query, update, cb
     (cb) ->
       query =
         'people._id': character._id
       update =
         $set:
           'people.$.revivable': true
-      db.tiles.update query, update, false, true, cb
+      db.tiles().updateMany query, update, cb
   ], cb
 
 notify_user = (healer, target, item, amount, cb) ->

@@ -11,4 +11,4 @@ module.exports = (character, tile, msg, cb) ->
   update =
     $set:
       terrain: msg
-  db.tiles.update query, update, cb
+  db.tiles().updateOne query, update, cb

@@ -22,5 +22,5 @@ module.exports = (type, sender, recipients, blacklist = [], message = {}, cb) ->
         sent: now
       , message
       m.recipient_id = recipient._id if recipient?
-      db.chat_messages.insert m, cb
+      db.chat_messages().insertOne m, cb
   , cb

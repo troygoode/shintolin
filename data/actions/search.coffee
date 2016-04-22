@@ -8,7 +8,6 @@ increment_search = BPromise.promisify(require('../../commands').increment_search
 give_items = BPromise.promisify(require('../../commands').give.items)
 give_xp = BPromise.promisify(require('../../commands').give.xp)
 remove_item = BPromise.promisify(require('../../commands').remove_item)
-update_tile = BPromise.promisify(db.tiles.update, db.tiles)
 config = require '../../config'
 
 resolve_terrain = (character, tile) ->
@@ -46,6 +45,7 @@ take_from_tile = (character, tile, total_odds) ->
   total_odds: total_odds
 
 module.exports = (character, tile) ->
+  update_tile = BPromise.promisify(db.tiles().update, db.tiles())
   {terrain, building} = resolve_terrain character, tile
   tags = (terrain?.tags ? []).concat(building?.tags ? [])
   return false if tags.indexOf('visible_inventory') isnt -1

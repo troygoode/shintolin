@@ -34,7 +34,7 @@ module.exports = (character, tile, takes, cb) ->
       update =
         $inc:
           hp: 0 - bound_decrease(takes.tile_hp, tile.hp, 0)
-      db.tiles.update query, update, cb
+      db.tiles().updateOne query, update, cb
     (cb) ->
       # remove broken tools from inventory
       return cb() unless broken.length

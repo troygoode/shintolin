@@ -14,4 +14,4 @@ module.exports = (tile, terrain, region, cb) ->
         terrain: terrain
       $unset:
         region: true
-  db.tiles.update query, update, cb
+  db.tiles().updateOne query, update, cb

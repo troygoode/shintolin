@@ -1,4 +1,4 @@
-#!/usr/bin/env coffee
+#!/usr/bin/env node_modules/coffee-script/bin/coffee
 
 require 'babel/register'
 
@@ -22,7 +22,7 @@ async.series [
     query =
       settlement_joined: {$lte: past}
       settlement_provisional: {$exists: true}
-    db.characters.find(query).toArray (err, characters) ->
+    db.characters().find(query).toArray (err, characters) ->
       return cb(err) if err?
       matched = characters
       cb()
@@ -34,7 +34,7 @@ async.series [
     update =
       $unset:
         settlement_provisional: true
-    db.characters.update query, update, false, true, cb
+    db.characters().updateOne query, update, cb
   (cb) ->
     # update settlement records
     return cb() unless matched?.length
@@ -43,7 +43,7 @@ async.series [
     update =
       $unset:
         'members.$.provisional': true
-    db.settlements.update query, update, false, true, cb
+    db.settlements().updateMany query, update, cb
   (cb) ->
     # notify
     return cb() unless matched?.length

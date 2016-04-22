@@ -10,4 +10,4 @@ module.exports = (character, skip, limit, cb) ->
       {recipient_id: character._id}
       {recipient_id: null}
     ]
-  db.chat_messages.find(query).sort({ sent: -1 }).skip(skip).limit(limit).toArray cb
+  db.chat_messages().find(query).sort({ sent: -1 }).skip(skip).limit(limit).toArray cb

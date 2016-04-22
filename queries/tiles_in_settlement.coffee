@@ -10,4 +10,4 @@ module.exports = (settlement, cb) ->
   query =
     settlement_id: settlement._id
     z: 0
-  db.tiles.find(query).sort(y: 1, x: 1).toArray cb
+  db.tiles().find(query).sort(y: 1, x: 1).toArray cb

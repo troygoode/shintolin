@@ -1,4 +1,4 @@
-#!/usr/bin/env coffee
+#!/usr/bin/env node_modules/coffee-script/bin/coffee
 
 require 'babel/register'
 
@@ -43,7 +43,7 @@ handle_tile = (tile) ->
 
 Bluebird.resolve()
   .then ->
-    db.promisified.tiles.find(items: {$exists: true})
+    db.promisified.tiles().find(items: {$exists: true})
   .map handle_tile
   .then ->
     process.exit 0

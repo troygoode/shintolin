@@ -32,7 +32,7 @@ module.exports = (founder, hq, name, cb) ->
           building: hq_building.id
           hp: hq_building.hp
           hq: true
-      db.tiles.update query, update, cb
+      db.tiles().updateOne query, update, cb
     (cb) ->
       # get all coords
       coords = queries.coords_in_circle_around(hq, radius).map (c) ->
@@ -76,7 +76,7 @@ module.exports = (founder, hq, name, cb) ->
               slug: founder.slug
           }
         ]
-      db.settlements.insert s, (err, s) ->
+      db.settlements().insertOne s, (err, s) ->
         return cb(err) if err?
         settlement = s
         cb()
@@ -95,7 +95,7 @@ module.exports = (founder, hq, name, cb) ->
             settlement_id: settlement._id
             settlement_name: settlement.name
             settlement_slug: settlement.slug
-        db.tiles.update query, update, cb
+        db.tiles().updateOne query, update, cb
       async.each coords_and_inside, (coord, cb) ->
         queries.get_tile_by_coords coord, (err, tile) ->
           return cb(err) if err?
@@ -115,7 +115,7 @@ module.exports = (founder, hq, name, cb) ->
           settlement_name: settlement.name
           settlement_slug: settlement.slug
           settlement_joined: now
-      db.characters.update query, update, cb
+      db.characters().updateOne query, update, cb
   ], (err) ->
     return cb(err) if err?
     cb null, settlement

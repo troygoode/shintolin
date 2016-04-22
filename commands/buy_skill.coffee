@@ -38,7 +38,7 @@ module.exports = (character, _skill, cb) ->
         $push:
           skills: skill.id
         $inc: xp_update
-      db.characters.update query, update, cb
+      db.characters().updateOne query, update, cb
     , (cb) ->
       # notify character
       send_message 'learned', character, character,

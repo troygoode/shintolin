@@ -42,7 +42,7 @@ remove_settlement = (ctx) ->
               slug: ctx.destroyer?.slug
           $unset:
             leader: true
-        db.settlements.update query, update, cb
+        db.settlements().updateOne query, update, cb
       , (cb) ->
         query =
           settlement_id: ctx.settlement._id
@@ -53,7 +53,7 @@ remove_settlement = (ctx) ->
             settlement_slug: true
             settlement_joined: true
             settlement_provisional: true
-        db.characters.update query, update, false, true, cb
+        db.characters().updateMany query, update, cb
       , (cb) ->
         query =
           settlement_id: ctx.settlement._id
@@ -62,7 +62,7 @@ remove_settlement = (ctx) ->
             settlement_id: true
             settlement_name: true
             settlement_slug: true
-        db.tiles.update query, update, false, true, cb
+        db.tiles().updateMany query, update, cb
     ], cb
 
 notify_nearby = (ctx) ->

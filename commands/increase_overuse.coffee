@@ -6,4 +6,4 @@ module.exports = (tile, delta, cb) ->
   update =
     $inc:
       overuse: delta
-  db.tiles.update query, update, false, false, cb
+  db.tiles().updateOne query, update, cb

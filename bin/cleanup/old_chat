@@ -1,4 +1,4 @@
-#!/usr/bin/env coffee
+#!/usr/bin/env node_modules/coffee-script/bin/coffee
 
 require 'babel/register'
 
@@ -11,7 +11,7 @@ cutoff.setDate(cutoff.getDate() - days)
 query =
   sent: {$lt: cutoff}
 
-db.chat_messages.remove query, (err, messages) ->
+db.chat_messages().deleteMany query, (err, messages) ->
   if err?
     console.log err
   else

@@ -34,7 +34,7 @@ module.exports = (character, _skill, cb) ->
         $pull:
           skills: skill.id
         $inc: xp_update
-      db.characters.update query, update, cb
+      db.characters().updateOne query, update, cb
     , (cb) ->
       # notify character
       send_message 'unlearned', character, character,

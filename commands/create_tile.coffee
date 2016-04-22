@@ -9,4 +9,4 @@ module.exports = (coords, terrain, region, cb) ->
     region: region
     terrain: terrain ? config.default_terrain
     people: []
-  db.tiles.insert tile, cb
+  db.tiles().insertOne tile, cb

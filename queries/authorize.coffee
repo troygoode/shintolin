@@ -1,5 +1,4 @@
 bcrypt = require 'bcrypt'
-db = require '../db'
 get_character_by_email = require './get_character_by_email'
 
 module.exports = (email, password, cb) ->

@@ -1,4 +1,4 @@
-#!/usr/bin/env coffee
+#!/usr/bin/env node_modules/coffee-script/bin/coffee
 
 require 'babel/register'
 
@@ -19,6 +19,6 @@ update =
     kills: 0
     deaths: 0
 
-db.characters.update query, update, UPSERT.NO, MULTI.YES, (err) ->
+db.characters().updateMany query, update, UPSERT.NO, MULTI.YES, (err) ->
   return fail(err) if err?
   process.exit 0

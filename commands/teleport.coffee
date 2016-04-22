@@ -63,7 +63,7 @@ module.exports = (character, from, to, cb) ->
             z: if to_tile then to_tile.z else to.z
             region: to_tile?.region
             recovery: recovery
-        db.characters.update query, update, cb
+        db.characters().updateOne query, update, cb
       (cb) ->
         query =
           x: from_tile.x
@@ -73,7 +73,7 @@ module.exports = (character, from, to, cb) ->
           $pull:
             people:
               _id: character._id
-        db.tiles.update query, update, false, true, cb
+        db.tiles().updateOne query, update, cb
       (cb) ->
         if character.creature?
           update =
@@ -96,7 +96,7 @@ module.exports = (character, from, to, cb) ->
         if to_tile?
           query =
             _id: to_tile._id
-          db.tiles.update query, update, cb
+          db.tiles().updateOne query, update, cb
         else
           query =
             x: to.x
@@ -104,5 +104,5 @@ module.exports = (character, from, to, cb) ->
             z: to.z
           create_tile query, undefined, undefined, (err) ->
             return cb(err) if err?
-            db.tiles.update query, update, cb
+            db.tiles().updateOne query, update, cb
     ], cb

@@ -7,4 +7,4 @@ module.exports = (slug, cb) ->
   return cb() unless slug?.length
   query =
     slug: slug
-  db.settlements.findOne query, cb
+  db.settlements().findOne query, cb

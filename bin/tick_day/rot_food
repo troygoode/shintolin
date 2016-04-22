@@ -1,4 +1,4 @@
-#!/usr/bin/env coffee
+#!/usr/bin/env node_modules/coffee-script/bin/coffee
 
 require 'babel/register'
 
@@ -34,7 +34,7 @@ check_for_rot = (target) ->
 
 async.series [
   (cb) ->
-    db.characters.find(creature: {$exists: false}).toArray (err, characters) ->
+    db.characters().find(creature: {$exists: false}).toArray (err, characters) ->
       return cb(err) if err?
       async.each characters, (character, cb) ->
         async.each character.items, check_for_rot(character), cb
@@ -42,7 +42,7 @@ async.series [
   (cb) ->
     query =
       items: {$exists: true}
-    db.tiles.find(query).toArray (err, tiles) ->
+    db.tiles().find(query).toArray (err, tiles) ->
       return cb(err) if err?
       async.each tiles, (tile, cb) ->
         async.each tile.items, check_for_rot(tile), cb

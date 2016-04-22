@@ -11,4 +11,4 @@ module.exports = (tile, cb) ->
     update =
       $set:
         searches: 1
-  db.tiles.update query, update, cb
+  db.tiles().updateOne query, update, cb

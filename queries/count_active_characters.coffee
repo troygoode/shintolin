@@ -11,4 +11,4 @@ module.exports = (cb) ->
       $gt: moment().subtract(5, 'days')._d
     slug:
       $exists: true
-  db.characters.find(query).count cb
+  db.characters().find(query).count cb

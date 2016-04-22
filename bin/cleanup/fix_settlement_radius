@@ -1,4 +1,4 @@
-#!/usr/bin/env coffee
+#!/usr/bin/env node_modules/coffee-script/bin/coffee
 
 require 'babel/register'
 Bluebird = require 'bluebird'
@@ -21,7 +21,7 @@ get_settlement_by_slug = Bluebird.promisify(queries.get_settlement_by_slug)
 get_tile_by_coords = Bluebird.promisify(queries.get_tile_by_coords)
 
 db = require '../../db'
-update_tiles = Bluebird.promisify(db.tiles.update, db.tiles)
+update_tiles = Bluebird.promisify(db.tiles().updateMany, db.tiles())
 
 process_settlement = (settlement) ->
   throw 'Invalid Settlement' unless settlement?

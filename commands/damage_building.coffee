@@ -44,7 +44,7 @@ update_attacker = (ctx) ->
     update =
       $inc:
         xp_warrior: if ctx.destroyed then (ctx.damage + 20) else Math.ceil( (ctx.damage + 1) / 2)
-    db.characters.update query, update, cb
+    db.characters().updateOne query, update, cb
 
 break_weapon = (ctx) ->
   (cb) ->
@@ -62,7 +62,7 @@ update_tile = (ctx) ->
       update =
         $inc:
           hp: 0 - ctx.damage
-      db.tiles.update query, update, cb
+      db.tiles().updateOne query, update, cb
 
 notify_attacker = (ctx) ->
   (cb) ->

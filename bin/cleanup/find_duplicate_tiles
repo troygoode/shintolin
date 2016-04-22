@@ -1,4 +1,4 @@
-#!/usr/bin/env coffee
+#!/usr/bin/env node_modules/coffee-script/bin/coffee
 
 require 'babel/register'
 
@@ -9,7 +9,7 @@ fail = (err) ->
   console.error err
   process.exit 1
 
-db.tiles.find({}).sort({x: 1, y: 1, z: 1}).toArray (err, tiles) ->
+db.tiles().find({}).sort({x: 1, y: 1, z: 1}).toArray (err, tiles) ->
   return fail(err) if err?
 
   for tile in tiles

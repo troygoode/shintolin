@@ -1,4 +1,4 @@
-#!/usr/bin/env coffee
+#!/usr/bin/env node_modules/coffee-script/bin/coffee
 
 require 'babel/register'
 
@@ -47,7 +47,7 @@ charge_hunger = (character, cb) ->
   update =
     $inc:
       hunger: 0 - hunger_lost
-  db.characters.update query, update, cb
+  db.characters().updateOne query, update, cb
 
 query =
   hunger:
@@ -55,7 +55,7 @@ query =
   last_action:
     $gt: moment().subtract(24, 'hours')._d
 
-db.characters.find(query).toArray (err, characters) ->
+db.characters().find(query).toArray (err, characters) ->
   return fin(err) if err?
   async.eachSeries characters, (character, cb) ->
     food = find_food character

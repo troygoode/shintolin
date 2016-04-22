@@ -33,5 +33,5 @@ module.exports = (character, bio, image_url, title_id, email, password, cb) ->
       if password?.length
         update.$set.password = hash_password password
 
-      db.characters.update query, update, cb
+      db.characters().updateOne query, update, cb
   ], cb

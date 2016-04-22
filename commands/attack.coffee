@@ -26,7 +26,7 @@ update_attacker = (ctx, cb) ->
       update =
         $inc:
           deaths: 1
-      db.characters.update query, update, cb
+      db.characters().updateOne query, update, cb
     (cb) ->
       return cb() unless ctx.hit
       xp = if ctx.kill then (ctx.damage + 20) else Math.ceil( (ctx.damage + 1) / 2)
@@ -35,7 +35,7 @@ update_attacker = (ctx, cb) ->
       update =
         $inc:
           xp_warrior: xp
-      db.characters.update query, update, cb
+      db.characters().updateOne query, update, cb
     (cb) ->
       return cb() unless ctx.kill
       return cb() if ctx.is_creature
@@ -45,7 +45,7 @@ update_attacker = (ctx, cb) ->
         $inc:
           frags: ctx.frags
           kills: 1
-      db.characters.update query, update, cb
+      db.characters().updateOne query, update, cb
     (cb) ->
       return cb() unless ctx.is_weapon_broken
       remove_item ctx.attacker, ctx.weapon, 1, cb
@@ -71,7 +71,7 @@ update_target = (ctx, cb) ->
           $inc:
             frags: 0 - ctx.frags
             deaths: 1
-        db.characters.update query, update, cb
+        db.characters().updateOne query, update, cb
       (cb) ->
         return cb() unless ctx.remove_from_settlement
         remove_from_settlement ctx.target, cb

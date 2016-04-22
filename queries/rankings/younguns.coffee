@@ -10,4 +10,4 @@ module.exports = (cb) ->
     creature: {$exists: false}
     last_action:
       $gt: moment().subtract(5, 'days')._d
-  db.characters.find(query).sort({ created: -1 }).limit(10).toArray cb
+  db.characters().find(query).sort({ created: -1 }).limit(10).toArray cb

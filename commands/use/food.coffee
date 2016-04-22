@@ -28,7 +28,7 @@ alter_target_hpmax_and_hunger = (character, amount_hpmax, amount_hunger, cb) ->
         $set:
           hp_max: character.hp_max + amount_hpmax
           hunger: character.hunger + amount_hunger
-      db.characters.update query, update, cb
+      db.characters().updateOne query, update, cb
     (cb) ->
       query =
         x: character.x
@@ -38,7 +38,7 @@ alter_target_hpmax_and_hunger = (character, amount_hpmax, amount_hunger, cb) ->
       update =
         $set:
           'people.$.hp_max': character.hp_max + amount_hpmax
-      db.tiles.update query, update, cb
+      db.tiles().updateOne query, update, cb
   ], cb
 
 module.exports = (user, target, item, tile, cb) ->

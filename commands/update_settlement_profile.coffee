@@ -33,7 +33,7 @@ module.exports = (settlement, new_values, cb) ->
           provisional_title: new_values.provisional_title ? ''
           website_url: new_values.website_url ? ''
           open: new_values.open
-      db.settlements.update query, update, cb
+      db.settlements().updateOne query, update, cb
     , (cb) ->
       return cb() if settlement.name is new_values.name
       # update cached version of settlement name on characters
@@ -42,7 +42,7 @@ module.exports = (settlement, new_values, cb) ->
       update =
         $set:
           settlement_name: new_values.name
-      db.characters.update query, update, false, true, cb
+      db.characters().updateMany query, update, cb
     , (cb) ->
       return cb() if settlement.name is new_values.name
       # update cached version of settlement name on tiles
@@ -51,5 +51,5 @@ module.exports = (settlement, new_values, cb) ->
       update =
         $set:
           settlement_name: new_values.name
-      db.tiles.update query, update, false, true, cb
+      db.tiles().updateOne query, update, cb
   ], cb

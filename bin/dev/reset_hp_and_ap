@@ -1,4 +1,4 @@
-#!/usr/bin/env coffee
+#!/usr/bin/env node_modules/coffee-script/bin/coffee
 
 require 'babel/register'
 
@@ -18,7 +18,7 @@ async.parallel [
         hp: 50
         ap: 100
         frags: 1
-    db.characters.update query, update, false, true, (err, updated) ->
+    db.characters().updateMany query, update, (err, updated) ->
       return cb(err) if err?
       console.log "Updated #{updated} character records."
       cb()
@@ -28,7 +28,7 @@ async.parallel [
     update =
       $set:
         'people.$.hp': 50
-    db.tiles.update query, update, false, true, (err, updated) ->
+    db.tiles().updateMany query, update, (err, updated) ->
       return cb(err) if err?
       console.log "Updated #{updated} tile records."
       cb()

@@ -1,4 +1,4 @@
-#!/usr/bin/env coffee
+#!/usr/bin/env node_modules/coffee-script/bin/coffee
 
 require 'babel/register'
 
@@ -60,7 +60,7 @@ async.series [
       update =
         $set:
           developer: true
-      db.characters.update query, update, cb
+      db.characters().updateOne query, update, cb
   (cb) ->
     # move characters to starting positions
     arr = []

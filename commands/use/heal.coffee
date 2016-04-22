@@ -20,7 +20,7 @@ alter_target_hp = (character, amount, cb) ->
       update =
         $set:
           hp: character.hp + amount
-      db.characters.update query, update, cb
+      db.characters().updateOne query, update, cb
     (cb) ->
       query =
         x: character.x
@@ -30,7 +30,7 @@ alter_target_hp = (character, amount, cb) ->
       update =
         $set:
           'people.$.hp': character.hp + amount
-      db.tiles.update query, update, cb
+      db.tiles().updateOne query, update, cb
   ], cb
 
 notify_user = (healer, target, item, amount, remaining, cb) ->

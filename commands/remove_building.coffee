@@ -19,7 +19,7 @@ remove_building = (tile) ->
         hp: true
         hq: true
         message: true
-    db.tiles.update query, update, cb
+    db.tiles().updateOne query, update, cb
 
 remove_interior = (tile, building) ->
   (cb) ->
@@ -34,7 +34,7 @@ remove_interior = (tile, building) ->
           x: tile.x
           y: tile.y
           z: 0
-        db.characters.find(old_coords).toArray (err, characters) ->
+        db.characters().find(old_coords).toArray (err, characters) ->
           return cb(err) if err?
           async.forEach characters, (character, cb) ->
             teleport character, old_coords, new_coords, cb
@@ -44,7 +44,7 @@ remove_interior = (tile, building) ->
           x: tile.x
           y: tile.y
           z: 1
-        db.tiles.remove query, cb
+        db.tiles().deleteOne query, cb
     ], cb
 
 module.exports = (tile, cb) ->

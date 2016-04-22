@@ -5,4 +5,4 @@ db.register_index db.characters,
   email: 1
 
 module.exports = (cb) ->
-  db.characters.find(email: {$exists: true}).sort(name: 1).toArray cb
+  db.characters().find(email: {$exists: true}).sort(name: 1).toArray cb

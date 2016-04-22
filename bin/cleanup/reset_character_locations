@@ -1,4 +1,4 @@
-#!/usr/bin/env coffee
+#!/usr/bin/env node_modules/coffee-script/bin/coffee
 
 require 'babel/register'
 
@@ -12,11 +12,11 @@ fail = (err) ->
   console.error err
   process.exit 1
 
-db.tiles.update {$where: "this.people.length > 0"}, {$set: {people: []}}, UPSERT.NO, MULTI.YES, (err, count) ->
+db.tiles().updateMany {$where: "this.people.length > 0"}, {$set: {people: []}}, UPSERT.NO, MULTI.YES, (err, count) ->
   return fail(err) if err?
   console.log "#{count} affected tiles"
 
-  db.characters.find({}).toArray (err, characters) ->
+  db.characters().find({}).toArray (err, characters) ->
     return fail(err) if err?
     console.log "#{characters.length} characters"
 

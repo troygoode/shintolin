@@ -1,4 +1,3 @@
-db = require '../db'
 tiles_in_circle_around = require './tiles_in_circle_around'
 
 module.exports = (center, radius, building, cb) ->

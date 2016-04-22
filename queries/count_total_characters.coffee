@@ -8,4 +8,4 @@ module.exports = (cb) ->
   query =
     slug:
       $exists: true
-  db.characters.find(query).count cb
+  db.characters().find(query).count cb

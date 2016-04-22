@@ -1,4 +1,4 @@
-#!/usr/bin/env coffee
+#!/usr/bin/env node_modules/coffee-script/bin/coffee
 
 require 'babel/register'
 
@@ -15,7 +15,7 @@ update_building = (tile, damage, cb) ->
   update =
     $inc:
       hp: 0 - damage
-  db.tiles.update query, update, cb
+  db.tiles().updateOne query, update, cb
 
 notify_exterior = (tile, damage, cb) ->
   coords =
@@ -67,7 +67,7 @@ async.series [
       building:
         $exists: true
       z: 0
-    db.tiles.find(query).toArray (err, tiles) ->
+    db.tiles().find(query).toArray (err, tiles) ->
       return cb(err) if err?
       is_region_affected = {}
       async.each tiles, (tile, cb) ->

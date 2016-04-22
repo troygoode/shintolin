@@ -1,4 +1,4 @@
-#!/usr/bin/env coffee
+#!/usr/bin/env node_modules/coffee-script/bin/coffee
 
 require 'babel/register'
 
@@ -8,8 +8,8 @@ fail = (err) ->
   console.error err
   process.exit 1
 
-db.tiles.findOne {_id: db.ObjectId(process.argv[2])}, (err, tile) ->
+db.tiles().findOne {_id: db.ObjectId(process.argv[2])}, (err, tile) ->
   return fail(err) if err?
-  db.tiles.remove {_id: tile._id}, (err) ->
+  db.tiles.deleteOne {_id: tile._id}, (err) ->
     return fail(err) if err?
     process.exit 0

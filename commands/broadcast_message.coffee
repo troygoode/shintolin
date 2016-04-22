@@ -21,6 +21,6 @@ module.exports = (type, sender, blacklist = [], message = {}, cb) ->
           sent: now
           recipient_id: actor._id
         , message
-        db.chat_messages.insert m, cb
+        db.chat_messages().insertOne m, cb
     , (err) ->
       cb err

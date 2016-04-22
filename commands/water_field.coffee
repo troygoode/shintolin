@@ -6,4 +6,4 @@ module.exports = (tile, cb) ->
   update =
     $set:
       watered: true
-  db.tiles.update query, update, false, false, cb
+  db.tiles().updateOne query, update, cb

@@ -16,7 +16,7 @@ update_settlement = (character, settlement, now, cb) ->
         slug: character.slug
         joined: now
         provisional: settlement.population isnt 0
-  db.settlements.update query, update, cb
+  db.settlements().updateOne query, update, cb
 
 update_character = (character, settlement, now, cb) ->
   query =
@@ -28,7 +28,7 @@ update_character = (character, settlement, now, cb) ->
       settlement_slug: settlement.slug
       settlement_joined: now
       settlement_provisional: settlement.population isnt 0
-  db.characters.update query, update, cb
+  db.characters().updateOne query, update, cb
 
 defacto_leader = (character, settlement, cb) ->
   return cb() if settlement.population > 0
@@ -40,7 +40,7 @@ defacto_leader = (character, settlement, cb) ->
         _id: character._id
         name: character.name
         slug: character.slug
-  db.settlements.update query, update, cb
+  db.settlements().updateOne query, update, cb
 
 notify_joiner = (character, settlement, cb) ->
   send_message 'join', character, character,

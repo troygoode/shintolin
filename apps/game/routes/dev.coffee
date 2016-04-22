@@ -34,7 +34,7 @@ module.exports = (app) ->
     update =
       $set:
         ap: 100
-    db.characters.update query, update, (err) ->
+    db.characters().updateOne query, update, (err) ->
       return next(err) if err?
       res.redirect '/game/dev'
 
@@ -59,7 +59,7 @@ module.exports = (app) ->
         hp: 50
       $unset:
         revivable: true
-    db.characters.update query, update, (err) ->
+    db.characters().updateOne query, update, (err) ->
       return next(err) if err?
       res.redirect '/game/dev'
 
@@ -69,7 +69,7 @@ module.exports = (app) ->
     update =
       $set:
         hp: 0
-    db.characters.update query, update, (err) ->
+    db.characters().updateOne query, update, (err) ->
       return next(err) if err?
       res.redirect '/game/dev'
 

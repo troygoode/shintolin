@@ -1,4 +1,4 @@
-#!/usr/bin/env coffee
+#!/usr/bin/env node_modules/coffee-script/bin/coffee
 
 require 'babel/register'
 
@@ -25,9 +25,9 @@ grow_tile = (tile, cb) ->
   update =
     $set:
       terrain: new_terrain
-  db.tiles.update query, update, cb
+  db.tiles().updateOne query, update, cb
 
-db.tiles.find().toArray (err, tiles) ->
+db.tiles().find().toArray (err, tiles) ->
   if err?
     console.log err
     process.exit 1

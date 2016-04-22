@@ -14,4 +14,4 @@ module.exports = (coords, radius, cb) ->
       $gte: coords.y - radius
       $lte: coords.y + radius
     z: coords.z
-  db.tiles.find(query).toArray cb
+  db.tiles().find(query).toArray cb

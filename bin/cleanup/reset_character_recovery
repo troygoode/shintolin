@@ -1,4 +1,4 @@
-#!/usr/bin/env coffee
+#!/usr/bin/env node_modules/coffee-script/bin/coffee
 
 require 'babel/register'
 
@@ -14,7 +14,7 @@ query =
   building:
     $exists: true
 
-db.tiles.find(query).toArray (err, tiles) ->
+db.tiles().find(query).toArray (err, tiles) ->
   return fail(err) if err?
   console.log "#{tiles.length} tiles with buildings"
 
@@ -22,7 +22,7 @@ db.tiles.find(query).toArray (err, tiles) ->
     async.forEachOfSeries t.people ? [], (c, j, cb) ->
       recovery = queries.calculate_recovery c, t
       console.log recovery
-      db.characters.update {_id: c._id},
+      db.characters().updateOne {_id: c._id},
         $set:
           recovery: recovery
       , cb

@@ -13,4 +13,4 @@ module.exports = (cb) ->
       $exists: true
     settlement_id:
       $exists: false
-  db.characters.find(query).count cb
+  db.characters().find(query).count cb

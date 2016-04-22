@@ -1,4 +1,4 @@
-#!/usr/bin/env coffee
+#!/usr/bin/env node_modules/coffee-script/bin/coffee
 
 require 'babel/register'
 
@@ -36,7 +36,7 @@ spawn_in_region = (region, cb) ->
   query =
     region: region.id
     z: 0
-  db.tiles.find(query).toArray (err, tiles_in_region) ->
+  db.tiles().find(query).toArray (err, tiles_in_region) ->
     return cb(err) if err?
     return cb() unless tiles_in_region?.length
 
@@ -77,7 +77,7 @@ async.series [
   (cb) ->
     query =
       creature: {$exists: true}
-    db.characters.find(query).toArray (err, _all_creatures) ->
+    db.characters().find(query).toArray (err, _all_creatures) ->
       return cb(err) if err?
       all_creatures = _all_creatures
       cb()

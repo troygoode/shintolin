@@ -1,4 +1,4 @@
-#!/usr/bin/env coffee
+#!/usr/bin/env node_modules/coffee-script/bin/coffee
 
 require 'babel/register'
 
@@ -15,7 +15,7 @@ query =
   building: {$exists: true}
   z: 0
 
-db.tiles.find(query).toArray (err, tiles) ->
+db.tiles().find(query).toArray (err, tiles) ->
   return fail(err) if err?
   async.eachSeries tiles, (tile, cb) ->
     building = data.buildings[tile.building]
@@ -30,7 +30,7 @@ db.tiles.find(query).toArray (err, tiles) ->
         settlement_id: tile.settlement_id
         settlement_name: tile.settlement_name
         settlement_slug: tile.settlement_slug
-    db.tiles.update query2, update, cb
+    db.tiles().updateOne query2, update, cb
     cb()
   , (err) ->
     return fail(err) if err?

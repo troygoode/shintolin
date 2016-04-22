@@ -71,7 +71,7 @@ module.exports = (name, email, password, settlement, cb) ->
       character.settlement_slug = settlement.slug
       character.settlement_joined = now
       character.settlement_provisional = settlement.population isnt 0
-    db.characters.insert character, cb
+    db.characters().insertOne character, cb
 
   async.series [
     (cb) ->

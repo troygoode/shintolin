@@ -18,7 +18,7 @@ module.exports = (creature, tile, cb) ->
         hp_max: creature.hp
         created: now
         last_action: now
-      db.characters.insert character, cb
+      db.characters().insertOne character, cb
     (character, cb) ->
       teleport character, undefined, tile, cb
   ], cb

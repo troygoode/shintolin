@@ -15,4 +15,4 @@ module.exports = (character, badge_id, cb) ->
   update =
     $set:
       badges: badges
-  db.characters.update query, update, cb
+  db.characters().updateOne query, update, cb

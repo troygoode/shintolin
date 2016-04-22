@@ -9,4 +9,4 @@ module.exports = (character, password, cb) ->
     $set:
       password: hash_password(password)
 
-  db.characters.update query, update, cb
+  db.characters().updateOne query, update, cb

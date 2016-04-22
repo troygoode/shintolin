@@ -1,4 +1,4 @@
-#!/usr/bin/env coffee
+#!/usr/bin/env node_modules/coffee-script/bin/coffee
 
 require 'babel/register'
 
@@ -62,7 +62,7 @@ process_settlement = (settlement, cb) ->
             _id: winner._id
             name: winner.name
             slug: winner.slug
-      db.settlements.update query, update, cb
+      db.settlements().updateOne query, update, cb
     , (cb) ->
       # notify members
       commands.send_message_settlement 'election', winner, settlement, [],
@@ -79,7 +79,7 @@ process_settlement = (settlement, cb) ->
       , cb
   ], cb
 
-db.settlements.find({}).toArray (err, settlements) ->
+db.settlements().find({}).toArray (err, settlements) ->
   if err?
     console.log err
   else

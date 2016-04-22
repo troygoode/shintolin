@@ -13,5 +13,5 @@ module.exports = (text = "", cb) ->
         text: text
         sent: now
         recipient_id: actor._id
-      db.chat_messages.insert m, cb
+      db.chat_messages().insertOne m, cb
     , cb

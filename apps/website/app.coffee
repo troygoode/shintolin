@@ -1,5 +1,8 @@
 require "babel/register"
 
+db = require '../../db'
+db.connect()
+
 express = require 'express'
 favicon = require 'express-favicon'
 errorhandler = require 'errorhandler'

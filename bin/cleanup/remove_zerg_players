@@ -1,4 +1,4 @@
-#!/usr/bin/env coffee
+#!/usr/bin/env node_modules/coffee-script/bin/coffee
 
 require 'babel/register'
 
@@ -16,7 +16,7 @@ query =
   creature: {$exists: false}
   name: {$regex: rgx}
 
-db.characters.find(query).toArray (err, players) ->
+db.characters().find(query).toArray (err, players) ->
   return fail(err) if err?
   console.log "#{players.length} players matched"
   async.eachSeries players, (player, cb) ->

@@ -12,7 +12,7 @@ update_settlement = (character, settlement, cb) ->
     $pull:
       members:
         _id: character._id
-  db.settlements.update query, update, cb
+  db.settlements().updateOne query, update, cb
 
 remove_invalid_leader = (character, settlement, cb) ->
   return cb() if settlement.leader?._id.toString() isnt character._id.toString()
@@ -21,7 +21,7 @@ remove_invalid_leader = (character, settlement, cb) ->
   update =
     $unset:
       leader: 1
-  db.settlements.update query, update, cb
+  db.settlements().updateOne query, update, cb
 
 remove_invalid_votes = (character, settlement, cb) ->
   query =
@@ -30,7 +30,7 @@ remove_invalid_votes = (character, settlement, cb) ->
   update =
     $unset:
       'members.$.voting_for': 1
-  db.settlements.update query, update, cb
+  db.settlements().updateOne query, update, cb
 
 update_character = (character, settlement, cb) ->
   query =
@@ -42,7 +42,7 @@ update_character = (character, settlement, cb) ->
       settlement_slug: 1
       settlement_joined: 1
       settlement_provisional: 1
-  db.characters.update query, update, cb
+  db.characters().updateOne query, update, cb
 
 notify_leaver = (character, settlement, cb) ->
   send_message 'left', character, character,

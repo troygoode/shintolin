@@ -1,4 +1,4 @@
-#!/usr/bin/env coffee
+#!/usr/bin/env node_modules/coffee-script/bin/coffee
 
 require 'babel/register'
 
@@ -14,7 +14,7 @@ diminish_campfire = (tile, cb) ->
       update =
         $inc:
           hp: -1
-      db.tiles.update query, update, cb
+      db.tiles().updateOne query, update, cb
     (cb) ->
       return cb() unless tile.hp <= 5
       commands.send_message_coords 'campfire_low', null, tile, null, null, cb
@@ -30,14 +30,14 @@ destroy_campfire = (tile, cb) ->
           hp: 0
         $unset:
           building: true
-      db.tiles.update query, update, cb
+      db.tiles().updateMany query, update, cb
     (cb) ->
       commands.send_message_coords 'campfire_destroyed', null, tile, null, null, cb
   ], cb
 
 query =
   building: 'campfire'
-db.tiles.find(query).toArray (err, tiles) ->
+db.tiles().find(query).toArray (err, tiles) ->
   if err?
     console.log err
     process.exit 1

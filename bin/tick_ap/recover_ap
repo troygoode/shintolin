@@ -1,40 +1,43 @@
-#!/usr/bin/env coffee
+#!/usr/bin/env node_modules/coffee-script/bin/coffee
 
 require 'babel/register'
 
-async = require 'async'
 db = require '../../db'
-get_tile_by_coords = require '../../queries/get_tile_by_coords'
-calculate_recovery = require '../../queries/calculate_recovery'
-MAX_AP = 100
 
-fin = (err, count) ->
-  if err?
-    console.log err
-    process.exit 1
-  else
-    console.log "Updated #{count} character records."
-    process.exit 0
+db.connect().then ->
 
-query =
-  ap: {$lt: MAX_AP}
+  async = require 'async'
+  get_tile_by_coords = require '../../queries/get_tile_by_coords'
+  calculate_recovery = require '../../queries/calculate_recovery'
+  MAX_AP = 100
 
-db.characters.find(query).toArray (err, characters) ->
-  return fin(err) if err?
-  async.eachSeries characters, (character, cb) ->
-    get_tile_by_coords character, (err, tile) ->
-      return fin(err) if err?
+  fin = (err, count) ->
+    if err?
+      console.log err
+      process.exit 1
+    else
+      console.log "Updated #{count} character records."
+      process.exit 0
 
-      recover = calculate_recovery character, tile
-      if character.ap + recover > MAX_AP
-        recover = MAX_AP - character.ap
+  query =
+    ap: {$lt: MAX_AP}
 
-      query =
-        _id: character._id
-      update =
-        $inc:
-          ap: recover
-      db.characters.update query, update, cb
+  db.characters().find(query).toArray (err, characters) ->
+    return fin(err) if err?
+    async.eachSeries characters, (character, cb) ->
+      get_tile_by_coords character, (err, tile) ->
+        return fin(err) if err?
 
-  , (err) ->
-    fin err, characters.length
+        recover = calculate_recovery character, tile
+        if character.ap + recover > MAX_AP
+          recover = MAX_AP - character.ap
+
+        query =
+          _id: character._id
+        update =
+          $inc:
+            ap: recover
+        db.characters().updateOne query, update, cb
+
+    , (err) ->
+      fin err, characters.length

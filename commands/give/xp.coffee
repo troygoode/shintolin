@@ -12,4 +12,4 @@ module.exports = (character, tile, msg, cb) ->
       xp_herbalist: msg.herbalist ? 0
       xp_crafter: msg.crafter ? 0
       xp_warrior: msg.warrior ? 0
-  db.characters.update query, update, cb
+  db.characters().updateOne query, update, cb

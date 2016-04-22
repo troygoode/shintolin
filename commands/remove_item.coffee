@@ -33,8 +33,8 @@ module.exports = (target, item, count, cb) ->
         weight: 0 - (item.weight * count)
 
   if target.terrain? or target.building?
-    db.tiles.update query, update, cb
+    db.tiles().updateOne query, update, cb
   else if target.email? or target.creature?
-    db.characters.update query, update, cb
+    db.characters().updateOne query, update, cb
   else
     cb 'Invalid target for remove_item'

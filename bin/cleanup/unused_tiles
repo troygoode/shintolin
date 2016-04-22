@@ -1,4 +1,4 @@
-#!/usr/bin/env coffee
+#!/usr/bin/env node_modules/coffee-script/bin/coffee
 
 require 'babel/register'
 
@@ -10,7 +10,7 @@ query =
   people: {$size: 0}
   settlement_id: {$exists: true}
 
-db.tiles.remove query, (err, tiles) ->
+db.tiles().deleteMany query, (err, tiles) ->
   if err?
     console.log err
   else

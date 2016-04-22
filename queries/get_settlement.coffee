@@ -5,4 +5,4 @@ module.exports = (id, cb) ->
   _id = db.ObjectId(id)
   query =
     _id: _id
-  db.settlements.findOne query, cb
+  db.settlements().findOne query, cb

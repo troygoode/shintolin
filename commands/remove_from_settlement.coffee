@@ -13,7 +13,7 @@ module.exports = (character, cb) ->
           settlement_slug: true
           settlement_name: true
           settlement_provisional: true
-      db.characters.update query, update, cb
+      db.characters().updateOne query, update, cb
     (cb) ->
       # update settlement records
       query =
@@ -24,5 +24,5 @@ module.exports = (character, cb) ->
         $pull:
           members:
             _id: character._id
-      db.settlements.update query, update, cb
+      db.settlements().updateOne query, update, cb
   ], cb

@@ -8,4 +8,4 @@ db.register_index db.tiles,
 module.exports = (z, cb) ->
   query =
     z: z
-  db.tiles.find(query).sort(y: 1, x: 1).toArray cb
+  db.tiles().find(query).sort(y: 1, x: 1).toArray cb

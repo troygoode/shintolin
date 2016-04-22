@@ -1,5 +1,4 @@
 async = require 'async'
-db = require '../../db'
 send_message = require '../send_message'
 send_message_nearby = require '../send_message_nearby'
 

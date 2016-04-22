@@ -6,4 +6,4 @@ module.exports = (character, tile, message, cb) ->
   update =
     $set:
       message: message
-  db.tiles.update query, update, cb
+  db.tiles().updateOne query, update, cb

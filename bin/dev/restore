@@ -1,0 +1,9 @@
+#!/usr/bin/env node_modules/coffee-script/bin/coffee
+
+declare -a collections=("characters" "chat_messages" "hits" "settlements" "tiles")
+
+for c in "${collections[@]}"
+do
+   echo "$1$c.bson"
+   mongorestore --db shintolin --collection "$c" "$1$c.bson"
+done

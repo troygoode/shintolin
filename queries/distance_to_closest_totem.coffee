@@ -1,5 +1,4 @@
 _ = require 'underscore'
-db = require '../db'
 data = require '../data'
 totem = data.buildings.totem
 tiles_in_circle_around = require './tiles_in_circle_around'

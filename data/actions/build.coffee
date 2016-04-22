@@ -5,13 +5,14 @@ craft = BPromise.promisify(require '../../commands/craft')
 create_building = BPromise.promisify(require '../../commands/create_building')
 send_message = BPromise.promisify(require '../../commands/send_message')
 send_message_nearby = BPromise.promisify(require '../../commands/send_message_nearby')
-characters = require('../../db').characters
 data = require '../'
 can_take = require '../../queries/can_take'
-update_characters = BPromise.promisify(characters.update, characters)
 BASE_RECOVERY = config.ap_per_hour
 
 module.exports = (character, tile) ->
+  characters = require('../../db').characters()
+  update_characters = BPromise.promisify(characters.update, characters)
+
   return false unless tile?
   current_building = if tile.building? then data.buildings[tile.building]
   return false unless (tile.z is 0 and not current_building?) or (tile.z is 0 and current_building? and current_building.upgradeable_to?)

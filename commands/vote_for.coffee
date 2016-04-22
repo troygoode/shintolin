@@ -21,7 +21,7 @@ update_settlement = (settlement, voter, voting_for, cb) ->
     update =
       $unset:
         'members.$.voting_for': 1
-  db.settlements.update query, update, false, true, cb
+  db.settlements().updateOne query, update, cb
 
 notify_voter = (settlement, voter, voting_for, cb) ->
   if voting_for?

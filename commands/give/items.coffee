@@ -59,9 +59,9 @@ give_item = (character, tile, item, count, cb) ->
           count: count
 
   if target.email? or target.creature?
-    db.characters.update query, update, cb
+    db.characters().updateOne query, update, cb
   else
-    db.tiles.update query, update, cb
+    db.tiles().updateOne query, update, cb
 
 module.exports = (character, tile, msg, cb) ->
   async.waterfall [

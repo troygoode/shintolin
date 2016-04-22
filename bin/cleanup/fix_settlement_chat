@@ -1,4 +1,4 @@
-#!/usr/bin/env coffee
+#!/usr/bin/env node_modules/coffee-script/bin/coffee
 
 require 'babel/register'
 
@@ -8,9 +8,9 @@ query =
   volume: 'settlement'
   settlement_id: {$exists: false}
 
-chat_messages.find(query)
+chat_messages().find(query)
   .map (message) ->
-    characters.get(_id: message.sender_id)
+    characters().findOne(_id: message.sender_id)
       .then (sender) ->
         query =
           _id: message._id

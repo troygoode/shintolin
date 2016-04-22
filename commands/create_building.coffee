@@ -16,7 +16,7 @@ module.exports = (outside_tile, building, cb) ->
         $set:
           building: building.id
           hp: building.hp
-      db.tiles.update query, update, cb
+      db.tiles().updateOne query, update, cb
     , (cb) ->
       # create interior tile
       return cb() unless building.interior?
@@ -38,7 +38,7 @@ module.exports = (outside_tile, building, cb) ->
             update.$set.settlement_id = outside_tile.settlement_id
             update.$set.settlement_name = outside_tile.settlement_name
             update.$set.settlement_slug = outside_tile.settlement_slug
-          db.tiles.update query, update, cb
+          db.tiles().updateOne query, update, cb
         if inside_tile?
           update_tile null, inside_tile
         else

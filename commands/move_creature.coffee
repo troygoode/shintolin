@@ -1,6 +1,5 @@
 _ = require 'underscore'
 data = require '../data'
-db = require '../db'
 queries = require '../queries'
 teleport = require './teleport'
 

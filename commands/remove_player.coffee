@@ -9,7 +9,7 @@ db.register_index db.settlements,
 module.exports = (character, cb) ->
   async.parallel [
     (cb) ->
-      db.characters.remove _id: character._id, cb
+      db.characters().deleteOne _id: character._id, cb
     (cb) ->
       query =
         'people._id': character._id
@@ -17,7 +17,7 @@ module.exports = (character, cb) ->
         $pull:
           people:
             _id: character._id
-      db.tiles.update query, update, false, true, cb
+      db.tiles().updateMany query, update, cb
     (cb) ->
       query =
         'members._id': character._id
@@ -25,13 +25,13 @@ module.exports = (character, cb) ->
         $pull:
           members:
             _id: character._id
-      db.settlements.update query, update, false, true, cb
+      db.settlements().updateMany query, update, cb
     (cb) ->
       query =
         sender_id: character._id
-      db.chat_messages.remove query, cb
+      db.chat_messages().deleteMany query, cb
     (cb) ->
       query =
         recipient_id: character._id
-      db.chat_messages.remove query, cb
+      db.chat_messages().deleteMany query, cb
   ], cb
