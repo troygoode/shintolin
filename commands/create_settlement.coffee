@@ -76,9 +76,9 @@ module.exports = (founder, hq, name, cb) ->
               slug: founder.slug
           }
         ]
-      db.settlements().insertOne s, (err, s) ->
+      db.settlements().insertOne s, (err, response) ->
         return cb(err) if err?
-        settlement = s
+        settlement = response.ops[0]
         cb()
     , (cb) ->
       # update all tiles
