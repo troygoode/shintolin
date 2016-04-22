@@ -7,6 +7,7 @@ send_message_nearby = require './send_message_nearby'
 send_message_settlement = require './send_message_settlement'
 
 whisper = (character, target, msg, cb) ->
+  msg.tx = db.ObjectId()
   if target?
     async.parallel [
       (cb) ->
@@ -18,11 +19,13 @@ whisper = (character, target, msg, cb) ->
     send_message_nearby 'social', character, null, msg, cb
 
 ooc = (character, target, msg, cb) ->
+  msg.tx = db.ObjectId()
   queries.all_active_players (err, players) ->
     return cb(err) if err?
     send_message_all 'social', character, players, [], msg, cb
 
 shout = (character, target, msg, cb) ->
+  msg.tx = db.ObjectId()
   SHOUT_RADIUS = 15
   char_coords = x: character.x, y: character.y
 
@@ -39,10 +42,12 @@ shout = (character, target, msg, cb) ->
   , cb
 
 say = (character, target, msg, cb) ->
+  msg.tx = db.ObjectId()
   send_message_nearby 'social', character, null, msg, cb
 
 settlement = (character, target, msg, cb) ->
   return cb('You are not in a settlement.') unless character.settlement_id?
+  msg.tx = db.ObjectId()
   queries.get_settlement character.settlement_id, (err, settlement) ->
     return cb(err) if err?
     send_message_settlement 'social', character, settlement, null, msg, cb
