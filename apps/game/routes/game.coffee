@@ -73,7 +73,7 @@ resolve_terrain = (character, tile) ->
     terrain = terrain character, tile
   data.terrains[terrain]
 
-visit_tile = (tile, center, character) ->
+visit_tile = (tile, center, character, active) ->
   building = data.buildings[tile.building] if tile?.building?
   terrain = resolve_terrain character, tile
   retval =
@@ -82,7 +82,9 @@ visit_tile = (tile, center, character) ->
     style: if _.isFunction(terrain?.style) then terrain.style() else terrain?.style
     building: building
     people: tile.people?.filter (p) ->
-      not p.creature? and p._id.toString() isnt character._id.toString()
+      _.contains(active, p._id.toString()) and
+      not p.creature? and
+      p._id.toString() isnt character._id.toString()
     creatures: tile.people?.filter (p) ->
       return false unless p.creature?
       if _.isString p.creature
@@ -120,6 +122,12 @@ module.exports = (app) ->
 
     async.parallel [
       (cb) ->
+        queries.active_or_healthy_players (err, active) ->
+          if err?
+            cb err
+          else
+            cb null, _.pluck(active, '_id').map((id) -> id.toString())
+      (cb) ->
         get_exterior req.tile, cb
       (cb) ->
         queries.tiles_in_square_around req.character, 3, cb
@@ -130,7 +138,7 @@ module.exports = (app) ->
           queries.get_settlement req.tile?.settlement_id.toString(), cb
         else
           cb null, null
-    ], (err, [exterior, tiles, messages, settlement]) ->
+    ], (err, [active, exterior, tiles, messages, settlement]) ->
       return next(err) if err?
       center = get_center tiles, req.character
       building = if req.tile?.building? then data.buildings[req.tile.building] else null
@@ -155,7 +163,7 @@ module.exports = (app) ->
 
       for row, i in locals.grid
         for tile, j in row
-          locals.grid[i][j] = visit_tile tile, locals.center, locals.character
-      locals.center = visit_tile locals.center, undefined, locals.character
+          locals.grid[i][j] = visit_tile tile, locals.center, locals.character, active
+      locals.center = visit_tile locals.center, undefined, locals.character, active
 
       res.render 'game/index', locals

@@ -1,6 +1,8 @@
+_ = require 'underscore'
 Bluebird = require 'bluebird'
 get_character = Bluebird.promisify(require '../../../queries/get_character')
 get_tile_by_coords = Bluebird.promisify(require '../../../queries/get_tile_by_coords')
+active_or_healthy_players = Bluebird.promisify(require '../../../queries/active_or_healthy_players')
 
 module.exports = (req, res, next) ->
   return res.redirect '/?msg=auth' unless req.session?.character?.length
@@ -18,8 +20,15 @@ module.exports = (req, res, next) ->
 
     .then (tile) ->
       return unless tile?
-      req.tile = tile
-      res.locals.tile = tile
+
+      # remove inactive people
+      active_or_healthy_players()
+        .then (active) ->
+          active = _.pluck(active ? [], '_id').map((id) -> id.toString())
+          tile.people = tile.people.filter (p) ->
+            _.contains(active, p._id.toString())
+          req.tile = tile
+          res.locals.tile = tile
 
     .then ->
       if req.character?
