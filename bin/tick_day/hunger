@@ -2,65 +2,67 @@
 
 require 'babel/register'
 
-_ = require 'underscore'
-async = require 'async'
-moment = require 'moment'
 db = require '../../db'
-data = require '../../data'
-commands = require '../../commands'
+db.connect().then ->
 
-fin = (err) ->
-  if err?
-    console.log err
-    process.exit 1
-  else
-    process.exit 0
+  _ = require 'underscore'
+  async = require 'async'
+  moment = require 'moment'
+  data = require '../../data'
+  commands = require '../../commands'
 
-bound_loss = (loss, current, min) ->
-  if current <= min
-    0
-  else if current - loss < min
-    current - min
-  else
-    loss
-
-find_food = (character) ->
-  item = _.find character.items ? [], (item) ->
-    type = data.items[item.item]
-    _.contains(type.tags ? [], 'food') and item.count >= 1
-  return data.items[item.item] if item?
-
-auto_eat = (character, food, cb) ->
-  async.parallel [
-    (cb) ->
-      commands.remove_item character, food, 1, cb
-    (cb) ->
-      commands.send_message 'autoeat', character, character,
-        food: food.id
-      , cb
-  ], cb
-
-charge_hunger = (character, cb) ->
-  hunger_lost = bound_loss 1, character.hunger, 0
-  query =
-    _id: character._id
-  update =
-    $inc:
-      hunger: 0 - hunger_lost
-  db.characters().updateOne query, update, cb
-
-query =
-  hunger:
-    $gt: 0
-  last_action:
-    $gt: moment().subtract(24, 'hours')._d
-
-db.characters().find(query).toArray (err, characters) ->
-  return fin(err) if err?
-  async.eachSeries characters, (character, cb) ->
-    food = find_food character
-    if food?
-      auto_eat character, food, cb
+  fin = (err) ->
+    if err?
+      console.log err
+      process.exit 1
     else
-      charge_hunger character, cb
-  , fin
+      process.exit 0
+
+  bound_loss = (loss, current, min) ->
+    if current <= min
+      0
+    else if current - loss < min
+      current - min
+    else
+      loss
+
+  find_food = (character) ->
+    item = _.find character.items ? [], (item) ->
+      type = data.items[item.item]
+      _.contains(type.tags ? [], 'food') and item.count >= 1
+    return data.items[item.item] if item?
+
+  auto_eat = (character, food, cb) ->
+    async.parallel [
+      (cb) ->
+        commands.remove_item character, food, 1, cb
+      (cb) ->
+        commands.send_message 'autoeat', character, character,
+          food: food.id
+        , cb
+    ], cb
+
+  charge_hunger = (character, cb) ->
+    hunger_lost = bound_loss 1, character.hunger, 0
+    query =
+      _id: character._id
+    update =
+      $inc:
+        hunger: 0 - hunger_lost
+    db.characters().updateOne query, update, cb
+
+  query =
+    hunger:
+      $gt: 0
+    last_action:
+      $gt: moment().subtract(24, 'hours')._d
+
+  db.characters().find(query).toArray (err, characters) ->
+    return fin(err) if err?
+    async.eachSeries characters, (character, cb) ->
+      food = find_food character
+      if food?
+        auto_eat character, food, cb
+      else
+        charge_hunger character, cb
+    , fin

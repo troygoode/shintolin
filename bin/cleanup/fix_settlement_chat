@@ -2,27 +2,31 @@
 
 require 'babel/register'
 
-{chat_messages, characters} = require('../../db').promisified
+db = require '../../db'
+db.connect().then ->
 
-query =
-  volume: 'settlement'
-  settlement_id: {$exists: false}
+  Bluebird = require 'bluebird'
+  query =
+    volume: 'settlement'
+    settlement_id: {$exists: false}
 
-chat_messages().find(query)
-  .map (message) ->
-    characters().findOne(_id: message.sender_id)
-      .then (sender) ->
-        query =
-          _id: message._id
-        update =
-          $set:
-            settlement_id: sender.settlement_id
-            settlement_name: sender.settlement_name
-            settlement_slug: sender.settlement_slug
-        chat_messages.update query, update
+  Bluebird.resolve()
+    .then ->
+      db.chat_messages().find(query).toArray()
+    .map (message) ->
+      db.characters().findOne(_id: message.sender_id)
+        .then (sender) ->
+          query =
+            _id: message._id
+          update =
+            $set:
+              settlement_id: sender.settlement_id
+              settlement_name: sender.settlement_name
+              settlement_slug: sender.settlement_slug
+          db.chat_messages().updateOne query, update
 
-  .then ->
-    process.exit 0
-  .catch (err) ->
-    console.error err
-    process.exit 1
+    .then ->
+      process.exit 0
+    .catch (err) ->
+      console.error err
+      process.exit 1

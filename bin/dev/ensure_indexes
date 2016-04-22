@@ -3,10 +3,11 @@
 require 'babel/register'
 
 db = require '../../db'
+db.connect().then ->
 
-db.ensure_indexes (err) ->
-  if err?
-    console.error err
-  else
-    console.log 'ensure_indexes complete'
-  process.exit()
+  db.ensure_indexes (err) ->
+    if err?
+      console.error err
+    else
+      console.log 'ensure_indexes complete'
+    process.exit()

@@ -1,4 +1,4 @@
-#!/usr/bin/env node_modules/coffee-script/bin/coffee
+#!/bin/bash
 
 declare -a collections=("characters" "chat_messages" "hits" "settlements" "tiles")
 

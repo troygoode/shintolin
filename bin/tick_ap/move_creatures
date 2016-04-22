@@ -2,23 +2,25 @@
 
 require 'babel/register'
 
-async = require 'async'
-data = require '../../data'
 db = require '../../db'
-commands = require '../../commands'
+db.connect().then ->
 
-fin = (err) ->
-  if err?
-    console.log err
-    process.exit 1
-  else
-    console.log "Moved creatures."
-    process.exit 0
+  async = require 'async'
+  data = require '../../data'
+  commands = require '../../commands'
 
-query =
-  creature: {$exists: true}
-db.characters().find(query).toArray (err, creatures) ->
-  return fin(err) if err?
-  async.each creatures, (creature, cb) ->
-    commands.move_creature creature, cb
-  , fin
+  fin = (err) ->
+    if err?
+      console.log err
+      process.exit 1
+    else
+      console.log "Moved creatures."
+      process.exit 0
+
+  query =
+    creature: {$exists: true}
+  db.characters().find(query).toArray (err, creatures) ->
+    return fin(err) if err?
+    async.each creatures, (creature, cb) ->
+      commands.move_creature creature, cb
+    , fin

@@ -2,64 +2,66 @@
 
 require 'babel/register'
 
-_ = require 'underscore'
-async = require 'async'
 db = require '../../db'
-commands = require '../../commands'
-queries = require '../../queries'
+db.connect().then ->
 
-days_until_full_status = 1
+  _ = require 'underscore'
+  async = require 'async'
+  commands = require '../../commands'
+  queries = require '../../queries'
 
-now = new Date()
-past = new Date(now.getTime())
-past.setDate past.getDate() - days_until_full_status
+  days_until_full_status = 1
 
-matched = []
+  now = new Date()
+  past = new Date(now.getTime())
+  past.setDate past.getDate() - days_until_full_status
 
-async.series [
-  (cb) ->
-    # find character records
-    query =
-      settlement_joined: {$lte: past}
-      settlement_provisional: {$exists: true}
-    db.characters().find(query).toArray (err, characters) ->
-      return cb(err) if err?
-      matched = characters
-      cb()
-  (cb) ->
-    # update character records
-    return cb() unless matched?.length
-    query =
-      _id: {$in: _.pluck(matched, '_id')}
-    update =
-      $unset:
-        settlement_provisional: true
-    db.characters().updateOne query, update, cb
-  (cb) ->
-    # update settlement records
-    return cb() unless matched?.length
-    query =
-      'members._id': {$in: _.pluck(matched, '_id')}
-    update =
-      $unset:
-        'members.$.provisional': true
-    db.settlements().updateMany query, update, cb
-  (cb) ->
-    # notify
-    return cb() unless matched?.length
-    async.forEach matched, (character, cb) ->
-      queries.get_settlement character.settlement_id.toString(), (err, settlement) ->
+  matched = []
+
+  async.series [
+    (cb) ->
+      # find character records
+      query =
+        settlement_joined: {$lte: past}
+        settlement_provisional: {$exists: true}
+      db.characters().find(query).toArray (err, characters) ->
         return cb(err) if err?
-        message =
-          settlement_id: settlement._id
-          settlement_name: settlement.name
-          settlement_slug: settlement.slug
-        commands.send_message_settlement 'nonprovisional', character, settlement, [], message, cb
-    , cb
-], (err) ->
-  if err?
-    console.log err
-    process.exit 1
-  else
-    console.log "Moved #{matched.length} characters out of provisional resident status."
-    process.exit 0
+        matched = characters
+        cb()
+    (cb) ->
+      # update character records
+      return cb() unless matched?.length
+      query =
+        _id: {$in: _.pluck(matched, '_id')}
+      update =
+        $unset:
+          settlement_provisional: true
+      db.characters().updateOne query, update, cb
+    (cb) ->
+      # update settlement records
+      return cb() unless matched?.length
+      query =
+        'members._id': {$in: _.pluck(matched, '_id')}
+      update =
+        $unset:
+          'members.$.provisional': true
+      db.settlements().updateMany query, update, cb
+    (cb) ->
+      # notify
+      return cb() unless matched?.length
+      async.forEach matched, (character, cb) ->
+        queries.get_settlement character.settlement_id.toString(), (err, settlement) ->
+          return cb(err) if err?
+          message =
+            settlement_id: settlement._id
+            settlement_name: settlement.name
+            settlement_slug: settlement.slug
+          commands.send_message_settlement 'nonprovisional', character, settlement, [], message, cb
+      , cb
+  ], (err) ->
+    if err?
+      console.log err
+      process.exit 1
+    else
+      console.log "Moved #{matched.length} characters out of provisional resident status."
+      process.exit 0

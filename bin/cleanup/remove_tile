@@ -3,13 +3,14 @@
 require 'babel/register'
 
 db = require '../../db'
+db.connect().then ->
 
-fail = (err) ->
-  console.error err
-  process.exit 1
+  fail = (err) ->
+    console.error err
+    process.exit 1
 
-db.tiles().findOne {_id: db.ObjectId(process.argv[2])}, (err, tile) ->
-  return fail(err) if err?
-  db.tiles.deleteOne {_id: tile._id}, (err) ->
+  db.tiles().findOne {_id: db.ObjectId(process.argv[2])}, (err, tile) ->
     return fail(err) if err?
-    process.exit 0
+    db.tiles.deleteOne {_id: tile._id}, (err) ->
+      return fail(err) if err?
+      process.exit 0

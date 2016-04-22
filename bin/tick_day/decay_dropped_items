@@ -2,51 +2,53 @@
 
 require 'babel/register'
 
-Bluebird = require 'bluebird'
-data = require '../../data'
 db = require '../../db'
-commands = require '../../commands'
-get_building_and_terrain = require '../../queries/get_building_and_terrain'
-take = Bluebird.promisify commands.take
-ITEM_DECAY_CHANCE = .2
+db.connect().then ->
 
-binomial = (trials, probability) ->
-  successes = 0
-  for i in [0...trials]
-    successes++ if Math.random() < probability
-  successes
+  Bluebird = require 'bluebird'
+  data = require '../../data'
+  commands = require '../../commands'
+  get_building_and_terrain = require '../../queries/get_building_and_terrain'
+  take = Bluebird.promisify commands.take
+  ITEM_DECAY_CHANCE = .2
 
-immune_to_decay = (tile) ->
-  {building, terrain} = get_building_and_terrain null, tile
-  return true if (building?.tags ? []).indexOf('inventory_doesnt_decay') isnt -1
-  return true if (terrain?.tags ? []).indexOf('inventory_doesnt_decay') isnt -1
-  false
+  binomial = (trials, probability) ->
+    successes = 0
+    for i in [0...trials]
+      successes++ if Math.random() < probability
+    successes
 
-handle_tile = (tile) ->
-  return Bluebird.resolve() unless tile.items?.length
-  return Bluebird.resolve() if immune_to_decay(tile)
+  immune_to_decay = (tile) ->
+    {building, terrain} = get_building_and_terrain null, tile
+    return true if (building?.tags ? []).indexOf('inventory_doesnt_decay') isnt -1
+    return true if (terrain?.tags ? []).indexOf('inventory_doesnt_decay') isnt -1
+    false
+
+  handle_tile = (tile) ->
+    return Bluebird.resolve() unless tile.items?.length
+    return Bluebird.resolve() if immune_to_decay(tile)
+    Bluebird.resolve()
+
+      .then ->
+        execute = false
+        recipe =
+          items: {}
+        for ic in tile.items
+          count = binomial ic.count, ITEM_DECAY_CHANCE
+          if count > 0
+            execute = true
+            console.log "Removing #{count}x #{ic.item} from #{tile.x},#{tile.y},#{tile.z}."
+            recipe.items[ic.item] = count
+
+        return unless execute
+        take tile, tile, recipe
+
   Bluebird.resolve()
-
     .then ->
-      execute = false
-      recipe =
-        items: {}
-      for ic in tile.items
-        count = binomial ic.count, ITEM_DECAY_CHANCE
-        if count > 0
-          execute = true
-          console.log "Removing #{count}x #{ic.item} from #{tile.x},#{tile.y},#{tile.z}."
-          recipe.items[ic.item] = count
-
-      return unless execute
-      take tile, tile, recipe
-
-Bluebird.resolve()
-  .then ->
-    db.promisified.tiles().find(items: {$exists: true})
-  .map handle_tile
-  .then ->
-    process.exit 0
-  .catch (err) ->
-    console.error err
-    process.exit 1
+      db.tiles().find(items: {$exists: true}).toArray()
+    .map handle_tile
+    .then ->
+      process.exit 0
+    .catch (err) ->
+      console.error err
+      process.exit 1

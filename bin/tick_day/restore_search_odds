@@ -3,16 +3,17 @@
 require 'babel/register'
 
 db = require '../../db'
+db.connect().then ->
 
-query = {}
-update =
-  $set:
-    searches: 0
+  query = {}
+  update =
+    $set:
+      searches: 0
 
-db.tiles().updateMany query, update, (err) ->
-  if err?
-    console.log err
-    process.exit 1
-  else
-    console.log 'Search Odds Reset'
-    process.exit 0
+  db.tiles().updateMany query, update, (err) ->
+    if err?
+      console.log err
+      process.exit 1
+    else
+      console.log 'Search Odds Reset'
+      process.exit 0

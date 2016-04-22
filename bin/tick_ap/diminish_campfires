@@ -2,55 +2,57 @@
 
 require 'babel/register'
 
-async = require 'async'
 db = require '../../db'
-commands = require '../../commands'
+db.connect().then ->
 
-diminish_campfire = (tile, cb) ->
-  async.parallel [
-    (cb) ->
-      query =
-        _id: tile._id
-      update =
-        $inc:
-          hp: -1
-      db.tiles().updateOne query, update, cb
-    (cb) ->
-      return cb() unless tile.hp <= 5
-      commands.send_message_coords 'campfire_low', null, tile, null, null, cb
-  ], cb
+  async = require 'async'
+  commands = require '../../commands'
 
-destroy_campfire = (tile, cb) ->
-  async.parallel [
-    (cb) ->
-      query =
-        _id: tile._id
-      update =
-        $set:
-          hp: 0
-        $unset:
-          building: true
-      db.tiles().updateMany query, update, cb
-    (cb) ->
-      commands.send_message_coords 'campfire_destroyed', null, tile, null, null, cb
-  ], cb
+  diminish_campfire = (tile, cb) ->
+    async.parallel [
+      (cb) ->
+        query =
+          _id: tile._id
+        update =
+          $inc:
+            hp: -1
+        db.tiles().updateOne query, update, cb
+      (cb) ->
+        return cb() unless tile.hp <= 5
+        commands.send_message_coords 'campfire_low', null, tile, null, null, cb
+    ], cb
 
-query =
-  building: 'campfire'
-db.tiles().find(query).toArray (err, tiles) ->
-  if err?
-    console.log err
-    process.exit 1
-  else
-    async.each tiles, (tile, cb) ->
-      if tile.hp <= 1
-        destroy_campfire tile, cb
-      else
-        diminish_campfire tile, cb
-    , (err) ->
-      if err?
-        console.log err
-        process.exit 1
-      else
-        console.log "Campfires Diminished"
-        process.exit 0
+  destroy_campfire = (tile, cb) ->
+    async.parallel [
+      (cb) ->
+        query =
+          _id: tile._id
+        update =
+          $set:
+            hp: 0
+          $unset:
+            building: true
+        db.tiles().updateMany query, update, cb
+      (cb) ->
+        commands.send_message_coords 'campfire_destroyed', null, tile, null, null, cb
+    ], cb
+
+  query =
+    building: 'campfire'
+  db.tiles().find(query).toArray (err, tiles) ->
+    if err?
+      console.log err
+      process.exit 1
+    else
+      async.each tiles, (tile, cb) ->
+        if tile.hp <= 1
+          destroy_campfire tile, cb
+        else
+          diminish_campfire tile, cb
+      , (err) ->
+        if err?
+          console.log err
+          process.exit 1
+        else
+          console.log "Campfires Diminished"
+          process.exit 0

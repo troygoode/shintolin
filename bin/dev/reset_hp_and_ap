@@ -2,37 +2,39 @@
 
 require 'babel/register'
 
-async = require 'async'
 db = require '../../db'
+db.connect().then ->
 
-async.parallel [
-  (cb) ->
-    query =
-      $or: [
-        {hp: {$ne: 50}}
-        {ap: {$ne: 100}}
-        {frags: {$ne: 1}}
-      ]
-    update =
-      $set:
-        hp: 50
-        ap: 100
-        frags: 1
-    db.characters().updateMany query, update, (err, updated) ->
-      return cb(err) if err?
-      console.log "Updated #{updated} character records."
-      cb()
-  , (cb) ->
-    query =
-      'people.hp': {$lt: 50}
-    update =
-      $set:
-        'people.$.hp': 50
-    db.tiles().updateMany query, update, (err, updated) ->
-      return cb(err) if err?
-      console.log "Updated #{updated} tile records."
-      cb()
-], (err) ->
-  console.log err if err?
-  console.log 'HP/AP reset complete.'
-  process.exit()
+  async = require 'async'
+
+  async.parallel [
+    (cb) ->
+      query =
+        $or: [
+          {hp: {$ne: 50}}
+          {ap: {$ne: 100}}
+          {frags: {$ne: 1}}
+        ]
+      update =
+        $set:
+          hp: 50
+          ap: 100
+          frags: 1
+      db.characters().updateMany query, update, (err, updated) ->
+        return cb(err) if err?
+        console.log "Updated #{updated} character records."
+        cb()
+    , (cb) ->
+      query =
+        'people.hp': {$lt: 50}
+      update =
+        $set:
+          'people.$.hp': 50
+      db.tiles().updateMany query, update, (err, updated) ->
+        return cb(err) if err?
+        console.log "Updated #{updated} tile records."
+        cb()
+  ], (err) ->
+    console.log err if err?
+    console.log 'HP/AP reset complete.'
+    process.exit()

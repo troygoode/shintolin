@@ -3,7 +3,6 @@
 require 'babel/register'
 
 db = require '../../db'
-
 db.connect().then ->
 
   async = require 'async'

@@ -3,20 +3,22 @@
 require 'babel/register'
 
 db = require '../../db'
-UPSERT = {YES: true, NO: false}
-MULTI = {YES: true, NO: false}
+db.connect().then ->
 
-fail = (err) ->
-  console.error err
-  process.exit 1
+  UPSERT = {YES: true, NO: false}
+  MULTI = {YES: true, NO: false}
 
-query =
-  creature:
-    $exists: false
-update =
-  $set:
-    frags: 1
+  fail = (err) ->
+    console.error err
+    process.exit 1
 
-db.characters.updateMany query, update, UPSERT.NO, MULTI.YES, (err) ->
-  return fail(err) if err?
-  process.exit 0
+  query =
+    creature:
+      $exists: false
+  update =
+    $set:
+      frags: 1
+
+  db.characters.updateMany query, update, UPSERT.NO, MULTI.YES, (err) ->
+    return fail(err) if err?
+    process.exit 0

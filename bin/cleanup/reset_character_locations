@@ -2,26 +2,28 @@
 
 require 'babel/register'
 
-async = require 'async'
 db = require '../../db'
-teleport = require '../../commands/teleport'
-UPSERT = {YES: true, NO: false}
-MULTI = {YES: true, NO: false}
+db.connect().then ->
 
-fail = (err) ->
-  console.error err
-  process.exit 1
+  async = require 'async'
+  teleport = require '../../commands/teleport'
+  UPSERT = {YES: true, NO: false}
+  MULTI = {YES: true, NO: false}
 
-db.tiles().updateMany {$where: "this.people.length > 0"}, {$set: {people: []}}, UPSERT.NO, MULTI.YES, (err, count) ->
-  return fail(err) if err?
-  console.log "#{count} affected tiles"
+  fail = (err) ->
+    console.error err
+    process.exit 1
 
-  db.characters().find({}).toArray (err, characters) ->
+  db.tiles().updateMany {$where: "this.people.length > 0"}, {$set: {people: []}}, UPSERT.NO, MULTI.YES, (err, count) ->
     return fail(err) if err?
-    console.log "#{characters.length} characters"
+    console.log "#{count} affected tiles"
 
-    async.forEachOfSeries characters, (c, i, cb) ->
-      teleport c, undefined, {x: c.x, y: c.y, z: c.z}, cb
-    , (err) ->
+    db.characters().find({}).toArray (err, characters) ->
       return fail(err) if err?
-      process.exit 0
+      console.log "#{characters.length} characters"
+
+      async.forEachOfSeries characters, (c, i, cb) ->
+        teleport c, undefined, {x: c.x, y: c.y, z: c.z}, cb
+      , (err) ->
+        return fail(err) if err?
+        process.exit 0

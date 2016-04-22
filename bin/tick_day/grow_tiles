@@ -2,40 +2,42 @@
 
 require 'babel/register'
 
-_ = require 'underscore'
-async = require 'async'
 db = require '../../db'
-data = require '../../data'
-commands = require '../../commands'
+db.connect().then ->
 
-grow_tile = (tile, cb) ->
-  terrain = data.terrains[tile.terrain]
-  return cb() unless terrain.grow?
+  _ = require 'underscore'
+  async = require 'async'
+  data = require '../../data'
+  commands = require '../../commands'
 
-  if tile.building?
-    building = data.buildings[tile.building]
-    return cb() if building.exterior? # don't grow tiles while their terrain is overwritten (e.g. walls)
+  grow_tile = (tile, cb) ->
+    terrain = data.terrains[tile.terrain]
+    return cb() unless terrain.grow?
 
-  new_terrain = terrain.grow tile
-  return cb() unless new_terrain? and new_terrain isnt tile.terrain
+    if tile.building?
+      building = data.buildings[tile.building]
+      return cb() if building.exterior? # don't grow tiles while their terrain is overwritten (e.g. walls)
 
-  console.log "Growing a #{tile.terrain} tile into a #{new_terrain}."
-  query =
-    _id: tile._id
-  update =
-    $set:
-      terrain: new_terrain
-  db.tiles().updateOne query, update, cb
+    new_terrain = terrain.grow tile
+    return cb() unless new_terrain? and new_terrain isnt tile.terrain
 
-db.tiles().find().toArray (err, tiles) ->
-  if err?
-    console.log err
-    process.exit 1
-  else
-    async.each tiles, grow_tile, (err) ->
-      if err?
-        console.log err
-        process.exit 1
-      else
-        console.log 'Tiles Have Grown'
-        process.exit 0
+    console.log "Growing a #{tile.terrain} tile into a #{new_terrain}."
+    query =
+      _id: tile._id
+    update =
+      $set:
+        terrain: new_terrain
+    db.tiles().updateOne query, update, cb
+
+  db.tiles().find().toArray (err, tiles) ->
+    if err?
+      console.log err
+      process.exit 1
+    else
+      async.each tiles, grow_tile, (err) ->
+        if err?
+          console.log err
+          process.exit 1
+        else
+          console.log 'Tiles Have Grown'
+          process.exit 0

@@ -2,26 +2,28 @@
 
 require 'babel/register'
 
-async = require 'async'
 db = require '../../db'
-commands = require '../../commands'
+db.connect().then ->
 
-rgx = new RegExp('^' + process.argv[2] + '$', 'i')
+  async = require 'async'
+  commands = require '../../commands'
 
-fail = (err) ->
-  console.error err
-  process.exit 1
+  rgx = new RegExp('^' + process.argv[2] + '$', 'i')
 
-query =
-  creature: {$exists: false}
-  name: {$regex: rgx}
+  fail = (err) ->
+    console.error err
+    process.exit 1
 
-db.characters().find(query).toArray (err, players) ->
-  return fail(err) if err?
-  console.log "#{players.length} players matched"
-  async.eachSeries players, (player, cb) ->
-    console.log "removing player '#{player.name}'"
-    commands.remove_player player, cb
-  , (err) ->
+  query =
+    creature: {$exists: false}
+    name: {$regex: rgx}
+
+  db.characters().find(query).toArray (err, players) ->
     return fail(err) if err?
-    process.exit 0
+    console.log "#{players.length} players matched"
+    async.eachSeries players, (player, cb) ->
+      console.log "removing player '#{player.name}'"
+      commands.remove_player player, cb
+    , (err) ->
+      return fail(err) if err?
+      process.exit 0

@@ -2,36 +2,38 @@
 
 require 'babel/register'
 
-async = require 'async'
 db = require '../../db'
-data = require '../../data'
+db.connect().then ->
 
-fail = (err) ->
-  console.error err
-  process.exit 1
+  async = require 'async'
+  data = require '../../data'
 
-query =
-  settlement_id: {$exists: true}
-  building: {$exists: true}
-  z: 0
+  fail = (err) ->
+    console.error err
+    process.exit 1
 
-db.tiles().find(query).toArray (err, tiles) ->
-  return fail(err) if err?
-  async.eachSeries tiles, (tile, cb) ->
-    building = data.buildings[tile.building]
-    return cb() unless building.interior?
+  query =
+    settlement_id: {$exists: true}
+    building: {$exists: true}
+    z: 0
 
-    query2 =
-      x: tile.x
-      y: tile.y
-      z: 1
-    update =
-      $set:
-        settlement_id: tile.settlement_id
-        settlement_name: tile.settlement_name
-        settlement_slug: tile.settlement_slug
-    db.tiles().updateOne query2, update, cb
-    cb()
-  , (err) ->
+  db.tiles().find(query).toArray (err, tiles) ->
     return fail(err) if err?
-    process.exit 0
+    async.eachSeries tiles, (tile, cb) ->
+      building = data.buildings[tile.building]
+      return cb() unless building.interior?
+
+      query2 =
+        x: tile.x
+        y: tile.y
+        z: 1
+      update =
+        $set:
+          settlement_id: tile.settlement_id
+          settlement_name: tile.settlement_name
+          settlement_slug: tile.settlement_slug
+      db.tiles().updateOne query2, update, cb
+      cb()
+    , (err) ->
+      return fail(err) if err?
+      process.exit 0

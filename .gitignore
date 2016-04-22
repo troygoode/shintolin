@@ -16,4 +16,4 @@ npm-debug.log
 .DS_Store
 
 node_modules
-secrets.sh
+.env

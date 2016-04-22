@@ -3,17 +3,19 @@
 require 'babel/register'
 
 db = require '../../db'
-days = 365
+db.connect().then ->
 
-cutoff = new Date()
-cutoff.setDate(cutoff.getDate() - days)
+  days = 365
 
-query =
-  sent: {$lt: cutoff}
+  cutoff = new Date()
+  cutoff.setDate(cutoff.getDate() - days)
 
-db.chat_messages().deleteMany query, (err, messages) ->
-  if err?
-    console.log err
-  else
-    console.log "Removed #{messages} old messages."
-  process.exit()
+  query =
+    sent: {$lt: cutoff}
+
+  db.chat_messages().deleteMany query, (err, messages) ->
+    if err?
+      console.log err
+    else
+      console.log "Removed #{messages} old messages."
+    process.exit()

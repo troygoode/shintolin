@@ -2,31 +2,33 @@
 
 require 'babel/register'
 
-async = require 'async'
-queries = require '../../queries'
 db = require '../../db'
+db.connect().then ->
 
-fail = (err) ->
-  console.error err
-  process.exit 1
+  async = require 'async'
+  queries = require '../../queries'
 
-query =
-  building:
-    $exists: true
+  fail = (err) ->
+    console.error err
+    process.exit 1
 
-db.tiles().find(query).toArray (err, tiles) ->
-  return fail(err) if err?
-  console.log "#{tiles.length} tiles with buildings"
+  query =
+    building:
+      $exists: true
 
-  async.forEachOfSeries tiles, (t, i, cb) ->
-    async.forEachOfSeries t.people ? [], (c, j, cb) ->
-      recovery = queries.calculate_recovery c, t
-      console.log recovery
-      db.characters().updateOne {_id: c._id},
-        $set:
-          recovery: recovery
-      , cb
-    , cb
-  , (err) ->
+  db.tiles().find(query).toArray (err, tiles) ->
     return fail(err) if err?
-    process.exit 0
+    console.log "#{tiles.length} tiles with buildings"
+
+    async.forEachOfSeries tiles, (t, i, cb) ->
+      async.forEachOfSeries t.people ? [], (c, j, cb) ->
+        recovery = queries.calculate_recovery c, t
+        console.log recovery
+        db.characters().updateOne {_id: c._id},
+          $set:
+            recovery: recovery
+        , cb
+      , cb
+    , (err) ->
+      return fail(err) if err?
+      process.exit 0

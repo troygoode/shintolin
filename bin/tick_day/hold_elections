@@ -2,90 +2,121 @@
 
 require 'babel/register'
 
-_ = require 'underscore'
-async = require 'async'
 db = require '../../db'
-commands = require '../../commands'
+db.connect().then ->
 
-days_until_full_status = 1
-yesterday = new Date()
-yesterday.setDate(yesterday.getDate() - days_until_full_status)
+  _ = require 'underscore'
+  Bluebird = require 'bluebird'
+  async = require 'async'
+  commands = require '../../commands'
+  queries = require '../../queries'
+  all_active_members = Bluebird.promisify queries.all_active_members
 
-sort_func = (m1, m2) ->
-  if m1.votes > m2.votes
-    return -1
-  else if m1.votes < m2.votes
-    return 1
-  else if m1.joined < m2.joined
-    return -1
-  else if m1.joined > m2.joined
-    return 1
-  else
-    return 0
+  days_until_full_status = 1
+  yesterday = new Date()
+  yesterday.setDate(yesterday.getDate() - days_until_full_status)
 
-is_provisional = (settlement, member) ->
-  is_leader = settlement.leader? and settlement.leader._id.toString() is member._id.toString()
-  member.joined > yesterday and not is_leader
+  sort_func = (m1, m2) ->
+    if m1.votes > m2.votes
+      return -1
+    else if m1.votes < m2.votes
+      return 1
+    else if m1.joined < m2.joined
+      return -1
+    else if m1.joined > m2.joined
+      return 1
+    else
+      return 0
 
-count_votes = (settlement, member) ->
-  return 0 if is_provisional settlement, member
-  voters = settlement.members.filter (m) ->
-    m.voting_for?._id.toString() is member._id.toString() and not is_provisional settlement, m
-  voters.length
+  is_provisional = (settlement, member) ->
+    is_leader = settlement.leader? and settlement.leader._id.toString() is member._id.toString()
+    member.joined > yesterday and not is_leader
 
-build_candidate_list = (settlement) ->
-  candidates = []
-  for member in settlement.members
-    candidates.push
-      _id: member._id
-      name: member.name
-      slug: member.slug
-      joined: member.joined
-      votes: count_votes settlement, member
-  candidates
+  count_votes = (settlement, member) ->
+    return 0 if is_provisional settlement, member
+    voters = settlement.members.filter (m) ->
+      m.voting_for?._id.toString() is member._id.toString() and not is_provisional settlement, m
+    voters.length
 
-process_settlement = (settlement, cb) ->
-  return cb() unless settlement.population > 0
-  candidates = build_candidate_list settlement
-  candidates.sort sort_func
-  winner = candidates[0]
-  return cb() if winner._id.toString() is settlement.leader?._id.toString()
-  console.log "#{winner.name} has defeated #{settlement.leader.name} as #{settlement.leader_title} of #{settlement.name}."
-  async.series [
-    (cb) ->
-      # update settlement
-      query =
-        _id: settlement._id
-      update =
-        $set:
-          leader:
-            _id: winner._id
-            name: winner.name
-            slug: winner.slug
-      db.settlements().updateOne query, update, cb
-    , (cb) ->
-      # notify members
-      commands.send_message_settlement 'election', winner, settlement, [],
-        loser_id: settlement.leader?._id
-        loser_name: settlement.leader?.name
-        loser_slug: settlement.leader?.slug
-        winner_id: winner._id
-        winner_name: winner.name
-        winner_slug: winner.slug
-        settlement_id: settlement._id
-        settlement_name: settlement.name
-        settlement_slug: settlement.slug
-        leader_title: settlement.leader_title
-      , cb
-  ], cb
+  build_candidate_list = (settlement) ->
+    candidates = []
+    for member in settlement.members
+      is_founder = settlement.founder?._id?.toString() is member._id.toString()
+      is_leader = settlement.leader?._id?.toString() is member._id.toString()
+      votes = count_votes settlement, member
+      if votes > 0 or is_founder or is_leader
+        candidates.push
+          _id: member._id
+          name: member.name
+          slug: member.slug
+          joined: member.joined
+          votes: votes
+    candidates
 
-db.settlements().find({}).toArray (err, settlements) ->
-  if err?
-    console.log err
-  else
-    async.forEach settlements, process_settlement, (err) ->
-      if err?
-        console.log err
-      else
-        console.log 'Elections complete.'
-      process.exit()
+  filter_inactive_members = ([settlement, active_members]) ->
+    settlement.members = settlement.members.filter (m) ->
+      return true if settlement.leader? and settlement.leader._id.toString() is m._id.toString()
+      _.some active_members, (am) ->
+        am._id.toString() is m._id.toString()
+    settlement
+
+  trim_inactive_members = (settlement, cb) ->
+    all_active_members(settlement)
+      .then (members) ->
+        [settlement, members]
+      .then filter_inactive_members
+      .then (settlement) ->
+        cb null, settlement
+      .catch (err) ->
+        cb err
+
+  process_settlement = (settlement, cb) ->
+    return cb() unless settlement.population > 0
+
+    trim_inactive_members settlement, (err, settlement) ->
+      return cb(err) if err?
+
+      candidates = build_candidate_list settlement
+      candidates.sort sort_func
+
+      winner = candidates[0]
+      return cb() if winner._id.toString() is settlement.leader?._id.toString()
+      console.log "#{winner.name} has defeated #{settlement.leader.name} as #{settlement.leader_title} of #{settlement.name}."
+      async.series [
+        (cb) ->
+          # update settlement
+          query =
+            _id: settlement._id
+          update =
+            $set:
+              leader:
+                _id: winner._id
+                name: winner.name
+                slug: winner.slug
+          db.settlements().updateOne query, update, cb
+        , (cb) ->
+          # notify members
+          commands.send_message_settlement 'election', winner, settlement, [],
+            loser_id: settlement.leader?._id
+            loser_name: settlement.leader?.name
+            loser_slug: settlement.leader?.slug
+            winner_id: winner._id
+            winner_name: winner.name
+            winner_slug: winner.slug
+            settlement_id: settlement._id
+            settlement_name: settlement.name
+            settlement_slug: settlement.slug
+            leader_title: settlement.leader_title
+          , cb
+      ], cb
+
+  db.settlements().find({}).toArray (err, settlements) ->
+    if err?
+      console.log err
+    else
+      async.forEach settlements, process_settlement, (err) ->
+        if err?
+          console.log err
+        else
+          console.log 'Elections complete.'
+        process.exit()

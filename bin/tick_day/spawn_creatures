@@ -2,93 +2,95 @@
 
 require 'babel/register'
 
-_ = require 'underscore'
-async = require 'async'
 db = require '../../db'
-data = require '../../data'
-commands = require '../../commands'
+db.connect().then ->
 
-PER_N_TILES = 100
-all_creatures = null
+  _ = require 'underscore'
+  async = require 'async'
+  data = require '../../data'
+  commands = require '../../commands'
 
-count_creatures = (tiles) ->
-  counts = {}
-  for tile in tiles ? []
-    for p in tile.tile.people ? []
-      if p.creature?
-        counts[p.creature] = (counts[p.creature] ? 0) + 1
-  counts
+  PER_N_TILES = 100
+  all_creatures = null
 
-find_habitable_tile = (creature, tiles) ->
-  is_habitable = (terrain, tile) ->
-    not tile.building?
-  habitable_tiles = tiles.filter (t) ->
-    return false unless is_habitable(t.terrain, t.tile)
-    if creature.is_habitable?
-      creature.is_habitable t.terrain, t.tile
-    else
-      true
-  return null unless habitable_tiles.length
-  habitable_tiles[Math.floor(Math.random() * habitable_tiles.length)].tile
+  count_creatures = (tiles) ->
+    counts = {}
+    for tile in tiles ? []
+      for p in tile.tile.people ? []
+        if p.creature?
+          counts[p.creature] = (counts[p.creature] ? 0) + 1
+    counts
 
-spawn_in_region = (region, cb) ->
-  return cb() unless region.spawn?
-  query =
-    region: region.id
-    z: 0
-  db.tiles().find(query).toArray (err, tiles_in_region) ->
-    return cb(err) if err?
-    return cb() unless tiles_in_region?.length
+  find_habitable_tile = (creature, tiles) ->
+    is_habitable = (terrain, tile) ->
+      not tile.building?
+    habitable_tiles = tiles.filter (t) ->
+      return false unless is_habitable(t.terrain, t.tile)
+      if creature.is_habitable?
+        creature.is_habitable t.terrain, t.tile
+      else
+        true
+    return null unless habitable_tiles.length
+    habitable_tiles[Math.floor(Math.random() * habitable_tiles.length)].tile
 
-    tiles_in_region = tiles_in_region.map (tile) ->
-      tile: tile
-      terrain: data.terrains[tile.terrain]
-
-    # .spawn() tells us the maximum number of each creature to have per 100 tiles in region
-    max_counts = {}
-    for key, value of region.spawn()
-      max_counts[key] = value * (tiles_in_region.length / PER_N_TILES)
-
-    current_counts = count_creatures tiles_in_region
-
-    max_to_spawn = []
-    for key of max_counts
-      current = current_counts[key] ? 0
-      max = Math.ceil(max_counts[key])
-      unless current >= max
-        max_to_spawn.push creature: data.creatures[key], max: max - current
-
-    async.each max_to_spawn, (spawn, cb) ->
-      creature = spawn.creature
-      max = spawn.max
-      async.each [0...max], (i, cb) ->
-        spawn_odds = creature.spawn_odds ? -> 1 # some creatures can adjust their own rarity
-        return cb() unless Math.random() < spawn_odds()
-        
-        tile = find_habitable_tile creature, tiles_in_region
-        return cb() unless tile?
-
-        console.log "Spawning a #{creature.name}."
-        commands.create_creature creature, tile, cb
-      , cb
-    , cb
-
-async.series [
-  (cb) ->
+  spawn_in_region = (region, cb) ->
+    return cb() unless region.spawn?
     query =
-      creature: {$exists: true}
-    db.characters().find(query).toArray (err, _all_creatures) ->
+      region: region.id
+      z: 0
+    db.tiles().find(query).toArray (err, tiles_in_region) ->
       return cb(err) if err?
-      all_creatures = _all_creatures
-      cb()
-  (cb) ->
-    regions = []
-    regions.push region for key, region of data.regions
-    async.each regions, spawn_in_region, cb
-], (err) ->
-  if err?
-    console.log err
-    process.exit 1
-  else
-    console.log 'Animals Spawned'
-    process.exit 0
+      return cb() unless tiles_in_region?.length
+
+      tiles_in_region = tiles_in_region.map (tile) ->
+        tile: tile
+        terrain: data.terrains[tile.terrain]
+
+      # .spawn() tells us the maximum number of each creature to have per 100 tiles in region
+      max_counts = {}
+      for key, value of region.spawn()
+        max_counts[key] = value * (tiles_in_region.length / PER_N_TILES)
+
+      current_counts = count_creatures tiles_in_region
+
+      max_to_spawn = []
+      for key of max_counts
+        current = current_counts[key] ? 0
+        max = Math.ceil(max_counts[key])
+        unless current >= max
+          max_to_spawn.push creature: data.creatures[key], max: max - current
+
+      async.each max_to_spawn, (spawn, cb) ->
+        creature = spawn.creature
+        max = spawn.max
+        async.each [0...max], (i, cb) ->
+          spawn_odds = creature.spawn_odds ? -> 1 # some creatures can adjust their own rarity
+          return cb() unless Math.random() < spawn_odds()
+          
+          tile = find_habitable_tile creature, tiles_in_region
+          return cb() unless tile?
+
+          console.log "Spawning a #{creature.name}."
+          commands.create_creature creature, tile, cb
+        , cb
+      , cb
+
+  async.series [
+    (cb) ->
+      query =
+        creature: {$exists: true}
+      db.characters().find(query).toArray (err, _all_creatures) ->
+        return cb(err) if err?
+        all_creatures = _all_creatures
+        cb()
+    (cb) ->
+      regions = []
+      regions.push region for key, region of data.regions
+      async.each regions, spawn_in_region, cb
+  ], (err) ->
+    if err?
+      console.log err
+      process.exit 1
+    else
+      console.log 'Animals Spawned'
+      process.exit 0

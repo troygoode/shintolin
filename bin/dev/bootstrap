@@ -2,142 +2,144 @@
 
 require 'babel/register'
 
-async = require 'async'
-fs = require 'fs'
-path = require 'path'
-Mongolian = require 'mongolian'
-config = require '../../config'
-commands = require '../../commands'
-queries = require '../../queries'
-data = require '../../data'
 db = require '../../db'
+db.connect().then ->
 
-settlement = null
-character_names = ['Ecce', 'Deschain', 'TroyMG', 'Romani']
-characters = {}
-map_template_path = path.join __dirname, "../../data/map-backups", (process.argv[2] ? 'bootstrap.tsv')
-tile_data = fs.readFileSync map_template_path, encoding: 'utf-8'
-tiles = tile_data.split('\n').slice(1).map (row) ->
-  return {} if row is ''
-  arr = row.split('\t')
-  x: parseInt(arr[0])
-  y: parseInt(arr[1])
-  region: if arr[2] is 'no-region' then null else data.regions[arr[2]]
-  terrain: data.terrains[arr[3]]
-  row: row
-buildings = [
-  {x: -1, y: 0, building: data.buildings.hut}
-  {x: 0, y: -1, building: data.buildings.hut}
-  {x: 1, y: 0, building: data.buildings.hut}
-]
-items = [
-  {to: 'Ecce', item: data.items.axe_hand}
-  {to: 'Ecce', item: data.items.log}
-  {to: 'Ecce', item: data.items.test_weapon}
-  {to: 'Ecce', item: data.items.poultice}
-  {to: 'Ecce', item: data.items.onion}
-]
-xp = 2500
-move =
-  Ecce: {x: 1, y: 0, z: 0}
-  TroyMG: {x: 1, y: 0, z: 0}
-  Romani: {x: 1, y: 0, z: 0}
-  Deschain: {x: 1, y: 0, z: 1}
-founder = 'TroyMG'
-hq = x: 0, y: 0, z: 0
-settlement_name = 'Test Settlement'
+  async = require 'async'
+  fs = require 'fs'
+  path = require 'path'
+  Mongolian = require 'mongolian'
+  config = require '../../config'
+  commands = require '../../commands'
+  queries = require '../../queries'
+  data = require '../../data'
 
-async.series [
-  (cb) ->
-    # DROP DATABASE!!!
-    _db = new Mongolian config.mongo_uri
-    _db.dropDatabase (err) ->
-      return cb(err) if err?
-      console.log "Database dropped."
-      cb()
-  (cb) ->
-    # create database indexes
-    db.ensure_indexes cb
-  (cb) ->
-    # create map
-    async.forEachSeries tiles, (t, cb) ->
-      return cb() unless t.x? and t.y?
-      return cb("invalid terrain") unless t.terrain?
-      commands.create_tile {x: t.x, y: t.y, z: 0}, t.terrain.id, (if t.region then t.region.id else null), (err, tile) ->
+  settlement = null
+  character_names = ['Ecce', 'Deschain', 'TroyMG', 'Romani']
+  characters = {}
+  map_template_path = path.join __dirname, "../../data/map-backups", (process.argv[2] ? 'bootstrap.tsv')
+  tile_data = fs.readFileSync map_template_path, encoding: 'utf-8'
+  tiles = tile_data.split('\n').slice(1).map (row) ->
+    return {} if row is ''
+    arr = row.split('\t')
+    x: parseInt(arr[0])
+    y: parseInt(arr[1])
+    region: if arr[2] is 'no-region' then null else data.regions[arr[2]]
+    terrain: data.terrains[arr[3]]
+    row: row
+  buildings = [
+    {x: -1, y: 0, building: data.buildings.hut}
+    {x: 0, y: -1, building: data.buildings.hut}
+    {x: 1, y: 0, building: data.buildings.hut}
+  ]
+  items = [
+    {to: 'Ecce', item: data.items.axe_hand}
+    {to: 'Ecce', item: data.items.log}
+    {to: 'Ecce', item: data.items.test_weapon}
+    {to: 'Ecce', item: data.items.poultice}
+    {to: 'Ecce', item: data.items.onion}
+  ]
+  xp = 2500
+  move =
+    Ecce: {x: 1, y: 0, z: 0}
+    TroyMG: {x: 1, y: 0, z: 0}
+    Romani: {x: 1, y: 0, z: 0}
+    Deschain: {x: 1, y: 0, z: 1}
+  founder = 'TroyMG'
+  hq = x: 0, y: 0, z: 0
+  settlement_name = 'Test Settlement'
+
+  async.series [
+    (cb) ->
+      # DROP DATABASE!!!
+      _db = new Mongolian config.mongo_uri
+      _db.dropDatabase (err) ->
         return cb(err) if err?
-        console.log "Created #{tile.terrain} tile at #{tile.x},#{tile.y},#{tile.z}."
+        console.log "Database dropped."
         cb()
-    , cb
-  (cb) ->
-    # create default characters/accounts
-    async.forEachSeries character_names, (name, cb) ->
-      commands.create_character name, "#{name.toLowerCase()}@example.com", 'password', undefined, (err, c) ->
-        return cb(err) if err?
-        console.log "Created character #{c.name}."
-        characters[c.name] = c
-        cb()
-    , (err) ->
-      return cb(err) if err?
-      query =
-        name: character_names[0]
-      update =
-        $set:
-          developer: true
-      db.characters().updateOne query, update, cb
-  (cb) ->
-    # add buildings to map
-    async.forEachSeries buildings, (b, cb) ->
-      queries.get_tile_by_coords {x: b.x, y: b.y, z: 0}, (err, tile) ->
-        return cb(err) if err?
-        commands.create_building tile, b.building, (err) ->
+    (cb) ->
+      # create database indexes
+      db.ensure_indexes cb
+    (cb) ->
+      # create map
+      async.forEachSeries tiles, (t, cb) ->
+        return cb() unless t.x? and t.y?
+        return cb("invalid terrain") unless t.terrain?
+        commands.create_tile {x: t.x, y: t.y, z: 0}, t.terrain.id, (if t.region then t.region.id else null), (err, tile) ->
           return cb(err) if err?
-          console.log "Built a #{b.building.name} at #{tile.x},#{tile.y},#{tile.z}."
+          console.log "Created #{tile.terrain} tile at #{tile.x},#{tile.y},#{tile.z}."
           cb()
-    , cb
-  (cb) ->
-    # give starting items to characters
-    async.forEachSeries items, (i, cb) ->
-      character = characters[i.to]
-      count = i.count ? 1
-      commands.give.items character, null, {item: i.item, count: count}, (err) ->
+      , cb
+    (cb) ->
+      # create default characters/accounts
+      async.forEachSeries character_names, (name, cb) ->
+        commands.create_character name, "#{name.toLowerCase()}@example.com", 'password', undefined, (err, c) ->
+          return cb(err) if err?
+          console.log "Created character #{c.name}."
+          characters[c.name] = c
+          cb()
+      , (err) ->
         return cb(err) if err?
-        if count is 1
-          console.log "Gave a #{i.item.name} to #{character.name}."
-        else
-          console.log "Gave #{count}x #{i.item.plural} to #{character.name}."
-        cb()
-    , cb
-  (cb) ->
-    # give starting xp to characters
-    arr = []
-    arr.push c for key, c of characters
-    async.forEachSeries arr, (c, cb) ->
-      commands.give.xp c, null, {wanderer: xp, herbalist: xp, crafter: xp, warrior: xp}, (err) ->
+        query =
+          name: character_names[0]
+        update =
+          $set:
+            developer: true
+        db.characters().updateOne query, update, cb
+    (cb) ->
+      # add buildings to map
+      async.forEachSeries buildings, (b, cb) ->
+        queries.get_tile_by_coords {x: b.x, y: b.y, z: 0}, (err, tile) ->
+          return cb(err) if err?
+          commands.create_building tile, b.building, (err) ->
+            return cb(err) if err?
+            console.log "Built a #{b.building.name} at #{tile.x},#{tile.y},#{tile.z}."
+            cb()
+      , cb
+    (cb) ->
+      # give starting items to characters
+      async.forEachSeries items, (i, cb) ->
+        character = characters[i.to]
+        count = i.count ? 1
+        commands.give.items character, null, {item: i.item, count: count}, (err) ->
+          return cb(err) if err?
+          if count is 1
+            console.log "Gave a #{i.item.name} to #{character.name}."
+          else
+            console.log "Gave #{count}x #{i.item.plural} to #{character.name}."
+          cb()
+      , cb
+    (cb) ->
+      # give starting xp to characters
+      arr = []
+      arr.push c for key, c of characters
+      async.forEachSeries arr, (c, cb) ->
+        commands.give.xp c, null, {wanderer: xp, herbalist: xp, crafter: xp, warrior: xp}, (err) ->
+          return cb(err) if err?
+          console.log "Granted #{xp}xp to each xp type for #{c.name}."
+          cb()
+      , cb
+    (cb) ->
+      # move characters to starting positions
+      arr = []
+      arr.push character: character, coords: coords for character, coords of move
+      async.forEach arr, (a, cb) ->
+        commands.teleport characters[a.character], characters[a.character], a.coords, (err) ->
+          return cb(err) if err?
+          console.log "Moved #{a.character} to #{a.coords.x},#{a.coords.y},#{a.coords.z}."
+          cb()
+      , cb
+    (cb) ->
+      # create a starting settlement
+      queries.get_tile_by_coords hq, (err, hq) ->
         return cb(err) if err?
-        console.log "Granted #{xp}xp to each xp type for #{c.name}."
-        cb()
-    , cb
-  (cb) ->
-    # move characters to starting positions
-    arr = []
-    arr.push character: character, coords: coords for character, coords of move
-    async.forEach arr, (a, cb) ->
-      commands.teleport characters[a.character], characters[a.character], a.coords, (err) ->
-        return cb(err) if err?
-        console.log "Moved #{a.character} to #{a.coords.x},#{a.coords.y},#{a.coords.z}."
-        cb()
-    , cb
-  (cb) ->
-    # create a starting settlement
-    queries.get_tile_by_coords hq, (err, hq) ->
-      return cb(err) if err?
-      commands.create_settlement characters[founder], hq, settlement_name, (err) ->
-        return cb(err) if err?
-        console.log "#{founder} founded the settlement of #{settlement_name}."
-        cb()
-], (err) ->
-  if err?
-    console.log err
-  else
-    console.log 'Bootstrap complete.'
-  process.exit()
+        commands.create_settlement characters[founder], hq, settlement_name, (err) ->
+          return cb(err) if err?
+          console.log "#{founder} founded the settlement of #{settlement_name}."
+          cb()
+  ], (err) ->
+    if err?
+      console.log err
+    else
+      console.log 'Bootstrap complete.'
+    process.exit()

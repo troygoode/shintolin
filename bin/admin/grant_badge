@@ -2,18 +2,21 @@
 
 require 'babel/register'
 
-BPromise = require 'bluebird'
-get_character_by_name = BPromise.promisify(require '../../queries/get_character_by_name')
-grant_badge = BPromise.promisify(require '../../commands/grant_badge')
+db = require '../../db'
+db.connect().then ->
 
-BPromise.resolve()
-  .then ->
-    get_character_by_name process.argv[3]
-  .then (character) ->
-    throw 'Invalid Character' unless character?
-    grant_badge character, process.argv[2]
-  .then ->
-    process.exit 0
-  .catch (err) ->
-    console.error err
-    process.exit 1
+  BPromise = require 'bluebird'
+  get_character_by_name = BPromise.promisify(require '../../queries/get_character_by_name')
+  grant_badge = BPromise.promisify(require '../../commands/grant_badge')
+
+  BPromise.resolve()
+    .then ->
+      get_character_by_name process.argv[3]
+    .then (character) ->
+      throw 'Invalid Character' unless character?
+      grant_badge character, process.argv[2]
+    .then ->
+      process.exit 0
+    .catch (err) ->
+      console.error err
+      process.exit 1

@@ -2,55 +2,57 @@
 
 require 'babel/register'
 
-_ = require 'underscore'
-async = require 'async'
 db = require '../../db'
-data = require '../../data'
-commands = require '../../commands'
-FOOD_ROT_CHANCE = .04
+db.connect().then ->
 
-binomial = (trials, probability) ->
-  successes = 0
-  for i in [0...trials]
-    successes++ if Math.random() < probability
-  successes
+  _ = require 'underscore'
+  async = require 'async'
+  data = require '../../data'
+  commands = require '../../commands'
+  FOOD_ROT_CHANCE = .04
 
-replace_with_rotten_food = (target, food, count, cb) ->
-  if target.building?
-    console.log "Rotting #{count} of #{target.building}'s #{food.plural}."
-  else
-    console.log "Rotting #{count} of #{target.name}'s #{food.plural}."
-  commands.remove_item target, food, count, (err) ->
-    return cb(err) if err?
-    commands.give.items target, null, {item: data.items.rotten_food, count: count}, cb
+  binomial = (trials, probability) ->
+    successes = 0
+    for i in [0...trials]
+      successes++ if Math.random() < probability
+    successes
 
-check_for_rot = (target) ->
-  (inventory_item, cb) ->
-    item = data.items[inventory_item.item]
-    return cb() unless _.contains(item.tags, 'food')
-    amount_to_rot = binomial inventory_item.count, FOOD_ROT_CHANCE
-    return cb() if amount_to_rot <= 0
-    replace_with_rotten_food target, item, amount_to_rot, cb
-
-async.series [
-  (cb) ->
-    db.characters().find(creature: {$exists: false}).toArray (err, characters) ->
+  replace_with_rotten_food = (target, food, count, cb) ->
+    if target.building?
+      console.log "Rotting #{count} of #{target.building}'s #{food.plural}."
+    else
+      console.log "Rotting #{count} of #{target.name}'s #{food.plural}."
+    commands.remove_item target, food, count, (err) ->
       return cb(err) if err?
-      async.each characters, (character, cb) ->
-        async.each character.items, check_for_rot(character), cb
-      , cb
-  (cb) ->
-    query =
-      items: {$exists: true}
-    db.tiles().find(query).toArray (err, tiles) ->
-      return cb(err) if err?
-      async.each tiles, (tile, cb) ->
-        async.each tile.items, check_for_rot(tile), cb
-      , cb
-], (err) ->
-  if err?
-    console.log err
-    process.exit 1
-  else
-    console.log 'Food Rotted'
-    process.exit 0
+      commands.give.items target, null, {item: data.items.rotten_food, count: count}, cb
+
+  check_for_rot = (target) ->
+    (inventory_item, cb) ->
+      item = data.items[inventory_item.item]
+      return cb() unless _.contains(item.tags, 'food')
+      amount_to_rot = binomial inventory_item.count, FOOD_ROT_CHANCE
+      return cb() if amount_to_rot <= 0
+      replace_with_rotten_food target, item, amount_to_rot, cb
+
+  async.series [
+    (cb) ->
+      db.characters().find(creature: {$exists: false}).toArray (err, characters) ->
+        return cb(err) if err?
+        async.each characters, (character, cb) ->
+          async.each character.items, check_for_rot(character), cb
+        , cb
+    (cb) ->
+      query =
+        items: {$exists: true}
+      db.tiles().find(query).toArray (err, tiles) ->
+        return cb(err) if err?
+        async.each tiles, (tile, cb) ->
+          async.each tile.items, check_for_rot(tile), cb
+        , cb
+  ], (err) ->
+    if err?
+      console.log err
+      process.exit 1
+    else
+      console.log 'Food Rotted'
+      process.exit 0

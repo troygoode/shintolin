@@ -2,27 +2,29 @@
 
 require 'babel/register'
 
-_ = require 'underscore'
 db = require '../../db'
+db.connect().then ->
 
-fail = (err) ->
-  console.error err
-  process.exit 1
+  _ = require 'underscore'
 
-db.tiles().find({}).sort({x: 1, y: 1, z: 1}).toArray (err, tiles) ->
-  return fail(err) if err?
+  fail = (err) ->
+    console.error err
+    process.exit 1
 
-  for tile in tiles
-    matches = _.filter tiles, (t) ->
-      return parseInt(t.x) is parseInt(tile.x) and
-        parseInt(t.y) is parseInt(tile.y) and
-        parseInt(t.z) is parseInt(tile.z) and
-        t._id.toString() isnt tile._id.toString()
+  db.tiles().find({}).sort({x: 1, y: 1, z: 1}).toArray (err, tiles) ->
+    return fail(err) if err?
 
-    if matches.length
-      console.log "#{JSON.stringify({_id: tile._id.toString(), x: tile.x, y: tile.y, z: tile.z, region: tile.region, terrain: tile.terrain, people: tile.people?.length ? 0})}:"
-      for t in matches
-        console.log "  - #{JSON.stringify({_id: t._id.toString(), x: t.x, y: t.y, z: t.z, region: t.region, terrain: t.terrain, people: t.people?.length ? 0})}"
-      console.log ""
+    for tile in tiles
+      matches = _.filter tiles, (t) ->
+        return parseInt(t.x) is parseInt(tile.x) and
+          parseInt(t.y) is parseInt(tile.y) and
+          parseInt(t.z) is parseInt(tile.z) and
+          t._id.toString() isnt tile._id.toString()
 
-  process.exit 0
+      if matches.length
+        console.log "#{JSON.stringify({_id: tile._id.toString(), x: tile.x, y: tile.y, z: tile.z, region: tile.region, terrain: tile.terrain, people: tile.people?.length ? 0})}:"
+        for t in matches
+          console.log "  - #{JSON.stringify({_id: t._id.toString(), x: t.x, y: t.y, z: t.z, region: t.region, terrain: t.terrain, people: t.people?.length ? 0})}"
+        console.log ""
+
+    process.exit 0

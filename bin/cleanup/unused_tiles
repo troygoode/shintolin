@@ -3,16 +3,18 @@
 require 'babel/register'
 
 db = require '../../db'
-config = require '../../config'
+db.connect().then ->
 
-query =
-  terrain: config.default_terrain
-  people: {$size: 0}
-  settlement_id: {$exists: true}
+  config = require '../../config'
 
-db.tiles().deleteMany query, (err, tiles) ->
-  if err?
-    console.log err
-  else
-    console.log "Removed #{tiles} unused tiles."
-  process.exit()
+  query =
+    terrain: config.default_terrain
+    people: {$size: 0}
+    settlement_id: {$exists: true}
+
+  db.tiles().deleteMany query, (err, tiles) ->
+    if err?
+      console.log err
+    else
+      console.log "Removed #{tiles} unused tiles."
+    process.exit()
