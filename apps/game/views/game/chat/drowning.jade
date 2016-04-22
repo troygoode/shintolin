@@ -1,0 +1,9 @@
+.action
+  | You take 
+  span.damage #{msg.damage || 0} HP
+  |  damage as you struggle to hold your head above the water. 
+  if msg.kill
+    |  The surface fades away above you as 
+    span.knockout you drown
+    | .
+  div.time= moment(msg.sent).fromNow()

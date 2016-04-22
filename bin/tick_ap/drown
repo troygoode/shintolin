@@ -1,0 +1,61 @@
+#!/usr/bin/env node_modules/coffee-script/bin/coffee
+
+require 'babel/register'
+
+db = require '../../db'
+db.connect().then ->
+
+  _ = require 'underscore'
+  Bluebird = require 'bluebird'
+
+  config = require '../../config'
+  {terrains} = require '../../data'
+  send_message = Bluebird.promisify(require '../../commands/send_message')
+  update_character_hp = Bluebird.promisify(require '../../commands/update_character_hp')
+
+  DEFAULT_TERRAIN = config.default_terrain
+  DAMAGE = 1
+
+  Bluebird.resolve()
+    .then ->
+      QUERY =
+        email: {$exists: true}
+        hp: {$gt: 0}
+      db.characters().find(QUERY).toArray()
+
+    .each (c) ->
+      QUERY =
+        x: c.x
+        y: c.y
+        z: c.z
+      db.tiles().findOne(QUERY)
+        .then (tile) ->
+          terrain = terrains[tile?.terrain ? DEFAULT_TERRAIN]
+          can_swim = _.contains(c.skills ? [], 'swimming')
+          is_drowning = _.contains(terrain.tags ? [], 'deep') or
+            (not can_swim and _.contains(terrain.tags ? [], 'shallow'))
+
+          return unless is_drowning
+
+          NEW_HP = c.hp - DAMAGE
+          NEW_HP = 0 if NEW_HP < 0
+
+          Bluebird.resolve()
+            .then ->
+              update_character_hp c, NEW_HP
+            .then ->
+              return unless NEW_HP is 0
+              QUERY = _id: c._id
+              UPDATE = $inc: {deaths: 1}
+              db.character().updateOne(QUERY, UPDATE)
+            .then ->
+              send_message 'drowning', c, c,
+                damage: DAMAGE
+                kill: NEW_HP is 0
+
+    .then ->
+      process.exit 0
+
+    .catch (err) ->
+      console.error err
+      process.exit 1

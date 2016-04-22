@@ -6,5 +6,6 @@ echo "### TICK: AP (START) ###"
 ./bin/tick_ap/check_settlement_membership
 ./bin/tick_ap/diminish_campfires
 ./bin/tick_ap/move_creatures
+./bin/tick_ap/drown
 
 echo "### TICK: AP (END) ###"
