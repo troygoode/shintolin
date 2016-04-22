@@ -1,0 +1,46 @@
+#!/usr/bin/env node_modules/coffee-script/bin/coffee
+
+require 'babel/register'
+
+db = require '../../db'
+db.connect().then ->
+
+  Bluebird = require 'bluebird'
+
+  teleport = Bluebird.promisify(require '../../commands/teleport')
+  randomSpawnable = Bluebird.promisify(require '../../queries/get_random_spawnable_tile')
+
+  TERRAIN = process.argv[2]
+
+  Bluebird.props(
+
+    characters: (->
+      QUERY =
+        email: {$exists: true}
+      db.characters().find(QUERY).toArray()
+    )()
+
+    destination: (->
+      randomSpawnable()
+    )()
+
+  )
+    .then ({ characters, destination }) ->
+
+      Bluebird.resolve(characters)
+        .each (c) ->
+          QUERY =
+            x: c.x
+            y: c.y
+            z: c.z
+          db.tiles().findOne(QUERY)
+            .then (tile) ->
+              if not tile? or tile.terrain is TERRAIN
+                console.log "teleporting #{c.name}"
+                teleport c, tile, destination
+
+    .then ->
+      process.exit 0
+    .catch (err) ->
+      console.error err
+      process.exit 1
