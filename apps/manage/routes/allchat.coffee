@@ -24,7 +24,7 @@ allchat = ->
 module.exports = (app) ->
 
   app.get '/allchat', (req, res, err) ->
-    page = req.query?.page ? 1
+    page = parseInt(req.query?.page ? 1)
 
     Bluebird.resolve()
       .then ->
