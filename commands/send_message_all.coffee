@@ -3,7 +3,7 @@ async = require 'async'
 db = require '../db'
 
 module.exports = (type, sender, recipients, blacklist = [], message = {}, cb) ->
-  return cb() unless recipients.length
+  return cb() unless recipients.length and sender?
   unless _.isArray(blacklist)
     blacklist = [blacklist]
   now = new Date()
