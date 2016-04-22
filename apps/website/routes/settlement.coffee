@@ -49,7 +49,7 @@ is_provisional = (settlement, character_id) ->
 
 filter_inactive_members = ([settlement, active_members]) ->
   settlement.members = settlement.members.filter (m) ->
-    return true if settlement.leader? and settlement.leader._id.toString() is m._id.toString()
+    return true if settlement.leader? and settlement.leader?._id.toString() is m._id.toString()
     _.some active_members, (am) ->
       am._id.toString() is m._id.toString()
   settlement
