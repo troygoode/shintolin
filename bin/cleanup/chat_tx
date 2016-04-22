@@ -1,0 +1,40 @@
+#!/usr/bin/env node_modules/coffee-script/bin/coffee
+
+require 'babel/register'
+
+db = require '../../db'
+db.connect().then ->
+
+  Bluebird = require 'bluebird'
+  last_msg = null
+  tx = null
+  count = 0
+
+  Bluebird.resolve()
+
+    .then ->
+      QUERY = {type: 'social'}
+      SORT = {sent: 1}
+      db.chat_messages().find(QUERY).sort(SORT).toArray()
+
+    .tap (msgs) ->
+      console.log "#{msgs.length} messages"
+
+    .each (msg) ->
+      console.log "updating message ##{++count}"
+
+      if not tx? or not last_msg? or last_msg.text isnt msg.text
+        tx = db.ObjectId()
+      else
+        console.log 'REUSING TX'
+      last_msg = msg
+
+      QUERY = {_id: msg._id}
+      UPDATE = {$set: {tx: tx}}
+      db.chat_messages().updateOne(QUERY, UPDATE)
+
+    .then ->
+      process.exit 0
+    .catch (err) ->
+      console.error err
+      process.exit 1

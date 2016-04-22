@@ -41,7 +41,6 @@ module.exports = (app) ->
     volume ?= 'say'
     volume = SHORTCUTS[volume] ? volume
 
-
     BPromise.resolve()
       .then ->
         # validation: SETTLEMENT

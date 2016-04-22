@@ -6,7 +6,9 @@ module.exports = (type, sender, recipients, blacklist = [], message = {}, cb) ->
   return cb() unless recipients.length and sender?
   unless _.isArray(blacklist)
     blacklist = [blacklist]
+
   now = new Date()
+  tx = db.ObjectId()
 
   async.forEach recipients, (recipient, cb) ->
     blacklisted = _.some blacklist, (a) ->
@@ -20,6 +22,7 @@ module.exports = (type, sender, recipients, blacklist = [], message = {}, cb) ->
         sender_id: sender?._id
         sender_slug: sender?.slug
         sent: now
+        tx: tx
       , message
       m.recipient_id = recipient._id if recipient?
       db.chat_messages().insertOne m, cb
