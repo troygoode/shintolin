@@ -19,6 +19,7 @@ module.exports = (creature, tile, cb) ->
         created: now
         last_action: now
       db.characters().insertOne character, cb
-    (character, cb) ->
-      teleport character, undefined, tile, cb
+    (response, cb) ->
+      creature = response.ops[0]
+      teleport creature, undefined, tile, cb
   ], cb
