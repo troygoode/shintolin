@@ -1,0 +1,27 @@
+#!/usr/bin/env node_modules/coffee-script/bin/coffee
+
+require 'babel/register'
+
+db = require '../../db'
+db.connect().then ->
+
+  async = require 'async'
+
+  async.parallel [
+    (cb) ->
+      query =
+        email: { $exists: true }
+        $or: [
+          {ap: {$ne: 100}}
+        ]
+      update =
+        $set:
+          ap: 100
+      db.characters().updateMany query, update, (err, updated) ->
+        return cb(err) if err?
+        console.log "Updated #{updated} character records."
+        cb()
+  ], (err) ->
+    console.log err if err?
+    console.log 'AP reset complete.'
+    process.exit()
