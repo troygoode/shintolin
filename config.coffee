@@ -17,7 +17,7 @@ module.exports =
 
   ap_per_hour: 3.0
   maximum_level: 18
-  default_terrain: 'wilderness'
+  default_terrain: 'sea_deep'
 
   production: process.env.NODE_ENV is 'production'
 

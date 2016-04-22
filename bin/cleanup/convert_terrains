@@ -1,0 +1,19 @@
+#!/usr/bin/env node_modules/coffee-script/bin/coffee
+
+require 'babel/register'
+
+db = require '../../db'
+db.connect().then ->
+
+  query =
+    terrain: process.argv[2]
+  update =
+    $set:
+      terrain: process.argv[3]
+
+  db.tiles().updateMany query, update, (err, tiles) ->
+    if err?
+      console.log err
+    else
+      console.log "Updated #{tiles} tiles."
+    process.exit()

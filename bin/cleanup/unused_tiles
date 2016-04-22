@@ -10,7 +10,8 @@ db.connect().then ->
   query =
     terrain: config.default_terrain
     people: {$size: 0}
-    settlement_id: {$exists: true}
+    settlement_id: {$exists: false}
+    region: {$exists: false}
 
   db.tiles().deleteMany query, (err, tiles) ->
     if err?
