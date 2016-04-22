@@ -1,16 +1,15 @@
 #!/bin/bash
 
 echo "### TICK: DAY (START) ###"
-cd ./bin/tick_day
 
-./hold_elections
-./grow_fields
-./restore_search_odds
-./spawn_creatures
-./grow_tiles
-./rot_food
-./storms
-./decay_dropped_items
-./hunger
+./bin/tick_day/hold_elections
+./bin/tick_day/grow_fields
+./bin/tick_day/restore_search_odds
+./bin/tick_day/spawn_creatures
+./bin/tick_day/grow_tiles
+./bin/tick_day/rot_food
+./bin/tick_day/storms
+./bin/tick_day/decay_dropped_items
+./bin/tick_day/hunger
 
 echo "### TICK: DAY (END) ###"

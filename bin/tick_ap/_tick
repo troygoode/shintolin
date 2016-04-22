@@ -1,11 +1,10 @@
 #!/bin/bash
 
 echo "### TICK: AP (START) ###"
-cd ./bin/tick_ap
 
-./recover_ap
-./check_settlement_membership
-./diminish_campfires
-./move_creatures
+./bin/tick_ap/recover_ap
+./bin/tick_ap/check_settlement_membership
+./bin/tick_ap/diminish_campfires
+./bin/tick_ap/move_creatures
 
 echo "### TICK: AP (END) ###"
