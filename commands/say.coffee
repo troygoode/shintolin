@@ -1,4 +1,5 @@
 async = require 'async'
+db = require '../db'
 queries = require '../queries'
 send_message = require './send_message'
 send_message_all = require './send_message_all'
