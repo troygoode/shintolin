@@ -81,9 +81,9 @@ module.exports = (name, email, password, settlement, cb) ->
         coords = tile
         cb()
     (cb) ->
-      create_character coords, (err, _character) ->
+      create_character coords, (err, response) ->
         return cb(err) if err?
-        character = _character
+        character = response.ops[0]
         cb()
     (cb) ->
       teleport character, undefined, coords, cb
