@@ -10,7 +10,7 @@
       .alert.alert-danger This settlement was destroyed by <a href='/profiles/#{settlement.destroyer.slug}'>#{settlement.destroyer.name}</a> on #{moment(settlement.destroyed).format('MMMM Do, YYYY')}.
 
     if settlement.description.length
-      p.profile-bio #{settlement.description}
+      div.profile-bio !{bio}
     else if region
       p.profile-bio.empty A village located in #{region.name}.
     else

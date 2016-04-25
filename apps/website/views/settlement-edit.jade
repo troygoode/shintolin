@@ -6,13 +6,15 @@ form(method='POST')
     input.form-control#name(type='text', name='name', maxlength='32', value=settlement.name)
 
   .form-group
-    label(for='description') Description
+    label(for='description')
+      | Description 
+      a(href='https://en.wikipedia.org/wiki/Markdown#Example') (Markdown syntax)
     textarea.form-control#description(name='description') #{settlement.description}
 
   .form-group
     label(for='image_url') Avatar URL
     input.form-control#image_url(type='text', name='image_url', maxlength='255', value=settlement.image_url)
-    span#image_url_help.help-block Images must be hosted on external sites. Offensive content will be removed.
+    span#image_url_help.help-block Images must be hosted on external sites, like <a href="https://imgur.com">imgur</a>. Offensive content will be removed.
 
   .form-group
     label(for='motto') Motto

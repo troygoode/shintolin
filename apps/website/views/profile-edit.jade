@@ -6,13 +6,15 @@
       input(type='hidden', name='_csrf', value=csrf)
 
       .form-group
-        label(for='bio') Character Description
+        label(for='bio')
+          | Character Description 
+          a(href='https://en.wikipedia.org/wiki/Markdown#Example') (Markdown syntax)
         textarea.form-control#bio(name='bio') #{character.bio}
 
       .form-group
         label(for='image_url') Avatar URL
         input.form-control#image_url(type='text', name='image_url', maxlength='100', value=character.image_url, aria-describedby='image_url_help')
-        span#image_url_help.help-block Images must be hosted on external sites. Offensive content will be removed.
+        span#image_url_help.help-block Images must be hosted on external sites, like <a href="https://imgur.com">imgur</a>. Offensive content will be removed.
 
       .form-group
         label(for='title') Title

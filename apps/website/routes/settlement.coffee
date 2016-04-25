@@ -1,5 +1,6 @@
 _ = require 'underscore'
 Bluebird = require 'bluebird'
+marked = require 'marked'
 moment = require 'moment'
 commands = require '../../../commands'
 data = require '../../../data'
@@ -111,6 +112,7 @@ module.exports = (app) ->
                 req.session.character? and m._id.toString() is req.session.character
               )?.voting_for
               settlement: settlement
+              bio: marked(settlement.description ? '')
               region: if settlement.region?.length then data.regions[settlement.region] else null
               members: settlement.members.map (m) -> visit_member settlement, m
               editable: req.session.character? and settlement.leader? and req.session.character is settlement.leader._id.toString()

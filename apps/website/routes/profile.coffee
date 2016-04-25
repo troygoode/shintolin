@@ -1,5 +1,6 @@
 _ = require 'underscore'
 moment = require 'moment'
+marked = require 'marked'
 data = require '../../../data'
 commands = require '../../../commands'
 queries = require '../../../queries'
@@ -27,6 +28,7 @@ module.exports = (app) ->
         return next(err) if err?
         res.render 'profile',
           _: _
+          bio: marked(character.bio ? '')
           message: req.query.msg
           data: data
           moment: moment
