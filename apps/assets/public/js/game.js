@@ -121,6 +121,10 @@
 
   (function () {
     var $clock = $('.dazed-countdown');
+    if (!$clock.length) {
+      return;
+    }
+
     var ms = $clock.data('timestamp');
     var future = new Date(ms);
     var diff = (future.getTime() - NOW.getTime()) / 1000;

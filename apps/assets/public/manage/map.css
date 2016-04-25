@@ -42,11 +42,11 @@ body{
   opacity: .25;
 }
 
-ul{
+#structure ul{
   margin: 0;
   padding: 0;
 }
-ul li{
+#structure ul li{
   list-style: none;
   margin: 3px;
   padding: 3px;
@@ -55,7 +55,7 @@ ul li{
   width: 120px;
   text-overflow: ellipsis;
 }
-ul li:hover{
+#structure ul li:hover{
   background-color: red;
   color: white;
 }

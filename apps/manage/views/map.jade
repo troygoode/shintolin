@@ -1,46 +1,48 @@
-doctype html
-html
-  head
-    title Map Viewer
-    link(rel='stylesheet', href='/game/css/tiles.css')
-    link(rel='stylesheet', href='/manage/map.css')
-  body
-    table#structure
-      tr#tr-tools
-        td#td-tools(colspan=3)
-          form#paint(method='POST', action='/manage/map')
-            input(type='hidden', name='x')
-            input(type='hidden', name='y')
+extends ./_page.jade
 
-            div
-              label
-                span Terrain
-                select#terrain(name='terrain', data-persist='admin_map_terrain')
-                  option Loading...
+block append css
+  link(rel='stylesheet', href='/game/css/tiles.css')
+  link(rel='stylesheet', href='/manage/map.css')
 
-            div
-              label
-                span Region
-                select#region(name='region', data-persist='admin_map_region')
-                  option Loading...
+block content
+  br
+  br
+  br
+  table#structure
+    tr#tr-tools
+      td#td-tools(colspan=3)
+        form#paint(method='POST', action='/manage/map')
+          input(type='hidden', name='x')
+          input(type='hidden', name='y')
 
-            div
-              a(href='/manage/api/map.tsv') Export Terrain
-      tr
-        td#td-map(valign='top')
-          #map
-        td#td-regions(valign='top')
-          h2 Regions
-          #regions
-        td#td-settlements(valign='top')
-          h2 Settlements
-          #settlements
+          div
+            label
+              span Terrain
+              select#terrain(name='terrain', data-persist='admin_map_terrain')
+                option Loading...
 
-    script(src='/js/lib/jquery-2.1.4.min.js')
-    script(src='/js/lib/jquery.cookie.js')
-    script(src='/js/lib/underscore-min.js')
-    script(src='/bootstrap-3.3.5-dist/js/bootstrap.min.js')
-    script(src='/js/game.js')
-    script.
-      window.defaultTerrain = '#{config.default_terrain}';
-    script(src="/manage/map.js")
+          div
+            label
+              span Region
+              select#region(name='region', data-persist='admin_map_region')
+                option Loading...
+
+          div
+            a(href='/manage/api/map.tsv') Export Terrain
+    tr
+      td#td-map(valign='top')
+        #map
+      td#td-regions(valign='top')
+        h2 Regions
+        #regions
+      td#td-settlements(valign='top')
+        h2 Settlements
+        #settlements
+
+block append scripts
+  script(src='/js/lib/jquery.cookie.js')
+  script(src='/js/lib/underscore-min.js')
+  script(src='/js/game.js')
+  script.
+    window.defaultTerrain = '#{config.default_terrain}';
+  script(src="/manage/map.js")

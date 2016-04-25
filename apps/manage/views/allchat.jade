@@ -1,58 +1,48 @@
-doctype html
-html
-  head
-    title All Chat
-    link(rel='stylesheet', type='text/css', href='/bootstrap-3.3.5-dist/css/bootstrap.min.css')
-    link(rel='stylesheet', type='text/css', href='/bootstrap-3.3.5-dist/css/bootstrap-theme.min.css')
-    link(rel='stylesheet', href='/manage/map.css')
-  body
+extends ./_page.jade
 
-    .container
+block content
 
-      .row
-        .col-xs-12
-          h1 DEV: All Chat
+  .container
 
-      .row.chat-nav
-        .col-xs-6
-          if page === 2
-            a.btn.btn-default(href='/manage/allchat') &larr; Newer
-          else if page > 1
-            a.btn.btn-default(href='/manage/allchat?page=#{page - 1}') &larr; Newer
-          else
-            a.disabled.btn.btn-default(disabled='disabled') &larr; Newer
-        .col-xs-6.text-right
-          if messages.length === page_size
-            a.btn.btn-default(href='/manage/allchat?page=#{page + 1}') Older &rarr;
-          else
-            a.disabled.btn.btn-default(disabled='disabled') Older &rarr;
+    .row
+      .col-xs-12
+        h1 DEV: All Chat
 
-      .row
-        .col-xs-12
-          br
-          for msg in messages
-            pre #{JSON.stringify(msg, null, '  ')}
-          br
+    .row.chat-nav
+      .col-xs-6
+        if page === 2
+          a.btn.btn-default(href='/manage/allchat') &larr; Newer
+        else if page > 1
+          a.btn.btn-default(href='/manage/allchat?page=#{page - 1}') &larr; Newer
+        else
+          a.disabled.btn.btn-default(disabled='disabled') &larr; Newer
+      .col-xs-6.text-right
+        if messages.length === page_size
+          a.btn.btn-default(href='/manage/allchat?page=#{page + 1}') Older &rarr;
+        else
+          a.disabled.btn.btn-default(disabled='disabled') Older &rarr;
 
-      .row.chat-nav
-        .col-xs-6
-          if page === 2
-            a.btn.btn-default(href='/manage/allchat') &larr; Newer
-          else if page > 1
-            a.btn.btn-default(href='/manage/allchat?page=#{page - 1}') &larr; Newer
-          else
-            a.disabled.btn.btn-default(disabled='disabled') &larr; Newer
-        .col-xs-6.text-right
-          if messages.length === page_size
-            a.btn.btn-default(href='/manage/allchat?page=#{page + 1}') Older &rarr;
-          else
-            a.disabled.btn.btn-default(disabled='disabled') Older &rarr;
+    .row
+      .col-xs-12
+        br
+        for msg in messages
+          pre #{JSON.stringify(msg, null, '  ')}
+        br
 
-      .row
-        .col-xs-12
-          br
+    .row.chat-nav
+      .col-xs-6
+        if page === 2
+          a.btn.btn-default(href='/manage/allchat') &larr; Newer
+        else if page > 1
+          a.btn.btn-default(href='/manage/allchat?page=#{page - 1}') &larr; Newer
+        else
+          a.disabled.btn.btn-default(disabled='disabled') &larr; Newer
+      .col-xs-6.text-right
+        if messages.length === page_size
+          a.btn.btn-default(href='/manage/allchat?page=#{page + 1}') Older &rarr;
+        else
+          a.disabled.btn.btn-default(disabled='disabled') Older &rarr;
 
-    script(src='/js/lib/jquery-2.1.4.min.js')
-    script(src='/js/lib/jquery.cookie.js')
-    script(src='/js/lib/underscore-min.js')
-    script(src='/bootstrap-3.3.5-dist/js/bootstrap.min.js')
+    .row
+      .col-xs-12
+        br
