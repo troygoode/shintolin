@@ -73,7 +73,7 @@ resolve_terrain = (character, tile) ->
     terrain = terrain character, tile
   data.terrains[terrain]
 
-visit_tile = (tile, center, character, active) ->
+visit_tile = (tile, center, character, visible) ->
   building = data.buildings[tile.building] if tile?.building?
   terrain = resolve_terrain character, tile
   retval =
@@ -82,7 +82,7 @@ visit_tile = (tile, center, character, active) ->
     style: if _.isFunction(terrain?.style) then terrain.style() else terrain?.style
     building: building
     people: tile.people?.filter (p) ->
-      _.contains(active, p._id.toString()) and
+      _.contains(visible, p._id.toString()) and
         not p.creature? and
         p._id.toString() isnt character._id.toString()
     creatures: tile.people?.filter (p) ->
@@ -122,11 +122,11 @@ module.exports = (app) ->
 
     async.parallel [
       (cb) ->
-        queries.active_or_healthy_players (err, active) ->
+        queries.active_or_healthy_players (err, visible) ->
           if err?
             cb err
           else
-            cb null, _.pluck(active, '_id').map((id) -> id.toString())
+            cb null, _.pluck(visible, '_id').map((id) -> id.toString())
       (cb) ->
         get_exterior req.tile, cb
       (cb) ->
@@ -138,7 +138,13 @@ module.exports = (app) ->
           queries.get_settlement req.tile?.settlement_id.toString(), cb
         else
           cb null, null
-    ], (err, [active, exterior, tiles, messages, settlement]) ->
+      (cb) ->
+        queries.calculate_recovery(req.character, req.tile)
+          .then (recovery) ->
+            cb null, recovery
+          .catch (err) ->
+            cb err
+    ], (err, [visible, exterior, tiles, messages, settlement, recovery]) ->
       return next(err) if err?
       center = get_center tiles, req.character
       building = if req.tile?.building? then data.buildings[req.tile.building] else null
@@ -156,14 +162,14 @@ module.exports = (app) ->
         settlement: settlement
         encumberance: measure_weight req.character.weight
         hunger_debuff: queries.calculate_hunger_debuff req.character, req.tile
-        recovery: queries.calculate_recovery req.character, req.tile
+        recovery: recovery
         exterior: exterior
         action_counts: action_counts(req.actions)
         max_weight: MAX_WEIGHT
 
       for row, i in locals.grid
         for tile, j in row
-          locals.grid[i][j] = visit_tile tile, locals.center, locals.character, active
-      locals.center = visit_tile locals.center, undefined, locals.character, active
+          locals.grid[i][j] = visit_tile tile, locals.center, locals.character, visible
+      locals.center = visit_tile locals.center, undefined, locals.character, visible
 
       res.render 'game/index', locals

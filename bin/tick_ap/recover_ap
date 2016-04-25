@@ -5,38 +5,41 @@ require 'babel/register'
 db = require '../../db'
 db.connect().then ->
 
+  Bluebird = require 'bluebird'
   async = require 'async'
-  get_tile_by_coords = require '../../queries/get_tile_by_coords'
+
+  get_tile_by_coords = Bluebird.promisify(require '../../queries/get_tile_by_coords')
   calculate_recovery = require '../../queries/calculate_recovery'
+
   MAX_AP = 100
 
-  fin = (err, count) ->
-    if err?
+  Bluebird.resolve()
+
+    .then ->
+      QUERY =
+        ap: {$lt: MAX_AP}
+      db.characters().find(QUERY).toArray()
+
+    .each (character) ->
+      Bluebird.resolve()
+        .then ->
+          get_tile_by_coords character
+        .then (tile) ->
+          calculate_recovery character, tile
+        .then (recovery) ->
+          if character.ap + recovery > MAX_AP
+            recovery = MAX_AP - character.ap
+          return unless recovery > 0
+
+          QUERY =
+            _id: character._id
+          UPDATE =
+            $inc:
+              ap: recovery
+          db.characters().updateOne QUERY, UPDATE
+
+    .then ->
+      process.exit 0
+    .catch (err) ->
       console.log err
       process.exit 1
-    else
-      console.log "Updated #{count} character records."
-      process.exit 0
-
-  query =
-    ap: {$lt: MAX_AP}
-
-  db.characters().find(query).toArray (err, characters) ->
-    return fin(err) if err?
-    async.eachSeries characters, (character, cb) ->
-      get_tile_by_coords character, (err, tile) ->
-        return fin(err) if err?
-
-        recover = calculate_recovery character, tile
-        if character.ap + recover > MAX_AP
-          recover = MAX_AP - character.ap
-
-        query =
-          _id: character._id
-        update =
-          $inc:
-            ap: recover
-        db.characters().updateOne query, update, cb
-
-    , (err) ->
-      fin err, characters.length

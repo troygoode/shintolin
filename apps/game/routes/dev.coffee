@@ -1,3 +1,4 @@
+Bluebird = require 'bluebird'
 config = require '../../../config'
 db = require '../../../db'
 data = require '../../../data'
@@ -52,16 +53,14 @@ module.exports = (app) ->
         res.redirect '/rankings?metric=younguns'
 
   app.get '/dev/replenish-hp', developers_only, (req, res, next) ->
-    query =
-      _id: req.character._id
-    update =
-      $set:
-        hp: 50
-      $unset:
-        revivable: true
-    db.characters().updateOne query, update, (err) ->
-      return next(err) if err?
-      res.redirect '/game/dev'
+    update_character_hp = Bluebird.promisify(commands.update_character_hp)
+    Bluebird.resolve()
+      .then ->
+        update_character_hp req.character, 50
+      .then ->
+        res.redirect '/game/dev'
+      .catch (err) ->
+        next err
 
   app.get '/dev/daze', developers_only, (req, res, next) ->
     query =

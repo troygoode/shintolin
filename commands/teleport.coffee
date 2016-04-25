@@ -1,4 +1,5 @@
 async = require 'async'
+Bluebird = require 'bluebird'
 config = require '../config'
 db = require '../db'
 data = require '../data'
@@ -50,9 +51,16 @@ module.exports = (character, from, to, cb) ->
   ], (err, [from_tile, to_tile]) ->
     return cb(err) if err?
 
-    recovery = queries.calculate_recovery character, to_tile
+    recovery = 0
 
     async.series [
+      (cb) ->
+        queries.calculate_recovery(character, to_tile)
+          .then (r) ->
+            recovery = r
+            cb null, r
+          .catch (err) ->
+            cb err
       (cb) ->
         query =
           _id: character._id

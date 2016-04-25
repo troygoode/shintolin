@@ -7,20 +7,25 @@ db.register_index db.tiles,
 module.exports = (character, new_hp, cb) ->
   async.parallel [
     (cb) ->
-      query =
+      QUERY =
         _id: character._id
-      update =
+      UPDATE =
         $set:
           hp: new_hp
+
       if new_hp <= 0
-        update.$inc =
+        UPDATE.$inc =
           deaths: 1
-      db.characters().updateOne query, update, cb
+      else if new_hp > 0
+        UPDATE.$unset =
+          revivable: true
+
+      db.characters().updateOne QUERY, UPDATE, cb
     (cb) ->
-      query =
+      QUERY =
         'people._id': character._id
-      update =
+      UPDATE =
         $set:
           'people.$.hp': new_hp
-      db.tiles().updateMany query, update, cb
+      db.tiles().updateMany QUERY, UPDATE, cb
   ], cb

@@ -5,30 +5,35 @@ require 'babel/register'
 db = require '../../db'
 db.connect().then ->
 
-  async = require 'async'
+  Bluebird = require 'bluebird'
   queries = require '../../queries'
 
-  fail = (err) ->
-    console.error err
-    process.exit 1
+  Bluebird.resolve()
 
-  query =
-    building:
-      $exists: true
+    .then ->
+      QUERY =
+        building:
+          $exists: true
+      db.tiles().find(QUERY).toArray()
 
-  db.tiles().find(query).toArray (err, tiles) ->
-    return fail(err) if err?
-    console.log "#{tiles.length} tiles with buildings"
+    .tap (tiles) ->
+      console.log "#{tiles.length} tiles with buildings"
 
-    async.forEachOfSeries tiles, (t, i, cb) ->
-      async.forEachOfSeries t.people ? [], (c, j, cb) ->
-        recovery = queries.calculate_recovery c, t
-        console.log recovery
-        db.characters().updateOne {_id: c._id},
-          $set:
-            recovery: recovery
-        , cb
-      , cb
-    , (err) ->
-      return fail(err) if err?
+    .each (tile) ->
+      Bluebird.resolve(tile.people)
+        .each (c) ->
+
+          Bluebird.resolve()
+            .then ->
+              queries.calculate_recovery c, tile
+            .then (recovery) ->
+              console.log "#{c.name} => #{recovery}"
+              QUERY = _id: c._id
+              UPDATE = $set: {recovery: recovery}
+              db.characters().updateOne QUERY, UPDATE
+
+    .then ->
       process.exit 0
+    .catch (err) ->
+      console.error err
+      process.exit 1
