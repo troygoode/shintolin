@@ -26,7 +26,7 @@ module.exports = (req, res, next) ->
         .then (active) ->
           active = _.pluck(active ? [], '_id').map((id) -> id.toString())
           tile.people = tile.people.filter (p) ->
-            _.contains(active, p._id.toString())
+            p.creature? or _.contains(active, p._id.toString())
           req.tile = tile
           res.locals.tile = tile
 
