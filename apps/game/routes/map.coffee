@@ -1,4 +1,5 @@
 _ = require 'underscore'
+async = require 'async'
 queries = require '../../../queries'
 data = require '../../../data'
 config = require '../../../config'
@@ -36,7 +37,7 @@ get_center = (tiles, character) ->
     terrain: config.default_terrain
     people: []
 
-visit_tile = (tile, center, character) ->
+visit_tile = (tile, center, character, active) ->
   terrain = data.terrains[tile.terrain]
   building = null
 
@@ -56,7 +57,9 @@ visit_tile = (tile, center, character) ->
   if _.contains character.skills, 'tracking'
     retval = _.extend retval,
       people: tile.people?.filter (p) ->
-        not p.creature? and p._id.toString() isnt character._id.toString()
+        _.contains(active, p._id.toString()) and
+          not p.creature? and
+          p._id.toString() isnt character._id.toString()
       creatures: tile.people?.filter (p) ->
         return false unless p.creature?
         if _.isString p.creature
@@ -93,15 +96,26 @@ module.exports = (app) ->
       terrains: data.terrains
 
   app.get '/map', (req, res, next) ->
-    queries.tiles_in_square_around req.character, 5, (err, tiles) ->
+    async.parallel [
+      (cb) ->
+        queries.active_or_healthy_players (err, active) ->
+          if err?
+            cb err
+          else
+            cb null, _.pluck(active, '_id').map((id) -> id.toString())
+      (cb) ->
+        queries.tiles_in_square_around req.character, 5, cb
+    ], (err, [active, tiles]) ->
       return next(err) if err?
+
       locals =
         _nav: 'map'
         grid: build_grid tiles, req.character
         time: req.time
         data: data
-      locals.center = visit_tile get_center(tiles, req.character), undefined, req.character
+      locals.center = visit_tile get_center(tiles, req.character), undefined, req.character, active
       for row, i in locals.grid
         for tile, j in row
-          locals.grid[i][j] = visit_tile tile, locals.center.tile, req.character
+          locals.grid[i][j] = visit_tile tile, locals.center.tile, req.character, active
+
       res.render 'map', locals
