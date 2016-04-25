@@ -20,7 +20,7 @@ if msg.hit
     else
       | . 
     if msg.broken
-      | Your cherished #{data.items[msg.weapon].name} breaks! You throw away the useless pieces in disgust. 
+      | Their cherished #{data.items[msg.weapon].name} broke! 
     div.time= moment(msg.sent).fromNow()
 else
   .action
