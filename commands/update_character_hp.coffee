@@ -12,6 +12,9 @@ module.exports = (character, new_hp, cb) ->
       update =
         $set:
           hp: new_hp
+      if new_hp <= 0
+        update.$inc =
+          deaths: 1
       db.characters().updateOne query, update, cb
     (cb) ->
       query =

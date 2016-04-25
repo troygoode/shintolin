@@ -11,9 +11,14 @@ module.exports =
     medicine = _.contains healer.skills, 'medicine'
     in_hospital = tile.z isnt 0 and tile.building is 'hospital'
 
-    heal = 5
-    heal += 5 if medicine and in_hospital
-    heal += 2 if herb_lore
+    if target.hp is 0
+      heal = 10
+      heal += 10 if medicine and in_hospital
+      heal += 5 if herb_lore
+    else
+      heal = 10
+      heal += 10 if medicine and in_hospital
+      heal += 5 if herb_lore
     cb null, heal
 
   craft: (character, tile) ->

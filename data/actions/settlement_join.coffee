@@ -4,10 +4,10 @@ join_settlement = BPromise.promisify(require '../../commands/join_settlement')
 
 module.exports = (character, tile) ->
   return false if character.settlement_id?
+  return false if character.hp is 0
 
   category: 'building'
   ap: 25
-  allow_while_dazed: true
 
   execute: ->
     BPromise.resolve()

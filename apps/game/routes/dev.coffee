@@ -69,6 +69,7 @@ module.exports = (app) ->
     update =
       $set:
         hp: 0
+        last_death: new Date()
     db.characters().updateOne query, update, (err) ->
       return next(err) if err?
       res.redirect '/game/dev'

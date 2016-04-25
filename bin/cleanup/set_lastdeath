@@ -1,0 +1,28 @@
+#!/usr/bin/env node_modules/coffee-script/bin/coffee
+
+require 'babel/register'
+
+db = require '../../db'
+db.connect().then ->
+
+  Bluebird = require 'bluebird'
+
+  Bluebird.resolve()
+
+    .then ->
+      QUERY =
+        email: {$exists: true}
+        hp: 0
+      db.characters().find(QUERY).toArray()
+
+    .each (c) ->
+      QUERY = {_id: c._id}
+      UPDATE = $set:
+        last_death: c.last_action
+      db.characters().updateOne(QUERY, UPDATE)
+
+    .then ->
+      process.exit 0
+    .catch (err) ->
+      console.error err
+      process.exit 1

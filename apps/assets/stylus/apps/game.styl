@@ -68,6 +68,9 @@ body
 .dazed
   form
     margin-top .5em
+.join-settlement
+  form
+    margin-top .5em
 
 // MAP
 .map
@@ -389,3 +392,21 @@ ul.dev-buttons
     margin-right 1em
     &:last-child
       margin-right 0
+
+.dazed-countdown
+  width auto
+  display inline-block
+
+  $scale = 1
+  transform-origin: 0 0;
+  transform: scale($scale);
+  -ms-transform: scale($scale);
+  -webkit-transform-origin: 0 0;
+  -webkit-transform: scale($scale);
+  -o-transform-origin: 0 0;
+  -o-transform: scale($scale);
+  -moz-transform-origin: 0 0;
+  -moz-transform: scale($scale);
+
+  .flip-clock-label
+    display none

@@ -83,8 +83,8 @@ visit_tile = (tile, center, character, active) ->
     building: building
     people: tile.people?.filter (p) ->
       _.contains(active, p._id.toString()) and
-      not p.creature? and
-      p._id.toString() isnt character._id.toString()
+        not p.creature? and
+        p._id.toString() isnt character._id.toString()
     creatures: tile.people?.filter (p) ->
       return false unless p.creature?
       if _.isString p.creature

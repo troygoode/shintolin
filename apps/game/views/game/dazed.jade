@@ -3,15 +3,24 @@ if character.hp <= 0
     .col-xs-12
       .dazed
         .alert.alert-danger
-          .text-center: strong You are dazed.
-          div Your AP will regenerate very slowly while dazed and you cannot perform most actions besides moving and speaking. Find another player willing to revive you or revive yourself in a hospital belonging to your settlement.
 
-          if actions.revive_self
+          .text-center: strong YOU ARE DAZED
+
+          p Your AP will regenerate very slowly while dazed and you cannot perform most actions besides moving and speaking. Find another player willing to revive you. 24 hours after you were dazed you will be able to revive yourself – doing so in a hospital belonging to your settlement is most effective!
+
+          if actions.revive_self && actions.revive_self.starting_hp
             form.text-center(method='POST', action='/game/actions/revive_self')
               input(type='hidden', name='_csrf', value=csrf)
-              button.btn.btn-default(type='submit', data-toggle='tooltip', title=actions.revive_self.ap + ' AP') Recover from your daze with #{actions.revive_self.starting_hp} HP. (#{actions.revive_self.ap} AP)
-
-          if actions.settlement_join
-            form.text-center(method='POST', action='/game/actions/settlement_join')
-              input(type='hidden', name='_csrf', value=csrf)
-              mixin action_button('Join Settlement', actions.settlement_join.ap)
+              button.btn.btn-default(type='submit', data-toggle='tooltip', title=actions.revive_self.ap + ' AP')
+                | Recover from your daze with #{actions.revive_self.starting_hp} HP for 
+                span.badge #{actions.revive_self.ap} AP
+                | .
+          else if actions.revive_self.too_soon
+            .text-center
+              div.dazed-countdown(data-timestamp=actions.revive_self.available_on.getTime())
+            p.text-center: strong
+              | You will be able to revive yourself 
+              =moment(actions.revive_self.available_on).fromNow()
+              | . Other players may revive you anytime.
+          else if actions.revive_self.in_inhospitable_settlement
+            p.text-center: strong You cannot revive yourself while within a strange settlement.

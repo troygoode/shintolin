@@ -3,6 +3,8 @@
 (function () {
   "use strict";
 
+  var NOW = new Date();
+
   $(document.body).bind("keyup", function (event) {
     if (event.target.localName !== "body") { return; }
     if (event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) { return; }
@@ -116,5 +118,24 @@
       ev.preventDefault();
     }
   });
+
+  (function () {
+    var $clock = $('.dazed-countdown');
+    var ms = $clock.data('timestamp');
+    var future = new Date(ms);
+    var diff = (future.getTime() - NOW.getTime()) / 1000;
+
+    var clock = $clock.FlipClock(diff, {
+      countdown: true,
+      callbacks: {
+        interval: function () {
+          if (new Date() >= future) {
+            window.href = window.href; // refresh
+          }
+        }
+      }
+    });
+  }());
+
 
 }());
