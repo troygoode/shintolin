@@ -89,5 +89,15 @@ div
       mixin action_button('Write', actions.write.ap)
       input.form-control(type='text', name='message', maxlength='32', value=actions.write.message)
 
+  if actions.sacrifice
+    h4 Sacrifice
+    for val, key in actions.sacrifice.accepts
+      form.action(method='POST', action='/game/actions/sacrifice')
+        input(type='hidden', name='_csrf', value=csrf)
+        input(type='hidden', name='count', value=val.count)
+        input(type='hidden', name='item', value=key)
+        mixin action_button(val.count + 'x ' + data.items[key].name, actions.sacrifice.ap)
+        span.badge +#{val.favor} Favor
+
   if !action_counts.building
     p.empty No building actions.

@@ -9,6 +9,10 @@ module.exports =
   max_occupancy: MAX_OCCUPANCY
   actions: ['write']
 
+  sacrifice:
+    accepts:
+      ivory_tusk: {count: 1, favor: 1}
+
   recovery: (character, tile) ->
     return 0 unless character.hp > 0
     return 0 unless tile.z isnt 0
@@ -17,7 +21,6 @@ module.exports =
 
   build: (character, tile) ->
     takes:
-      developer: true # don't build these yet; I might change them
       ap: 50
       settlement: true
       building: 'hut'

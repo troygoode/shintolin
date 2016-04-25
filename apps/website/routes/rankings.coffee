@@ -100,6 +100,15 @@ rankings =
     map: (c) ->
       moment(c.last_revived).fromNow()
     fn: queries.rankings.survival
+  favor:
+    type: 'settlement'
+    title: 'Favored Settlements'
+    columns: ['Favor']
+    map: (s) ->
+      [
+        s.favor ? 0
+      ]
+    fn: queries.rankings.favor
   oldtowns:
     type: 'settlement'
     title: 'Oldest Settlements'

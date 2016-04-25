@@ -6,6 +6,7 @@ module.exports = (character, tile) ->
     .then ->
       calculate_actions character, tile
     .then (actions) ->
+      # always available
       actions.concat [
         'attack_building'
         'attack_player'
