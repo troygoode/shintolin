@@ -21,7 +21,7 @@ if msg.damage
       if msg.frags === 1
         | They also stole a frag from you. 
       else if msg.frags
-        | They also stole #{msg.frags} from you. 
+        | They also stole #{msg.frags} frags from you. 
       if msg.kicked_from_settlement
         | You are now no longer a resident of <a href='/settlements/#{msg.settlement_slug}'>#{msg.settlement_name}</a>! 
     else
