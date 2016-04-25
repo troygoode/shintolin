@@ -8,6 +8,8 @@ db.register_index db.characters,
 module.exports = (cb) ->
   query =
     creature: {$exists: false}
-    last_action:
-      $gt: moment().subtract(5, 'days')._d
+    $or: [
+      {last_action: {$gt: moment().subtract(5, 'days')._d}}
+      {hp: {$gt: 0}}
+    ]
   db.characters().find(query).sort({ created: 1 }).limit(10).toArray cb

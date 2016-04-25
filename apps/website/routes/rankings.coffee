@@ -23,7 +23,7 @@ rankings =
   active:
     developer_only: true
     type: 'player'
-    title: 'Active Players'
+    title: 'Active Players (DEV)'
     columns: ['Last Active', 'Played For']
     map: (c) ->
       [
@@ -31,10 +31,22 @@ rankings =
         moment.duration(moment(c.last_action).diff(c.created)).humanize()
       ]
     fn: queries.rankings.active
+  alive:
+    developer_only: true
+    type: 'player'
+    title: 'Alive Players (DEV)'
+    columns: ['HP', 'AP', 'Last Active']
+    map: (c) ->
+      [
+        c.hp
+        c.ap
+        moment(c.last_action).fromNow()
+      ]
+    fn: queries.rankings.alive
   inactive:
     developer_only: true
     type: 'player'
-    title: 'Inactive Players'
+    title: 'Inactive Players (DEV)'
     columns: ['Last Active', 'Played For']
     map: (c) ->
       [
