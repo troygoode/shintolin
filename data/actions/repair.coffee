@@ -33,6 +33,7 @@ module.exports = (character, tile) ->
 
   category: 'building'
   ap: ap
+  charge_ap: false # handled by recipe
   text:
     button: building.text?.repair?.button ? 'Repair'
     description: description
