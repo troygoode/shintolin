@@ -1,9 +1,9 @@
 Bluebird = require 'bluebird'
-db = require '../../db'
 craft = Bluebird.promisify(require '../../commands/craft')
-{buildings, items} = require '../'
+{buildings} = require '../'
 send_message_settlement = Bluebird.promisify(require '../../commands/send_message_settlement')
-remove_item = Bluebird.promisify(require '../../commands/remove_item')
+
+AP_COST = 1
 
 module.exports = (character, tile) ->
   return false unless character.settlement_id?
@@ -13,32 +13,28 @@ module.exports = (character, tile) ->
   building = buildings[tile.building]
 
   category: 'building'
-  ap: 1
+  ap: AP_COST
+  charge_ap: false # will do via recipe
   accepts: building.sacrifice.accepts
 
   execute: (body) ->
-    item = items[body.item]
     sacrifice = building.sacrifice.accepts[body.item]
 
     Bluebird.resolve()
       .then ->
         throw new Error('INVALID SACRIFICE') unless sacrifice?
-        remove_item character, item, sacrifice.count
-
-      .then ->
-        db.settlements().findOne {_id: tile.settlement_id}
+        recipe =
+          takes:
+            ap: AP_COST
+            items: {}
+          gives: {}
+        recipe.takes.items[body.item] = sacrifice.count
+        recipe.gives.favor = sacrifice.favor
+        craft character, tile, recipe
 
       .tap (settlement) ->
         msg =
-          settlement_id: settlement._id
-          settlement_name: settlement.name
-          settlement_slug: settlement.slug
           item: body.item
           count: sacrifice.count
           favor: sacrifice.favor
-        send_message_settlement 'sacrifice', character, settlement, [], msg
-
-      .tap (settlement) ->
-        QUERY = {_id: settlement._id}
-        UPDATE = $inc: {favor: sacrifice.favor}
-        db.settlements().updateOne QUERY, UPDATE
+        send_message_settlement 'sacrifice', character, tile.settlement_id, [], msg

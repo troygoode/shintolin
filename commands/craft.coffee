@@ -4,8 +4,42 @@ data = require '../data'
 give = require './give'
 take = require './take'
 
+###
+
+EXAMPLE RECIPE:
+
+{
+  takes: {
+    ap: 10,
+    tile_hp: 7,
+    building: 'cottage',
+    settlement: true,
+    skill: 'construction',
+    tools: ['stone'],
+    items: {
+      flint: 1
+    }
+  },
+  gives: {
+    items: {
+      axe_hand: 1
+    },
+    xp: {
+      crafter: 10
+    },
+    favor: 5,
+    tile_hp: 7,
+    terrain: 'woodland'
+  }
+}
+
+###
+
 module.exports = (character, tile, craft_obj, craft_function, cb) ->
-  if craft_function?
+  if _.isFunction(craft_function)
+    result = craft_obj
+    cb = craft_function
+  else if craft_function?
     result = craft_obj[craft_function](character, tile)
   else if _.isFunction craft_obj
     result = craft_obj(character, tile)
