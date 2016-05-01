@@ -2,7 +2,7 @@ _ = require 'underscore'
 BPromise = require 'bluebird'
 {items, terrains} = require '../'
 craft = require '../../commands/craft'
-send_message = BPromise.promisify(require('../../commands').send_message)
+send_message = BPromise.promisify(require('../../commands/send_message'))
 SHRINK_ODDS = .12
 
 module.exports = (character, tile) ->

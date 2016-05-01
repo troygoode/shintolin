@@ -11,13 +11,13 @@ bound_increase = (increase, current, max) ->
   else
     increase
 
-module.exports = (character, tile, msg, cb) ->
+module.exports = (character, tile, msg) ->
   # grant building HP
-  return cb() unless tile.building?
+  return  unless tile.building?
   building = data.buildings[tile.building]
-  query =
+  QUERY =
     _id: tile._id
-  update =
+  UPDATE =
     $inc:
       hp: bound_increase(msg, tile.hp, (building.hp_max ? building.hp))
-  db.tiles().updateOne query, update, cb
+  db.tiles().updateOne QUERY, UPDATE

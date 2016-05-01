@@ -3,12 +3,12 @@ async = require 'async'
 db = require '../../db'
 data = require '../../data'
 
-module.exports = (character, tile, msg, cb) ->
+module.exports = (character, tile, msg) ->
   # change tile terrain
-  return cb() unless msg?.length and msg isnt tile.terrain
-  query =
+  return unless msg?.length and msg isnt tile.terrain
+  QUERY =
     _id: tile._id
-  update =
+  UPDATE =
     $set:
       terrain: msg
-  db.tiles().updateOne query, update, cb
+  db.tiles().updateOne QUERY, UPDATE
