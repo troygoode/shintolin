@@ -3,7 +3,7 @@ Bluebird = require 'bluebird'
 {terrains} = require '../'
 
 commands = require '../../commands'
-craft = Bluebird.promisify(commands.craft)
+craft = commands.craft
 send_message = Bluebird.promisify(commands.send_message)
 increment_search = Bluebird.promisify(commands.increment_search)
 
@@ -42,8 +42,8 @@ module.exports = (character, tile) ->
               wanderer: 1
           recipe.gives.items[found_item_type] = 1
 
-        craft(character, tile, recipe, null)
-          .then ([recipe, broken_items]) ->
+        craft(character, tile, recipe)
+          .then ({broken_items}) ->
             send_message 'dig', character, character,
               found: found_item_type
               broken: broken_items?.length > 0

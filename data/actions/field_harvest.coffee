@@ -5,7 +5,7 @@ AP_COST = 16
 DEFAULT_HARVEST_SIZE = 10
 
 commands = require '../../commands'
-craft = Bluebird.promisify(commands.craft)
+craft = commands.craft
 remove_building = Bluebird.promisify(commands.remove_building)
 send_message = Bluebird.promisify(commands.send_message)
 
@@ -46,7 +46,7 @@ module.exports = (character, tile) ->
               wheat: harvest_size
             xp:
               herbalist: 4
-        craft character, tile, recipe, null
+        craft character, tile, recipe
 
       .then ->
         if harvest_size >= tile.hp

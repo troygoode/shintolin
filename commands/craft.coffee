@@ -1,68 +1,76 @@
 _ = require 'underscore'
-async = require 'async'
+Bluebird = require 'bluebird'
 data = require '../data'
 give = require './give'
-take = require './take'
+take = Bluebird.promisify(require './take')
 
 ###
 
 EXAMPLE RECIPE:
 
 {
+  validate: function (cb) { cb(); },
   takes: {
     ap: 10,
-    tile_hp: 7,
     building: 'cottage',
-    settlement: true,
-    skill: 'construction',
-    tools: ['stone'],
+    developer: true,
     items: {
       flint: 1
-    }
+    },
+    season: 'summer',
+    settlement: true,
+    skill: 'construction',
+    terrain_tag: 'foo',
+    tile_hp: 7,
+    tools: ['stone']
   },
   gives: {
+    favor: 5,
     items: {
       axe_hand: 1
     },
+    terrain: 'woodland',
+    tile_hp: 7,
     xp: {
       crafter: 10
-    },
-    favor: 5,
-    tile_hp: 7,
-    terrain: 'woodland'
+    }
   }
 }
 
 ###
 
-module.exports = (character, tile, craft_obj, craft_function, cb) ->
-  if _.isFunction(craft_function)
-    result = craft_obj
-    cb = craft_function
-  else if craft_function?
-    result = craft_obj[craft_function](character, tile)
-  else if _.isFunction craft_obj
-    result = craft_obj(character, tile)
-  else
-    result = craft_obj
-  return cb('No crafting requirements or results specified.') unless result?
+module.exports = (character, tile, make_recipe) ->
+  Bluebird.resolve()
+    .then ->
+      # generate recipe
+      if _.isFunction make_recipe
+        make_recipe(character, tile)
+      else
+        make_recipe
 
-  async.waterfall [
-    (cb) ->
-      return cb() unless result.validate?
-      result.validate cb
-    (cb) ->
-      return cb() unless result.takes?
-      take character, tile, result.takes, cb
-    (broken_items, cb) ->
-      return cb(null, broken_items) unless result.gives?
-      async.each _.keys(result.gives), (key, cb) ->
-        handler = give[key]
-        if handler?
-          handler character, tile, result.gives[key], cb
-        else
-          cb()
-      , (err) ->
-        cb err, broken_items
-  ], (err, broken_items) ->
-    cb err, result, broken_items
+    .then (recipe) ->
+      Bluebird.resolve()
+
+        # validate
+        .then ->
+          throw 'No crafting requirements or results specified.' unless recipe?
+          return unless recipe.validate?
+          validate = Bluebird.promisify(recipe.validate)
+          validate()
+
+        # take
+        .then ->
+          take character, tile, recipe.takes
+
+        # give
+        .tap (broken) ->
+          Bluebird.resolve(Object.keys(recipe.gives))
+            .each (key) ->
+              handler = give[key]
+              if handler?
+                handler character, tile, recipe.gives[key]
+
+        # return
+        .then (broken) ->
+          recipe: recipe
+          broken_items: broken

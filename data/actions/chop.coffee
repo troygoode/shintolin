@@ -1,7 +1,7 @@
 _ = require 'underscore'
 BPromise = require 'bluebird'
 {items, terrains} = require '../'
-craft = BPromise.promisify(require('../../commands').craft)
+craft = require '../../commands/craft'
 send_message = BPromise.promisify(require('../../commands').send_message)
 SHRINK_ODDS = .12
 
@@ -39,9 +39,8 @@ module.exports = (character, tile) ->
                   log: 1
                 xp:
                   wanderer: 2
-            , null
 
-          .then (recipe, broken_items) ->
+          .then ({broken_items}) ->
             send_message 'chop', character, character,
               tool: item.id
               broken: broken_items?.length > 0

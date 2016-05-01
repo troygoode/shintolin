@@ -1,7 +1,7 @@
 _ = require 'underscore'
 Bluebird = require 'bluebird'
 {items} = require '../'
-craft = Bluebird.promisify(require('../../commands').craft)
+craft = require '../../commands/craft'
 send_message = Bluebird.promisify(require('../../commands').send_message)
 QUARRY_CHANCE = .5
 AP = 4
@@ -33,9 +33,9 @@ module.exports = (character, tile) ->
               boulder: 1
             xp:
               crafter: 3
-        craft character, tile, recipe, null
+        craft character, tile, recipe
 
-      .then ([recipe, broken_items]) ->
+      .then ({recipe, broken_items}) ->
         send_message 'quarry', character, character,
           success: recipe.gives?
           tool: item.id

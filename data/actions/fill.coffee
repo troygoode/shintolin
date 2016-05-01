@@ -1,7 +1,7 @@
 _ = require 'underscore'
 Bluebird = require 'bluebird'
 {items} = require '../'
-craft = Bluebird.promisify(require('../../commands').craft)
+craft = require '../../commands/craft'
 send_message = Bluebird.promisify(require('../../commands').send_message)
 
 module.exports = (character, tile) ->
@@ -20,7 +20,6 @@ module.exports = (character, tile) ->
               pot_water: 1
             xp:
               wanderer: 1
-        , null
 
-      .then (recipe) ->
+      .then ->
         send_message 'fill', character, character, null

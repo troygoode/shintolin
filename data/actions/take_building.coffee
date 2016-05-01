@@ -1,7 +1,6 @@
 _ = require 'underscore'
 Bluebird = require 'bluebird'
 {items, buildings} = require '../'
-craft = Bluebird.promisify(require('../../commands').craft)
 remove_item = Bluebird.promisify(require('../../commands').remove_item)
 give_items = Bluebird.promisify(require('../../commands').give.items)
 charge_ap = Bluebird.promisify(require('../../commands').charge_ap)

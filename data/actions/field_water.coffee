@@ -5,7 +5,7 @@ AP_COST = 1
 DEFAULT_TILE_HP_GROWTH = 3
 
 commands = require '../../commands'
-craft = Bluebird.promisify(commands.craft)
+craft = commands.craft
 water_field = Bluebird.promisify(commands.water_field)
 send_message = Bluebird.promisify(commands.send_message)
 
@@ -49,7 +49,7 @@ module.exports = (character, tile) ->
         recipe.takes.items[item.id] = 1
         if item.actions?.field_water?.gives?
           recipe.gives.items[item.actions.field_water.gives] = 1
-        craft character, tile, recipe, null
+        craft character, tile, recipe
 
       .then ->
         water_field tile

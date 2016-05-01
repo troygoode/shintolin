@@ -37,7 +37,7 @@ module.exports = (req, res, next) ->
 
   res.locals.describe_gives = (gives) ->
     arr = []
-    arr.push res.locals.describe_item(item_type, quantity) for item_type, quantity of gives.items ? []
+    arr.push res.locals.describe_item(item_type, quantity) for item_type, quantity of gives?.items ? []
     return res.locals.describe_list(arr)
 
   next()

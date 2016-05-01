@@ -7,7 +7,7 @@ DEFAULT_TILE_HP_GROWTH = 1
 OVERUSE_INCREASE = 12
 
 commands = require '../../commands'
-craft = Bluebird.promisify(commands.craft)
+craft = commands.craft
 increase_overuse = Bluebird.promisify(commands.increase_overuse)
 send_message = Bluebird.promisify(commands.send_message)
 
@@ -42,7 +42,7 @@ module.exports = (character, tile) ->
             xp:
               herbalist: 5
         recipe.takes.items[item.id] = COUNT
-        craft character, tile, recipe, null
+        craft character, tile, recipe
 
       .then ->
         increase_overuse tile, OVERUSE_INCREASE

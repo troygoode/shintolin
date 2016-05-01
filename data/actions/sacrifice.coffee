@@ -1,5 +1,5 @@
 Bluebird = require 'bluebird'
-craft = Bluebird.promisify(require '../../commands/craft')
+craft = require '../../commands/craft'
 {buildings} = require '../'
 send_message_settlement = Bluebird.promisify(require '../../commands/send_message_settlement')
 
@@ -32,7 +32,7 @@ module.exports = (character, tile) ->
         recipe.gives.favor = sacrifice.favor
         craft character, tile, recipe
 
-      .tap (settlement) ->
+      .then ->
         msg =
           item: body.item
           count: sacrifice.count
