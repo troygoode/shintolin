@@ -1,7 +1,7 @@
 if messages.length
   .messages
     for msg in messages
-      .message
+      .message(data-id=msg._id.toString())
         case msg.type
           when 'announcement'
             include chat/announce

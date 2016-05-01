@@ -1,0 +1,26 @@
+#!/usr/bin/env node_modules/coffee-script/bin/coffee
+
+require 'babel/register'
+
+db = require '../../db'
+db.connect().then ->
+
+  Bluebird = require 'bluebird'
+  Bluebird.resolve()
+
+    .then ->
+      # https://docs.mongodb.org/manual/reference/operator/query/type/#document-type-available-types
+      QUERY =
+        recipient_id: {$type: 6}
+      db.chat_messages().deleteMany QUERY
+
+    .then ->
+      QUERY =
+        recipient_id: null
+      db.chat_messages().deleteMany QUERY
+
+    .then ->
+      process.exit 0
+    .catch (err) ->
+      console.error err
+      process.exit 1
