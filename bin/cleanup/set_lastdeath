@@ -6,6 +6,9 @@ db = require '../../db'
 db.connect().then ->
 
   Bluebird = require 'bluebird'
+  moment = require 'moment'
+
+  YESTERDAY = moment().subtract(1, 'days')._d
 
   Bluebird.resolve()
 
@@ -18,7 +21,7 @@ db.connect().then ->
     .each (c) ->
       QUERY = {_id: c._id}
       UPDATE = $set:
-        last_death: c.last_action
+        last_death: YESTERDAY
       db.characters().updateOne(QUERY, UPDATE)
 
     .then ->

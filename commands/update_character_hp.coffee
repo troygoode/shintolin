@@ -13,7 +13,8 @@ module.exports = (character, new_hp, cb) ->
         $set:
           hp: new_hp
 
-      if new_hp <= 0
+      if character.hp > 0 and new_hp <= 0
+        UPDATE.$set.last_death = new Date()
         UPDATE.$inc =
           deaths: 1
       else if new_hp > 0
