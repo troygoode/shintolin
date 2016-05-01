@@ -3,6 +3,9 @@ db = require '../../../db'
 MAX_HITS = 1500
 
 module.exports = (req, res, next) ->
+  if req.session?.possessor?
+    return next()
+
   debug 'track_hits enter'
   now = new Date()
   date_string = now.toDateString()
