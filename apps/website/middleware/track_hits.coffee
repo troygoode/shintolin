@@ -10,7 +10,8 @@ module.exports = (req, res, next) ->
 
   now = new Date()
   date_string = now.toDateString()
-  _id = "#{req.ip}_#{date_string}".replace /\W/g, '_'
+  _id = "#{req.session.character}_#{req.ip}_#{date_string}".replace /\W/g, '_'
+  ipdate = "#{req.ip}_#{date_string}".replace /\W/g, '_'
 
   Bluebird.resolve()
     .then ->
@@ -31,6 +32,7 @@ module.exports = (req, res, next) ->
           _id: _id
           ip: req.ip
           date: date_string
+          ipdate: ipdate
           last_access: now
           character: req.session.character
           hits: 1
