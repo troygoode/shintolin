@@ -40,7 +40,6 @@ app.use middleware.debug 'shintolin:middleware', (req) ->
   "enter (#{req.url})"
 
 app.use middleware.auth
-app.use middleware.track_hits
 
 app.use csurf()
 app.use middleware.csrf

@@ -18,10 +18,15 @@ game_app = require '../game/app'
 management_app = require '../manage/app'
 queries = require '../../queries'
 routes = require('require-directory')(module, "#{__dirname}/routes")
+track_hits = require './middleware/track_hits'
 
 app = module.exports = express()
 app.set 'views', "#{__dirname}/views"
 app.set 'view engine', 'jade'
+
+app.use cookie_parser()
+app.use shared_session
+app.use track_hits
 
 app.use '/game', game_app
 app.use '/manage', management_app
@@ -37,8 +42,6 @@ app.use express.static "#{__dirname}/../assets/public"
 app.use body_parser.urlencoded(extended: true)
 app.use body_parser.json()
 app.use method_override()
-app.use cookie_parser()
-app.use shared_session
 
 app.use csurf()
 app.use (req, res, next) ->
