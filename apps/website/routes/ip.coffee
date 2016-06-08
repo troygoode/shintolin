@@ -21,9 +21,10 @@ module.exports = (app) ->
 
             lookup = {}
             for c in characters
-              lookup[c._id.toString()] =
-                name: c.name
-                slug: c.slug
+              if c?._id?
+                lookup[c._id.toString()] =
+                  name: c.name
+                  slug: c.slug
 
             res.render 'ip',
               ip: req.params.ip

@@ -16,5 +16,8 @@ block content
           for hit in hits
             tr
               td #{hit.date}
-              td: a(href="/profile/#{characters[hit.character].slug}") #{characters[hit.character].name}
+              if hit.character && hit.character.length
+                td: a(href="/profile/#{characters[hit.character].slug}") #{characters[hit.character].name}
+              else
+                td –––
               td #{hit.hits}
