@@ -52,6 +52,20 @@ module.exports = (app) ->
         return next(err) if err?
         res.redirect '/rankings?metric=younguns'
 
+  app.post '/dev/ban/:character_slug', developers_only, (req, res, next) ->
+    QUERY = slug: req.params.character_slug
+    UPDATE = $set: {banned: true}
+    db.characters().updateOne(QUERY, UPDATE)
+      .then -> res.redirect "/profile/#{req.params.character_slug}"
+      .catch next
+
+  app.post '/dev/unban/:character_slug', developers_only, (req, res, next) ->
+    QUERY = slug: req.params.character_slug
+    UPDATE = $unset: {banned: true}
+    db.characters().updateOne(QUERY, UPDATE)
+      .then -> res.redirect "/profile/#{req.params.character_slug}"
+      .catch next
+
   app.get '/dev/replenish-hp', developers_only, (req, res, next) ->
     update_character_hp = Bluebird.promisify(commands.update_character_hp)
     Bluebird.resolve()

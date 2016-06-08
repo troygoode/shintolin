@@ -51,14 +51,26 @@ block content
                 label Played For
                 p #{moment.duration(moment(character.last_action).diff(character.created)).humanize()}
               mixin profile_date(character.last_action, 'Last Active')
+
               form(method='POST', action='/game/dev/possess')
                 input(type='hidden', name='_csrf', value=csrf)
                 input(type='hidden', name='target_name', value=character.name)
                 button.btn.btn-default(type='submit') Possess
+
               form(method='POST', action='/game/dev/teleport-to-character')
                 input(type='hidden', name='_csrf', value=csrf)
                 input(type='hidden', name='target_name', value=character.name)
                 button.btn.btn-default(type='submit') Teleport To
+
+              if character.banned
+                form(method='POST', action='/game/dev/unban/#{character.slug}')
+                  input(type='hidden', name='_csrf', value=csrf)
+                  button.btn.btn-warning(type='submit') Unban
+              else
+                form(method='POST', action='/game/dev/ban/#{character.slug}')
+                  input(type='hidden', name='_csrf', value=csrf)
+                  button.btn.btn-warning(type='submit') Ban
+
               form(method='POST', action='/game/dev/remove-player/#{character.slug}')
                 input(type='hidden', name='_csrf', value=csrf)
                 button.btn.btn-danger(type='submit') Delete

@@ -1,6 +1,9 @@
 .row
   .col-sm-6.col-md-7.col-lg-8
 
+    if character.banned
+      .alert.alert-danger(style='text-align: center; font-weight: bold;') BANNED
+
     if character.bio.length
       div.profile-bio !{bio}
     else
