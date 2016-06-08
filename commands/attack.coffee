@@ -51,7 +51,9 @@ update_attacker = (ctx, cb) ->
       remove_item ctx.attacker, ctx.weapon, 1, cb
     (cb) ->
       return cb() unless ctx.loot?
-      give.items ctx.attacker, null, ctx.loot, cb
+      give.items(ctx.attacker, null, ctx.loot)
+        .then -> cb()
+        .catch cb
   ], cb
 
 update_target = (ctx, cb) ->

@@ -2,6 +2,7 @@ Bluebird = require 'bluebird'
 remove_item = Bluebird.promisify(require './remove_item')
 take_handlers = require './take/index'
 calculate_broken = require '../queries/calculate_broken'
+items = (require '../data').items
 
 module.exports = (character, tile, takes = {}, cb) ->
   Bluebird.resolve()
@@ -28,7 +29,7 @@ module.exports = (character, tile, takes = {}, cb) ->
     .tap (broken) ->
       Bluebird.resolve(broken)
         .each (tool) ->
-          remove_item character, tool, 1
+          remove_item character, items[tool], 1
 
     # return
     .then (broken) ->

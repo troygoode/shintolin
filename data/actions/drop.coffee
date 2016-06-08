@@ -2,7 +2,7 @@ _ = require 'underscore'
 Bluebird = require 'bluebird'
 {items} = require '../'
 take = Bluebird.promisify(require('../../commands').take)
-give_items = Bluebird.promisify(require('../../commands').give.items)
+give_items = require('../../commands').give.items
 send_message = Bluebird.promisify(require('../../commands').send_message)
 
 by_name = (ic) ->

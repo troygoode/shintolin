@@ -64,6 +64,7 @@ module.exports = (character, tile, make_recipe) ->
 
         # give
         .tap (broken) ->
+          return unless recipe.gives?
           Bluebird.resolve(Object.keys(recipe.gives))
             .each (key) ->
               handler = give[key]

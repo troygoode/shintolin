@@ -101,23 +101,25 @@ db.connect().then ->
       async.forEachSeries items, (i, cb) ->
         character = characters[i.to]
         count = i.count ? 1
-        commands.give.items character, null, {item: i.item, count: count}, (err) ->
-          return cb(err) if err?
-          if count is 1
-            console.log "Gave a #{i.item.name} to #{character.name}."
-          else
-            console.log "Gave #{count}x #{i.item.plural} to #{character.name}."
-          cb()
+        commands.give.items(character, null, {item: i.item, count: count})
+          .then ->
+            if count is 1
+              console.log "Gave a #{i.item.name} to #{character.name}."
+            else
+              console.log "Gave #{count}x #{i.item.plural} to #{character.name}."
+            cb()
+          .catch cb
       , cb
     (cb) ->
       # give starting xp to characters
       arr = []
       arr.push c for key, c of characters
       async.forEachSeries arr, (c, cb) ->
-        commands.give.xp c, null, {wanderer: xp, herbalist: xp, crafter: xp, warrior: xp}, (err) ->
-          return cb(err) if err?
-          console.log "Granted #{xp}xp to each xp type for #{c.name}."
-          cb()
+        commands.give.xp(c, null, {wanderer: xp, herbalist: xp, crafter: xp, warrior: xp})
+          .then ->
+            console.log "Granted #{xp}xp to each xp type for #{c.name}."
+            cb()
+          .catch cb
       , cb
     (cb) ->
       # move characters to starting positions

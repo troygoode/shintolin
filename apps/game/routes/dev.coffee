@@ -145,9 +145,9 @@ module.exports = (app) ->
 
   app.post '/dev/materialize', developers_only, (req, res, next) ->
     return next('Invalid item.') unless req.body.item?.length
-    commands.give.items req.character, null, {item: req.body.item, count: parseInt(req.body.quantity ? 1)}, (err) ->
-      return next(err) if err?
-      res.redirect '/game/dev'
+    commands.give.items(req.character, null, {item: req.body.item, count: parseInt(req.body.quantity ? 1)})
+      .then -> res.redirect '/game/dev'
+      .catch next
 
   app.post '/dev/construct', developers_only, (req, res, next) ->
     return next('Invalid building.') unless req.body.building?.length and data.buildings[req.body.building]?

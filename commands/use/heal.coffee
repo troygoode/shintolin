@@ -88,7 +88,9 @@ module.exports = (healer, target, item, tile, cb) ->
       (cb) ->
         alter_target_hp target, amount_to_heal, cb
       (cb) ->
-        give.xp healer, tile, {herbalist: Math.round(amount_to_heal / 2) + 1}, cb
+        give.xp(healer, tile, {herbalist: Math.round(amount_to_heal / 2) + 1})
+          .then -> cb()
+          .catch cb
       (cb) ->
         notify_user healer, target, item, amount_to_heal, max_amount_to_heal - amount_to_heal, cb
       (cb) ->

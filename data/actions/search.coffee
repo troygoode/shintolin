@@ -5,8 +5,8 @@ db = require '../../db'
 process_loot_table = BPromise.promisify(require('../../queries').process_loot_table)
 send_message = BPromise.promisify(require('../../commands').send_message)
 increment_search = BPromise.promisify(require('../../commands').increment_search)
-give_items = BPromise.promisify(require('../../commands').give.items)
-give_xp = BPromise.promisify(require('../../commands').give.xp)
+give_items = require('../../commands').give.items
+give_xp = require('../../commands').give.xp
 remove_item = BPromise.promisify(require('../../commands').remove_item)
 config = require '../../config'
 

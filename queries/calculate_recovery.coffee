@@ -16,7 +16,7 @@ module.exports = (character, tile) ->
 
     .then (visible) ->
       visible = _.pluck(visible, '_id').map((id) -> id.toString())
-      occupants = tile.people?.filter (p) ->
+      occupants = (tile?.people ? []).filter (p) ->
         _.contains(visible, p._id.toString()) and
         not p.creature?
       (occupants ? []).length

@@ -17,7 +17,9 @@ db.connect().then ->
     return fail(err) if err?
 
     async.forEachOfSeries players, (p, i, cb) ->
-      commands.give.items p, null, [{item: 'noobcake', count: 9}], cb
+      commands.give.items(p, null, [{item: 'noobcake', count: 9}])
+        .then -> cb()
+        .catch cb
     , (err) ->
 
       return fail(err) if err?
