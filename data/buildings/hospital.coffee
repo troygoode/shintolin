@@ -4,7 +4,7 @@ MAX_OCCUPANCY = 8
 module.exports =
   name: 'Hospital'
   size: 'large'
-  hp: 50
+  hp: 250
   interior: '_interior_hospital'
   upgrade: true
   actions: ['write']
@@ -46,7 +46,7 @@ module.exports =
         bark: 2
         poultice: 2
     gives:
-      tile_hp: 5
+      tile_hp: 50
       xp:
         crafter: 5
 

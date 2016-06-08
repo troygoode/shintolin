@@ -1,7 +1,7 @@
 module.exports =
   name: 'Bakery'
   size: 'large'
-  hp: 50
+  hp: 250
   interior: '_interior_bakery'
   upgrade: true
   actions: ['write']
@@ -27,7 +27,7 @@ module.exports =
       items:
         stone_block: 2
     gives:
-      tile_hp: 10
+      tile_hp: 50
       xp:
         crafter: 5
 

@@ -12,6 +12,10 @@ module.exports = (req, res, next) ->
     .then ->
       get_character req.session.character
 
+    .tap (character) ->
+      if character.banned is true
+        throw new Error('CHARACTER_BANNED')
+
     .then (character) ->
       return unless character?
       req.character = character

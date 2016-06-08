@@ -24,7 +24,7 @@ describe_recipe = (character, tile, recipe) ->
           label += ", #{count}x #{items[item].name}"
       else if recipe.takes?.ap
         label += "#{recipe.takes.ap} AP"
-      label
+      "#{label} (+#{recipe.gives.tile_hp ? 0} HP)"
 
 module.exports = (character, tile) ->
   building = null

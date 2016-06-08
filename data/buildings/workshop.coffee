@@ -1,7 +1,7 @@
 module.exports =
   name: 'Workshop'
   size: 'large'
-  hp: 50
+  hp: 250
   interior: '_interior_workshop'
   upgrade: true
   actions: ['write']
@@ -29,7 +29,7 @@ module.exports =
       items:
         timber: 2
     gives:
-      tile_hp: 5
+      tile_hp: 50
       xp:
         crafter: 5
 

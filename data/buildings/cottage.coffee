@@ -3,7 +3,7 @@ MAX_OCCUPANCY = 4
 module.exports =
   name: 'Cottage'
   size: 'small'
-  hp: 70
+  hp: 350
   interior: '_interior_cottage'
   upgrade: true
   actions: ['write']
@@ -37,7 +37,7 @@ module.exports =
       items:
         timber: 3
     gives:
-      tile_hp: 5
+      tile_hp: 75
       xp:
         crafter: 5
 

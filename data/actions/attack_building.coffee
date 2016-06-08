@@ -68,8 +68,8 @@ module.exports = (character, tile) ->
           i.item is item.id
         throw "You don\'t have a #{item.name}." unless inventory_item? or item.intrinsic
         throw 'That weapon cannot damage a building.' unless _.contains item.tags, 'attack:building'
-        buildings_to_destroy_first tile
+        # buildings_to_destroy_first tile
+        # .then (number_to_destroy) ->
+        #  throw "There are still #{number_to_destroy} large buildings in the vicinity. You must destroy all the buildings in the area before you can attack the #{tile.building}." if number_to_destroy > 0
 
-      .then (number_to_destroy) ->
-        throw "There are still #{number_to_destroy} large buildings in the vicinity. You must destroy all the buildings in the area before you can attack the #{tile.building}." if number_to_destroy > 0
         damage_building character, tile, item

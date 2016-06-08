@@ -1,7 +1,7 @@
 module.exports =
   name: 'Stockpile'
   size: 'tiny'
-  hp: 8
+  hp: 25
   actions: ['take_building', 'give_building', 'write']
   tags: ['visible_inventory', 'inventory_doesnt_decay']
 
@@ -24,7 +24,7 @@ module.exports =
       items:
         stone: 1
     gives:
-      tile_hp: 1
+      tile_hp: 10
       xp:
         wanderer: 1
 

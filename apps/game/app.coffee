@@ -67,6 +67,9 @@ app.use router
 route router for key, route of routes
 
 app.use (err, req, res, next) ->
+  if err and err.message is 'CHARACTER_BANNED'
+    return res.render 'banned', message: 'LOL U R BANNED'
+
   if typeof err is 'string'
     if req.body.origin is 'history'
       res.redirect '/game/chat?error=' + err

@@ -1,7 +1,7 @@
 module.exports =
   name: 'Kiln'
   size: 'small'
-  hp: 50
+  hp: 75
 
   build: (character, tile) ->
     takes:
@@ -25,7 +25,7 @@ module.exports =
       items:
         stone_block: 1
     gives:
-      tile_hp: 10
+      tile_hp: 25
       xp:
         crafter: 5
 

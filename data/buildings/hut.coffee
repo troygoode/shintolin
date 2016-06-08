@@ -3,7 +3,7 @@ MAX_OCCUPANCY = 2
 module.exports =
   name: 'Hut'
   size: 'tiny'
-  hp: 30
+  hp: 50
   interior: '_interior_hut'
   actions: ['write']
   max_occupancy: MAX_OCCUPANCY
@@ -34,7 +34,7 @@ module.exports =
       items:
         stick: 2
     gives:
-      tile_hp: 3
+      tile_hp: 15
       xp:
         crafter: 3
 

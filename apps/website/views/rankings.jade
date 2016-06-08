@@ -76,6 +76,9 @@ block content
                   else if r.object.hp === 0
                     |  
                     .label.label-danger Dazed
+                  if r.object.banned
+                    |  
+                    .label.label-danger BANNED
                 else if config.type === 'settlement'
                   if r.object.slug
                     a(href='/settlements/#{r.object.slug}'): strong #{r.object.name}
