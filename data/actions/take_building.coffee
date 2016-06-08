@@ -1,9 +1,7 @@
 _ = require 'underscore'
 Bluebird = require 'bluebird'
 {items, buildings} = require '../'
-remove_item = Bluebird.promisify(require('../../commands').remove_item)
-give_items = require('../../commands').give.items
-charge_ap = Bluebird.promisify(require('../../commands').charge_ap)
+craft = require '../../commands/craft'
 send_message = Bluebird.promisify(require('../../commands').send_message)
 send_message_nearby = Bluebird.promisify(require('../../commands').send_message_nearby)
 MAX_WEIGHT = 70
@@ -30,26 +28,27 @@ module.exports = (character, tile) ->
     item = items[body.item]
     building = buildings[tile.building]
     quantity = parseInt(body.quantity ? 1)
+    is_guarded = tile.settlement_id? and tile.people.some (p) ->
+      p.hp > 0 and p.settlement_id? and p.settlement_id.toString() is tile.settlement_id.toString()
 
     Bluebird.resolve()
       .then ->
         throw 'Invalid Item' unless item?
 
-        inventory_item = _.find tile.items, (i) ->
-          i.item is item.id
-        throw "The #{building.name} doesn\'t have #{quantity} #{item.name} to give away." unless inventory_item.count >= quantity
+        recipe =
+          gives:
+            items: {}
+          takes:
+            ap: quantity
+            tile_items: {}
 
-        weight = quantity * (item.weight ? 0)
-        throw "Taking that would overburden you." if (character.weight + weight) > MAX_WEIGHT
+        recipe.gives.items[item.id] = quantity
+        recipe.takes.tile_items[item.id] = quantity
 
-      .then ->
-        remove_item tile, item, quantity
+        if is_guarded and building.tags? and _.contains(building.tags ? [], 'guard_take')
+          recipe.takes.membership = true
 
-      .then ->
-        give_items character, null, {item: item, count: quantity}
-
-      .then ->
-        charge_ap character, quantity
+        craft character, tile, recipe
 
       .then ->
         send_message 'take', character, character,

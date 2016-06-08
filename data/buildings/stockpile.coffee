@@ -3,7 +3,7 @@ module.exports =
   size: 'tiny'
   hp: 25
   actions: ['take_building', 'give_building', 'write']
-  tags: ['visible_inventory', 'inventory_doesnt_decay']
+  tags: ['visible_inventory', 'inventory_doesnt_decay', 'guard_take']
 
   build: (character, tile) ->
     takes:
