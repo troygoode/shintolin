@@ -3,7 +3,7 @@ MAX_OCCUPANCY = 1
 module.exports =
   name: 'Hunter\'s Shrine'
   size: 'small'
-  hp: 150
+  hp: 100
   interior: '_interior_shrine_hunter'
   upgrade: true
   max_occupancy: MAX_OCCUPANCY
@@ -53,7 +53,7 @@ module.exports =
         horn: 1
         stone_spear: 1
     gives:
-      tile_hp: 50
+      tile_hp: 25
       xp:
         crafter: 5
 

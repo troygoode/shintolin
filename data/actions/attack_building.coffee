@@ -68,8 +68,20 @@ module.exports = (character, tile) ->
           i.item is item.id
         throw "You don\'t have a #{item.name}." unless inventory_item? or item.intrinsic
         throw 'That weapon cannot damage a building.' unless _.contains item.tags, 'attack:building'
-        # buildings_to_destroy_first tile
-        # .then (number_to_destroy) ->
-        #  throw "There are still #{number_to_destroy} large buildings in the vicinity. You must destroy all the buildings in the area before you can attack the #{tile.building}." if number_to_destroy > 0
 
+      .then ->
+        return unless tile.settlement_id?
+        s_id = tile.settlement_id.toString()
+        for p in tile.people
+          if p.hp > 0 and p.settlement_id? and not p.settlement_provisional and p.settlement_id.toString() is s_id
+            throw "This building is being protected by members of the settlement!"
+
+        ###
+        .then ->
+          buildings_to_destroy_first(tile)
+          .then (number_to_destroy) ->
+            throw "There are still #{number_to_destroy} large buildings in the vicinity. You must destroy all the buildings in the area before you can attack the #{tile.building}." if number_to_destroy > 0
+        ###
+
+      .then ->
         damage_building character, tile, item

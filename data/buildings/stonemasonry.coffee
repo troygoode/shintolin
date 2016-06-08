@@ -1,7 +1,7 @@
 module.exports =
   name: 'Stonemasonry'
   size: 'large'
-  hp: 250
+  hp: 100
   interior: '_interior_stonemasonry'
   upgrade: true
   actions: ['write']
@@ -29,7 +29,7 @@ module.exports =
       items:
         boulder: 2
     gives:
-      tile_hp: 50
+      tile_hp: 25
       xp:
         crafter: 5
 

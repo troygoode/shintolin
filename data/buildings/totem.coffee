@@ -3,7 +3,7 @@ _ = require 'underscore'
 module.exports =
   name: 'Totem Pole'
   size: 'small'
-  hp: 500
+  hp: 250
   tags: ['no_storm_damage']
   actions: ['settlement_join']
 
