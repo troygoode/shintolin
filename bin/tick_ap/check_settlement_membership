@@ -36,7 +36,7 @@ db.connect().then ->
       update =
         $unset:
           settlement_provisional: true
-      db.characters().updateOne query, update, cb
+      db.characters().updateMany query, update, cb
     (cb) ->
       # update settlement records
       return cb() unless matched?.length
