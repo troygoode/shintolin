@@ -9,6 +9,14 @@ module.exports = (character, tile, takes) ->
     # can
     .then ->
       Object.keys(takes)
+
+    # check hard first
+    .each (key) ->
+      handler = take_handlers.hard[key]?.can
+      if handler?
+        handler character, tile, takes[key]
+
+    # then the rest (including hard again...)
     .each (key) ->
       handler = take_handlers[key]?.can
       if handler?
