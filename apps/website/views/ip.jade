@@ -1,0 +1,20 @@
+extends ./_page.jade
+
+block content
+  .container
+    .row
+      .col-xs-12
+
+        h1 IP #{ip}
+
+        table.hits
+          thead
+            tr
+              th Date
+              th Character
+              th Hits
+          for hit in hits
+            tr
+              td #{hit.date}
+              td: a(href="/profile/#{characters[hit.character].slug}") #{characters[hit.character].name}
+              td #{hit.hits}
