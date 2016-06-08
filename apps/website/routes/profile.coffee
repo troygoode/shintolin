@@ -1,3 +1,4 @@
+Bluebird = require 'bluebird'
 _ = require 'underscore'
 moment = require 'moment'
 marked = require 'marked'
@@ -5,38 +6,51 @@ data = require '../../../data'
 commands = require '../../../commands'
 queries = require '../../../queries'
 
-get_settlement = (character, cb) ->
+get_character_by_slug = Bluebird.promisify(queries.get_character_by_slug)
+get_settlement_p = Bluebird.promisify(queries.get_settlement)
+
+get_settlement = (character) ->
   if character?.settlement_id?
-    queries.get_settlement character.settlement_id, cb
+    get_settlement_p character.settlement_id
   else
-    cb()
+    null
 
 module.exports = (app) ->
 
   app.get '/profile/:character_slug', (req, res, next) ->
-    queries.get_character_by_slug req.params.character_slug, (err, character) ->
-      return next(err) if err?
-      return next() unless character?
+    Bluebird.resolve()
+      .then ->
+        get_character_by_slug(req.params.character_slug)
+      .then (character) ->
+        return next() unless character?
 
-      titles = {}
-      for key of (character.badges ? {})
-        badge = data.badges[key]
-        if badge?.title
-          titles[key] = badge
+        titles = {}
+        for key of (character.badges ? {})
+          badge = data.badges[key]
+          if badge?.title
+            titles[key] = badge
 
-      get_settlement character, (err, settlement) ->
-        return next(err) if err?
-        res.render 'profile',
-          _: _
-          bio: marked(character.bio ? '')
-          message: req.query.msg
-          data: data
-          moment: moment
-          character: character
-          settlement: settlement
-          leader: settlement?.leader? and settlement.leader._id.toString() is character._id.toString()
-          editable: character._id.toString() is req.session.character
-          titles: titles
+        Bluebird.props({
+          settlement: get_settlement(character)
+          hits: queries.hits_by_character(character)
+        })
+          .then ({settlement, hits}) ->
+            res.render 'profile',
+              _: _
+              bio: marked(character.bio ? '')
+              message: req.query.msg
+              data: data
+              moment: moment
+              character: character
+              settlement: settlement
+              leader: settlement?.leader? and settlement.leader._id.toString() is character._id.toString()
+              editable: character._id.toString() is req.session.character
+              titles: titles
+              hits: hits
+
+      .catch (err) ->
+        next(err)
+
 
   app.post '/profile/:character_slug', (req, res, next) ->
     queries.get_character_by_slug req.params.character_slug, (err, character) ->

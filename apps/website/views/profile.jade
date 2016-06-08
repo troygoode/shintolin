@@ -62,3 +62,15 @@ block content
               form(method='POST', action='/game/dev/remove-player/#{character.slug}')
                 input(type='hidden', name='_csrf', value=csrf)
                 button.btn.btn-danger(type='submit') Delete
+
+              table.hits
+                thead
+                  tr
+                    th Date
+                    th IP
+                    th Hits
+                for hit in hits
+                  tr
+                    td #{hit.date}
+                    td #{hit.ip}
+                    td #{hit.hits}

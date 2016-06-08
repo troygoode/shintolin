@@ -6,6 +6,8 @@ data = require '../data'
 teleport = require './teleport'
 charge_ap = require './charge_ap'
 
+MAX_WEIGHT = 70
+
 db.register_index db.tiles,
   x: 1
   y: 1
