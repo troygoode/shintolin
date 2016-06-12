@@ -51,5 +51,5 @@ module.exports = (settlement, new_values, cb) ->
       update =
         $set:
           settlement_name: new_values.name
-      db.tiles().updateOne query, update, cb
+      db.tiles().updateMany query, update, cb
   ], cb
