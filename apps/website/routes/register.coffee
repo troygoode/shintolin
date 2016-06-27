@@ -1,40 +1,65 @@
+Bluebird = require 'bluebird'
+fetch = require 'isomorphic-fetch'
+FormData = require 'form-data'
+
 commands = require '../../../commands'
 queries = require '../../../queries'
 
-get_settlement = (settlement_id, cb) ->
-  if settlement_id?.length
-    queries.get_settlement settlement_id, cb
-  else
-    cb()
+get_character_by_email = Bluebird.promisify(queries.get_character_by_email)
+get_character_by_name = Bluebird.promisify(queries.get_character_by_name)
+get_settlement = Bluebird.promisify(queries.get_settlement)
+create_character = Bluebird.promisify(commands.create_character)
 
 module.exports = (app) ->
   app.post '/register', (req, res, next) ->
-    fail = (msg) ->
-      res.redirect("/?msg=#{msg}")
+    Bluebird.resolve()
+      # ReCAPTCHA
+      .then ->
+        return unless process.env.RECAPTCHA_SECRET?.length
+        throw new Error('no_recaptcha') unless req.body['g-recaptcha-response']?.length
+        data = new FormData()
+        data.append('secret', process.env.RECAPTCHA_SECRET)
+        data.append('response', req.body['g-recaptcha-response'])
+        data.append('remoteip', req.ip)
+        fetch('https://www.google.com/recaptcha/api/siteverify', {
+          method: 'POST'
+          body: data
+        })
+          .then (gres) ->
+            gres.json()
+          .then (gres) ->
+            throw new Error('recaptcha_failed') unless gres.success is true
 
-    queries.get_character_by_email req.body.email, (err, character) ->
-      return next(err) if err?
-      return fail('email_taken') if character?
-      queries.get_character_by_name req.body.name, (err, character) ->
-        return next(err) if err?
-        return fail('name_taken') if character?
-        get_settlement req.body.settlement, (err, settlement) ->
-          return next(err) if err?
+      # validate uniqueness
+      .then ->
+        Bluebird.props(
+          by_email: get_character_by_email(req.body.email)
+          by_name: get_character_by_name(req.body.username)
+        )
+      .then ({by_email, by_name}) ->
+        throw new Error('email_taken') if by_email?
+        throw new Error('name_taken') if by_name?
 
-          name = req.body.username
-          email = req.body.email
+      # create character
+      .then ->
+        return unless req.body.settlement?.length
+        get_settlement(req.body.settlement)
+      .then (settlement) ->
+        name = req.body.username
+        email = req.body.email
+        throw new Error('too_short') unless name?.length > 3
+        throw new Error('too_long') unless name?.length < 21
+        throw new Error('invalid_name') unless /^\w+$/.test name
+        throw new Error('no_email') unless /^.+@.+\..+$/.test email
+        throw new Error('pw_not_match') unless req.body.password is req.body.password_2
+        create_character name, email, req.body.password, settlement
 
-          return fail('too_short') unless name?.length > 3
-          return fail('too_long') unless name?.length < 21
-          return fail('invalid_name') unless /^\w+$/.test name
-          return fail('no_email') unless /^.+@.+\..+$/.test email
-          return fail('pw_not_match') unless req.body.password is req.body.password_2
+      # log in
+      .then (character) ->
+        throw new Error('No character created!') unless character?
+        req.session.character = character._id.toString()
+        req.session.email = character.email
+        res.redirect '/game'
 
-          commands.create_character name, email, req.body.password, settlement, (err, character) ->
-            return next(err) if err?
-            return next('No character created!') unless character?
-
-            req.session.character = character._id.toString()
-            req.session.email = character.email
-
-            res.redirect '/game'
+      .catch (err) ->
+        res.redirect("/?msg=#{err.message}")

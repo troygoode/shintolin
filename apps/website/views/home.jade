@@ -87,6 +87,10 @@ html
               .alert.alert-danger Invalid username
             else if message === 'no_email'
               .alert.alert-danger Enter a valid email address
+            else if message === 'no_recaptcha'
+              .alert.alert-danger Verify that you aren't a robot.
+            else if message === 'recaptcha_failed'
+              .alert.alert-danger U IS ROBOT?
 
             form(method='POST', action='/register')
               input(type='hidden', name='_csrf', value=csrf)
@@ -109,6 +113,8 @@ html
                     option(value='') None (Wanderer)
                     for settlement in settlements
                       option(value=settlement._id, selected=(selected_settlement && selected_settlement === settlement))= settlement.name
+              .recaptcha
+                .g-recaptcha(data-sitekey='6LcIlyMTAAAAAOXFBG2OEnE7aK-t07KsHu9IBsKY')
               .buttons.text-center
                 button.btn.btn-default(type='submit') Play Now!
 
@@ -132,3 +138,4 @@ html
 
     script(src='/js/lib/jquery-2.1.4.min.js')
     script(src='/bootstrap-3.3.5-dist/js/bootstrap.min.js')
+    script(src='https://www.google.com/recaptcha/api.js')
