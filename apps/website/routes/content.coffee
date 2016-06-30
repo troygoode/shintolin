@@ -4,6 +4,9 @@ fs = require 'fs'
 
 module.exports = (app) ->
 
+  app.get '/discord', (req, res) ->
+    res.render 'discord'
+
   app.get '/faq', (req, res) ->
     res.render 'faq'
 
