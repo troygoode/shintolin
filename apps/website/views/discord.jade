@@ -16,4 +16,5 @@ block content
             |  
             a(href="https://discord.gg/ZKTSKne") Click here to join.
 
-          iframe(src="https://discordapp.com/widget?id=198158095027798017&theme=dark", width="450", height="400", allowtransparency="true", frameborder="0")
+          div.
+            <iframe src="https://discordapp.com/widget?id=198158095027798017&theme=dark&username=#{locals.current_character ? current_character.name : ''}" width="450" height="400" allowtransparency="true" frameborder="0"></iframe>
