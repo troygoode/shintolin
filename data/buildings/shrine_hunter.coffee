@@ -51,7 +51,7 @@ module.exports =
         pelt: 1
         sabre_tooth: 1
         horn: 1
-        stone_spear: 1
+        spear_stone: 1
     gives:
       tile_hp: 25
       xp:
