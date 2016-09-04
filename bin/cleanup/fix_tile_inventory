@@ -1,0 +1,48 @@
+#!/usr/bin/env node_modules/coffee-script/bin/coffee
+
+require 'babel/register'
+
+_ = require 'underscore'
+db = require '../../db'
+
+update_tile = (tile) ->
+  return unless tile.items
+  return unless tile.items.length
+  item_names = _.pluck tile.items, 'item'
+  len = item_names.length
+  len_uniq = _.uniq(item_names).length
+  return unless len isnt len_uniq
+
+  console.log "updating tile #{tile._id.toString()}"
+
+  dict = {}
+  for {item, count} in tile.items
+    if dict[item]?
+      dict[item] += count
+    else
+      dict[item] = count
+
+  arr = []
+  for count, key of dict
+    arr.push { item: key, count: count }
+
+  query = _id: tile._id
+  update = {$set: {items: arr}}
+  return db.tiles().updateOne query, update
+
+db.connect().then ->
+
+  Bluebird = require 'bluebird'
+  query =
+    volume: 'settlement'
+    settlement_id: {$exists: false}
+
+  Bluebird.resolve()
+    .then ->
+      db.tiles().find().toArray()
+    .map update_tile
+    .then ->
+      process.exit 0
+    .catch (err) ->
+      console.error err
+      process.exit 1
