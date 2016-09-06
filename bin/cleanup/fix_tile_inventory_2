@@ -4,31 +4,26 @@ require 'babel/register'
 
 _ = require 'underscore'
 db = require '../../db'
+PATTERN = /^\d+$/
 
 update_tile = (tile) ->
   return unless tile.items
   return unless tile.items.length
-  item_names = _.pluck tile.items, 'item'
-  len = item_names.length
-  len_uniq = _.uniq(item_names).length
-  return unless len isnt len_uniq
 
-  console.log "updating tile #{tile._id.toString()}"
+  process = false
 
-  dict = {}
-  for {item, count} in tile.items
-    if dict[item]?
-      dict[item] += count
-    else
-      dict[item] = count
+  for el in tile.items
+    if PATTERN.test(el.item)
+      item = el.count
+      count = el.item
+      el.item = item
+      el.count = count
+      process = true
 
-  arr = []
-  for key, count of dict
-    arr.push { item: key, count: count }
-
-  query = _id: tile._id
-  update = {$set: {items: arr}}
-  return db.tiles().updateOne query, update
+  if process is true
+    query = _id: tile._id
+    update = {$set: {items: tile.items}}
+    return db.tiles().updateOne query, update
 
 db.connect().then ->
 
