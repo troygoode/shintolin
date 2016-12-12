@@ -10,4 +10,8 @@ module.exports = (cb) ->
     creature: {$exists: false}
     last_action:
       $gt: moment().subtract(5, 'days')._d
+    $or: [
+      { banned: { $exists: false } }
+      { banned: false }
+    ]
   db.characters().find(query).sort({ last_action: -1 }).toArray cb
