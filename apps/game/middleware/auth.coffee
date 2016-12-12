@@ -13,13 +13,13 @@ module.exports = (req, res, next) ->
       get_character req.session.character
 
     .tap (character) ->
+      req.character = character
+      res.locals.character = character
       if character.banned is true
         throw new Error('CHARACTER_BANNED')
 
     .then (character) ->
       return unless character?
-      req.character = character
-      res.locals.character = character
       get_tile_by_coords x: character.x, y: character.y, z: character.z
 
     .then (tile) ->

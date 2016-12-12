@@ -8,6 +8,7 @@ html(lang='en')
     style(type='text/css').
       body {
         background-color: red;
+        cursor: default;
       }
 
       p.banned {
@@ -25,6 +26,10 @@ html(lang='en')
         font-weight: bold;
         font-size: 1em;
       }
+
+      p.contact .email {
+        font-family: monospace;
+      }
   body
     p.banned THIS ACCOUNT<br>IS BANNED
-    p.contact Email <a href="mailto:ecce@shintolin.com">ecce@shintolin.com</a> with any questions.
+    p.contact Email <a href="mailto:ecce@shintolin.com">ecce@shintolin.com</a> from the email address associated<br>with this account (<span class="email">#{email}</span>) with any questions.

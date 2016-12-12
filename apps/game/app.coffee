@@ -67,7 +67,7 @@ route router for key, route of routes
 
 app.use (err, req, res, next) ->
   if err and err.message is 'CHARACTER_BANNED'
-    return res.render 'banned'
+    return res.render('banned', email: req.character.email)
 
   if typeof err is 'string'
     if req.body.origin is 'history'
