@@ -25,6 +25,7 @@ module.exports = (app) ->
                 lookup[c._id.toString()] =
                   name: c.name
                   slug: c.slug
+                  banned: c.banned
 
             res.render 'ip',
               ip: req.params.ip
