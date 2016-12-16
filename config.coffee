@@ -1,6 +1,7 @@
 marked = require 'marked'
 
-require('dotenv').config()
+if process.env.NODE_ENV isnt 'production'
+  require('dotenv').config()
 
 marked.setOptions
   gfm: true
