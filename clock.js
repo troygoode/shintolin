@@ -8,7 +8,7 @@ var spawn = require('child_process').spawnSync
 
 // every 10 minutes
 
-clock.scheduleJob('*/10 * * * *', function () {
+clock.scheduleJob('0 * * * *', function () {
   console.log(spawn('bin/tick_ap/_tick').stdout.toString())
 })
 
