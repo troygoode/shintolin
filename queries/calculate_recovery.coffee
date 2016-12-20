@@ -7,6 +7,7 @@ hunger_debuff = require './calculate_hunger_debuff'
 active_or_healthy_players = Bluebird.promisify(require './active_or_healthy_players')
 
 MINIMUM_RECOVERY = 1
+MULTIPLIER = 1.0
 
 module.exports = (character, tile) ->
   Bluebird.resolve()
@@ -45,6 +46,9 @@ module.exports = (character, tile) ->
         building = data.buildings[tile.building]
         if building.recovery? and (not building.max_occupancy? or occupantCount <= building.max_occupancy)
           recovery += building.recovery(character, tile)
+
+      # multiplier
+      recovery = recovery * MULTIPLIER
 
       recovery = MINIMUM_RECOVERY if recovery < MINIMUM_RECOVERY #minimum recovery
       recovery

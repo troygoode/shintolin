@@ -27,6 +27,8 @@ db.connect().then ->
         .then (tile) ->
           calculate_recovery character, tile
         .then (recovery) ->
+          recovery / 60 # recover a bit every minute instead of once an hour
+        .then (recovery) ->
           if character.ap + recovery > MAX_AP
             recovery = MAX_AP - character.ap
           return unless recovery > 0

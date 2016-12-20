@@ -1,0 +1,9 @@
+#!/bin/bash
+
+echo "### TICK: Hourly (START) ###"
+
+./bin/tick_ap/check_settlement_membership
+./bin/tick_ap/diminish_campfires
+./bin/tick_ap/drown
+
+echo "### TICK: Hourly (END) ###"

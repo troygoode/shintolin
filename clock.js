@@ -6,10 +6,16 @@ require('coffee-script/register')
 var clock = require('node-schedule')
 var spawn = require('child_process').spawnSync
 
-// every 10 minutes
+// every minute
+
+clock.scheduleJob('0 * * * * *', function () {
+  console.log(spawn('bin/tick_ap/_tick').stdout.toString())
+})
+
+// every hour
 
 clock.scheduleJob('0 * * * *', function () {
-  console.log(spawn('bin/tick_ap/_tick').stdout.toString())
+  console.log(spawn('bin/tick_hourly/_tick').stdout.toString())
 })
 
 // thrice-daily
