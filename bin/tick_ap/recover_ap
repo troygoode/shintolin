@@ -12,6 +12,7 @@ db.connect().then ->
   calculate_recovery = require '../../queries/calculate_recovery'
 
   MAX_AP = 100
+  MINUTES_BETWEEN_TICK = 10.0
 
   Bluebird.resolve()
 
@@ -27,7 +28,7 @@ db.connect().then ->
         .then (tile) ->
           calculate_recovery character, tile
         .then (recovery) ->
-          recovery / 60.0 # recover a bit every minute instead of once an hour
+          (recovery / 60.0) * MINUTES_BETWEEN_TICK # normalize regen to tick cadance
         .then (recovery) ->
           if character.ap + recovery > MAX_AP
             recovery = MAX_AP - character.ap
