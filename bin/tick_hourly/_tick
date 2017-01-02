@@ -2,8 +2,8 @@
 
 echo "### TICK: Hourly (START) ###"
 
-./bin/tick_ap/check_settlement_membership
-./bin/tick_ap/diminish_campfires
-./bin/tick_ap/drown
+./bin/tick_hourly/check_settlement_membership
+./bin/tick_hourly/diminish_campfires
+./bin/tick_hourly/drown
 
 echo "### TICK: Hourly (END) ###"
