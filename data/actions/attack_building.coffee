@@ -73,7 +73,10 @@ module.exports = (character, tile) ->
         return unless tile.settlement_id?
         s_id = tile.settlement_id.toString()
         for p in tile.people
-          if p.hp > 0 and p.settlement_id? and not p.settlement_provisional and p.settlement_id.toString() is s_id
+          isnt_me = character._id.toString() isnt p._id.toString()
+          undazed = p.hp > 0
+          is_member = p.settlement_id? and not p.settlement_provisional and p.settlement_id.toString() is s_id
+          if isnt_me and undazed and is_member
             throw "This building is being protected by members of the settlement!"
 
         ###
