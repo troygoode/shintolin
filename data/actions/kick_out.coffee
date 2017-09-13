@@ -5,6 +5,8 @@ get_character = BPromise.promisify(require('../../queries').get_character)
 send_message = BPromise.promisify(require '../../commands/send_message')
 send_message_nearby = BPromise.promisify(require '../../commands/send_message_nearby')
 
+# this action is for kicking a dazed character out of a building's interior
+
 module.exports = (character, tile) ->
   return false unless tile? and tile.z is 1
 

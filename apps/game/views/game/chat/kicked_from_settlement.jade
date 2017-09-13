@@ -1,0 +1,7 @@
+.action
+  | <a href='/profile/#{msg.sender_slug}'>#{msg.sender_name}</a> 
+  |  has kicked 
+  | <a href='/profile/#{msg.target_slug}'>#{msg.target_name}</a> 
+  |  out of the settlement of
+  | <a href='/settlements/#{msg.settlement_slug}'>#{msg.settlement_name}</a>!
+  div.time= moment(msg.sent).fromNow()

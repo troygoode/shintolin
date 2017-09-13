@@ -78,6 +78,22 @@ div
         for label, key in actions.take_building.takeables
           option(value=key) #{label}
 
+  if actions.kick_out && actions.kick_out.people.length
+    form.action(method='POST', action='/game/actions/kick_out')
+      input(type='hidden', name='_csrf', value=csrf)
+      mixin action_button('Kick to Outside', actions.kick_out.ap)
+      select.form-control(name='target', data-persist='target')
+        for c in actions.kick_out.people
+          option(value=c._id)= c.name
+
+  if actions.settlement_kick && actions.settlement_kick.people.length
+    form.action(method='POST', action='/game/actions/settlement_kick')
+      input(type='hidden', name='_csrf', value=csrf)
+      mixin action_button('Kick from Settlement', actions.settlement_kick.ap)
+      select.form-control(name='target')
+        for c in actions.settlement_kick.people
+          option(value=c._id)= c.name
+
   if actions.settlement_join
     form.confirmable.action(method='POST', action='/game/actions/settlement_join')
       input(type='hidden', name='_csrf', value=csrf)

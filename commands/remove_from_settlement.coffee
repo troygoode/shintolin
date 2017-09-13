@@ -13,7 +13,16 @@ module.exports = (character, cb) ->
           settlement_slug: true
           settlement_name: true
           settlement_provisional: true
+          settlement_joined: true
       db.characters().updateOne query, update, cb
+    (cb) ->
+      # update tile record
+      query =
+        'people._id': character._id
+      update =
+        $unset:
+          'people.$.settlement_id': true
+      db.tiles().updateOne query, update, cb
     (cb) ->
       # update settlement records
       query =

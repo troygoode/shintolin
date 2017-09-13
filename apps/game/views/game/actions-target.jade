@@ -43,13 +43,5 @@ div
         for c in actions.give_player.targets
           option(value=c._id)= c.name
 
-  if actions.kick_out
-    form.action(method='POST', action='/game/actions/kick_out')
-      input(type='hidden', name='_csrf', value=csrf)
-      mixin action_button('Kick Out', actions.kick_out.ap)
-      select.form-control(name='target', data-persist='target')
-        for c in actions.kick_out.people
-          option(value=c._id)= c.name
-
   if !action_counts.target
     p.empty No target actions.

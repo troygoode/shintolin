@@ -130,7 +130,7 @@ notify = (ctx, cb) ->
       return cb() unless ctx.remove_from_settlement
       queries.get_settlement ctx.target.settlement_id, (err, settlement) ->
         return cb(err) if err?
-        send_message_settlement 'kicked', ctx.attacker, settlement, [], ctx.message, cb
+        send_message_settlement 'kicked_from_settlement', ctx.attacker, settlement, [], ctx.message, cb
   ], cb
 
 module.exports = (attacker, target, tile, weapon, cb) ->
@@ -160,7 +160,7 @@ module.exports = (attacker, target, tile, weapon, cb) ->
   # remove from settlement?
   if ctx.kill and not ctx.is_creature
     is_provisional = target.settlement_provisional? and target.settlement_provisional
-    same_settlement = attacker.settlement_id?.length and target.settlement_id?.length and attacker.settlement_id.toString() is target.settlement_id.toString()
+    same_settlement = attacker.settlement_id? and target.settlement_id? and attacker.settlement_id.toString() is target.settlement_id.toString()
     ctx.remove_from_settlement = is_provisional and same_settlement
 
   # creature response?
