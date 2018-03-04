@@ -29,7 +29,7 @@ module.exports =
 
     takes:
       ap: ap
-      building: 'campfire'
+      building: ['campfire', 'hospital']
       skill: 'tea_making'
       items:
         thyme: 2
