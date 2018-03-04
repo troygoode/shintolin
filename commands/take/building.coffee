@@ -1,4 +1,8 @@
+_ = require 'underscore'
 data = require '../../data'
 
 module.exports.can = (character, tile, msg) ->
-  throw "You must be in the presence of a #{data.buildings[msg].name} to do that." if msg isnt tile.building
+  if typeof msg is 'string'
+    msg = [msg]
+  unless _.some(msg, (b) -> b is tile.building)
+    throw "You cannot do that here."
