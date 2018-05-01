@@ -1,0 +1,26 @@
+version: '3'
+services:
+
+  shintolin3:
+    build:
+      context: .
+      dockerfile: ./.config/Dockerfile
+    image: shintolin3/shintolin3
+    environment:
+      - MONGODB_URI=mongodb://shintolin3-mongo/heroku_8xb5fctf
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      - "3000:3000"
+    depends_on:
+      - shintolin3-mongo
+
+  shintolin3-mongo:
+    image: mongo
+    volumes:
+      - .:/host
+    ports:
+      - "27017:27017"
+    logging:
+      driver: "none"
