@@ -3,6 +3,8 @@ Bluebird = require 'bluebird'
 {items, buildings} = require '../'
 tiles_in_circle_around = Bluebird.promisify(require('../../queries').tiles_in_circle_around)
 damage_building = Bluebird.promisify(require('../../commands').damage_building)
+last_action = {}
+MIN_ACTION_GAP = 60000
 
 big_buildings = []
 for key, b of buildings
@@ -62,6 +64,12 @@ module.exports = (character, tile) ->
     item = items[body.item]
 
     Bluebird.resolve()
+      .then ->
+        now = new Date().getTime()
+        la = last_action[character.name]
+        throw 'You must wait before attacking a building again.' if la and (now - la < MIN_ACTION_GAP)
+        last_action[character.name] = now
+
       .then ->
         throw 'Invalid Weapon' unless _.contains item?.tags, 'weapon'
         inventory_item = _.find character.items, (i) ->

@@ -1,0 +1,12 @@
+#!/bin/bash
+
+declare -a collections=("characters" "chat_messages" "hits" "settlements" "tiles")
+
+echo $1
+
+for c in "${collections[@]}"
+do
+  echo "$c.bson"
+  # mongorestore --username heroku_8xb5fctf --password $1 --host ds055592-a0.mongolab.com --port 55592 --db heroku_8xb5fctf --collection "$c" "$c.bson"
+  mongorestore -h ds055592-a0.mongolab.com:55592 -d heroku_8xb5fctf -u heroku_8xb5fctf -p $1 --collection "$c" "$c.bson"
+done

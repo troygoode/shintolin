@@ -5,5 +5,5 @@ declare -a collections=("characters" "chat_messages" "hits" "settlements" "tiles
 for c in "${collections[@]}"
 do
    echo "$1$c.bson"
-   mongorestore --db shintolin --collection "$c" "$1$c.bson"
+   mongorestore --host shintolin3-mongo --db heroku_8xb5fctf --collection "$c" "$1$c.bson"
 done
