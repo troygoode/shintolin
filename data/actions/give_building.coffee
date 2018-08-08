@@ -32,6 +32,7 @@ module.exports = (character, tile) ->
 
     Bluebird.resolve()
       .then ->
+        throw 'Invalid Quantity' if quantity <= 0
         throw 'Invalid Item' unless item?
         throw 'Invalid Item' if item.nodrop or item.intrinsic
         inventory_item = _.find character.items, (i) ->

@@ -29,25 +29,26 @@ module.exports = (character, tile) ->
 
   execute: (body) ->
     item = items[body.item]
-    count = parseInt(body.count ? 1)
+    quantity = parseInt(body.count ? 1)
 
     Bluebird.resolve()
       .then ->
+        throw 'Invalid Quantity' if quantity <= 0
         throw 'Invalid Item' unless item?
         throw 'Invalid Item' if item.nodrop or item.intrinsic
 
         recipe =
           takes:
             items: {}
-        recipe.takes.items[item.id] = count
+        recipe.takes.items[item.id] = quantity
         take character, tile, recipe.takes
 
       .then ->
         give_items null, tile,
           item: item
-          count: count
+          count: quantity
 
       .then (recipe) ->
         send_message 'drop', character, character,
           item: item.id
-          quantity: count
+          quantity: quantity

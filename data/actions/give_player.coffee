@@ -42,6 +42,7 @@ module.exports = (character, tile) ->
         get_character body.target
 
       .then (target) ->
+        throw 'Invalid Quantity' if quantity <= 0
         throw 'Invalid Target' unless target?
         throw 'Invalid Target' if target._id.toString() is character._id.toString()
         throw 'Target Not Present' unless target.x is character.x and

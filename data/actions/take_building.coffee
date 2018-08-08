@@ -33,6 +33,7 @@ module.exports = (character, tile) ->
 
     Bluebird.resolve()
       .then ->
+        throw 'Invalid Quantity' if quantity <= 0
         throw 'Invalid Item' unless item?
 
         recipe =
