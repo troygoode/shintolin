@@ -1,0 +1,45 @@
+#!/usr/bin/env node_modules/coffee-script/bin/coffee
+
+require 'babel/register'
+
+_ = require 'underscore'
+db = require '../../db'
+PATTERN = /^\d+$/
+
+update_tile = (tile) ->
+  return unless tile.items
+  return unless tile.items.length
+
+  process = false
+
+  for el in tile.items
+    if el.count < 0
+      console.log JSON.stringify(tile, null, 2)
+      el.count = 0
+      process = true
+
+  return unless process is true
+
+  tile.items = tile.items.filter (el) ->
+    el.count > 0
+
+  query = _id: tile._id
+  update = {$set: {items: tile.items}}
+  return db.tiles().updateOne query, update
+
+db.connect().then ->
+
+  Bluebird = require 'bluebird'
+  query =
+    volume: 'settlement'
+    settlement_id: {$exists: false}
+
+  Bluebird.resolve()
+    .then ->
+      db.tiles().find().toArray()
+    .map update_tile
+    .then ->
+      process.exit 0
+    .catch (err) ->
+      console.error err
+      process.exit 1
