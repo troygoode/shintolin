@@ -40,7 +40,7 @@ module.exports = (character, tile) ->
           gives:
             items: {}
           takes:
-            ap: quantity
+            ap: quantity # when quantity was negative this was GIVING the exploiter AP...
             tile_items: {}
 
         recipe.gives.items[item.id] = quantity

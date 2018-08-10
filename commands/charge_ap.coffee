@@ -2,7 +2,9 @@ db = require '../db'
 queries = require '../queries'
 
 module.exports = (character, ap, cb) ->
-  if ap > character.ap
+  if ap < 0
+    cb 'Invalid AP Quantity'
+  else if ap > character.ap
     cb 'Insufficient AP'
   else
     query =
