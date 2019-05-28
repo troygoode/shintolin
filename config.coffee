@@ -13,7 +13,7 @@ marked.setOptions
 module.exports =
   port: process.env.PORT or 3000
   session_secret: process.env.SESSION_SECRET ? 'secret'
-  mongo_uri: process.env.MONGODB_URI ? process.env.MONGOLAB_URI ? process.env.DATABASE_URL ? 'mongodb://localhost/shintolin'
+  mongo_uri: process.env.MONGODB_URI ? process.env.MONGOLAB_URI ? process.env.DATABASE_URL ? 'mongodb://localhost/heroku_8xb5fctf'
   web_concurrency: process.env.WEB_CONCURRENCY ? 1
 
   ap_per_hour: 3.0

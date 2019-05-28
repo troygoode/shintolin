@@ -2,15 +2,13 @@ version: '3'
 services:
 
   shintolin3:
-    build:
-      context: .
-      dockerfile: ./.config/Dockerfile
-    image: shintolin3/shintolin3
+    image: node:carbon
     environment:
       - MONGODB_URI=mongodb://shintolin3-mongo/heroku_8xb5fctf
     volumes:
       - .:/usr/src/app
-      - /usr/src/app/node_modules
+    working_dir: /usr/src/app
+    command: ["bin/dev/start"]
     ports:
       - "3000:3000"
     depends_on:

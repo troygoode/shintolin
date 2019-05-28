@@ -2,14 +2,27 @@
 
 A node.js port of [Isaac Lewis' Ruby version of Shintolin](https://github.com/IsaacLewis/Shintolin) - a persistent multiplayer browser game, set in the stone age.
 
-## Local Development / Testing
+## Local Development / Testing (DOCKER)
 
-### Initial Setup (Mac OSX)
+* Download the code via [git](http://git-scm.com/): `$ git clone https://github.com/troygoode/shintolin`
+* Install [docker](https://www.docker.com/)
 
-* Install [homebrew](http://mxcl.github.com/homebrew/): `$ ruby -e "$(curl -fsSkL raw.github.com/mxcl/homebrew/go)"`
-* Install [node.js](http://nodejs.org/): `$ brew install node`
-* Install [mongodb](http://www.mongodb.org/): `$ brew install mongo`
-* Download the code via [git](http://git-scm.com/): `$ git clone https://github.com/shintolin/shintolin`
+```bash
+# on host
+docker-compose up shintolin3-mongo # start mongo in background
+docker-compose run shintolin3-mongo bash # bash into mongo server
+
+# within mongo container
+DIR=/host/... # tab complete the path to the Heroku mongo backup
+mongorestore --db heroku_8xb5fctf $DIR
+exit
+
+# back on host
+npm install
+npm start
+```
+
+## Local Development / Testing (Old)
 
 ### Running the Game
 
