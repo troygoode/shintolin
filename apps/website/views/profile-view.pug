@@ -20,7 +20,7 @@
           else
             span.label.label-default #{settlement.member_title || 'Member'}
           |  of 
-          a(href='/settlements/#{character.settlement_slug}') #{character.settlement_name}
+          a(href=`/settlements/${character.settlement_slug}`) #{character.settlement_name}
           |  since #{moment(character.settlement_joined).fromNow()}.
 
     if !_.isEmpty(character.badges)
@@ -63,4 +63,4 @@
               p: span.label.label-danger Dazed
 
   .col-sm-6.col-md-5.col-lg-4.hidden-xs
-    .profile-avatar: img(alt='portrait of #{character.name}', src=character.image_url || '/images/cave_art.jpg')
+    .profile-avatar: img(alt=`portrait of ${character.name}`, src=character.image_url || '/images/cave_art.jpg')

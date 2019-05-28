@@ -124,7 +124,7 @@ block content
               .form-group
                 select.form-control(name='coords')
                   for s in settlements
-                    option(value='#{s.x},#{s.y},0') #{s.name}
+                    option(value=`${s.x},${s.y},0`) #{s.name}
               input.btn.btn-default(type='submit', value="Teleport (Settlement)", data-action='move_to_settlement')
 
           if building && center.tile.z === 0

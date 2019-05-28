@@ -4,7 +4,7 @@ mixin progress(label, current, max, colorClass, title, content)
   .stat(data-toggle='tooltip', data-placement='top', title=title)
     label #{label}
     .progress
-      .progress-bar(class=colorClass, role='progressbar', aria-valuenow=rounded(current), aria-valuemin='0', aria-valuemax=rounded(max), style='width: #{pct}%;')
+      .progress-bar(class=colorClass, role='progressbar', aria-valuenow=rounded(current), aria-valuemin='0', aria-valuemax=rounded(max), style=`width: ${pct}%;`)
       if content
         .content #{content}
       else

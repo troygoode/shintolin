@@ -9,7 +9,7 @@ block content
         br
         .map
           .map-table.large.text-center
-            table(class='season-#{time.season.toLowerCase()}')
+            table(class=`season-${time.season.toLowerCase()}`)
               for row in grid
                 tr
                   for tile in row

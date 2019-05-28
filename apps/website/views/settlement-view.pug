@@ -4,10 +4,10 @@
     unless settlement.destroyed || logged_in
       .alert.alert-success
         label Join #{settlement.name} today!
-        p: a(href='/?settlement=#{settlement.slug}') https://www.shintolin.com/?settlement=#{settlement.slug}
+        p: a(href=`/?settlement=${settlement.slug}`) https://www.shintolin.com/?settlement=#{settlement.slug}
 
     if settlement.destroyed
-      .alert.alert-danger This settlement was destroyed by <a href='/profiles/#{settlement.destroyer.slug}'>#{settlement.destroyer.name}</a> on #{moment(settlement.destroyed).format('MMMM Do, YYYY')}.
+      .alert.alert-danger This settlement was destroyed by <a href=`/profiles/${settlement.destroyer.slug}`>#{settlement.destroyer.name}</a> on #{moment(settlement.destroyed).format('MMMM Do, YYYY')}.
 
     if settlement.description.length
       div.profile-bio !{bio}
@@ -19,14 +19,14 @@
     if settlement.website_url && settlement.website_url.length
       div
         label Website
-        p: a(href='#{settlement.website_url}') #{settlement.website_url}
+        p: a(href=`${settlement.website_url}`) #{settlement.website_url}
 
     div
       label Founded
       p
         | #{moment(settlement.founded).format('MMMM Do, YYYY')}
         |  by 
-        a(href='/profile/#{settlement.founder.slug}') #{settlement.founder.name}
+        a(href=`/profile/${settlement.founder.slug}`) #{settlement.founder.name}
         if region
           |  in 
           span #{region.name}
@@ -45,13 +45,13 @@
                   button.btn.btn-default.btn-xs(disabled=true) Vote For
                   |  
                 else
-                  form.inline-block(method='POST', action='/settlements/#{settlement.slug}/vote')
+                  form.inline-block(method='POST', action=`/settlements/${settlement.slug}/vote`)
                     input(type='hidden', name='_csrf', value=csrf)
                     input(type='hidden', name='target_id', value=member._id.toString())
                     button.btn.btn-success.btn-xs(type='submit') Vote For
                   |  
               span.settlement-member
-                a(href='/profile/#{member.slug}') #{member.name}
+                a(href=`/profile/${member.slug}`) #{member.name}
                 if member.provisional
                   |  
                   span.label.label-warning #{settlement.provisional_title || 'Provisional Member'}
@@ -69,12 +69,12 @@
                     span.badge.badge-default x#{member.votes} votes
               if member.provisional && is_leader
                 |  
-                form.inline-block(method='POST', action='/settlements/#{settlement.slug}/promote')
+                form.inline-block(method='POST', action=`/settlements/${settlement.slug}/promote`)
                   input(type='hidden', name='_csrf', value=csrf)
                   input(type='hidden', name='target_id', value=member._id.toString())
                   button.btn.btn-success.btn-xs(type='submit') Promote
                 |  
-                form.inline-block(method='POST', action='/settlements/#{settlement.slug}/evict')
+                form.inline-block(method='POST', action=`/settlements/${settlement.slug}/evict`)
                   input(type='hidden', name='_csrf', value=csrf)
                   input(type='hidden', name='target_id', value=member._id.toString())
                   button.btn.btn-danger.btn-xs(type='submit') Evict
@@ -84,7 +84,7 @@
     if is_member
       .text-center
         br
-        form.confirmable(method='POST', action='/settlements/#{settlement.slug}/leave')
+        form.confirmable(method='POST', action=`/settlements/${settlement.slug}/leave`)
           input(type='hidden', name='_csrf', value=csrf)
           button.btn.btn-danger(type='submit') Leave Settlement
 

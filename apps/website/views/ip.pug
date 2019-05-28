@@ -18,7 +18,7 @@ block content
               td #{hit.date}
               if hit.character && hit.character.length && characters[hit.character]
                 td
-                  a(href="/profile/#{characters[hit.character].slug}") #{characters[hit.character].name}
+                  a(href=`/profile/${characters[hit.character].slug}`) #{characters[hit.character].name}
                   if characters[hit.character].banned
                     | 
                     .label.label-danger BANNED

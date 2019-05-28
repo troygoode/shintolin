@@ -19,5 +19,5 @@ block content
               br
               br
               div
-                h4: a(href="/updates##{update.date.getTime()}") #{moment(update.date).format('MMMM Do, YYYY')}
+                h4: a(href=`/updates#${update.date.getTime()}`) #{moment(update.date).format('MMMM Do, YYYY')}
                 | !{update.html}

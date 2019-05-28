@@ -6,7 +6,7 @@ div
     - var pct = Math.floor(rounded(building_hp_current)/rounded(building_hp_max) * 100);
     - if (pct > 100) { pct = 100; }
     .progress.building-hp
-      .progress-bar.progress-bar-danger(role='progressbar', aria-valuenow=rounded(building_hp_current), aria-valuemin='0', aria-valuemax=rounded(building_hp_max), style='width: #{pct}%;')
+      .progress-bar.progress-bar-danger(role='progressbar', aria-valuenow=rounded(building_hp_current), aria-valuemin='0', aria-valuemax=rounded(building_hp_max), style=`width: ${pct}%;`)
         .content
           strong #{(building.text || {}).hp || 'HP'}:
           |  #{building_hp_current}/#{building_hp_max}
@@ -16,7 +16,7 @@ div
     - var pct = Math.floor(occupancy/building.max_occupancy * 100);
     - if (pct > 100) { pct = 100; }
     .progress.building-occupancy
-      .progress-bar(role='progressbar', aria-valuenow=occupancy, aria-valuemin='0', aria-valuemax=building.max_occupancy, style='width: #{pct}%;', class={'progress-bar-warning': (occupancy > building.max_occupancy), 'progress-bar-default': (occupancy <= building.max_occupancy)})
+      .progress-bar(role='progressbar', aria-valuenow=occupancy, aria-valuemin='0', aria-valuemax=building.max_occupancy, style=`width: ${pct}%;`, class={'progress-bar-warning': (occupancy > building.max_occupancy), 'progress-bar-default': (occupancy <= building.max_occupancy)})
         .content
           if occupancy > building.max_occupancy
             strong Maximum Occupancy Exceeded
@@ -34,7 +34,7 @@ div
   if actions.repair
     form.action(method='POST', action='/game/actions/repair')
       input(type='hidden', name='_csrf', value=csrf)
-      input.btn.btn-default.btn-sm(type='submit', value=actions.repair.text.button, data-action='repair', data-toggle='tooltip', data-placement='left', title="#{actions.repair.ap} AP")
+      input.btn.btn-default.btn-sm(type='submit', value=actions.repair.text.button, data-action='repair', data-toggle='tooltip', data-placement='left', title=`${actions.repair.ap} AP`)
       |  #{actions.repair.text.description}
 
   if actions.attack_building

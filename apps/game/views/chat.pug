@@ -6,12 +6,12 @@ mixin chat_nav()
       if page === 2
         a.btn.btn-default(href='/game/chat') &larr; Newer
       else if page > 1
-        a.btn.btn-default(href='/game/chat?page=#{page - 1}') &larr; Newer
+        a.btn.btn-default(href=`/game/chat?page=${page - 1}`) &larr; Newer
       else
         a.disabled.btn.btn-default(disabled='disabled') &larr; Newer
     .col-xs-6.text-right
       if messages.length === page_size
-        a.btn.btn-default(href='/game/chat?page=#{page + 1}') Older &rarr;
+        a.btn.btn-default(href=`/game/chat?page=${page + 1}`) Older &rarr;
       else
         a.disabled.btn.btn-default(disabled='disabled') Older &rarr;
 

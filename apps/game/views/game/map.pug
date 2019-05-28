@@ -4,7 +4,7 @@
   .location
     h1
       if center.tile.settlement_id
-        a.neutral(href='/settlements/#{center.tile.settlement_slug}')= center.tile.settlement_name
+        a.neutral(href=`/settlements/${center.tile.settlement_slug}`)= center.tile.settlement_name
       else
         span.disabled Unsettled Land
     h2
@@ -15,7 +15,7 @@
     include flavor
 
   .map-table
-    table(class='season-#{time.season.toLowerCase()}')
+    table(class=`season-${time.season.toLowerCase()}`)
       for row in grid
         tr
           for tile in row

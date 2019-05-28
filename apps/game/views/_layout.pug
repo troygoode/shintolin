@@ -57,9 +57,9 @@ html(lang='en')
                 |  
                 span.caret
               ul.dropdown-menu
-                li: a(href='/profile/#{character.slug}') Your Profile
+                li: a(href=`/profile/${character.slug}`) Your Profile
                 if character.settlement_id
-                  li: a(href='/settlements/#{character.settlement_slug}') #{character.settlement_name}'s Profile
+                  li: a(href=`/settlements/${character.settlement_slug}`) #{character.settlement_name}'s Profile
                 if is_developer
                   li: a(href='/game/dev') Developer Tools
                 li: a(href='/logout') Log Out

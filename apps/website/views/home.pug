@@ -41,7 +41,7 @@ html
                   if younguns && younguns.length > 0
                     tr
                       td: label: a(href='/rankings/younguns') Newest Player
-                      td: a(href='/profile/#{younguns[0].slug}') #{younguns[0].name}
+                      td: a(href=`/profile/${younguns[0].slug}`) #{younguns[0].name}
         .row.hidden-md.hidden-lg
           .col-xs-12
             .login-button.text-center
@@ -124,7 +124,7 @@ html
           .col-xs-12
             .release-notes
               h2: span Recently Released!
-              h3: a(href='/updates##{latest_release_note.date.getTime()}') #{moment(latest_release_note.date).format('MMMM Do, YYYY')}
+              h3: a(href=`/updates#${latest_release_note.date.getTime()}`) #{moment(latest_release_note.date).format('MMMM Do, YYYY')}
               .note
                 | !{latest_release_note.html}
               p.text-center: a.btn.btn-default(href='/updates') Read Older Release Notes

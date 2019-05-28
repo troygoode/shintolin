@@ -143,7 +143,7 @@ if messages.length
                 .social.social-unknown
                   span.label.label-danger #{msg.volume}
                   |  
-                  a.neutral(href='/profile/#{msg.sender_slug}') @#{msg.sender_name}
+                  a.neutral(href=`/profile/${msg.sender_slug}`) @#{msg.sender_name}
                   | : 
                   span "#{msg.text}".
                   div.time= moment(msg.sent).fromNow()
@@ -167,7 +167,7 @@ if messages.length
             include chat/write_nearby
           default
             .action
-              a.neutral(href='/profile/#{msg.sender_id}')= msg.sender_name
+              a.neutral(href=`/profile/${msg.sender_id}`)= msg.sender_name
               i  ??? (#{msg.type}) ??? 
               div.time= moment(msg.sent).fromNow()
     unless locals.origin === 'history' || locals.origin === 'settlement'

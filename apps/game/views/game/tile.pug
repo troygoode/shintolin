@@ -1,7 +1,7 @@
 mixin tile_td(tile, redirect)
   - var is_center = center && tile.tile._id && tile.tile._id.toString() === center.tile._id.toString();
   td.map(class={current: is_center, "no-season": tile.terrain.no_season})
-    .terrain(class='tile-#{tile.style}')
+    .terrain(class=`tile-${tile.style}`)
     .content
 
       // DIRECTIONAL MOVE
@@ -27,7 +27,7 @@ mixin tile_td(tile, redirect)
           if redirect
             input(type='hidden', name='redirect', value=redirect)
           if tile.terrain.blocked || tile.cost === null
-            input.movebutton(type='submit', data-direction='#{tile.direction}', style='display:none;')
+            input.movebutton(type='submit', data-direction=`${tile.direction}`, style='display:none;')
           else
             button.btn.btn-default.btn-xs(type='submit', data-direction=tile.direction)
               span #{tile.direction}

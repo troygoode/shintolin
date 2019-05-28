@@ -9,10 +9,10 @@
         - var sorted_items = _.sortBy(character.items, function(i){ return data.items[i.item].name});
         for item in sorted_items
           if item.count === 1
-            dt(data-toggle='tooltip', title="1x #{data.items[item.item].name}") #{data.items[item.item].name}
+            dt(data-toggle='tooltip', title=`1x ${data.items[item.item].name}`) #{data.items[item.item].name}
             dd 1
           else
-            dt(data-toggle='tooltip', title="#{item.count}x #{data.items[item.item].plural}") #{data.items[item.item].plural}
+            dt(data-toggle='tooltip', title=`${item.count}x ${data.items[item.item].plural}`) #{data.items[item.item].plural}
             dd #{item.count}
       .clearfix
 
@@ -45,5 +45,5 @@
       dt Revives
       dd #{character.revives}
     .clearfix
-    p: a.btn.btn-default(href="/profile/#{character.slug}") View Profile
+    p: a.btn.btn-default(href=`/profile/${character.slug}`) View Profile
 

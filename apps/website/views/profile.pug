@@ -3,7 +3,7 @@ extends ./_page.pug
 mixin profile_date(date, label)
   div
     label #{label}
-    p(title='#{moment(date).format("MMM Do, YYYY H:mm A")}') #{moment(date).fromNow()}
+    p(title=`${moment(date).format("MMM Do, YYYY H:mm A")}`) #{moment(date).fromNow()}
 
 block content
   .jumbotron
@@ -22,7 +22,7 @@ block content
             h2
               | from
               |  
-              a(href='/settlements/#{character.settlement_slug}') #{character.settlement_name}
+              a(href=`/settlements/${character.settlement_slug}`) #{character.settlement_name}
 
   .container
     .row
@@ -46,7 +46,7 @@ block content
               h2.page-title Developer Tools
               div
                 label Email Address
-                p: a(href="mailto:#{character.email}") #{character.email}
+                p: a(href=`mailto:${character.email}`) #{character.email}
               div
                 label Played For
                 p #{moment.duration(moment(character.last_action).diff(character.created)).humanize()}
@@ -63,15 +63,15 @@ block content
                 button.btn.btn-default(type='submit') Teleport To
 
               if character.banned
-                form(method='POST', action='/game/dev/unban/#{character.slug}')
+                form(method='POST', action=`/game/dev/unban/${character.slug}`)
                   input(type='hidden', name='_csrf', value=csrf)
                   button.btn.btn-warning(type='submit') Unban
               else
-                form(method='POST', action='/game/dev/ban/#{character.slug}')
+                form(method='POST', action=`/game/dev/ban/${character.slug}`)
                   input(type='hidden', name='_csrf', value=csrf)
                   button.btn.btn-warning(type='submit') Ban
 
-              form(method='POST', action='/game/dev/remove-player/#{character.slug}')
+              form(method='POST', action=`/game/dev/remove-player/${character.slug}`)
                 input(type='hidden', name='_csrf', value=csrf)
                 button.btn.btn-danger(type='submit') Delete
 
@@ -84,5 +84,5 @@ block content
                 for hit in hits
                   tr
                     td #{hit.date}
-                    td: a(href="/ip/#{hit.ip}") #{hit.ip}
+                    td: a(href=`/ip/${hit.ip}`) #{hit.ip}
                     td #{hit.hits}
