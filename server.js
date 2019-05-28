@@ -1,6 +1,6 @@
 /* global require, __dirname */
 
-require("coffee-script/register");
+require("coffeescript/register");
 
 var path = require("path"),
   recluster = require("recluster"),
