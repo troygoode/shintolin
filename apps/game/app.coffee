@@ -14,7 +14,7 @@ routes = require('require-directory')(module, "#{__dirname}/routes")
 
 app = module.exports = express()
 app.set 'views', "#{__dirname}/views"
-app.set 'view engine', 'jade'
+app.set 'view engine', 'pug'
 app.enable 'trust proxy'
 
 app.locals._ = _

@@ -20,7 +20,7 @@ track_hits = require './middleware/track_hits'
 
 app = module.exports = express()
 app.set 'views', "#{__dirname}/views"
-app.set 'view engine', 'jade'
+app.set 'view engine', 'pug'
 app.enable 'trust proxy'
 
 app.use cookie_parser()
