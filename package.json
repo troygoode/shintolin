@@ -49,7 +49,7 @@
     "underscore.string": "^3.3.5"
   },
   "devDependencies": {
-    "mocha": "^2.2.5",
+    "mocha": "^6.1.4",
     "should": "^7.0.1"
   }
 }
