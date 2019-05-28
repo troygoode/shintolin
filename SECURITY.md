@@ -9,4 +9,4 @@
 
 ## Reporting a Vulnerability
 
-File an Issue using the Issues tab above. Vulnerabilities will be resolved promptly!
+To report a vulnerability, email [ecce@shintolin.com](mailto:ecce@shintolin.com). Vulnerabilities will be resolved promptly! Optionally include your character name to receive the [Bug Hunter](https://github.com/troygoode/shintolin/blob/master/data/badges/bug_hunter.coffee) badge in-game.
