@@ -1,6 +1,6 @@
 module.exports =
-  name: 'chain lightning'
-  plural: 'chain lightning'
+  name: 'chain lightning spell'
+  plural: 'chain lightning spells'
   tags: ['weapon', 'attack:building']
   weight: 1
   nodrop: true

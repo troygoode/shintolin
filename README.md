@@ -2,15 +2,17 @@
 
 A node.js port of [Isaac Lewis' Ruby version of Shintolin](https://github.com/IsaacLewis/Shintolin) - a persistent multiplayer browser game, set in the stone age.
 
-## Local Development / Testing (DOCKER)
+## Running Locally (Docker Compose)
 
-* Download the code via [git](http://git-scm.com/): `$ git clone https://github.com/troygoode/shintolin`
+* Download the code via [git](http://git-scm.com/): `git clone https://github.com/troygoode/shintolin`
 * Install [docker](https://www.docker.com/)
 
 ```bash
 # on host
 docker-compose up shintolin3-mongo # start mongo in background
 docker-compose run shintolin3-mongo bash # bash into mongo server
+
+# TODO: describe how to bootstrap new database
 
 # within mongo container
 DIR=/host/... # tab complete the path to the Heroku mongo backup
@@ -21,18 +23,6 @@ exit
 npm install
 npm start
 ```
-
-## Local Development / Testing (Old)
-
-### Running the Game
-
-* Go into the Shintolin directory: `$ cd shintolin`
-* Get latest code from [git](http://git-scm.com/): `$ git pull`
-* Install dependencies via [npm](http://npmjs.org/): `$ npm install`
-* Create a separate Terminal tab (CMD+T) and run [mongodb](http://www.mongodb.org/): `$ mongod`
-* In the original tab, run some bootstrap scripts: `$ bin/dev/bootstrap`
-* Finally, run Shintolin: `$ npm start`
-* Browse to [http://localhost:3000](http://localhost) in your web browser to play. You can log in as "ecce@example.com" using the password "password".
 
 ## Deploying to Heroku
 
