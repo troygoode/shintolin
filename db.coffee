@@ -10,11 +10,12 @@ module.exports =
   connect: ->
     console.log "connecting to #{config.mongo_uri}"
     new Bluebird (resolve, reject) ->
-      MongoClient.connect config.mongo_uri, (err, _db) ->
+      MongoClient.connect config.mongo_uri, { useNewUrlParser: true }, (err, client) ->
         if err?
           reject err
         else
-          db = _db
+          db_name = config.mongo_uri.substring(config.mongo_uri.lastIndexOf('/') + 1)
+          db = client.db(db_name)
           resolve db
 
   ObjectId: (id) ->
