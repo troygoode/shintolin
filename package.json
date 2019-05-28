@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "test": "./node_modules/mocha/bin/mocha",
+    "test": "./node_modules/mocha/bin/mocha --require coffee-script/register \"test/**/*.{js,coffee}\"",
     "reset": "bin/dev/bootstrap",
     "kill": "kill $(ps aux | grep node | grep -v grep | awk '{print $2}')",
     "tick_ap": "bin/tick_ap/_tick",
@@ -17,25 +17,25 @@
   "dependencies": {
     "async": "^3.0.1",
     "bcrypt": "^3.0.6",
-    "bluebird": "^2.9.32",
+    "bluebird": "^3.5.5",
     "body-parser": "^1.19.0",
     "coffee-script": "^1.9.3",
-    "connect-mongo": "^0.8.1",
+    "connect-mongo": "^2.0.3",
     "connect-stylus": "^1.0.0",
     "cookie-parser": "^1.4.4",
     "csurf": "^1.10.0",
-    "debug": "^2.6.9",
-    "dotenv": "^2.0.0",
+    "debug": "^4.1.1",
+    "dotenv": "^8.0.0",
     "errorhandler": "^1.5.1",
     "express": "^4.17.1",
-    "express-favicon": "^1.0.1",
+    "express-favicon": "^2.0.1",
     "express-session": "^1.16.1",
-    "form-data": "^1.0.0-rc4",
-    "glob": "^5.0.12",
+    "form-data": "^2.3.3",
+    "glob": "^7.1.4",
     "isomorphic-fetch": "^2.2.1",
-    "loot-table": "0.0.2",
+    "loot-table": "^0.1.0",
     "marked": "^0.6.2",
-    "method-override": "^2.3.10",
+    "method-override": "^3.0.0",
     "moment": "^2.24.0",
     "mongodb": "^2.2.36",
     "mongolian": "^0.1.18",
@@ -49,6 +49,6 @@
   },
   "devDependencies": {
     "mocha": "^6.1.4",
-    "should": "^7.0.1"
+    "should": "^13.2.3"
   }
 }
