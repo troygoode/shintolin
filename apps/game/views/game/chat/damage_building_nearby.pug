@@ -1,6 +1,7 @@
 if msg.hit
   .action
-    | <a href='/profile/#{msg.sender_slug}'>#{msg.sender_name}</a> 
+    +senderLink(msg)
+    | . 
     case data.items[msg.weapon].weapon_class
       when 'blunt'
         | cudgeled
@@ -21,10 +22,11 @@ if msg.hit
       | . 
     if msg.broken
       | Their cherished #{data.items[msg.weapon].name} broke! 
-    div.time= moment(msg.sent).fromNow()
+    +timestamp(msg)
 else
   .action
-    | <a href='/profile/#{msg.sender_slug}'>#{msg.sender_name}</a> 
+    +senderLink(msg)
+    |  
     case data.items[msg.weapon].weapon_class
       when 'blunt'
         | swung at
@@ -39,4 +41,4 @@ else
     |  with a #{data.items[msg.weapon].name} and 
     span.missed missed
     | . 
-    div.time= moment(msg.sent).fromNow()
+    +timestamp(msg)

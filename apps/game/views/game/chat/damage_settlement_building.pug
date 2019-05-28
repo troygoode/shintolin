@@ -13,7 +13,8 @@ if msg.hit
           | attacked
       |  the 
       span.target #{data.buildings[msg.building].name}
-      |  in <a href='/settlements/#{msg.settlement_slug}'>#{msg.settlement_name}</a> 
+      |  in 
+      +settlementLink(msg)
       |  with 
       |  a 
       |  #{data.items[msg.weapon].name} for 
@@ -25,7 +26,7 @@ if msg.hit
         | . 
       if msg.broken
         | Their cherished #{data.items[msg.weapon].name} broke! 
-    div.time= moment(msg.sent).fromNow()
+    +timestamp(msg)
 else
   .action
     em
@@ -44,4 +45,4 @@ else
       |  with a #{data.items[msg.weapon].name} and 
       span.missed missed
       | . 
-    div.time= moment(msg.sent).fromNow()
+    +timestamp(msg)

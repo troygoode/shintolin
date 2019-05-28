@@ -1,3 +1,17 @@
+mixin profileLink(slug, text, className)
+  a(href=`/profile/${slug}`, class=(className ? className : null)) @#{text}
+
+mixin senderLink(msg)
+  +profileLink(msg.sender_slug, msg.sender_name, 'neutral')
+mixin targetLink(msg)
+  +profileLink(msg.target_slug, msg.target_name, 'target')
+
+mixin settlementLink(msg)
+  a(href=`/settlements/${msg.settlement_slug}`)= msg.settlement_name
+
+mixin timestamp(msg)
+  div.time= moment(msg.sent).fromNow()
+
 if messages.length
   .messages
     for msg in messages

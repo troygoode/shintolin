@@ -1,4 +1,4 @@
 .action
-  a.neutral(href='/profile/#{msg.sender_slug}')= msg.sender_name
+  +senderLink(msg)
   |  gave you #{msg.quantity}x #{data.items[msg.item].name}. 
-  div.time= moment(msg.sent).fromNow()
+  +timestamp(msg)

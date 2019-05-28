@@ -1,3 +1,5 @@
 .action
-  | You have established the settlement of <a href='/settlements/#{msg.slug}'>#{msg.name}</a>. May it grow and prosper. 
-  div.time= moment(msg.sent).fromNow()
+  | You have established the settlement of 
+  +settlementLink({ settlement_slug: msg.slug, settlement_name: msg.name })
+  | . May it grow and prosper. 
+  +timestamp(msg)

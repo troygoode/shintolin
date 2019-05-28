@@ -1,5 +1,5 @@
 .action
-  | <a href='/profile/#{msg.sender_slug}'>#{msg.sender_name}</a> 
-  | kicked you out of the #{data.buildings[msg.building].name}.
-  div.time= moment(msg.sent).fromNow()
+  +senderLink(msg)
+  |  kicked you out of the #{data.buildings[msg.building].name}.
+  +timestamp(msg)
 

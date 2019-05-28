@@ -7,4 +7,4 @@
     | You write '
     span.message= msg.message
     | ' on the walls. 
-  div.time= moment(msg.sent).fromNow()
+  +timestamp(msg)

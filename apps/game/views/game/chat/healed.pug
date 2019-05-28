@@ -1,5 +1,5 @@
 .action
-  a.neutral(href='/profile/#{msg.sender_slug}')= msg.sender_name
+  +senderLink(msg)
   |  uses #{data.items[msg.item].name} on you, healing 
   span.heal #{msg.amount} HP
   | . 
@@ -7,4 +7,4 @@
     | #{msg.remaining} HP remains unhealed. 
   else
     | No HP remains unhealed. 
-  div.time= moment(msg.sent).fromNow()
+  +timestamp(msg)

@@ -1,4 +1,6 @@
 .action
-  a(href='/profile/#{msg.sender_slug}')= msg.sender_name
-  |  is no longer a resident of <a href='/settlements/#{msg.settlement_slug}'>#{msg.settlement_name}</a>. 
-  div.time= moment(msg.sent).fromNow()
+  +senderLink(msg)
+  |  is no longer a resident of 
+  +settlementLink(msg)
+  | . 
+  +timestamp(msg)

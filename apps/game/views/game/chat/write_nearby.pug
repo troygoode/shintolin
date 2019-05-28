@@ -1,12 +1,12 @@
 .action
   if msg.outside
-    a.neutral(href='/profile/#{msg.sender_slug}')= msg.sender_name
+    +senderLink(msg)
     |  wrote '
     span.message= msg.message
     | ' on the #{data.buildings[msg.building].name}. 
   else
-    a.neutral(href='/profile/#{msg.sender_slug}')= msg.sender_name
+    +senderLink(msg)
     |  wrote '
     span.message= msg.message
     | ' on the walls. 
-  div.time= moment(msg.sent).fromNow()
+  +timestamp(msg)

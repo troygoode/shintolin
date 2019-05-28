@@ -2,8 +2,7 @@
   if msg.sender_id.toString() === character._id.toString()
     | You shout, 
   else
-    a.neutral(href='/profile/#{msg.sender_slug}') @#{msg.sender_name}
+    +senderLink(msg)
     |  shouts, 
   | "#{msg.text}".
-  div.time= moment(msg.sent).fromNow()
-
+  +timestamp(msg)

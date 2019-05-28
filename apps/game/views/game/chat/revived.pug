@@ -4,7 +4,7 @@
     span.heal #{msg.amount} HP
     | . 
   else
-    a.neutral(href='/profile/#{msg.sender_slug}')= msg.sender_name
+    +senderLink(msg)
     |  uses #{data.items[msg.item].name} on you. 
     span.revive You feel your daze begin to subside.
-  div.time= moment(msg.sent).fromNow()
+  +timestamp(msg)

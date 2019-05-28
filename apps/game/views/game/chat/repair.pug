@@ -12,4 +12,4 @@
     for broken_item in msg.broken
       | Your cherished #{data.items[broken_item].name} breaks! 
     | You throw away the useless pieces in disgust. 
-  div.time= moment(msg.sent).fromNow()
+  +timestamp(msg)

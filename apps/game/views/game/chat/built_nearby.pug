@@ -1,3 +1,4 @@
 .action
-  | <a href='/profile/#{msg.sender_slug}'>#{msg.sender_name}</a> built a #{data.buildings[msg.building].name}. 
-  div.time= moment(msg.sent).fromNow()
+  +senderLink(msg)
+  |  built a #{data.buildings[msg.building].name}. 
+  +timestamp(msg)

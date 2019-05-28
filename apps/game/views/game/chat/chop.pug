@@ -2,4 +2,4 @@
   | You chop down a tree with your #{data.items[msg.tool].name}, taking the heavy log.  
   if msg.broken
     | Your cherished #{data.items[msg.tool].name} breaks! You throw away the useless pieces in disgust.
-  div.time= moment(msg.sent).fromNow()
+  +timestamp(msg)

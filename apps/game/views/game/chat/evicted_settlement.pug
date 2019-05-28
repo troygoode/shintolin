@@ -1,8 +1,8 @@
 .action
-  a(href='/profile/#{msg.target_slug}')= msg.target_name
+  +targetLink(msg)
   |  has been kicked out of 
-  a(href='/settlements/#{msg.settlement_slug}')= msg.settlement_name
+  +settlementLink(msg)
   |  by its leader, 
-  a(href='/profile/#{msg.sender_slug}')= msg.sender_name
+  +senderLink(msg)
   | . 
-  div.time= moment(msg.sent).fromNow()
+  +timestamp(msg)

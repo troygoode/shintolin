@@ -2,7 +2,7 @@
   if msg.sender_id.toString() === character._id.toString()
     | You whisper, 
   else
-    a.neutral(href='/profile/#{msg.sender_slug}') @#{msg.sender_name}
+    +senderLink(msg)
     |  whispers, 
   | "#{msg.text}"
   if msg.target_id
@@ -10,9 +10,8 @@
       |  to you. 
     else
       |  to 
-      a.neutral(href='/profile/#{msg.target_slug}') @#{msg.target_name}
+      +targetLink(msg)
       | . 
   else
     | . 
-  div.time= moment(msg.sent).fromNow()
-
+  +timestamp(msg)

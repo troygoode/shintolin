@@ -1,3 +1,5 @@
 .action
-  | You are no longer a resident of <a href='/settlements/#{msg.settlement_slug}'>#{msg.settlement_name}</a>. 
-  div.time= moment(msg.sent).fromNow()
+  | You are no longer a resident of 
+  +settlementLink(msg)
+  | . 
+  +timestamp(msg)

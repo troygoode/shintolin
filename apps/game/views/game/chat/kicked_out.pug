@@ -1,4 +1,10 @@
 .action
-  | <a href='/profile/#{msg.sender_slug}'>#{msg.sender_name}</a> dazed <a href='/profile/#{msg.target_slug}'>#{msg.target_name}</a>.  
-  | <a href='/profile/#{msg.target_slug}'>#{msg.target_name}</a> is now no longer a provisional resident of <a href='/settlements/#{msg.settlement_slug}'>#{msg.settlement_name}</a>!  
-  div.time= moment(msg.sent).fromNow()
+  +senderLink(msg)
+  |  dazed
+  +targetLink(msg)
+  | .  
+  +targetLink(msg)
+  |  is now no longer a provisional resident of 
+  +settlementLink(msg)
+  | !
+  +timestamp(msg)

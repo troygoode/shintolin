@@ -1,8 +1,10 @@
 .action
-  a.neutral(href='/profile/#{msg.sender_slug}')= msg.sender_name
+  +senderLink(msg)
   |  gave #{msg.quantity}x #{data.items[msg.item].name} to
   if msg.building
     |  the #{data.buildings[msg.building].name}. 
   else
-    |  <a href='/profile/#{msg.target_slug}'>#{msg.target_name}</a>. 
-  div.time= moment(msg.sent).fromNow()
+    |  
+    +targetLink(msg)
+    | . 
+  +timestamp(msg)

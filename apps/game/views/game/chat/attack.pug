@@ -15,7 +15,7 @@
       | the 
       span.target #{data.creatures[msg.target_creature].name}
     else
-      a.target(href='/profile/#{msg.target_slug}')= msg.target_name
+      +targetLink(msg)
     |  with a #{data.items[msg.weapon].name}
     |  for 
     span.damage #{msg.damage} HP
@@ -31,7 +31,9 @@
       else if msg.frags
         | You also stole #{msg.frags} frags from them. 
       if msg.kicked_from_settlement
-        | They are now no longer a provisional resident of <a href='/settlements/#{msg.settlement_slug}'>#{msg.settlement_name}</a>! 
+        | They are now no longer a provisional resident of 
+        +settlementLink(msg)
+        | ! 
     else
       | . 
     if msg.broken
@@ -51,7 +53,7 @@
       | the 
       span.target #{data.creatures[msg.target_creature].name}
     else
-      a.target(href='/profile/#{msg.target_slug}')= msg.target_name
+      +targetLink(msg)
     |  with 
     unless weapon.text && weapon.text.suppress_indefinite_article
       |  a 
@@ -89,4 +91,4 @@
   if msg.loot
     |  You looted #{describe_list(object_to_array(msg.loot).map(function(i){ return i.value + 'x ' + data.items[i.key].plural; }))}. 
 
-  div.time= moment(msg.sent).fromNow()
+  +timestamp(msg)

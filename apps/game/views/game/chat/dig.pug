@@ -5,10 +5,10 @@ if msg.found
     | ! 
     if msg.broken
       | Your cherished #{data.items[msg.broken_item].name} breaks! You throw away the useless pieces in disgust.
-    div.time= moment(msg.sent).fromNow()
+    +timestamp(msg)
 else
   .action
     | You dig a hole, but find nothing of use. 
     if msg.broken
       | Your cherished #{data.items[msg.broken_item].name} breaks! You throw away the useless pieces in disgust.
-    div.time= moment(msg.sent).fromNow()
+    +timestamp(msg)

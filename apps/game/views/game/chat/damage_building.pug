@@ -23,7 +23,7 @@ if msg.hit
       | . 
     if msg.broken
       | Your cherished #{data.items[msg.weapon].name} breaks! You throw away the useless pieces in disgust. 
-    div.time= moment(msg.sent).fromNow()
+    +timestamp(msg)
 else
   .action
     |  You 
@@ -41,4 +41,4 @@ else
     |  with a #{data.items[msg.weapon].name} and 
     span.missed missed
     | . 
-    div.time= moment(msg.sent).fromNow()
+    +timestamp(msg)

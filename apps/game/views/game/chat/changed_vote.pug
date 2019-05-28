@@ -1,6 +1,8 @@
 .action
   if msg.voting_for_id
-    | You are now casting your vote for <a href='/profile/#{msg.voting_for_slug}'>#{msg.voting_for_name}</a>. 
+    | You are now casting your vote for 
+    +profileLink(msg.voting_for_slug, msg.voting_for_name)
+    | . 
   else
     | You are no longer casting a vote in the election.
-  div.time= moment(msg.sent).fromNow()
+  +timestamp(msg)

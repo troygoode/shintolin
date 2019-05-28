@@ -1,6 +1,6 @@
 .action
-  a(href='/profile/#{msg.sender_slug}')= msg.sender_name
+  +senderLink(msg)
   |'s provisional period is over and they are now a full-fledged resident of 
-  a(href='/settlements/#{msg.settlement_slug}')= msg.settlement_name
+  +settlementLink(msg)
   | . 
-  div.time= moment(msg.sent).fromNow()
+  +timestamp(msg)

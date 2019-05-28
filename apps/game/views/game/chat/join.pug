@@ -1,3 +1,5 @@
 .action
-  | You pledge allegiance to <a href='/settlements/#{msg.settlement_slug}'>#{msg.settlement_name}</a>. You must survive the day to be entitled to its privileges. 
-  div.time= moment(msg.sent).fromNow()
+  | You pledge allegiance to 
+  +settlementLink(msg)
+  | . You must survive the day to be entitled to its privileges. 
+  +timestamp(msg)

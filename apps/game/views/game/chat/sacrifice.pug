@@ -1,6 +1,6 @@
 .action
-  a(href='/profile/#{msg.sender_slug}')= msg.sender_name
+  +senderLink(msg)
   |  has sacrificed #{msg.count}x #{data.items[msg.item].name} to the gods of 
-  a.neutral(href='/settlements/#{msg.settlement_slug}')= msg.settlement_name
+  +settlementLink(msg)
   | ! The settlement has gained #{msg.favor} favor!
-  div.time= moment(msg.sent).fromNow()
+  +timestamp(msg)

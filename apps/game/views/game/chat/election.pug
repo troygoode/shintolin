@@ -1,4 +1,8 @@
 .action
-  a(href='/profile/#{msg.winner_slug}')= msg.winner_name
-  |  has defeated <a href='/profile/#{msg.loser_slug}'>#{msg.loser_name}</a> to become #{msg.leader_title} of <a href='/settlements/#{msg.settlement_slug}'>#{msg.settlement_name}</a>. 
-  div.time= moment(msg.sent).fromNow()
+  +profileLink(msg.winner_slug, msg.winner_name)
+  |  has defeated 
+  +profileLink(msg.loser_slug, msg.loser_name)
+  |  to become #{msg.leader_title} of 
+  +settlementLink(msg)
+  | . 
+  +timestamp(msg)

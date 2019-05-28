@@ -4,4 +4,4 @@
     | The field has been completely harvested. 
   else if msg.remaining <= 10
     | The field is almost completely harvested. 
-  div.time= moment(msg.sent).fromNow()
+  +timestamp(msg)

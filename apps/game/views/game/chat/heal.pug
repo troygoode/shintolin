@@ -3,7 +3,7 @@
   if msg.sender_slug === msg.target_slug
     | yourself
   else
-    | <a href='/profile/#{msg.target_slug}'>#{msg.target_name}</a>
+    +targetLink(msg)
   | , healing 
   span.heal #{msg.amount} HP
   | .
@@ -12,4 +12,4 @@
       |  #{msg.remaining} HP remains unhealed. 
     else
       |  No HP remains unhealed. 
-  div.time= moment(msg.sent).fromNow()
+  +timestamp(msg)

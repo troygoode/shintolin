@@ -1,6 +1,7 @@
 .action
   if msg.damage
-    | <a href='/profile/#{msg.sender_slug}'>#{msg.sender_name}</a> 
+    +senderLink(msg)
+    |   
     case data.items[msg.weapon].weapon_class
       when 'blunt'
         | cudgeled 
@@ -14,7 +15,7 @@
       | the 
       span.target #{data.creatures[msg.target_creature].name}
     else
-      a.target(href='/profile/#{msg.target_slug}')= msg.target_name
+      +targetLink(msg)
     |  with a #{data.items[msg.weapon].name}
     |  for 
     span.damage #{msg.damage} HP
@@ -26,13 +27,14 @@
       span.knockout knocking them out
       | ! 
       if msg.kicked_from_settlement
-        | They are now no longer a provisional resident of <a href='/settlements/#{msg.settlement_slug}'>#{msg.settlement_name}</a>! 
+        | They are now no longer a provisional resident of <a href=`/settlements/${msg.settlement_slug}`>#{msg.settlement_name}</a>! 
     else
       | . 
     if msg.broken
       | Their #{data.items[msg.weapon].name} breaks! They throw away the useless pieces in disgust. 
   else
-    | <a href='/profile/#{msg.sender_slug}'>#{msg.sender_name}</a> 
+    +senderLink(msg)
+    |   
     case data.items[msg.weapon].weapon_class
       when 'blunt'
         | swung at 
@@ -46,7 +48,7 @@
       | the 
       span.target #{data.creatures[msg.target_creature].name}
     else
-      a.target(href='/profile/#{msg.target_slug}')= msg.target_name
+      +targetLink(msg)
     |  with a #{data.items[msg.weapon].name}
     |  and 
     span.missed missed
@@ -78,4 +80,4 @@
     span.target #{data.creatures[msg.target_creature].name}
     |  fled the area. 
 
-  div.time= moment(msg.sent).fromNow()
+  +timestamp(msg)

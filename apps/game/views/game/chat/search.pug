@@ -24,4 +24,4 @@
       | This area appears to have moderate resources. 
     else if msg.total_odds > .3
       | This area appears to have abundant resources. 
-  div.time= moment(msg.sent).fromNow()
+  +timestamp(msg)

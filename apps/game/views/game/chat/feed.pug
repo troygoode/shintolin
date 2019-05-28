@@ -2,5 +2,7 @@
   if msg.sender_slug === msg.target_slug
     | You ate the #{data.items[msg.item].name}.
   else
-    | You fed the #{data.items[msg.item].name} to <a href='/profile/#{msg.target_slug}'>#{msg.target_name}</a>.
-  div.time= moment(msg.sent).fromNow()
+    | You fed the #{data.items[msg.item].name} to 
+    +targetLink(msg)
+    | .
+  +timestamp(msg)

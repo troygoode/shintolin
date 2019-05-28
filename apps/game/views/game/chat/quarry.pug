@@ -3,10 +3,10 @@ if msg.success
     | Chipping away at the rock face, you manage to work free a large boulder. 
     if msg.broken
       | Your cherished #{data.items[msg.tool].name} breaks! You throw away the useless pieces in disgust.
-    div.time= moment(msg.sent).fromNow()
+    +timestamp(msg)
 else
   .action
     | You chip away at the rock face, but fail to remove anything. 
     if msg.broken
       | Your cherished #{data.items[msg.tool].name} breaks! You throw away the useless pieces in disgust.
-    div.time= moment(msg.sent).fromNow()
+    +timestamp(msg)

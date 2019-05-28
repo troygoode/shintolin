@@ -1,12 +1,13 @@
 .action
   if msg.sender_id.toString() === msg.target_id.toString()
-    a.neutral(href='/profile/#{msg.sender_slug}')= msg.sender_name
+    +senderLink(msg)
     |  revives themself, healing 
     span.heal #{msg.amount} HP
     | . 
   else
-    a.neutral(href='/profile/#{msg.sender_slug}')= msg.sender_name
+    +senderLink(msg)
     |  uses #{data.items[msg.item].name} on 
-    | <a href='/profile/#{msg.target_slug}'>#{msg.target_name}</a>. 
+    +targetLink(msg)
+    | . 
     span.revive Their daze begins to subside.
-  div.time= moment(msg.sent).fromNow()
+  +timestamp(msg)

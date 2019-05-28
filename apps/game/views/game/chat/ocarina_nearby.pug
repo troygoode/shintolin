@@ -1,8 +1,8 @@
 .action
-  a(href='/profile/#{msg.sender_slug}')= msg.sender_name
+  +senderLink(msg)
   |  plays a lively melody 
   if msg.target_id
     | for 
-    a.neutral(href='/profile/#{msg.target_slug}')= msg.target_name
+    +targetLink(msg)
   |  on their ocarina.  
-  div.time= moment(msg.sent).fromNow()
+  +timestamp(msg)

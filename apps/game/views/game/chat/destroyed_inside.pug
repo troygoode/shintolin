@@ -1,5 +1,5 @@
 .action
   | The #{data.buildings[msg.building].name} was destroyed by 
-  a(href='/profile/#{msg.destroyer_slug}')= msg.destroyer_name
+  +profileLink(msg.destroyer_slug, msg.destroyer_name)
   | . You rush out into the open air as debris falls down around you. 
-  div.time= moment(msg.sent).fromNow()
+  +timestamp(msg)

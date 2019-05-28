@@ -21,7 +21,7 @@ if msg.hit
       | . 
     if msg.broken
       | Their cherished #{data.items[msg.weapon].name} broke! 
-    div.time= moment(msg.sent).fromNow()
+    +timestamp(msg)
 else
   .action
     | You hear someone outside 
@@ -39,4 +39,4 @@ else
     |  with a #{data.items[msg.weapon].name} and 
     span.missed missed
     | . 
-    div.time= moment(msg.sent).fromNow()
+    +timestamp(msg)

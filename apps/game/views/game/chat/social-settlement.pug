@@ -1,8 +1,7 @@
 .social(class='social-ooc')
   span.label.label-success Settlement
   |  
-  a.neutral(href='/profile/#{msg.sender_slug}') @#{msg.sender_name}
+  +senderLink(msg)
   | : 
   span #{msg.text}
-  div.time= moment(msg.sent).fromNow()
-
+  +timestamp(msg)

@@ -1,6 +1,6 @@
 if msg.damage
   .action
-    a.neutral(href='/profile/#{msg.sender_slug}')= msg.sender_name
+    +senderLink(msg)
     |  
     case data.items[msg.weapon].weapon_class
       when 'blunt'
@@ -23,15 +23,15 @@ if msg.damage
       else if msg.frags
         | They also stole #{msg.frags} frags from you. 
       if msg.kicked_from_settlement
-        | You are now no longer a resident of <a href='/settlements/#{msg.settlement_slug}'>#{msg.settlement_name}</a>! 
+        | You are now no longer a resident of <a href=`/settlements/${msg.settlement_slug}`>#{msg.settlement_name}</a>! 
     else
       | . 
     if msg.broken
       | Their #{data.items[msg.weapon].name} breaks! They throw away the useless pieces in disgust. 
-    div.time= moment(msg.sent).fromNow()
+    +timestamp(msg)
 else
   .action
-    a.neutral(href='/profile/#{msg.sender_slug}')= msg.sender_name
+    +senderLink(msg)
     |  
     case data.items[msg.weapon].weapon_class
       when 'blunt'
@@ -45,4 +45,4 @@ else
     |  you with a #{data.items[msg.weapon].name} and 
     span.missed missed
     | . 
-    div.time= moment(msg.sent).fromNow()
+    +timestamp(msg)
