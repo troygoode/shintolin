@@ -3,27 +3,27 @@ div
   if actions.chop
     form.action(method='POST', action='/game/actions/chop')
       input(type='hidden', name='_csrf', value=csrf)
-      mixin action_button('Chop Tree', actions.chop.ap, 'chop')
+      +action_button('Chop Tree', actions.chop.ap, 'chop')
 
   if actions.quarry
     form.action(method='POST', action='/game/actions/quarry')
       input(type='hidden', name='_csrf', value=csrf)
-      mixin action_button('Quarry', actions.quarry.ap)
+      +action_button('Quarry', actions.quarry.ap)
 
   if actions.fill
     form.action(method='POST', action='/game/actions/fill')
       input(type='hidden', name='_csrf', value=csrf)
-      mixin action_button('Fill', actions.fill.ap)
+      +action_button('Fill', actions.fill.ap)
 
   if actions.dig
     form.action(method='POST', action='/game/actions/dig')
       input(type='hidden', name='_csrf', value=csrf)
-      mixin action_button('Dig', actions.dig.ap)
+      +action_button('Dig', actions.dig.ap)
 
   if actions.field_sow
     form.action(method='POST', action='/game/actions/field_sow')
       input(type='hidden', name='_csrf', value=csrf)
-      mixin action_button('Sow', actions.field_sow.ap)
+      +action_button('Sow', actions.field_sow.ap)
       select.form-control(name='item', style='width: 10em', data-persist='plantable', data-action-focus='sow')
         for count, item in actions.field_sow.plantables
           option(value=item) #{count}x #{data.items[item].name}
@@ -31,7 +31,7 @@ div
   if actions.field_water
     form.action(method='POST', action='/game/actions/field_water')
       input(type='hidden', name='_csrf', value=csrf)
-      mixin action_button('Water Field', actions.field_water.ap)
+      +action_button('Water Field', actions.field_water.ap)
       select.form-control(name='item', style='width: 10em', data-persist='water', data-action-focus='water')
         for item in actions.field_water.waterables
           option(value=item) #{data.items[item].name}
@@ -39,7 +39,7 @@ div
   if actions.field_harvest
     form.action(method='POST', action='/game/actions/field_harvest')
       input(type='hidden', name='_csrf', value=csrf)
-      mixin action_button('Harvest', actions.field_harvest.ap)
+      +action_button('Harvest', actions.field_harvest.ap)
       select.form-control(name='item', style='width: 10em', data-persist='harvest', data-action-focus='harvest')
         for item in actions.field_harvest.harvestables
           option(value=item) #{data.items[item].name}
@@ -47,7 +47,7 @@ div
   if actions.search
     form.action(method='POST', action='/game/actions/search')
       input(type='hidden', name='_csrf', value=csrf)
-      mixin action_button('Search')
+      +action_button('Search')
 
   if !action_counts.location
     p.empty No location actions.

@@ -26,7 +26,7 @@ div
   if actions.build
     form.action(method='POST', action='/game/actions/build')
       input(type='hidden', name='_csrf', value=csrf)
-      mixin action_button(actions.build.text.submit, 'Variable')
+      +action_button(actions.build.text.submit, 'Variable')
       select.form-control(name='building', style='width: 16em; max-width: 16em;', data-persist='building', data-action-focus='build')
         for value, key in actions.build.buildings
           option(value=key)= value.label
@@ -40,7 +40,7 @@ div
   if actions.attack_building
     form.action(method='POST', action='/game/actions/attack_building')
       input(type='hidden', name='_csrf', value=csrf)
-      mixin action_button('Attack', actions.attack_building.ap)
+      +action_button('Attack', actions.attack_building.ap)
       span with 
       select.form-control(name='item', data-persist='weapon')
         for label, key in actions.attack_building.weapons
@@ -49,7 +49,7 @@ div
   if actions.give_building
     form.action(method='POST', action='/game/actions/give_building')
       input(type='hidden', name='_csrf', value=csrf)
-      mixin action_button('Give', 'Variable')
+      +action_button('Give', 'Variable')
       if actions.give_building.max_count === 1
         input(type='hidden', name='quantity', value=1)
       else
@@ -65,7 +65,7 @@ div
   if actions.take_building
     form.action(method='POST', action='/game/actions/take_building')
       input(type='hidden', name='_csrf', value=csrf)
-      mixin action_button('Take', 'Variable')
+      +action_button('Take', 'Variable')
       if actions.take_building.max_count  === 1
         input(type='hidden', name='quantity', value=1)
       else
@@ -81,7 +81,7 @@ div
   if actions.kick_out && actions.kick_out.people.length
     form.action(method='POST', action='/game/actions/kick_out')
       input(type='hidden', name='_csrf', value=csrf)
-      mixin action_button('Kick to Outside', actions.kick_out.ap)
+      +action_button('Kick to Outside', actions.kick_out.ap)
       select.form-control(name='target', data-persist='target')
         for c in actions.kick_out.people
           option(value=c._id)= c.name
@@ -89,7 +89,7 @@ div
   if actions.settlement_kick && actions.settlement_kick.people.length
     form.action(method='POST', action='/game/actions/settlement_kick')
       input(type='hidden', name='_csrf', value=csrf)
-      mixin action_button('Kick from Settlement', actions.settlement_kick.ap)
+      +action_button('Kick from Settlement', actions.settlement_kick.ap)
       select.form-control(name='target')
         for c in actions.settlement_kick.people
           option(value=c._id)= c.name
@@ -97,12 +97,12 @@ div
   if actions.settlement_join
     form.confirmable.action(method='POST', action='/game/actions/settlement_join')
       input(type='hidden', name='_csrf', value=csrf)
-      mixin action_button('Join Settlement', actions.settlement_join.ap)
+      +action_button('Join Settlement', actions.settlement_join.ap)
 
   if actions.write
     form.confirmable.action(method='POST', action='/game/actions/write')
       input(type='hidden', name='_csrf', value=csrf)
-      mixin action_button('Write', actions.write.ap)
+      +action_button('Write', actions.write.ap)
       input.form-control(type='text', name='message', maxlength='32', value=actions.write.message)
 
   if actions.sacrifice
@@ -112,7 +112,7 @@ div
         input(type='hidden', name='_csrf', value=csrf)
         input(type='hidden', name='count', value=val.count)
         input(type='hidden', name='item', value=key)
-        mixin action_button(val.count + 'x ' + data.items[key].name, actions.sacrifice.ap)
+        +action_button(val.count + 'x ' + data.items[key].name, actions.sacrifice.ap)
         span.badge +#{val.favor} Favor
 
   if !action_counts.building

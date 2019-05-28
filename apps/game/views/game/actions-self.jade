@@ -3,7 +3,7 @@ div
   if actions.use_self
     form.action(method='POST', action='/game/actions/use_self')
       input(type='hidden', name='_csrf', value=csrf)
-      mixin action_button('Use')
+      +action_button('Use')
       select.form-control(name='item', style='width: 10em', data-persist='usable-item', data-action-focus='use')
         for usable in actions.use_self.usables
           option(value=usable.id)= usable.name
@@ -11,7 +11,7 @@ div
   if actions.craft
     form.action(method='POST', action='/game/actions/craft')
       input(type='hidden', name='_csrf', value=csrf)
-      mixin action_button('Craft', 'Variable')
+      +action_button('Craft', 'Variable')
       select.form-control(name='recipe', style='width: 10em', data-persist='recipe', data-action-focus='craft')
         for recipe in actions.craft.recipes
           option(value=recipe.id)
@@ -31,7 +31,7 @@ div
   if actions.drop
     form.action(method='POST', action='/game/actions/drop')
       input(type='hidden', name='_csrf', value=csrf)
-      mixin action_button('Drop', 'Variable')
+      +action_button('Drop', 'Variable')
       if actions.drop.max_count === 1
         input(type='hidden', name='count', value=1)
       else

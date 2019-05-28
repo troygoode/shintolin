@@ -3,7 +3,7 @@ div
   if actions.attack_player
     form.action(method='POST', action='/game/actions/attack_player')
       input(type='hidden', name='_csrf', value=csrf)
-      mixin action_button('Attack', actions.attack_player.ap)
+      +action_button('Attack', actions.attack_player.ap)
       select.form-control(name='target', data-persist='target', data-action-focus='attack')
         for label, key in actions.attack_player.targets
           option(value=key) #{label}
@@ -15,7 +15,7 @@ div
   if actions.use_player
     form.action(method='POST', action='/game/actions/use_player')
       input(type='hidden', name='_csrf', value=csrf)
-      mixin action_button('Use')
+      +action_button('Use')
       select.form-control(name='item', data-persist='usable-item', data-action-focus='use')
         for usable in actions.use_player.usables
           option(value=usable.id)= usable.name
@@ -27,7 +27,7 @@ div
   if actions.give_player
     form.action(method='POST', action='/game/actions/give_player')
       input(type='hidden', name='_csrf', value=csrf)
-      mixin action_button('Give', 'Variable')
+      +action_button('Give', 'Variable')
       if actions.give_player.max_count === 1
         input(type='hidden', name='quantity', value=1)
       else

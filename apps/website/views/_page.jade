@@ -11,9 +11,6 @@ html
     link(rel='stylesheet', type='text/css', href='/css/apps/page.css')
   body
 
-    mixin pill(metric, label)
-      li(role='presentation', class={active: locals.metric == metric}): a(href='/rankings?metric=#{metric}')=label
-
     nav.navbar.navbar-inverse.navbar-fixed-top
       .container
         .navbar-header

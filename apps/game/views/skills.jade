@@ -32,7 +32,7 @@ mixin render_skill(skill, buy_cost, buyable, available_xp, rank, parent)
     if skill.children
       ul.skills
         for child in skill.children
-          mixin render_skill(child, buy_cost, bought, available_xp, rank + 1, skill)
+          +render_skill(child, buy_cost, bought, available_xp, rank + 1, skill)
 
 mixin branch(branch)
   - var level = character['level_' + branch.id];
@@ -53,7 +53,7 @@ mixin branch(branch)
 
   ul.skills.rank-0
     for skill in branch.skills
-      mixin render_skill(skill, cost, true, xp, 0, null)
+      +render_skill(skill, cost, true, xp, 0, null)
 
 block content
   .container.skills-page
@@ -68,13 +68,13 @@ block content
 
     .row
       .col-sm-3
-        mixin branch(tree.wanderer)
+        +branch(tree.wanderer)
       .col-sm-3
-        mixin branch(tree.herbalist)
+        +branch(tree.herbalist)
       .col-sm-3
-        mixin branch(tree.crafter)
+        +branch(tree.crafter)
       .col-sm-3
-        mixin branch(tree.warrior)
+        +branch(tree.warrior)
     .row
       .text-center
         br

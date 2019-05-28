@@ -51,9 +51,9 @@
           p #{character.revives}
 
       .col-sm-6
-        mixin profile_date(character.created, 'Joined')
+        +profile_date(character.created, 'Joined')
         if character.hp > 0
-          mixin profile_date(character.last_revived, 'Alive Since')
+          +profile_date(character.last_revived, 'Alive Since')
         else
           div
             label Alive Since

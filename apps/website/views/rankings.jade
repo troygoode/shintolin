@@ -25,14 +25,14 @@ block content
           ul.dropdown-menu(aria-labelledby='rankings-nav')
             for r, key in rankings
               if !r.developer_only || is_developer
-                mixin pill(key, r.title, config === r)
+                +pill(key, r.title, config === r)
           hr
 
         .rankings-nav(role='navigation').hidden-xs
           ul.nav.nav-pills.nav-stacked
             for r, key in rankings
               if !r.developer_only || is_developer
-                mixin pill(key, r.title, config === r)
+                +pill(key, r.title, config === r)
 
       .col-sm-8.col-md-9
 
