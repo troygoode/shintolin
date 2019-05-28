@@ -1,6 +1,5 @@
 /* global require, __dirname */
 
-require("babel/register");
 require("coffee-script/register");
 
 var path = require("path"),

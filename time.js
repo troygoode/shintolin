@@ -1,6 +1,6 @@
 "use strict";
 
-import config from './config';
+const config = require('./config')
 
 const msInADay = 1000 * 60 * 60 * 24;
 
@@ -68,7 +68,7 @@ const calculateDate = (now) => {
   return `${calculateYear(now)}, ${calculateMonth(now)} ${calculateSeason(now)}`;
 };
 
-export default (optionsNow) => {
+module.exports = (optionsNow) => {
   var now = optionsNow || config.now();
 
   return {

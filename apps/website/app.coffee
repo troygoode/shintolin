@@ -1,5 +1,3 @@
-require "babel/register"
-
 db = require '../../db'
 db.connect()
 
