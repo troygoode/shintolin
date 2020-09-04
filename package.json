@@ -34,7 +34,7 @@
     "glob": "^7.1.4",
     "isomorphic-fetch": "^2.2.1",
     "loot-table": "^0.1.0",
-    "marked": "^0.6.2",
+    "marked": "^0.7.0",
     "method-override": "^3.0.0",
     "moment": "^2.24.0",
     "mongodb": "^3.5.9",
