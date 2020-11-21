@@ -11,8 +11,8 @@
     "tick_hunger": "bin/tick_hunger/_tick"
   },
   "engines": {
-    "node": "^10.15",
-    "npm": "^2"
+    "node": "^12.19.0",
+    "npm": "^6.14.8"
   },
   "dependencies": {
     "async": "^3.0.1",
