@@ -32,7 +32,7 @@
     "express-session": "^1.16.1",
     "form-data": "^2.3.3",
     "glob": "^7.1.4",
-    "isomorphic-fetch": "^2.2.1",
+    "isomorphic-fetch": "^3.0.0",
     "loot-table": "^0.1.0",
     "marked": "^0.7.0",
     "method-override": "^3.0.0",
