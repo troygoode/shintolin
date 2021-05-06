@@ -44,7 +44,7 @@
     "recluster": "^0.4.0",
     "require-directory": "^2.1.1",
     "stylus": "^0.54.5",
-    "underscore": "^1.9.1",
+    "underscore": "^1.12.1",
     "underscore.string": "^3.3.5"
   },
   "devDependencies": {
