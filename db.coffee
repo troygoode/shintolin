@@ -63,7 +63,7 @@ module.exports =
       options: options
     ###
   ensure_indexes: (cb) ->
-    return
+    cb()
     ###
     async.forEach indexes
       , (index, cb) ->
