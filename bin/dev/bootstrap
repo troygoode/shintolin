@@ -15,6 +15,7 @@ db.connect().then ->
   settlement = null
   character_names = ['Ecce', 'Deschain', 'TroyMG', 'Romani']
   characters = {}
+  default_region = data.regions[config.default_region]
   map_template_path = path.join __dirname, "../../data/map-backups", (process.argv[2] ? 'bootstrap.tsv')
   tile_data = fs.readFileSync map_template_path, encoding: 'utf-8'
   tiles = tile_data.split('\n').slice(1).map (row) ->
@@ -22,7 +23,7 @@ db.connect().then ->
     arr = row.split('\t')
     x: parseInt(arr[0])
     y: parseInt(arr[1])
-    region: if arr[2] is 'no-region' then null else data.regions[arr[2]]
+    region: if arr[2] is 'no-region' then null else (if data.regions[arr[2]] then data.regions[arr[2]] else default_region)
     terrain: data.terrains[arr[3]]
     row: row
   buildings = [
